@@ -13,3 +13,5 @@ https://commons.wikimedia.org/wiki/File:BSicon_Castle.svg
 
 ### Extra images
 Snow storm icon: https://commons.wikimedia.org/wiki/File:Snowstorm.svg
+Flood icon: https://commons.wikimedia.org/wiki/File:Light_Rain_Cloud_by_Sara.png
+Lightning icon: https://commons.wikimedia.org/wiki/File:Icons8_flat_flash_on.svg
