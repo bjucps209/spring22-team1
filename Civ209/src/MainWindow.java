@@ -4,7 +4,12 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 
 /*
+<<<<<<< HEAD
 To do or not to do, that is the question.
+=======
+Hewwooooo 
+Alpha Bravo Charlie Delta Echo Foxtrot Golf Hotel India Juliet Nove
+>>>>>>> 44aff69998261fe47037e2e71cc7429c6bed11ab
 */
 public class MainWindow {
 
