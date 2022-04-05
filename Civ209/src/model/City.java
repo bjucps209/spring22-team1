@@ -9,6 +9,16 @@ public class City extends Entity {
     private boolean selected = false;
     private double fireRate;
 
+    public City(Coordinate location, int turnCount, int population, double incrementRate, Nationality nationality,
+            boolean selected, double fireRate) {
+        super(location, turnCount);
+        this.population = population;
+        this.incrementRate = incrementRate;
+        this.nationality = nationality;
+        this.selected = selected;
+        this.fireRate = fireRate;
+    }
+
     @Override
     public void update() {
         // TODO Auto-generated method stub

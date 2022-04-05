@@ -12,6 +12,7 @@ public class Game {
     private int score;
     private Computer computer;
 
+
     public void initialize(Difficulty difficulty, String lvlName) {
         /**
          * TODO: write psuedocode
@@ -42,26 +43,26 @@ public class Game {
                         char nationality = rd.readChar();
                         boolean selected = rd.readBoolean();
                         double fireRate = rd.readDouble();
-                        entity = new City();
+                        entity = new City(location, turnCount, population, incrementRate, nationality, selected, fireRate);
                     } else if (entityType.equals("Troop")) {
                         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         double speed = rd.readDouble();
                         double heading = rd.readDouble();
                         int health = rd.readInt();
                         char nationality = rd.readChar();
-                        entity = new Troop();
+                        entity = new Troop(location, turnCount, speed, heading, destination, health, nationality);
                     } else if (entityType.equals("Projectile")) {
                         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         double speed = rd.readDouble();
                         double heading = rd.readDouble();
                         int damage = rd.readInt();
-                        entity = new Projectile();
+                        entity = new Projectile(location, turnCount, speed, heading, destination, damage);
                     } else {
                         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         double speed = rd.readDouble();
                         double heading = rd.readDouble();
                         char weatherType = rd.readChar();
-                        entity = new Weather();
+                        entity = new Weather(location, turnCount, speed, heading, destination, weatherType);
                     }
                     entityList.add(entity);
                 }
@@ -130,6 +131,14 @@ public class Game {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public Computer getComputer() {
+        return computer;
+    }
+
+    public void setComputer(Computer computer) {
+        this.computer = computer;
     }
 
 }

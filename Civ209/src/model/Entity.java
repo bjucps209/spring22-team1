@@ -42,4 +42,9 @@ public class Entity {
         
     }
 
+    public Entity(Coordinate location, int turnCount) {
+        this.location = location;
+        this.turnCount = turnCount;
+    }
+
 }

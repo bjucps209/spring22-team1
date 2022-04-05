@@ -5,6 +5,15 @@ public class MobileEntity extends Entity {
     private double heading;
     private Coordinate destination;
 
+
+    public MobileEntity(Coordinate location, int turnCount, double speed, double heading,
+            Coordinate destination) {
+        super(location, turnCount);
+        this.speed = speed;
+        this.heading = heading;
+        this.destination = destination;
+    }
+
     @Override
     public void update() {
         // TODO Auto-generated method stub

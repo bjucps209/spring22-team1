@@ -6,6 +6,12 @@ import java.io.DataOutputStream;
 public class Projectile extends MobileEntity {
     private int damage;
 
+    public Projectile(Coordinate location, int turnCount, double speed, double heading,
+            Coordinate destination, int damage) {
+        super(location, turnCount, speed, heading, destination);
+        this.damage = damage;
+    }
+
     @Override
     public void update() {
         // TODO Auto-generated method stub

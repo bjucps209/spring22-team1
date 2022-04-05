@@ -6,6 +6,13 @@ public class Troop extends MobileEntity {
     private int health;
     private Nationality nationality;
 
+    public Troop(Coordinate location, int turnCount, double speed, double heading,
+            Coordinate destination, int health, Nationality nationality) {
+        super(location, turnCount, speed, heading, destination);
+        this.health = health;
+        this.nationality = nationality;
+    }
+
     @Override
     public void update() {
         // TODO Auto-generated method stub
