@@ -4,7 +4,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 
 /*
-Hey Izzo how you doing
+Hewwooooo 
+Alpha Bravo Charlie Delta Echo Foxtrot Golf Hotel India Juliet Nove
 */
 public class MainWindow {
 
