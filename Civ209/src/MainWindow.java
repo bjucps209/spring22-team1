@@ -4,7 +4,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 
 
-// no.
+// who dares challenge my rule
 
 public class MainWindow {
 
