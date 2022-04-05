@@ -50,7 +50,7 @@ public class Game {
                         double heading = rd.readDouble();
                         int health = rd.readInt();
                         char nationality = rd.readChar();
-                        entity = new Troop(location, turnCount, speed, heading, destination, health, nationality);
+                        entity = new Troop(location, turnCount, speed, heading, destination, health, nationality, selected);
                     } else if (entityType.equals("Projectile")) {
                         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         double speed = rd.readDouble();
