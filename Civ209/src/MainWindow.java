@@ -3,8 +3,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 
-
-// who dares challenge my rule
+/*
+who dares challenge my rule
+-Shakespeare  
+*/
 
 public class MainWindow {
 
