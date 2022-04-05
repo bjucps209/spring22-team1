@@ -9,6 +9,11 @@ public class Weather extends MobileEntity {
         super.update();
     }
 
+    @Override
+    public void serialize(DataOutputStream wr) {
+        //TODO: Finish serialization
+    }
+
     public WeatherType getType() {
         return type;
     }
@@ -16,4 +21,6 @@ public class Weather extends MobileEntity {
     public void setType(WeatherType type) {
         this.type = type;
     }
+
+
 }

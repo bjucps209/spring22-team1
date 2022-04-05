@@ -1,5 +1,7 @@
 package model;
 
+import java.io.DataOutputStream;
+
 public class Entity {
     private Coordinate location;
     private EntityObserver observer;
@@ -34,6 +36,10 @@ public class Entity {
 
     public void setTurnCount(int turnCount) {
         this.turnCount = turnCount;
+    }
+
+    public void serialize(DataOutputStream wr) {
+        
     }
 
 }

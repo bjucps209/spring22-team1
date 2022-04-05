@@ -1,5 +1,8 @@
 package model;
 
+import java.io.DataOutput;
+import java.io.DataOutputStream;
+
 public class Projectile extends MobileEntity {
     private int damage;
 
@@ -15,6 +18,11 @@ public class Projectile extends MobileEntity {
          */
     }
 
+    @Override
+    public void serialize(DataOutputStream wr) {
+        //TODO: Finish serialization
+    }
+
     public int getDamage() {
         return damage;
     }
@@ -22,4 +30,6 @@ public class Projectile extends MobileEntity {
     public void setDamage(int damage) {
         this.damage = damage;
     }
+
+
 }

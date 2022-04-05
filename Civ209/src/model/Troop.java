@@ -1,5 +1,7 @@
 package model;
 
+import java.io.DataOutputStream;
+
 public class Troop extends MobileEntity {
     private int health;
     private Nationality nationality;
@@ -16,6 +18,12 @@ public class Troop extends MobileEntity {
          */
     }
 
+    @Override
+    public void serialize(DataOutputStream wr) {
+        //TODO: Finish serialization
+    }
+
+
     public int getHealth() {
         return health;
     }
@@ -31,5 +39,6 @@ public class Troop extends MobileEntity {
     public void setNationality(Nationality nationality) {
         this.nationality = nationality;
     }
+
 
 }

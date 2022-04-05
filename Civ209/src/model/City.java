@@ -1,5 +1,7 @@
 package model;
 
+import java.io.DataOutputStream;
+
 public class City extends Entity {
     private int population;
     private double incrementRate;
@@ -23,6 +25,12 @@ public class City extends Entity {
         /**
          * TODO: write psuedocode
          */
+    }
+
+    
+    @Override
+    public void serialize(DataOutputStream wr) {
+        //TODO: Finish serialization
     }
  
     public int getPopulation() {
@@ -64,5 +72,6 @@ public class City extends Entity {
     public void setFireRate(double fireRate) {
         this.fireRate = fireRate;
     }
+
 
 }
