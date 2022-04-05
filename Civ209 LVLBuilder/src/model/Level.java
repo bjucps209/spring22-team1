@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Level {
     private List<City> cities = new ArrayList<City>(); 
+    private Season season; 
 
     /**
      * Creates a subclass of City and adds it to the list of cities
@@ -36,4 +37,14 @@ public class Level {
     public List<City> getCities() {
         return cities;
     }
+
+    public Season getSeason() {
+        return season;
+    }
+
+    public void setSeason(Season season) {
+        this.season = season;
+    }
+
+    
 }
