@@ -13,6 +13,5 @@ public class MainWindow {
         var alert = new Alert(AlertType.INFORMATION, "Hello, world!");
         alert.setHeaderText(null);
         alert.show();
-
     }
 }
