@@ -4,9 +4,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 
 /*
-"To be or not to be, that is the question."
-
--Shakespeare
+Shakespeare didn't say that
 */
 
 public class MainWindow {
