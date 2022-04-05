@@ -12,7 +12,6 @@ public class Game {
     private int score;
     private Computer computer;
 
-
     public void initialize(Difficulty difficulty, String lvlName) {
         /**
          * TODO: write psuedocode
@@ -40,16 +39,22 @@ public class Game {
                     if (entityType.equals("City")) {
                         int population = rd.readInt();
                         double incrementRate = rd.readDouble();
-                        char nationality = rd.readChar();
+                        char nation = rd.readChar();
+                        Nationality nationality = nation == 'P' ? Nationality.Player
+                                : nation == 'E' ? Nationality.Enemy : Nationality.Nuetral;
                         boolean selected = rd.readBoolean();
                         double fireRate = rd.readDouble();
-                        entity = new City(location, turnCount, population, incrementRate, nationality, selected, fireRate);
+                        entity = new City(location, turnCount, population, incrementRate, nationality, selected,
+                                fireRate);
                     } else if (entityType.equals("Troop")) {
                         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         double speed = rd.readDouble();
                         double heading = rd.readDouble();
                         int health = rd.readInt();
-                        char nationality = rd.readChar();
+                        char nation = rd.readChar();
+                        Nationality nationality = nation == 'P' ? Nationality.Player
+                                : nation == 'E' ? Nationality.Enemy : Nationality.Nuetral;
+
                         entity = new Troop(location, turnCount, speed, heading, destination, health, nationality);
                     } else if (entityType.equals("Projectile")) {
                         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
@@ -61,7 +66,11 @@ public class Game {
                         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         double speed = rd.readDouble();
                         double heading = rd.readDouble();
-                        char weatherType = rd.readChar();
+                        char type = rd.readChar();
+                        WeatherType weatherType = type == 'L' ? WeatherType.LightningStorm
+                                : type == 'B' ? WeatherType.Blizzard
+                                        : type == 'F' ? WeatherType.Flood : WeatherType.Drought;
+
                         entity = new Weather(location, turnCount, speed, heading, destination, weatherType);
                     }
                     entityList.add(entity);
