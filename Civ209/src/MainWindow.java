@@ -4,7 +4,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 
 /*
-Hey Izzo how you doing
+I control the timeline now
 */
 public class MainWindow {
 
