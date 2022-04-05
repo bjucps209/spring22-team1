@@ -22,7 +22,13 @@ https://commons.wikimedia.org/wiki/File:BSicon_Castle.svg
  * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/4.+Winter+1+(allegro+non+molto).mp3
  * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/4.+Winter+3+(allegro).mp3
 
+### Sound Effects
+ * Snow Storm: https://assets.mixkit.co/sfx/download/mixkit-winter-wind-loop-1175.wav
+ * Flood: https://assets.mixkit.co/sfx/download/mixkit-forest-and-waterfall-1229.wav
+ * Storm: https://assets.mixkit.co/sfx/download/mixkit-cinematic-thunder-hit-1280.wav
+ * Castle Taken: https://www.fesliyanstudios.com/play-mp3/6202
+
 ### Extra images
-Snow storm icon: https://commons.wikimedia.org/wiki/File:Snowstorm.svg
-Flood icon: https://commons.wikimedia.org/wiki/File:Light_Rain_Cloud_by_Sara.png
-Lightning icon: https://commons.wikimedia.org/wiki/File:Icons8_flat_flash_on.svg
+ * Snow storm icon: https://commons.wikimedia.org/wiki/File:Snowstorm.svg
+ * Flood icon: https://commons.wikimedia.org/wiki/File:Light_Rain_Cloud_by_Sara.png
+ * Lightning icon: https://commons.wikimedia.org/wiki/File:Icons8_flat_flash_on.svg
