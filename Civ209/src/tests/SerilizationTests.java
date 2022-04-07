@@ -19,7 +19,7 @@ public class SerilizationTests {
         game.initialize(Difficulty.Easy, "lvl1.dat");
         ArrayList<Entity> entityList = new ArrayList<Entity>();
         entityList.add(new City(new Coordinate(39, 42), 0, 27, 3.4, Nationality.Enemy, false, 1.0));
-        entityList.add(new Troop(new Coordinate(), 0, 2, 180, new Coordinate(), 1, Nationality.Player));
+        entityList.add(new Troop(new Coordinate(), 0, 2, 180, new Coordinate(), 1, Nationality.Player, false));
         entityList.add(new Projectile(new Coordinate(100, 100), 0, 100, 180, new Coordinate(), 2));
         entityList.add(new Weather(new Coordinate(40, 40), 7, 3, 180, new Coordinate(), WeatherType.Blizzard));
         game.setEntityList(entityList);

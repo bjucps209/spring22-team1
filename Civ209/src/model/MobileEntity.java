@@ -13,7 +13,10 @@ public class MobileEntity extends Entity {
         this.heading = heading;
         this.destination = destination;
     }
-
+    
+    /**
+     * updates the position and image
+     */
     @Override
     public void update() {
         /**

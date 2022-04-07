@@ -1,6 +1,5 @@
 package model;
 
-import java.io.DataOutput;
 import java.io.DataOutputStream;
 
 public class Projectile extends MobileEntity {
@@ -12,6 +11,9 @@ public class Projectile extends MobileEntity {
         this.damage = damage;
     }
 
+    /**
+     * checks for if hit target and then updates the position and image
+     */
     @Override
     public void update() {
         /**
@@ -20,12 +22,18 @@ public class Projectile extends MobileEntity {
         super.update();
     }
 
+    /**
+     * checks if hit enemy
+     */
     public void collisionDetection() {
         /**
          * if hit enemy unit, kill unit
          */
     }
 
+    /**
+     * packages the object and writes it in file according to serialization pattern
+     */
     @Override
     public void serialize(DataOutputStream wr) {
         //TODO: Finish serialization
