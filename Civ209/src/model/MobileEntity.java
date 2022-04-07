@@ -1,3 +1,7 @@
+//-----------------------------------------------------------
+//File:   MobileEntity.java
+//Desc:   This program architects a more specilized type entity
+//-----------------------------------------------------------
 package model;
 
 public class MobileEntity extends Entity {

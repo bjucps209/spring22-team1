@@ -1,3 +1,7 @@
+//-----------------------------------------------------------
+//File:   Computer.java
+//Desc:   This program creates standered computer object
+//-----------------------------------------------------------
 package model;
 
 public class Computer {

@@ -1,3 +1,8 @@
+//-----------------------------------------------------------
+//File:   City.java
+//Desc:   This program creates a city and updates it
+//        when the game loop calls
+//-----------------------------------------------------------
 package model;
 
 import java.io.DataOutputStream;

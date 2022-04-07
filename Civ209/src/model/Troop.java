@@ -1,3 +1,7 @@
+//-----------------------------------------------------------
+//File:   Troop.java
+//Desc:   This program creates troop type objects and handels movement
+//-----------------------------------------------------------
 package model;
 
 import java.io.DataOutputStream;

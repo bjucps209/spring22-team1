@@ -1,3 +1,7 @@
+//-----------------------------------------------------------
+//File:   EasyComputer.java
+//Desc:   This program creates an easy computer object
+//-----------------------------------------------------------
 package model;
 
 public class EasyComputer extends Computer {

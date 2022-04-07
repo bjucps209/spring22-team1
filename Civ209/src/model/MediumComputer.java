@@ -1,3 +1,7 @@
+//-----------------------------------------------------------
+//File:   MediumComputer.java
+//Desc:   This program creates a medium computer object
+//-----------------------------------------------------------
 package model;
 
 public class MediumComputer extends Computer{

@@ -1,3 +1,7 @@
+//-----------------------------------------------------------
+//File:   Entity.java
+//Desc:   This program architects a standered entity
+//-----------------------------------------------------------
 package model;
 
 import java.io.DataOutputStream;

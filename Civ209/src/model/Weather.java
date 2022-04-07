@@ -1,3 +1,7 @@
+//-----------------------------------------------------------
+//File:   Weather.java
+//Desc:   This program creates weather events
+//-----------------------------------------------------------
 package model;
 
 import java.io.DataOutputStream;

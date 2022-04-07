@@ -1,3 +1,7 @@
+//-----------------------------------------------------------
+//File:   HardComputer.java
+//Desc:   This program creates a hard computer object
+//-----------------------------------------------------------
 package model;
 
 public class HardComputer extends Computer{
