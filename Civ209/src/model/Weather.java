@@ -1,3 +1,7 @@
+//-----------------------------------------------------------
+//File:   Weather.java
+//Desc:   This program creates weather events
+//-----------------------------------------------------------
 package model;
 
 import java.io.DataOutputStream;
@@ -11,6 +15,9 @@ public class Weather extends MobileEntity {
         this.type = type;
     }
 
+    /**
+     * checks for if completed requirements for type and checks to see if troop in range
+     */
     @Override
     public void update() {
         /**
@@ -19,6 +26,9 @@ public class Weather extends MobileEntity {
         super.update();
     }
 
+    /**
+     * packages the object and writes it in file according to serialization pattern
+     */
     @Override
     public void serialize(DataOutputStream wr) {
         //TODO: Finish serialization

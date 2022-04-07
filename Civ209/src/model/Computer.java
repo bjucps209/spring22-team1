@@ -1,9 +1,17 @@
+//-----------------------------------------------------------
+//File:   Computer.java
+//Desc:   This program creates standered computer object
+//-----------------------------------------------------------
 package model;
 
 public class Computer {
     private Difficulty difficulty;
     private int turnCount;
-
+    
+    /**
+     * creates and executes an action depending on level of difficulty
+     * @param game the game state
+     */
     public void executeAction(Game game) {
         /**
          * Depending on level of difficulty, creates action and executes said action

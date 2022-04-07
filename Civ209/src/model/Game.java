@@ -1,3 +1,7 @@
+//-----------------------------------------------------------
+//File:   Game.java
+//Desc:   This program instantiates an image and handles game state
+//-----------------------------------------------------------
 package model;
 
 import javafx.animation.Timeline;
@@ -12,6 +16,11 @@ public class Game {
     private int score;
     private Computer computer;
 
+    /**
+     * instantiates game from lvl with a computer of level difficulty
+     * @param difficulty difficulty of computer
+     * @param lvlName id of level played to load in from binary file
+     */
     public void initialize(Difficulty difficulty, String lvlName) {
         /**
          * create Computer of type difficulty
@@ -22,12 +31,23 @@ public class Game {
          */
     }
 
-    public void selectTroops(double x, double y, Nationality nationality) {
+    /**
+     * selects troops of type nationality inside box constructed by coord1, coord2, so that they can be told to go to a destination
+     * @param coord1 top left corner of box
+     * @param coord2 bottom right corner of box
+     * @param nationality nationality of troops to select
+     */
+    public void selectTroops(Coordinate coord1, Coordinate coord2, Nationality nationality) {
         /**
          * iterate through troops and select troops based on nationality and if in box created by x, y coordinate
          */
     }
 
+    /**
+     * loads in a game under the id lvlName
+     * @param lvlName id for what to laod in
+     * @throws IOException in case file not there
+     */
     public void load(String lvlName) throws IOException {
         try (DataInputStream rd = new DataInputStream(new FileInputStream(lvlName))) {
             if (rd.readUTF().equals("Civilization209")) {
@@ -83,7 +103,14 @@ public class Game {
         }
     }
 
+    /**
+     * stops timer and saves all objects to saved game portion of game file
+     * @throws IOException in case file not there
+     */
     public void save() throws IOException {
+        /**
+         * stop timer
+         */
         try (DataOutputStream wr = new DataOutputStream(new FileOutputStream("savedGame.dat"))) {
             wr.writeUTF("Civilization209");
             wr.writeInt(score);
@@ -96,13 +123,13 @@ public class Game {
 
     public void startTimer() {
         /**
-         * TODO: write psuedocode
+         * timer.start()
          */
     }
 
     public void stopTimer() {
         /**
-         * TODO: write psuedocode
+         * timer.stop()
          */
     }
 

@@ -1,3 +1,7 @@
+//-----------------------------------------------------------
+//File:   Troop.java
+//Desc:   This program creates troop type objects and handels movement
+//-----------------------------------------------------------
 package model;
 
 import java.io.DataOutputStream;
@@ -15,6 +19,9 @@ public class Troop extends MobileEntity {
         this.selected = selected;
     }
 
+    /**
+     * checks for if reached destination or hit another troop and then updates the position and image
+     */
     @Override
     public void update() {
         /**
@@ -24,12 +31,18 @@ public class Troop extends MobileEntity {
         super.update();
     }
 
+    /**
+     * checks to see if hit another troop
+     */
     public void collisionDetection() {
         /**
          * check if hit another enemy troop
          */
     }
 
+    /**
+     * packages the object and writes it in file according to serialization pattern
+     */
     @Override
     public void serialize(DataOutputStream wr) {
         //TODO: Finish serialization
