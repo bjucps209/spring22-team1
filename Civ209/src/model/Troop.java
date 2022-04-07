@@ -17,13 +17,16 @@ public class Troop extends MobileEntity {
 
     @Override
     public void update() {
-        // TODO Auto-generated method stub
+        /**
+         * check collision
+         * check if reached destination
+         */
         super.update();
     }
 
     public void collisionDetection() {
         /**
-         * TODO: write psuedocode
+         * check if hit another enemy troop
          */
     }
 

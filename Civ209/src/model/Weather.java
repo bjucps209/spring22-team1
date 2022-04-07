@@ -13,7 +13,9 @@ public class Weather extends MobileEntity {
 
     @Override
     public void update() {
-        // TODO Auto-generated method stub
+        /**
+         * check if troops in range, if so do thing
+         */
         super.update();
     }
 

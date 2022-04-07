@@ -21,26 +21,28 @@ public class City extends Entity {
 
     @Override
     public void update() {
-        // TODO Auto-generated method stub
+        /**
+         * increment population
+         * fire projectile if cooldown done
+         */
         super.update();
     }
 
-    public void sendTroops() {
+    public void sendTroops(double percentage, Coordinate destination) {
         /**
-         * TODO: write psuedocode
+         * generate troops based on population and percentage of troops to send
          */
     }
 
     public void fireProjectile() {
         /**
-         * TODO: write psuedocode
+         * check if any enemies in range. If so, fire projectiles
          */
     }
 
     
     @Override
     public void serialize(DataOutputStream wr) {
-        //TODO: Finish serialization
     }
  
     public int getPopulation() {

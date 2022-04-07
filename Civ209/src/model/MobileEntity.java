@@ -16,7 +16,9 @@ public class MobileEntity extends Entity {
 
     @Override
     public void update() {
-        // TODO Auto-generated method stub
+        /**
+         * update position based on speed and heading
+         */
         super.update();
     }
 

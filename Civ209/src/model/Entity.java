@@ -10,7 +10,7 @@ public class Entity {
 
     public void update() {
         /**
-         * TODO: write psuedocode
+         * call observer update image position
          */
     }
 

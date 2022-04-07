@@ -14,13 +14,15 @@ public class Projectile extends MobileEntity {
 
     @Override
     public void update() {
-        // TODO Auto-generated method stub
+        /**
+         * check collision detection
+         */
         super.update();
     }
 
     public void collisionDetection() {
         /**
-         * TODO: write psuedocode
+         * if hit enemy unit, kill unit
          */
     }
 
