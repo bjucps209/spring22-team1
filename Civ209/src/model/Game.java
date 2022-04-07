@@ -32,7 +32,7 @@ public class Game {
         try (DataInputStream rd = new DataInputStream(new FileInputStream(lvlName))) {
             if (rd.readUTF().equals("Civilization209")) {
                 entityList.clear();
-                int score = rd.readInt();
+                this.score = rd.readInt();
                 int size = rd.readInt();
 
                 for (int i = 0; i < size; i++) {
@@ -84,7 +84,7 @@ public class Game {
     }
 
     public void save() throws IOException {
-        try (DataOutputStream wr = new DataOutputStream(new FileOutputStream("items.dat"))) {
+        try (DataOutputStream wr = new DataOutputStream(new FileOutputStream("savedGame.dat"))) {
             wr.writeUTF("Civilization209");
             wr.writeInt(score);
             wr.writeInt(entityList.size());
