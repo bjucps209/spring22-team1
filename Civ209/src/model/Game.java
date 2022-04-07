@@ -80,7 +80,7 @@ public class Game {
     }
 
     public void save() throws IOException {
-        try (DataOutputStream wr = new DataOutputStream(new FileOutputStream("items.dat"))) {
+        try (DataOutputStream wr = new DataOutputStream(new FileOutputStream("savedGame.dat"))) {
             wr.writeUTF("Civilization209");
             wr.writeInt(score);
             wr.writeInt(entityList.size());
