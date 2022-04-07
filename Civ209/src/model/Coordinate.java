@@ -1,3 +1,8 @@
+//-----------------------------------------------------------
+//File:   Coordinate.java
+//Desc:   This program creates a coordinate object that symbolizes 
+//        a point in the fourth quadrant of the cartesian plane
+//-----------------------------------------------------------
 package model;
 
 import java.math.BigDecimal;
@@ -26,6 +31,11 @@ public class Coordinate {
         return "COORDINATE: X is " + x + ", and Y is " + y + ".";
     }
 
+    /**
+     * returns true if this and c are equal
+     * @param c coordinate to compare to
+     * @return true if coordinates are equal, false otherwise
+     */
     public boolean isEqual(Coordinate c) {
         return (c.getX() == x && c.getY() == y);
     }
@@ -59,6 +69,12 @@ public class Coordinate {
         this.y = round(y, 3);
     }
 
+    /**
+     * rounds up to number of places passed in
+     * @param value the value to round
+     * @param places the number of digits to round to
+     * @return the amended value
+     */
     // taken from https://www.baeldung.com/java-round-decimal-number
     private static double round(double value, int places) {
         if (places < 0)
