@@ -28,7 +28,7 @@ public class Game {
         try (DataInputStream rd = new DataInputStream(new FileInputStream(lvlName))) {
             if (rd.readUTF().equals("Civilization209")) {
                 entityList.clear();
-                int score = rd.readInt();
+                this.score = rd.readInt();
                 int size = rd.readInt();
 
                 for (int i = 0; i < size; i++) {
