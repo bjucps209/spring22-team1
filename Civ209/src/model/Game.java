@@ -5,6 +5,9 @@
 package model;
 
 import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 import java.io.*;
 import java.util.*;
 
@@ -13,8 +16,10 @@ public class Game {
     private ArrayList<Entity> entityList;
     private String fileName;
     private double gameSpeed;
-    private int score;
+    private IntegerProperty scoreProperty = new SimpleIntegerProperty();
     private Computer computer;
+    private int numPlayerCitiesLeft;
+    private SeasonType season;
 
     /**
      * instantiates game from lvl with a computer of level difficulty
@@ -44,6 +49,15 @@ public class Game {
     }
 
     /**
+     * checks numCitiesLeft and score to see if game should be over
+     */
+    public void gameEnd() {
+        /**
+         * checks numCitiesLeft and score to see if game should be over
+         */
+    }
+
+    /**
      * loads in a game under the id lvlName
      * @param lvlName id for what to laod in
      * @throws IOException in case file not there
@@ -52,8 +66,9 @@ public class Game {
         try (DataInputStream rd = new DataInputStream(new FileInputStream(lvlName))) {
             if (rd.readUTF().equals("Civilization209")) {
                 entityList.clear();
-                this.score = rd.readInt();
+                setScore(rd.readInt());
                 int size = rd.readInt();
+                //also need to read in numplayerCitiesLeft and season. Sorry again.
 
                 for (int i = 0; i < size; i++) {
                     Entity entity;
@@ -68,6 +83,7 @@ public class Game {
                                 : nation == 'E' ? Nationality.Enemy : Nationality.Nuetral;
                         boolean selected = rd.readBoolean();
                         double fireRate = rd.readDouble();
+                        // need to read in cityType. sorry.
                         entity = new City(location, turnCount, population, incrementRate, nationality, selected,
                                 fireRate);
                     } else if (entityType.equals("Troop")) {
@@ -113,7 +129,7 @@ public class Game {
          */
         try (DataOutputStream wr = new DataOutputStream(new FileOutputStream("savedGame.dat"))) {
             wr.writeUTF("Civilization209");
-            wr.writeInt(score);
+            wr.writeInt(getScore());
             wr.writeInt(entityList.size());
             for (Entity entity : entityList) {
                 entity.serialize(wr);
@@ -166,11 +182,15 @@ public class Game {
     }
 
     public int getScore() {
-        return score;
+        return scoreProperty.get();
     }
 
     public void setScore(int score) {
-        this.score = score;
+        this.scoreProperty.set(score);
+    }
+
+    public IntegerProperty scoreProperty() {
+        return scoreProperty;
     }
 
     public Computer getComputer() {
@@ -181,4 +201,20 @@ public class Game {
         this.computer = computer;
     }
 
+    public int getNumPlayerCitiesLeft() {
+        return numPlayerCitiesLeft;
+    }
+
+    public void setNumPlayerCitiesLeft(int numPlayerCitiesLeft) {
+        this.numPlayerCitiesLeft = numPlayerCitiesLeft;
+    }
+
+    public SeasonType getSeason() {
+        return season;
+    }
+
+    public void setSeason(SeasonType season) {
+        this.season = season;
+    }
+    
 }
