@@ -1,8 +1,6 @@
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
-import org.junit.Assert.*;
+import org.junit.*;
 
 import model.City;
 import model.Level;
@@ -13,25 +11,23 @@ import java.util.*;
 
 public class LevelDataTests {
 
-    LevelData d = new LevelData();
-    Level l = new Level();
-
-    public LevelDataTests () {
+    @Test
+    public void testSaveandLoad() {
+        LevelData d = new LevelData();
+        Level l = new Level();
         l.setSeason(Season.WINTER);
         City city = l.create(Nationality.ENEMY);
         city.setId(0);
         city.setX(32);
         city.setY(20);
-    }
-
-    @Test
-    public void testSave() {
-        //Assert.assertEquals(d.save(l.getCities()));
+        d.save();
+        List<City> cities = d.load(); 
+        City loadedcity = cities.get(0); 
+        assertEquals(0, loadedcity.getId());
+        assertEquals(32, loadedcity.getX());
+        assertEquals(20, loadedcity.getY());
+        assertEquals(Nationality.ENEMY, loadedcity.getNationality());
+        assertEquals(Season.WINTER, loadedcity.getSeason()); 
         
-    }
-
-    @Test 
-    public void testLoad() {
-        //Assert.assertEquals(, d.load());
     }
 }
