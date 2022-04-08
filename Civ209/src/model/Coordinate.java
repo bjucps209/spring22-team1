@@ -8,27 +8,30 @@ package model;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
 public class Coordinate {
-    private double x;
-    private double y;
+    private DoubleProperty xProperty = new SimpleDoubleProperty();
+    private DoubleProperty yProperty = new SimpleDoubleProperty();
 
     public Coordinate() {
-        x = 0;
-        y = 0;
+        setY(0);
+        setX(0);
     }
 
     public Coordinate(int x, int y) {
-        this.x = x;
-        this.y = y;
+        setY(y);
+        setX(x);
     }
 
     public Coordinate(double x, double y) {
-        this.x = x;
-        this.y = y;
+        setY(y);
+        setX(x);
     }
 
     public String toString() {
-        return "COORDINATE: X is " + x + ", and Y is " + y + ".";
+        return "COORDINATE: X is " + getX() + ", and Y is " + getY() + ".";
     }
 
     /**
@@ -37,21 +40,21 @@ public class Coordinate {
      * @return true if coordinates are equal, false otherwise
      */
     public boolean isEqual(Coordinate c) {
-        return (c.getX() == x && c.getY() == y);
+        return (c.getX() == getX() && c.getY() == getY());
     }
 
     /**
      * @return int return the x
      */
     public double getX() {
-        return x;
+        return xProperty.get();
     }
 
     /**
      * @param x the x to set
      */
     public void setX(double x) {
-        this.x = round(x, 3);
+        setX(round(x, 3));
 
     }
 
@@ -59,14 +62,14 @@ public class Coordinate {
      * @return int return the y
      */
     public double getY() {
-        return y;
+        return yProperty.get();
     }
 
     /**
      * @param y the y to set
      */
     public void setY(double y) {
-        this.y = round(y, 3);
+        xProperty.set(round(y, 3));
     }
 
     /**
