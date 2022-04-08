@@ -2,6 +2,10 @@ package tests;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
 import HighScores.*;
 
 public class HighScoresTest {
@@ -30,6 +34,28 @@ public class HighScoresTest {
         assertEquals(2, hScores.getScoreList().size());
         hScores.sortScores();
         assertEquals("Isaac", hScores.getScoreList().get(0).getPlayerName());
+
+    }
+
+    @Test
+    public void test_save_and_load() throws IOException {
+        HighScores game1 = new HighScores();
+        ScoreEntry score = new ScoreEntry("Eric", 702);
+        game1.addScoreList(score);
+        game1.save(game1.getScoreList());
+        HighScores scores = new HighScores();
+        scores.load();
+        ScoreEntry firstScore = scores.getScoreList().get(0);
+        assertEquals("Eric", firstScore.getPlayerName());
+        assertEquals(702, firstScore.getPlayerScore());
+        ScoreEntry score2 = new ScoreEntry("Caleb", 540);
+        game1.addScoreList(score2);
+        game1.save(game1.getScoreList());
+        HighScores s = new HighScores();
+        s.load();
+        ScoreEntry secondScore = s.getScoreList().get(1);
+        assertEquals("Caleb", secondScore.getPlayerName());
+        assertEquals(540, secondScore.getPlayerScore());
 
     }
 
