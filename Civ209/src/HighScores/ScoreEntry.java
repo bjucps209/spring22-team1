@@ -1,4 +1,4 @@
-package model;
+package HighScores;
 
 public class ScoreEntry {
     private String playerName; // the player's name

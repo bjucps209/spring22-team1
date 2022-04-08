@@ -1,4 +1,4 @@
-package model;
+package HighScores;
 
 import java.util.ArrayList;
 import java.io.File;
