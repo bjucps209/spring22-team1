@@ -4,24 +4,8 @@ import java.util.ArrayList;
 import java.io.File;
 
 public class HighScores {
+    // An Arraylist holding all of the ScoreEntries.
     ArrayList<ScoreEntry> scoreList = new ArrayList<ScoreEntry>();
-
-
-    /**
-     * 
-     * Create classes to manage a list of high scores and player names.
-     * I recommend one class to manage the overall list, and a separate class to
-     * hold the information for each entry in the high score list (player’s name and
-     * score).
-     * Define instance variables needed to hold this information.
-     * Also, define methods to 1) add a new high score entry to the list and put it
-     * into its proper position;
-     * 2) save the list of high score data to a file; and 3) load the list of high
-     * scores from a file.
-     * Do not implement the methods. Document the methods with well-written header
-     * comments.
-     * Write unit tests for the methods.
-     */
 
     public ArrayList<ScoreEntry> getScoreList() {
         throw new RuntimeException("Not implemented");
@@ -50,21 +34,32 @@ public class HighScores {
     public ArrayList<ScoreEntry> sortScores() {
         throw new RuntimeException("Not implemented");
 
-        // do some calculations to see if the score is higher than the ones currently in the list
+        // do some calculations to see if the score is higher than the ones currently in
+        // the list
         // loop through and check each score.
-        // if the score is greater than the one -1 positions in front, move it to (currentPos-1).
+        // if the score is greater than the one -1 positions in front, move it to
+        // (currentPos-1).
         // if it is not, keep it in its position.
         // return scoreList;
 
     }
 
+    /**
+     * The save method takes in the scoreList and saves it into a text file
+     * 
+     * @param scoreList
+     */
     public void save(ArrayList<ScoreEntry> scoreList) {
-        // save the current text file
+        throw new RuntimeException("Method not implemented");
 
     }
 
+    /**
+     * Return the scoreList and load it in to display on the screen
+     * 
+     * @return
+     */
     public ArrayList<ScoreEntry> load() {
         throw new RuntimeException("Method not implemented");
-        // return the scorelist and display it on the screen.
     }
 }
