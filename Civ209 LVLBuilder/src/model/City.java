@@ -5,7 +5,6 @@ public class City {
     private Nationality nationality;
     private int x;
     private int y;
-    private Level level = new Level(); 
 
     private static int nextId;
 
@@ -50,9 +49,5 @@ public class City {
 
     public String toString() {
         throw new RuntimeException("Method not implemented");
-    }
-
-    public Season getSeason() {
-        return level.getSeason(); 
     }
 }

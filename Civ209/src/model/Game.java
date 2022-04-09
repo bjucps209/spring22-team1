@@ -7,6 +7,7 @@ package model;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.IntegerProperty;
 
 import java.io.*;
 import java.util.*;
@@ -23,8 +24,9 @@ public class Game {
 
     /**
      * instantiates game from lvl with a computer of level difficulty
+     * 
      * @param difficulty difficulty of computer
-     * @param lvlName id of level played to load in from binary file
+     * @param lvlName    id of level played to load in from binary file
      */
     public void initialize(Difficulty difficulty, String lvlName) {
         /**
@@ -37,14 +39,17 @@ public class Game {
     }
 
     /**
-     * selects troops of type nationality inside box constructed by coord1, coord2, so that they can be told to go to a destination
-     * @param coord1 top left corner of box
-     * @param coord2 bottom right corner of box
+     * selects troops of type nationality inside box constructed by coord1, coord2,
+     * so that they can be told to go to a destination
+     * 
+     * @param coord1      top left corner of box
+     * @param coord2      bottom right corner of box
      * @param nationality nationality of troops to select
      */
     public void selectTroops(Coordinate coord1, Coordinate coord2, Nationality nationality) {
         /**
-         * iterate through troops and select troops based on nationality and if in box created by x, y coordinate
+         * iterate through troops and select troops based on nationality and if in box
+         * created by x, y coordinate
          */
     }
 
@@ -59,34 +64,52 @@ public class Game {
 
     /**
      * loads in a game under the id lvlName
+     * 
      * @param lvlName id for what to laod in
      * @throws IOException in case file not there
      */
     public void load(String lvlName) throws IOException {
         try (DataInputStream rd = new DataInputStream(new FileInputStream(lvlName))) {
             if (rd.readUTF().equals("Civilization209")) {
+
                 entityList.clear();
+
                 setScore(rd.readInt());
+                char s = rd.readChar();
+
+                this.season = s == 'W' ? SeasonType.Winter
+                        : s == 'F' ? SeasonType.Fall : s == 'S' ? SeasonType.Summer : SeasonType.Spring;
+                this.numPlayerCitiesLeft = rd.readInt();
+
+                this.gameSpeed = rd.readDouble();
                 int size = rd.readInt();
-                //also need to read in numplayerCitiesLeft and season. Sorry again.
 
                 for (int i = 0; i < size; i++) {
+
                     Entity entity;
                     String entityType = rd.readUTF();
                     Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
                     int turnCount = rd.readInt();
+
                     if (entityType.equals("City")) {
+
                         int population = rd.readInt();
+                        IntegerProperty popProperty = new SimpleIntegerProperty(population);
                         double incrementRate = rd.readDouble();
                         char nation = rd.readChar();
                         Nationality nationality = nation == 'P' ? Nationality.Player
-                                : nation == 'E' ? Nationality.Enemy : Nationality.Nuetral;
+                                : nation == 'E' ? Nationality.Enemy : Nationality.Neutral;
                         boolean selected = rd.readBoolean();
                         double fireRate = rd.readDouble();
+                        char cityT = rd.readChar();
+                        CityType cityType = cityT == 'S' ? CityType.Standard
+                                : cityT == 'F' ? CityType.Fast : CityType.Strong;
                         // need to read in cityType. sorry.
-                        entity = new City(location, turnCount, population, incrementRate, nationality, selected,
-                                fireRate);
+                        entity = new City(location, turnCount, popProperty, incrementRate, nationality, selected,
+                                fireRate, cityType);
+
                     } else if (entityType.equals("Troop")) {
+
                         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         double speed = rd.readDouble();
                         double heading = rd.readDouble();
@@ -94,15 +117,20 @@ public class Game {
                         char nation = rd.readChar();
                         Boolean selected = rd.readBoolean();
                         Nationality nationality = nation == 'P' ? Nationality.Player
-                                : nation == 'E' ? Nationality.Enemy : Nationality.Nuetral;
-                        entity = new Troop(location, turnCount, speed, heading, destination, health, nationality, selected);
+                                : nation == 'E' ? Nationality.Enemy : Nationality.Neutral;
+                        entity = new Troop(location, turnCount, speed, heading, destination, health, nationality,
+                                selected);
+
                     } else if (entityType.equals("Projectile")) {
+
                         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         double speed = rd.readDouble();
                         double heading = rd.readDouble();
                         int damage = rd.readInt();
                         entity = new Projectile(location, turnCount, speed, heading, destination, damage);
+
                     } else {
+
                         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         double speed = rd.readDouble();
                         double heading = rd.readDouble();
@@ -110,8 +138,8 @@ public class Game {
                         WeatherType weatherType = type == 'L' ? WeatherType.LightningStorm
                                 : type == 'B' ? WeatherType.Blizzard
                                         : type == 'F' ? WeatherType.Flood : WeatherType.Drought;
-
                         entity = new Weather(location, turnCount, speed, heading, destination, weatherType);
+
                     }
                     entityList.add(entity);
                 }
@@ -121,6 +149,7 @@ public class Game {
 
     /**
      * stops timer and saves all objects to saved game portion of game file
+     * 
      * @throws IOException in case file not there
      */
     public void save() throws IOException {
@@ -216,5 +245,5 @@ public class Game {
     public void setSeason(SeasonType season) {
         this.season = season;
     }
-    
+
 }

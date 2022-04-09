@@ -21,13 +21,15 @@ public class LevelDataTests {
         city.setX(32);
         city.setY(20);
         d.save();
-        List<City> cities = d.load(); 
+        Level loadedlevel = new Level();
+        LevelData loadeddata = new LevelData();
+        List<City> cities = loadeddata.load(); 
         City loadedcity = cities.get(0); 
         assertEquals(0, loadedcity.getId());
         assertEquals(32, loadedcity.getX());
         assertEquals(20, loadedcity.getY());
         assertEquals(Nationality.ENEMY, loadedcity.getNationality());
-        assertEquals(Season.WINTER, loadedcity.getSeason()); 
+        assertEquals(Season.WINTER, loadedlevel.getSeason()); 
         
     }
 }
