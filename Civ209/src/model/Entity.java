@@ -8,7 +8,6 @@ import java.io.DataOutputStream;
 
 public class Entity {
     private Coordinate location;
-    private EntityObserver observer;
     private int turnCount;
 
     /**
@@ -36,14 +35,6 @@ public class Entity {
 
     public void setLocation(Coordinate location) {
         this.location = location;
-    }
-
-    public EntityObserver getObserver() {
-        return observer;
-    }
-
-    public void setObserver(EntityObserver observer) {
-        this.observer = observer;
     }
 
     public int getTurnCount() {

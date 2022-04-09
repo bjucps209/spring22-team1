@@ -7,21 +7,26 @@ package model;
 
 import java.io.DataOutputStream;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class City extends Entity {
-    private int population;
+    private IntegerProperty populationProperty = new SimpleIntegerProperty();
     private double incrementRate;
     private Nationality nationality;
     private boolean selected = false;
     private double fireRate;
+    private CityType type;
 
-    public City(Coordinate location, int turnCount, int population, double incrementRate, Nationality nationality,
-            boolean selected, double fireRate) {
+    public City(Coordinate location, int turnCount, IntegerProperty population, double incrementRate, Nationality nationality,
+            boolean selected, double fireRate, CityType type) {
         super(location, turnCount);
-        this.population = population;
+        this.populationProperty = population;
         this.incrementRate = incrementRate;
         this.nationality = nationality;
         this.selected = selected;
         this.fireRate = fireRate;
+        this.type = type;
     }
 
     /**
@@ -40,8 +45,9 @@ public class City extends Entity {
      * generates percentage of population troops going to destination
      * @param percentage percentage of city population to send out
      * @param destination destination of the generated troops
+     * @param type type of troop to be sending out
      */
-    public void sendTroops(double percentage, Coordinate destination) {
+    public void sendTroops(double percentage, Coordinate destination, CityType type) {
         /**
          * generate troops based on population and percentage of troops to send
          */
@@ -64,11 +70,15 @@ public class City extends Entity {
     }
 
     public int getPopulation() {
-        return population;
+        return populationProperty.get();
     }
 
     public void setPopulation(int population) {
-        this.population = population;
+        this.populationProperty.set(population);
+    }
+
+    public IntegerProperty populationProperty(){
+        return populationProperty;
     }
 
     public double getIncrementRate() {
@@ -101,5 +111,13 @@ public class City extends Entity {
 
     public void setFireRate(double fireRate) {
         this.fireRate = fireRate;
+    }
+
+    public CityType getType() {
+        return type;
+    }
+
+    public void setType(CityType type) {
+        this.type = type;
     }
 }
