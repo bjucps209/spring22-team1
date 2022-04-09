@@ -71,21 +71,28 @@ public class Game {
     public void load(String lvlName) throws IOException {
         try (DataInputStream rd = new DataInputStream(new FileInputStream(lvlName))) {
             if (rd.readUTF().equals("Civilization209")) {
+
                 entityList.clear();
+
                 setScore(rd.readInt());
-                int size = rd.readInt();
                 char s = rd.readChar();
+
                 this.season = s == 'W' ? SeasonType.Winter
                         : s == 'F' ? SeasonType.Fall : s == 'S' ? SeasonType.Summer : SeasonType.Spring;
+                this.numPlayerCitiesLeft = rd.readInt();
 
-                // also need to read in numplayerCitiesLeft and season. Sorry again.
+                this.gameSpeed = rd.readDouble();
+                int size = rd.readInt();
 
                 for (int i = 0; i < size; i++) {
+
                     Entity entity;
                     String entityType = rd.readUTF();
                     Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
                     int turnCount = rd.readInt();
+
                     if (entityType.equals("City")) {
+
                         int population = rd.readInt();
                         IntegerProperty popProperty = new SimpleIntegerProperty(population);
                         double incrementRate = rd.readDouble();
@@ -100,7 +107,9 @@ public class Game {
                         // need to read in cityType. sorry.
                         entity = new City(location, turnCount, popProperty, incrementRate, nationality, selected,
                                 fireRate, cityType);
+
                     } else if (entityType.equals("Troop")) {
+
                         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         double speed = rd.readDouble();
                         double heading = rd.readDouble();
@@ -111,13 +120,17 @@ public class Game {
                                 : nation == 'E' ? Nationality.Enemy : Nationality.Neutral;
                         entity = new Troop(location, turnCount, speed, heading, destination, health, nationality,
                                 selected);
+
                     } else if (entityType.equals("Projectile")) {
+
                         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         double speed = rd.readDouble();
                         double heading = rd.readDouble();
                         int damage = rd.readInt();
                         entity = new Projectile(location, turnCount, speed, heading, destination, damage);
+
                     } else {
+
                         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         double speed = rd.readDouble();
                         double heading = rd.readDouble();
@@ -125,8 +138,8 @@ public class Game {
                         WeatherType weatherType = type == 'L' ? WeatherType.LightningStorm
                                 : type == 'B' ? WeatherType.Blizzard
                                         : type == 'F' ? WeatherType.Flood : WeatherType.Drought;
-
                         entity = new Weather(location, turnCount, speed, heading, destination, weatherType);
+
                     }
                     entityList.add(entity);
                 }
