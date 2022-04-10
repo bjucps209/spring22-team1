@@ -6,6 +6,7 @@
 package model;
 
 import java.io.DataOutputStream;
+import java.util.ArrayList;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -34,10 +35,9 @@ public class City extends Entity {
      */
     @Override
     public void update() {
-        /**
-         * increment population
-         * fire projectile if cooldown done
-         */
+        if (getPopulation() < 30){
+            setPopulation(getPopulation() + 1);
+        }
         super.update();
     }
 
@@ -47,10 +47,27 @@ public class City extends Entity {
      * @param destination destination of the generated troops
      * @param type type of troop to be sending out
      */
-    public void sendTroops(double percentage, Coordinate destination, CityType type) {
-        /**
-         * generate troops based on population and percentage of troops to send
-         */
+    public ArrayList<Troop> sendTroops(double percentage, Coordinate destination, CityType type) {
+        percentage = percentage / 100;
+        int numtroops = (int)(getPopulation() * percentage);
+        ArrayList<Troop> troops = new ArrayList<>();
+        for (int i = 0; i < numtroops; i++) {
+            double heading;
+            if (destination.getX() - getLocation().getX() != 0) {
+                if (destination.getX() - getLocation().getX() < 0) {
+                    heading = 180 + (Math.toDegrees(Math.atan((getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
+                } else {
+                    heading = (Math.toDegrees(Math.atan((getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
+                }
+            } else {
+                heading = 0.0;
+            }
+            Troop troop = new Troop(getLocation(), getTurnCount(), (type == CityType.Fast) ? 2 : 1, heading, destination, (type == CityType.Strong)? 2 : 1, nationality, false);
+            troops.add(troop);
+        }
+        setPopulation(getPopulation() - numtroops);
+        System.out.println(getPopulation());
+        return troops;
     }
 
     /**

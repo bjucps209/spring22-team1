@@ -7,3 +7,7 @@
 .dialog-pane  {
     -fx-font-family: 'Helvetica', Arial, sans-serif;
 }
+
+.selected {
+    -fx-effect: dropshadow(three-pass-box, rgba(255,0,0,0.8), 10, 0, 0, 0);
+ }

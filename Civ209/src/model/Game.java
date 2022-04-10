@@ -4,17 +4,18 @@
 //-----------------------------------------------------------
 package model;
 
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.IntegerProperty;
+import javafx.util.Duration;
 
 import java.io.*;
 import java.util.*;
 
 public class Game {
     private Timeline timer;
-    private ArrayList<Entity> entityList;
+    private ArrayList<Entity> entityList = new ArrayList<>();
     private String fileName;
     private double gameSpeed;
     private IntegerProperty scoreProperty = new SimpleIntegerProperty();
@@ -29,13 +30,28 @@ public class Game {
      * @param lvlName    id of level played to load in from binary file
      */
     public void initialize(Difficulty difficulty, String lvlName) {
-        /**
-         * create Computer of type difficulty
-         * 
-         * load in values of lvlName
-         * 
-         * start Timer
-         */
+        switch (difficulty) {
+            case Easy:
+                this.computer = new EasyComputer();
+                break;
+            case Medium:
+                this.computer = new MediumComputer();
+                break;
+            case Hard:
+                this.computer = new HardComputer();
+                break;
+        }
+        try{
+            load(lvlName);
+        } catch (IOException e) {
+            try {
+                load("Civ209/Levels/DemoLevel.dat");
+            } catch (IOException xe) {
+                System.out.println("fatalError! " + xe);
+                System.exit(1);
+            }
+        }
+        startTimer();
     }
 
     /**
@@ -65,7 +81,7 @@ public class Game {
     /**
      * loads in a game under the id lvlName
      * 
-     * @param lvlName id for what to laod in
+     * @param lvlName id for what to load in
      * @throws IOException in case file not there
      */
     public void load(String lvlName) throws IOException {
@@ -104,10 +120,8 @@ public class Game {
                         char cityT = rd.readChar();
                         CityType cityType = cityT == 'S' ? CityType.Standard
                                 : cityT == 'F' ? CityType.Fast : CityType.Strong;
-                        // need to read in cityType. sorry.
                         entity = new City(location, turnCount, popProperty, incrementRate, nationality, selected,
                                 fireRate, cityType);
-
                     } else if (entityType.equals("Troop")) {
 
                         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
@@ -147,6 +161,13 @@ public class Game {
         }
     }
 
+    public void update() {
+        setScore(getScore() - 1);
+        for (Entity entity :  entityList) {
+            entity.update();
+        }
+    }
+
     /**
      * stops timer and saves all objects to saved game portion of game file
      * 
@@ -167,15 +188,15 @@ public class Game {
     }
 
     public void startTimer() {
-        /**
-         * timer.start()
-         */
+        if (timer == null) {
+            timer = new Timeline(new KeyFrame(Duration.millis(2000), e -> update()));
+            timer.setCycleCount(Timeline.INDEFINITE);
+            timer.play();
+        }
     }
 
     public void stopTimer() {
-        /**
-         * timer.stop()
-         */
+        timer.stop();
     }
 
     public Timeline getTimer() {

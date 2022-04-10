@@ -54,7 +54,7 @@ public class Coordinate {
      * @param x the x to set
      */
     public void setX(double x) {
-        setX(round(x, 3));
+        xProperty.set(round(x, 3));
 
     }
 
@@ -69,9 +69,16 @@ public class Coordinate {
      * @param y the y to set
      */
     public void setY(double y) {
-        xProperty.set(round(y, 3));
+        yProperty.set(round(y, 3));
     }
 
+    public DoubleProperty xProperty() {
+        return xProperty;
+    }
+
+    public DoubleProperty yProperty() {
+        return yProperty;
+    }
     /**
      * rounds up to number of places passed in
      * @param value the value to round
