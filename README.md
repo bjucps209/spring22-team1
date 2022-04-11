@@ -6,10 +6,10 @@ CPS 209 Spring Team 1 Project
 https://commons.wikimedia.org/wiki/File:BSicon_Castle.svg
 
 ### Seasonal backgrounds
- * Summer background: https://www.pexels.com/photo/top-view-photo-of-grass-1587548/
- * Autumn background: https://commons.wikimedia.org/wiki/File:Artificial_wood_background.jpg
- * Winter background: https://www.pexels.com/photo/white-wall-paint-1260727/
- * Spring background: https://pixabay.com/photos/leaf-texture-green-leaf-veins-176722/
+ * Summer background: https://www.goodfon.com/wallpaper/green-grass-summer-gazon-fon-trava-zelenaia.html
+ * Autumn background: https://phandroid.com/wp-content/uploads/2014/10/Leaves.jpg
+ * Winter background: https://besthqwallpapers.com/textures/snow-background-snow-texture-background-with-snow-winter-background-snowflakes-118035
+ * Spring background: https://airwallpaper.com/wp-content/uploads/2016/08/Spring-Flowers-Backgrounds.jpg
 
 
 ### Background Music - Vivaldi's Four Seasons
