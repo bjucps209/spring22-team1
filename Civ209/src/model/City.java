@@ -5,6 +5,8 @@
 //-----------------------------------------------------------
 package model;
 
+import java.util.Random;
+
 import java.io.DataOutputStream;
 import java.util.ArrayList;
 
@@ -18,6 +20,12 @@ public class City extends Entity {
     private boolean selected = false;
     private double fireRate;
     private CityType type;
+    private int id;
+    private int x;
+    private int y;
+    private CityObserver observer; 
+
+    private static int nextId;
 
     public City(Coordinate location, int turnCount, IntegerProperty population, double incrementRate, Nationality nationality,
             boolean selected, double fireRate, CityType type) {
@@ -28,8 +36,18 @@ public class City extends Entity {
         this.selected = selected;
         this.fireRate = fireRate;
         this.type = type;
+        this.id = ++nextId;
+        var rand = new Random();
+        this.x = rand.nextInt(750);
+        this.y = rand.nextInt(450);
     }
 
+    public void updatePosition() {
+        if (observer != null) {
+            observer.cityMoved(x, y); 
+        }
+    }
+    
     /**
      * updates the population and image. fires projectile on appropriate ticks.
      */
@@ -144,13 +162,43 @@ public class City extends Entity {
         this.incrementRate = incrementRate;
     }
 
-    public Nationality getNationality() {
-        return nationality;
-    }
+public int getId() {
+    return id;
+}
 
-    public void setNationality(Nationality nationality) {
-        this.nationality = nationality;
-    }
+
+public void setId(int id) {
+    this.id = id;
+}
+
+public Nationality getNationality() {
+    return nationality;
+}
+
+public void setNationality(Nationality nationality) {
+    this.nationality = nationality;
+}
+
+public int getX() {
+    return x;
+}
+
+public void setX(int x) {
+    this.x = x;
+}
+
+public int getY() {
+    return y;
+}
+
+public void setY(int y) {
+    this.y = y;
+} 
+
+public Object[] getInformation() {
+    Object[] items = {id, x, y, nationality}; 
+    return items; 
+} 
 
     public boolean isSelected() {
         return selected;
