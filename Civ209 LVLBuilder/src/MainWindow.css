@@ -6,6 +6,11 @@
     -fx-padding: 10;
 }
 
+.title {
+    -fx-font-size: 30;
+    -fx-font-weight: 700;
+}
+
 .propview {
     -fx-padding: 10;
 }
@@ -40,28 +45,4 @@ VBox {
 
 HBox {
     -fx-alignment: center;
-}
-
-.summerbackground {
-    -fx-background-image: url("/images/summer.png");
-    -fx-background-position: center; 
-    -fx-background-size: cover;
-}
-
-.fallbackground {
-    -fx-background-image: url("/images/fall.png");
-    -fx-background-position: center; 
-    -fx-background-size: cover;
-}
-
-.winterbackground {
-    -fx-background-image: url("/images/winter.png");
-    -fx-background-position: center; 
-    -fx-background-size: cover;
-}
-
-.springbackground {
-    -fx-background-image: url("/images/spring.png");
-    -fx-background-position: center; 
-    -fx-background-size: cover;
 }
