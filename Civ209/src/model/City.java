@@ -62,11 +62,12 @@ public class City extends Entity {
             } else {
                 heading = 0.0;
             }
-            Troop troop = new Troop(getLocation(), getTurnCount(), (type == CityType.Fast) ? 2 : 1, heading, destination, (type == CityType.Strong)? 2 : 1, nationality, false);
+            Troop troop = new Troop(new Coordinate(getLocation()), getTurnCount(), (type == CityType.Fast) ? 7 : 5, heading, destination, (type == CityType.Strong)? 2 : 1, nationality, false);
+            troop.getLocation().setX(troop.getLocation().getX() + 35 * Math.cos(heading * Math.PI / 180));
+            troop.getLocation().setY(troop.getLocation().getY() + 35 * Math.sin(heading * Math.PI / 180));
             troops.add(troop);
         }
         setPopulation(getPopulation() - numtroops);
-        System.out.println(getPopulation());
         return troops;
     }
 

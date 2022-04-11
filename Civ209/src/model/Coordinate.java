@@ -30,6 +30,11 @@ public class Coordinate {
         setX(x);
     }
 
+    public Coordinate(Coordinate coord) {
+        setX(coord.getX());
+        setY(coord.getY());
+    }
+
     public String toString() {
         return "COORDINATE: X is " + getX() + ", and Y is " + getY() + ".";
     }

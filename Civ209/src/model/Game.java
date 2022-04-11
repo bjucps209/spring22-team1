@@ -22,6 +22,7 @@ public class Game {
     private Computer computer;
     private int numPlayerCitiesLeft;
     private SeasonType season;
+    private ArrayList<Entity> deleteEntityList = new ArrayList<>();
 
     /**
      * instantiates game from lvl with a computer of level difficulty
@@ -163,6 +164,10 @@ public class Game {
 
     public void update() {
         setScore(getScore() - 1);
+        for (Entity entity : deleteEntityList) {
+            entityList.remove(entity);
+        }
+        deleteEntityList.clear();
         for (Entity entity :  entityList) {
             entity.update();
         }
@@ -189,8 +194,10 @@ public class Game {
 
     public void startTimer() {
         if (timer == null) {
-            timer = new Timeline(new KeyFrame(Duration.millis(2000), e -> update()));
+            timer = new Timeline(new KeyFrame(Duration.millis(200), e -> update()));
             timer.setCycleCount(Timeline.INDEFINITE);
+            timer.play();
+        } else {
             timer.play();
         }
     }
@@ -265,6 +272,14 @@ public class Game {
 
     public void setSeason(SeasonType season) {
         this.season = season;
+    }
+
+    public ArrayList<Entity> getDeleteEntityList() {
+        return deleteEntityList;
+    }
+
+    public void setDeleteEntityList(ArrayList<Entity> deleteEntityList) {
+        this.deleteEntityList = deleteEntityList;
     }
 
 }
