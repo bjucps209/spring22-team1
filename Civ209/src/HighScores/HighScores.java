@@ -1,7 +1,6 @@
 package HighScores;
 
 import java.util.ArrayList;
-import java.io.File;
 
 public class HighScores {
     // An Arraylist holding all of the ScoreEntries.
