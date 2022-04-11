@@ -1,11 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:controller="MainWindow" xmlns:fx="http://javafx.com/fxml"  stylesheets="@MainWindow.css"
-    spacing="10" prefHeight="400" prefWidth="250">
+<VBox fx:id="vbox" alignment="CENTER" spacing="10" stylesheets="@MainWindow.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="MainWindow">
 
-    <Button onAction="#onGreetClicked" text="Greet"  />
-
+    <ImageView><image><Image url="@images/logo.png" /></image></ImageView>
+    <HBox spacing="10">
+        <VBox spacing="10">
+            <Button onAction="#onPlayerCastleClicked" styleClass="playerbutton"><graphic><ImageView><image><Image url="@images/castle.png" /></image></ImageView></graphic></Button>
+            <Label text="Player" styleClass="castlelabel"/>
+            <Button onAction="#onEnemyCastleClicked" styleClass="enemybutton"><graphic><ImageView><image><Image url="@images/castle.png" /></image></ImageView></graphic></Button>
+            <Label text="Enemy" styleClass="castlelabel" />
+            <Button onAction="#onNeutralCastleClicked" styleClass="neutralbutton"><graphic><ImageView><image><Image url="@images/castle.png" /></image></ImageView></graphic></Button>
+            <Label text="Neutral" styleClass="castlelabel"/>
+            <Button onAction="#onDeleteClicked" styleClass="leftbutton"><graphic><ImageView><image><Image url="@images/delete-icon.png" /></image></ImageView></graphic></Button>
+            <Label text="Delete" styleClass="castlelabel"/>
+        </VBox>
+        <Pane fx:id="pane" prefHeight="500" prefWidth="800" style="-fx-background-color: lightgray" />
+        <HBox spacing="10" styleClass="propview">
+            <VBox spacing="10">
+                <Label text="Id:" />
+                <Label text="Position:" />
+                <Label text="Type:" />
+            </VBox>
+            <VBox spacing="10" minWidth="50">
+                <Label fx:id="lblId" text="" />
+                <Label fx:id="lblLoc" text="" />
+                <Label fx:id="lblType" text="" />
+            </VBox>
+        </HBox>
+    </HBox>
+        <HBox spacing="30" > 
+            <!-- <Button text="Summer" onAction="#onSeasonClicked" />
+            <Button text="Fall" onAction="#onSeasonClicked" />
+            <Button text="Winter" onAction="#onSeasonClicked" />
+            <Button text="Spring" onAction="#onSeasonClicked" /> -->
+        </HBox>
 </VBox>

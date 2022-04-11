@@ -13,11 +13,7 @@ public class Entity {
     /**
      * updates image of object. worked by all objects that inherit from entity
      */
-    public void update() {
-        /**
-         * call observer update image position
-         */
-    }
+    public void update() {}
 
     /**
      *  packages an object and writes it in file according to serialization pattern

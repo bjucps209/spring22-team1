@@ -4,23 +4,25 @@
 //-----------------------------------------------------------
 package model;
 
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.IntegerProperty;
+import javafx.util.Duration;
 
 import java.io.*;
 import java.util.*;
 
 public class Game {
     private Timeline timer;
-    private ArrayList<Entity> entityList;
+    private ArrayList<Entity> entityList = new ArrayList<>();
     private String fileName;
     private double gameSpeed;
     private IntegerProperty scoreProperty = new SimpleIntegerProperty();
     private Computer computer;
     private int numPlayerCitiesLeft;
     private SeasonType season;
+    private ArrayList<Entity> deleteEntityList = new ArrayList<>();
 
     /**
      * instantiates game from lvl with a computer of level difficulty
@@ -29,13 +31,30 @@ public class Game {
      * @param lvlName    id of level played to load in from binary file
      */
     public void initialize(Difficulty difficulty, String lvlName) {
-        /**
-         * create Computer of type difficulty
-         * 
-         * load in values of lvlName
-         * 
-         * start Timer
-         */
+        switch (difficulty) {
+            case Easy:
+                this.computer = new EasyComputer();
+                break;
+            case Medium:
+                this.computer = new MediumComputer();
+                break;
+            case Hard:
+                this.computer = new HardComputer();
+                break;
+        }
+        try {
+            load(lvlName);
+        } catch (IOException e) {
+            try {
+                // Removed Civ209
+                // TODO check to make sure this works
+                load("Levels/DemoLevel.dat");
+            } catch (IOException xe) {
+                System.out.println("fatalError! " + xe);
+                System.exit(1);
+            }
+        }
+        startTimer();
     }
 
     /**
@@ -65,27 +84,34 @@ public class Game {
     /**
      * loads in a game under the id lvlName
      * 
-     * @param lvlName id for what to laod in
+     * @param lvlName id for what to load in
      * @throws IOException in case file not there
      */
     public void load(String lvlName) throws IOException {
         try (DataInputStream rd = new DataInputStream(new FileInputStream(lvlName))) {
             if (rd.readUTF().equals("Civilization209")) {
+
                 entityList.clear();
+
                 setScore(rd.readInt());
-                int size = rd.readInt();
                 char s = rd.readChar();
+
                 this.season = s == 'W' ? SeasonType.Winter
                         : s == 'F' ? SeasonType.Fall : s == 'S' ? SeasonType.Summer : SeasonType.Spring;
+                this.numPlayerCitiesLeft = rd.readInt();
 
-                // also need to read in numplayerCitiesLeft and season. Sorry again.
+                this.gameSpeed = rd.readDouble();
+                int size = rd.readInt();
 
                 for (int i = 0; i < size; i++) {
+
                     Entity entity;
                     String entityType = rd.readUTF();
                     Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
                     int turnCount = rd.readInt();
+
                     if (entityType.equals("City")) {
+
                         int population = rd.readInt();
                         IntegerProperty popProperty = new SimpleIntegerProperty(population);
                         double incrementRate = rd.readDouble();
@@ -97,10 +123,10 @@ public class Game {
                         char cityT = rd.readChar();
                         CityType cityType = cityT == 'S' ? CityType.Standard
                                 : cityT == 'F' ? CityType.Fast : CityType.Strong;
-                        // need to read in cityType. sorry.
                         entity = new City(location, turnCount, popProperty, incrementRate, nationality, selected,
                                 fireRate, cityType);
                     } else if (entityType.equals("Troop")) {
+
                         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         double speed = rd.readDouble();
                         double heading = rd.readDouble();
@@ -111,13 +137,17 @@ public class Game {
                                 : nation == 'E' ? Nationality.Enemy : Nationality.Neutral;
                         entity = new Troop(location, turnCount, speed, heading, destination, health, nationality,
                                 selected);
+
                     } else if (entityType.equals("Projectile")) {
+
                         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         double speed = rd.readDouble();
                         double heading = rd.readDouble();
                         int damage = rd.readInt();
                         entity = new Projectile(location, turnCount, speed, heading, destination, damage);
+
                     } else {
+
                         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         double speed = rd.readDouble();
                         double heading = rd.readDouble();
@@ -125,12 +155,23 @@ public class Game {
                         WeatherType weatherType = type == 'L' ? WeatherType.LightningStorm
                                 : type == 'B' ? WeatherType.Blizzard
                                         : type == 'F' ? WeatherType.Flood : WeatherType.Drought;
-
                         entity = new Weather(location, turnCount, speed, heading, destination, weatherType);
+
                     }
                     entityList.add(entity);
                 }
             }
+        }
+    }
+
+    public void update() {
+        setScore(getScore() - 1);
+        for (Entity entity : deleteEntityList) {
+            entityList.remove(entity);
+        }
+        deleteEntityList.clear();
+        for (Entity entity : entityList) {
+            entity.update();
         }
     }
 
@@ -154,15 +195,17 @@ public class Game {
     }
 
     public void startTimer() {
-        /**
-         * timer.start()
-         */
+        if (timer == null) {
+            timer = new Timeline(new KeyFrame(Duration.millis(200), e -> update()));
+            timer.setCycleCount(Timeline.INDEFINITE);
+            timer.play();
+        } else {
+            timer.play();
+        }
     }
 
     public void stopTimer() {
-        /**
-         * timer.stop()
-         */
+        timer.stop();
     }
 
     public Timeline getTimer() {
@@ -231,6 +274,14 @@ public class Game {
 
     public void setSeason(SeasonType season) {
         this.season = season;
+    }
+
+    public ArrayList<Entity> getDeleteEntityList() {
+        return deleteEntityList;
+    }
+
+    public void setDeleteEntityList(ArrayList<Entity> deleteEntityList) {
+        this.deleteEntityList = deleteEntityList;
     }
 
 }

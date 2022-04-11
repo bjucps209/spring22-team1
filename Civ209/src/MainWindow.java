@@ -9,12 +9,13 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class MainWindow {
+
     @FXML
     Label lblGameTitle;
 
 @FXML
     public void initialize() throws IOException {
-        lblGameTitle.setFont(Font.font("Times New Roman", 50)); // https://www.codegrepper.com/code-examples/java/how+to+change+font+in+javafx
+        lblGameTitle.setFont(Font.font("Times New Roman", 40)); // https://www.codegrepper.com/code-examples/java/how+to+change+font+in+javafx
 
     }
 

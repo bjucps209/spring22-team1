@@ -9,5 +9,4 @@
     <Label fx:id="lblScore1" text="Score 2" />
     <Label fx:id="lblScore1" text="Score 3" />
 
-
 </VBox>

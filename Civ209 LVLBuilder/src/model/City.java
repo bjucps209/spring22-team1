@@ -1,20 +1,30 @@
 package model;
 
+import java.util.Random;
+
 public class City {
     private int id;
     private Nationality nationality;
     private int x;
     private int y;
-    private Level level = new Level(); 
+    private CityObserver observer;
+    //private Level level = new Level(); 
 
     private static int nextId;
 
     public City(Nationality nationality) {
+        var rand = new Random();
         this.nationality = nationality;
         this.id = ++nextId;
+        this.x = rand.nextInt(750);
+        this.y = rand.nextInt(450);
     }
 
-    public void updatePosition() {}
+    public void updatePosition() {
+        if (observer != null) {
+            observer.cityMoved(x, y); 
+        }
+    }
 
     public int getId() {
         return id;
@@ -48,11 +58,8 @@ public class City {
         this.y = y;
     } 
 
-    public String toString() {
-        throw new RuntimeException("Method not implemented");
-    }
-
-    public Season getSeason() {
-        return level.getSeason(); 
+    public Object[] getInformation() {
+        Object[] items = {id, x, y, nationality}; 
+        return items; 
     }
 }

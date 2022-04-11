@@ -4,17 +4,17 @@
 <?import javafx.scene.layout.*?>
 
 <VBox fx:controller="MainWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="@MainWindow.css" spacing="10" prefHeight="400" prefWidth="400">
-    
+
     <HBox>
-        <Label fx:id = "lblGameTitle" text = "Civilization 209"></Label>
+        <Label fx:id= "lblGameTitle" text="Civilization 209"></Label>
     </HBox>
+
     <HBox>
         <Button onAction="#onPlayClicked" text="Play" />
-
     </HBox>
+
     <HBox>
-        <Button onAction = "#onScoresClicked" text = "High Scores"/>
+        <Button onAction="#onScoresClicked" text="High Scores" />
     </HBox>
-
 
 </VBox>
