@@ -13,7 +13,9 @@ public class Level {
      * @return the created city
      */
     public City create(Nationality nationality) {
-        throw new RuntimeException("Method not implemented");
+        City city = new City(nationality);  
+        cities.add(city);
+        return city;
     }
 
     /**
@@ -22,7 +24,12 @@ public class Level {
      * @return City with the specified id, or null if no such city is in the list
      */
     public City find(int id) {
-        throw new RuntimeException("Method not implemented");
+        for (City city : cities) {
+            if (city.getId() == id) {
+                return city;
+            }
+        }
+        return null;
     }
 
     /**
@@ -31,7 +38,13 @@ public class Level {
      * @return the destroyed City, or null if no city had the specified id
      */
     public City delete(int id) {
-        throw new RuntimeException("Method not implemented");
+        for (City city : cities) {
+            if (city.getId() == id) {
+                cities.remove(city);
+                return city;
+            }
+        }
+        return null;
     }
 
     public List<City> getCities() {
@@ -45,6 +58,5 @@ public class Level {
     public void setSeason(Season season) {
         this.season = season;
     }
-
     
 }

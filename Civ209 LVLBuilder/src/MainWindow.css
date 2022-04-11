@@ -1,9 +1,67 @@
 .root {
     -fx-padding: 10; /* Add a small padding around the window */
-    -fx-font-family: 'Helvetica', Arial, sans-serif;
 }
 
-/* for Macs */
-.dialog-pane  {
-    -fx-font-family: 'Helvetica', Arial, sans-serif;
+.leftbutton {
+    -fx-padding: 10;
+}
+
+.propview {
+    -fx-padding: 10;
+}
+
+.current {
+    -fx-effect: dropshadow(three-pass-box, rgba(3, 255, 63, 0.6), 10, 0, 0, 0);
+ }
+
+ .playerbutton {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 255, 0.6), 10, 0, 0, 0);
+    -fx-padding: 10;
+ }
+
+ .enemybutton {
+    -fx-effect: dropshadow(three-pass-box, rgba(255,0,0,0.8), 10, 0, 0, 0);
+    -fx-padding: 10;
+ }
+
+ .neutralbutton {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 2, 31, 0.8), 10, 0, 0, 0);
+    -fx-padding: 10;
+ }
+
+ .castlelabel {
+    -fx-font-size: 15;
+    -fx-font-weight: bold; 
+ }
+
+VBox {
+    -fx-alignment: top-center;
+}
+
+HBox {
+    -fx-alignment: center;
+}
+
+.summerbackground {
+    -fx-background-image: url("/images/summer.png");
+    -fx-background-position: center; 
+    -fx-background-size: cover;
+}
+
+.fallbackground {
+    -fx-background-image: url("/images/fall.png");
+    -fx-background-position: center; 
+    -fx-background-size: cover;
+}
+
+.winterbackground {
+    -fx-background-image: url("/images/winter.png");
+    -fx-background-position: center; 
+    -fx-background-size: cover;
+}
+
+.springbackground {
+    -fx-background-image: url("/images/spring.png");
+    -fx-background-position: center; 
+    -fx-background-size: cover;
 }
