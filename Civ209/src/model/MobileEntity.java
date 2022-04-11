@@ -23,9 +23,8 @@ public class MobileEntity extends Entity {
      */
     @Override
     public void update() {
-        /**
-         * update position based on speed and heading
-         */
+        getLocation().setX(getLocation().getX() + speed * Math.cos(heading * Math.PI / 180));
+        getLocation().setY(getLocation().getY() + speed * Math.sin(heading * Math.PI / 180));
         super.update();
     }
 

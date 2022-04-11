@@ -30,6 +30,11 @@ public class Coordinate {
         setX(x);
     }
 
+    public Coordinate(Coordinate coord) {
+        setX(coord.getX());
+        setY(coord.getY());
+    }
+
     public String toString() {
         return "COORDINATE: X is " + getX() + ", and Y is " + getY() + ".";
     }
@@ -54,7 +59,7 @@ public class Coordinate {
      * @param x the x to set
      */
     public void setX(double x) {
-        setX(round(x, 3));
+        xProperty.set(round(x, 3));
 
     }
 
@@ -69,9 +74,16 @@ public class Coordinate {
      * @param y the y to set
      */
     public void setY(double y) {
-        xProperty.set(round(y, 3));
+        yProperty.set(round(y, 3));
     }
 
+    public DoubleProperty xProperty() {
+        return xProperty;
+    }
+
+    public DoubleProperty yProperty() {
+        return yProperty;
+    }
     /**
      * rounds up to number of places passed in
      * @param value the value to round
@@ -89,4 +101,3 @@ public class Coordinate {
     }
 
 }
-// made a change. cause i can
