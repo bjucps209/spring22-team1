@@ -12,6 +12,7 @@ import model.City;
 import model.CityObserver;
 import model.Level;
 import model.Nationality;
+import model.Season;
 
 
 public class MainWindow implements CityObserver {
@@ -110,8 +111,12 @@ public class MainWindow implements CityObserver {
             node.getScene().setCursor(Cursor.MOVE);
         });
         node.setOnMouseDragged(me -> {
-            node.setLayoutX(node.getLayoutX() + me.getX()- dragDelta.x);
-            node.setLayoutY(node.getLayoutY() + me.getY() - dragDelta.y);
+            double x = node.getLayoutX()+ me.getX()- dragDelta.x;
+            double y = node.getLayoutY()+ me.getY()- dragDelta.y;
+            if ( x > 0 && x < 735 && y > 0 && y < 450) {
+                node.setLayoutX(node.getLayoutX() + me.getX()- dragDelta.x);
+                node.setLayoutY(node.getLayoutY() + me.getY() - dragDelta.y);
+            }
         });
         node.setOnMouseReleased(me -> { 
             node.getScene().setCursor(Cursor.HAND);
@@ -145,26 +150,30 @@ public class MainWindow implements CityObserver {
         image.setImage(null);
     }
 
-    // @FXML
-    // void onSeasonClicked(ActionEvent e) {
-    //     Button season = (Button) e.getSource(); 
-    //     if (season.getText().equals("Summer")) {
-    //         showSeason("summerbackground");
-    //     }
-    //     else if (season.getText().equals("Fall")) {
-    //         showSeason("fallbackground");
-    //     }
-    //     else if (season.getText().equals("Winter")) {
-    //         showSeason("winterbackground");
-    //     }
-    //     else {
-    //         showSeason("springbackground");
-    //     }
-    // }
+    @FXML
+    void onSeasonClicked(ActionEvent e) {
+        Button season = (Button) e.getSource(); 
+        if (season.getText().equals("Summer")) {
+            showSeason("/images/tentativesummer.png");
+            level.setSeason(Season.SUMMER);
+        }
+        if (season.getText().equals("Fall")) {
+            showSeason("/images/tentativefall.png");
+            level.setSeason(Season.FALL);
+        }
+        if (season.getText().equals("Winter")) {
+            showSeason("/images/tentativewinter.png");
+            level.setSeason(Season.WINTER);
+        }
+        if (season.getText().equals("Spring")) {
+            showSeason("/images/tentativespring2.png");
+            level.setSeason(Season.SPRING);
+        }
+    }
 
     @FXML
-    public void showSeason(String styleclass) {
-        vbox.getStyleClass().add(styleclass);
+    public void showSeason(String url) {
+        pane.setStyle("-fx-background-image:url(" + url + "); -fx-background-repeat: no-repeat; -fx-background-blend-mode: darken; -fx-background-size: cover; -fx-background-position: center;");
     }
 
 
