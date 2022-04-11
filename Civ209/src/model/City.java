@@ -48,6 +48,43 @@ public class City extends Entity {
      * @param type type of troop to be sending out
      */
     public ArrayList<Troop> sendTroops(double percentage, Coordinate destination, CityType type) {
+
+        
+    // Mr. Moffitt - 
+    // Butchered code, but the timer could be handy.
+    //                 if (selectedCity != null) {
+    //             ArrayList<Troop> troops = selectedCity.sendTroops(50.0, city.getLocation(), selectedCity.getType());
+    //             Timeline troopTimer = new Timeline(new KeyFrame(Duration.millis(200), ex -> {
+    //                 EntityImage circle = new EntityImage(this, mainPane, troops.get((getNextTroopSendIndex())));
+    //                 circle.layoutXProperty().bind(troops.get((getNextTroopSendIndex())).getLocation().xProperty());
+    //                 circle.layoutYProperty().bind(troops.get((getNextTroopSendIndex())).getLocation().yProperty());
+    //                 // circle.setFill(Paint.valueOf("transparent"));
+    //                 // circle.setStroke(Paint.valueOf((troops.get((getNextTroopSendIndex())).getNationality()
+    //                 // == Nationality.Enemy)
+    //                 // ? "red"
+    //                 // : (troops.get((getNextTroopSendIndex())).getNationality() ==
+    //                 // Nationality.Neutral) ? "grey" : "blue"));
+    //                 // circle.setRadius(5);
+    //                 circle.setUserData(troops.get((getNextTroopSendIndex())));
+    //                 troops.get((getNextTroopSendIndex())).setTroopDelete(this::onTroopDelete);
+    //             }));
+    //             troopTimer.setCycleCount(troops.size());
+    //             troopSendIndex = 0;
+    //             troopTimer.play();
+
+    //             game.getEntityList().addAll(troops);
+
+
+
+
+    //                 //TODO Mr. Moffitt I made some code for you... may not be helpful but if you want it take it
+    // private int getNextTroopSendIndex() {
+    //     int current = troopSendIndex;
+    //     troopSendIndex++;
+    //     return current;
+    // }
+
+                
         percentage = percentage / 100;
         int numtroops = (int)(getPopulation() * percentage);
         ArrayList<Troop> troops = new ArrayList<>();

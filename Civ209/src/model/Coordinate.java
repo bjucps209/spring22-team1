@@ -41,6 +41,7 @@ public class Coordinate {
 
     /**
      * returns true if this and c are equal
+     * 
      * @param c coordinate to compare to
      * @return true if coordinates are equal, false otherwise
      */
@@ -84,9 +85,11 @@ public class Coordinate {
     public DoubleProperty yProperty() {
         return yProperty;
     }
+
     /**
      * rounds up to number of places passed in
-     * @param value the value to round
+     * 
+     * @param value  the value to round
      * @param places the number of digits to round to
      * @return the amended value
      */

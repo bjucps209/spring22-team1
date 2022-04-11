@@ -42,11 +42,13 @@ public class Game {
                 this.computer = new HardComputer();
                 break;
         }
-        try{
+        try {
             load(lvlName);
         } catch (IOException e) {
             try {
-                load("Civ209/Levels/DemoLevel.dat");
+                // Removed Civ209
+                // TODO check to make sure this works
+                load("Levels/DemoLevel.dat");
             } catch (IOException xe) {
                 System.out.println("fatalError! " + xe);
                 System.exit(1);
@@ -168,7 +170,7 @@ public class Game {
             entityList.remove(entity);
         }
         deleteEntityList.clear();
-        for (Entity entity :  entityList) {
+        for (Entity entity : entityList) {
             entity.update();
         }
     }

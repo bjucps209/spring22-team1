@@ -27,9 +27,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+
 public class GameWindow {
-    private static final Image cityImage = new Image(
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/BSicon_Castle.svg/32px-BSicon_Castle.svg.png");
+
     @FXML
     VBox mainVbox;
     @FXML
@@ -47,10 +50,11 @@ public class GameWindow {
         for (Entity entity : game.getEntityList()) {
             createEntity(entity);
         }
-        mainVbox.setPrefSize(Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
-                Toolkit.getDefaultToolkit().getScreenSize().getHeight());
-        scoreLabel.setLayoutX(0);
-        scoreLabel.setLayoutY(0);
+        // We'll have to set this to the required resolultion
+        mainVbox.setPrefSize(Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 100,
+                Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 100);
+        scoreLabel.setLayoutX(15);
+        scoreLabel.setLayoutY(15);
         scoreLabel.textProperty().bind(SimpleStringProperty.stringExpression(game.scoreProperty()));
         mainPane.getChildren().add(scoreLabel);
         mainVbox.getChildren().add(mainPane);
@@ -58,26 +62,7 @@ public class GameWindow {
 
     @FXML
     public void createEntity(Entity entity) {
-        if (entity instanceof City) {
-            City cityEntity = (City) entity;
-            Coordinate cityLocation = cityEntity.getLocation();
-            ImageView image = new ImageView(cityImage);
-            SimpleDoubleProperty cityX = new SimpleDoubleProperty();
-            SimpleDoubleProperty cityY = new SimpleDoubleProperty();
-            cityX.bind(cityLocation.xProperty());
-            cityY.bind(cityLocation.yProperty());
-            image.setLayoutX(cityX.get() - cityImage.getWidth() / 2);
-            image.setLayoutY(cityY.get() - cityImage.getHeight() / 2);
-            Circle cityCircle = new Circle(cityX.get(), cityY.get(), 30, Paint.valueOf("transparent"));
-            cityCircle.setStroke(Paint.valueOf((cityEntity.getNationality() == Nationality.Enemy) ? "red"
-                    : (cityEntity.getNationality() == Nationality.Player) ? "blue" : "grey"));
-            cityCircle.setOnMouseClicked(e -> onSelected(cityCircle, e, cityEntity));
-            Label cityPop = new Label();
-            cityPop.textProperty().bind(cityEntity.populationProperty().asString());
-            cityPop.setLayoutX(cityX.get() - cityImage.getWidth() / 1.5);
-            cityPop.setLayoutY(cityY.get() - cityImage.getHeight() / 1.5);
-            mainPane.getChildren().addAll(List.of(image, cityPop, cityCircle));
-        }
+        new EntityImage(this, mainPane, entity);
     }
 
     public void onSelected(Circle node, MouseEvent e, City city) {
@@ -95,28 +80,34 @@ public class GameWindow {
             city.setSelected(true);
             selectedCity = city;
             node.getStyleClass().add("selected");
+
         } else if (e.getButton() == MouseButton.SECONDARY) { // if right click
             if (selectedCity != null) {
                 ArrayList<Troop> troops = selectedCity.sendTroops(50.0, city.getLocation(), selectedCity.getType());
                 for (Troop troop : troops) {
-                    Circle circle = new Circle();
+                    EntityImage circle = new EntityImage(this, mainPane, troop);
                     circle.layoutXProperty().bind(troop.getLocation().xProperty());
                     circle.layoutYProperty().bind(troop.getLocation().yProperty());
-                    circle.setFill(Paint.valueOf("transparent"));
-                    circle.setStroke(Paint.valueOf((troop.getNationality() == Nationality.Enemy) ? "red"
-                            : (troop.getNationality() == Nationality.Neutral) ? "grey" : "blue"));
-                    circle.setRadius(5);
                     circle.setUserData(troop);
-                    mainPane.getChildren().add(circle);
                     troop.setTroopDelete(this::onTroopDelete);
+
                 }
+
                 game.getEntityList().addAll(troops);
             }
         }
     }
 
+    public void troopCreate(Troop troop) {
+
+    }
+
+    public void onTroopSelected(MouseEvent e, Troop troop) {
+
+    }
+
     public void onTroopDelete(Troop troop) {
-        for (Node node: mainPane.getChildren()) {
+        for (Node node : mainPane.getChildren()) {
             if (node.getUserData() == troop) {
                 mainPane.getChildren().remove(node);
                 break;
@@ -124,4 +115,5 @@ public class GameWindow {
         }
         game.getDeleteEntityList().add(troop);
     }
+
 }
