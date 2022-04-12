@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<!-- change the fx controller to fix recursion-->
+<VBox fx:controller="MainWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="@MainWindow.css" spacing="10" prefHeight="500" prefWidth="500">
+    <Label text = "High Scores"/>
+    <Label fx:id="lblScore1" text="Score 1" />
+    <Label fx:id="lblScore1" text="Score 2" />
+    <Label fx:id="lblScore1" text="Score 3" />
+
+</VBox>

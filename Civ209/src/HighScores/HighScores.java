@@ -1,28 +1,22 @@
 package HighScores;
 
 import java.util.ArrayList;
-import java.io.File;
 
 public class HighScores {
     // An Arraylist holding all of the ScoreEntries.
     ArrayList<ScoreEntry> scoreList = new ArrayList<ScoreEntry>();
 
     public ArrayList<ScoreEntry> getScoreList() {
-        throw new RuntimeException("Not implemented");
+        return scoreList;
 
-        // return scoreList;
     }
 
     public void setScoreList(ArrayList<ScoreEntry> scoreList) {
-        throw new RuntimeException("Not implemented");
-
-        // this.scoreList = scoreList;
+        this.scoreList = scoreList;
     }
 
     public void addScoreList(ScoreEntry score) {
-        throw new RuntimeException("Not implemented");
-
-        // scoreList.add(score);
+        scoreList.add(score);
     }
 
     /**

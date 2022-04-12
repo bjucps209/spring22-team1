@@ -3,6 +3,9 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class Level {
     private List<City> cities = new ArrayList<City>(); 
     private Season season; 
@@ -13,7 +16,11 @@ public class Level {
      * @return the created city
      */
     public City create(Nationality nationality) {
-        City city = new City(nationality);  
+        Coordinate location = new Coordinate();
+        IntegerProperty intprop = new SimpleIntegerProperty(10); 
+        intprop.setValue(20);
+        City city = new City(location, 0, intprop , 0.0, nationality,
+        false, 0.0, CityType.Standard);  
         cities.add(city);
         return city;
     }
@@ -40,7 +47,7 @@ public class Level {
     public City delete(int id) {
         for (City city : cities) {
             if (city.getId() == id) {
-                cities.remove(city);
+                cities.remove(city); 
                 return city;
             }
         }

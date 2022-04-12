@@ -16,7 +16,7 @@ public class LevelDataTests {
         LevelData d = new LevelData();
         Level l = new Level();
         l.setSeason(Season.WINTER);
-        City city = l.create(Nationality.ENEMY);
+        City city = l.create(Nationality.Enemy);
         city.setId(0);
         city.setX(32);
         city.setY(20);
@@ -28,7 +28,7 @@ public class LevelDataTests {
         assertEquals(0, loadedcity.getId());
         assertEquals(32, loadedcity.getX());
         assertEquals(20, loadedcity.getY());
-        assertEquals(Nationality.ENEMY, loadedcity.getNationality());
+        assertEquals(Nationality.Enemy, loadedcity.getNationality());
         assertEquals(Season.WINTER, loadedlevel.getSeason()); 
         
     }

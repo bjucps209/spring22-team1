@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 <VBox fx:id="vbox" alignment="CENTER" spacing="10" stylesheets="@MainWindow.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="MainWindow">
-
+    <Label text="Civilization 209 Level Designer" styleClass="title" />
     <ImageView><image><Image url="@images/logo.png" /></image></ImageView>
     <HBox spacing="10">
         <VBox spacing="10">
@@ -33,9 +33,9 @@
         </HBox>
     </HBox>
         <HBox spacing="30" > 
-            <!-- <Button text="Summer" onAction="#onSeasonClicked" />
+            <Button text="Summer" onAction="#onSeasonClicked" />
             <Button text="Fall" onAction="#onSeasonClicked" />
             <Button text="Winter" onAction="#onSeasonClicked" />
-            <Button text="Spring" onAction="#onSeasonClicked" /> -->
+            <Button text="Spring" onAction="#onSeasonClicked" />
         </HBox>
 </VBox>
