@@ -18,7 +18,7 @@
             <Button onAction="#onDeleteClicked" styleClass="leftbutton"><graphic><ImageView><image><Image url="@images/delete-icon.png" /></image></ImageView></graphic></Button>
             <Label text="Delete" styleClass="castlelabel"/>
         </VBox>
-        <Pane fx:id="pane" prefHeight="500" prefWidth="800" style="-fx-background-color: lightgray" />
+        <Pane fx:id="pane" prefHeight="525" prefWidth="1025" style="-fx-background-color: lightgray" />
         <HBox spacing="10" styleClass="propview">
             <VBox spacing="10">
                 <Label text="Id:" />

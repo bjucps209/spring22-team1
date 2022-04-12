@@ -117,7 +117,7 @@ public class MainWindow implements CityObserver {
         node.setOnMouseDragged(me -> {
             double x = node.getLayoutX()+ me.getX()- dragDelta.x;
             double y = node.getLayoutY()+ me.getY()- dragDelta.y;
-            if ( x > 0 && x < 735 && y > 0 && y < 450) {
+            if ( x > -1 && x < 960 && y > -1 && y < 475) {
                 node.setLayoutX(node.getLayoutX() + me.getX()- dragDelta.x);
                 node.setLayoutY(node.getLayoutY() + me.getY() - dragDelta.y);
                 cityMoved((int) node.getLayoutX(), (int) node.getLayoutY()); 
