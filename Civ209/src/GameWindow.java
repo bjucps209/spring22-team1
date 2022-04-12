@@ -1,35 +1,24 @@
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-import javafx.util.converter.IntegerStringConverter;
 import model.City;
+import model.Constants;
 import model.Coordinate;
+import model.DestinationType;
 import model.Difficulty;
 import model.Entity;
 import model.Game;
-import model.Nationality;
 import model.Troop;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
-
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
 
 public class GameWindow {
 
@@ -48,7 +37,7 @@ public class GameWindow {
         game = new Game();
         game.initialize(Difficulty.Easy, "");
         for (Entity entity : game.getEntityList()) {
-            createEntity(entity);
+            new EntityImage(this, mainPane, entity);
         }
         // We'll have to set this to the required resolultion
         mainVbox.setPrefSize(Toolkit.getDefaultToolkit().getScreenSize().getWidth() - 100,
@@ -58,11 +47,7 @@ public class GameWindow {
         scoreLabel.textProperty().bind(SimpleStringProperty.stringExpression(game.scoreProperty()));
         mainPane.getChildren().add(scoreLabel);
         mainVbox.getChildren().add(mainPane);
-    }
-
-    @FXML
-    public void createEntity(Entity entity) {
-        new EntityImage(this, mainPane, entity);
+        mainPane.setOnMouseClicked(e -> deployTroops(e));
     }
 
     public void onSelected(Circle node, MouseEvent e, City city) {
@@ -82,24 +67,58 @@ public class GameWindow {
             node.getStyleClass().add("selected");
 
         } else if (e.getButton() == MouseButton.SECONDARY) { // if right click
-            if (selectedCity != null) {
-                ArrayList<Troop> troops = selectedCity.sendTroops(50.0, city.getLocation(), selectedCity.getType());
+            if (selectedCity != null && selectedCity != city) {
+                ArrayList<Troop> troops = selectedCity.sendTroops(50.0, city.getLocation(), selectedCity.getType(),
+                        DestinationType.City);
                 for (Troop troop : troops) {
                     EntityImage circle = new EntityImage(this, mainPane, troop);
-                    circle.layoutXProperty().bind(troop.getLocation().xProperty());
-                    circle.layoutYProperty().bind(troop.getLocation().yProperty());
+                    circle.setDestination(city);
                     circle.setUserData(troop);
                     troop.setTroopDelete(this::onTroopDelete);
-
                 }
-
                 game.getEntityList().addAll(troops);
             }
         }
     }
 
-    public void troopCreate(Troop troop) {
+    public void deployTroops(MouseEvent e) {
+        boolean pointInCircle = false;
+        for (Entity entity : game.getEntityList()) {
+            if (entity instanceof City) {
+                City cityEntity = (City) entity;
+                if (Math.pow(e.getX() - cityEntity.getLocation().getX(), 2) + Math
+                        .pow(e.getY() - cityEntity.getLocation().getY(), 2) <= Math.pow(Constants.cityRadius, 2)) {
+                    pointInCircle = true;
+                    break;
+                }
+            }
+        }
+        if (pointInCircle != true && selectedCity != null && e.getButton() == MouseButton.SECONDARY) {
+            Coordinate destination = new Coordinate(e.getX(), e.getY());
+            ArrayList<Troop> troops = selectedCity.sendTroops(50.0, destination, selectedCity.getType(), DestinationType.Coordiante);
+            int numTroops = troops.size() - 1;
+            int ring = 1;
+            while (numTroops != 0) {
+                for (int i = 0; i < ring * 6; i++) {
+                    if (numTroops == 0) {
+                        break;
+                    } else {
+                        numTroops--;
+                        Troop troop = troops.get(numTroops);
+                        double changeInHeading = Math.toRadians((360 / (ring * 6)) * i);
+                        troop.setDestination(new Coordinate(destination.getX() + (ring * 20) * Math.cos(changeInHeading), destination.getY() + (ring * 20) * Math.sin(changeInHeading)));
+                        troop.setHeading(selectedCity.figureHeading(troop.getDestination()));
+                    }
+                }
+                ring++;
+            }
 
+            for (Troop troop : troops) {
+                EntityImage circle = new EntityImage(this, mainPane, troop);
+                circle.setUserData(troop);
+            }
+            game.getEntityList().addAll(troops);
+        }
     }
 
     public void onTroopSelected(MouseEvent e, Troop troop) {
