@@ -15,6 +15,8 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class City extends Entity{
     private IntegerProperty populationProperty = new SimpleIntegerProperty();
+    // private IntegerProperty xProperty = new SimpleIntegerProperty(); 
+    // private IntegerProperty yProperty = new SimpleIntegerProperty(); 
     private double incrementRate;
     private Nationality nationality;
     private boolean selected = false;
@@ -38,6 +40,8 @@ public class City extends Entity{
         this.type = type;
         this.id = ++nextId;
         var rand = new Random();
+        // this.xProperty.set(rand.nextInt(750));
+        // this.yProperty.set(rand.nextInt(450));
         this.x = rand.nextInt(750);
         this.y = rand.nextInt(450);
     }
@@ -180,15 +184,18 @@ public class City extends Entity{
     }
 
     public int getX() {
+        //return xProperty.get();
         return x;
     }
 
     public void setX(int x) {
+        //this.xProperty.set(x);
         this.x = x;
     }
 
     public int getY() {
-        return y;
+       // return yProperty.get();
+       return y;
     }
 
     public void setY(int y) {
