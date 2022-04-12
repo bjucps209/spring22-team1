@@ -47,7 +47,7 @@ public class City extends Entity {
      * @param destination destination of the generated troops
      * @param type type of troop to be sending out
      */
-    public ArrayList<Troop> sendTroops(double percentage, Coordinate destination, CityType type) {
+    public ArrayList<Troop> sendTroops(double percentage, Coordinate destination, CityType type, DestinationType destinationType) {
 
         
     // Mr. Moffitt - 
@@ -89,23 +89,26 @@ public class City extends Entity {
         int numtroops = (int)(getPopulation() * percentage);
         ArrayList<Troop> troops = new ArrayList<>();
         for (int i = 0; i < numtroops; i++) {
-            double heading;
-            if (destination.getX() - getLocation().getX() != 0) {
-                if (destination.getX() - getLocation().getX() < 0) {
-                    heading = 180 + (Math.toDegrees(Math.atan((getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
-                } else {
-                    heading = (Math.toDegrees(Math.atan((getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
-                }
-            } else {
-                heading = 0.0;
-            }
-            Troop troop = new Troop(new Coordinate(getLocation()), getTurnCount(), (type == CityType.Fast) ? 7 : 5, heading, destination, (type == CityType.Strong)? 2 : 1, nationality, false);
-            troop.getLocation().setX(troop.getLocation().getX() + 35 * Math.cos(heading * Math.PI / 180));
-            troop.getLocation().setY(troop.getLocation().getY() + 35 * Math.sin(heading * Math.PI / 180));
+            double heading = figureHeading(destination);
+            Troop troop = new Troop(new Coordinate(getLocation()), getTurnCount(), (type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed, heading, destination, (type == CityType.Strong)? Constants.stronTroopHealth : Constants.standardTroopHealth, nationality, false, destinationType);
+            // troop.getLocation().setX(troop.getLocation().getX() + Constants.cityRadius * Math.cos(heading * Math.PI / 180));
+            // troop.getLocation().setY(troop.getLocation().getY() + Constants.cityRadius * Math.sin(heading * Math.PI / 180));
             troops.add(troop);
         }
         setPopulation(getPopulation() - numtroops);
         return troops;
+    }
+    
+    public double figureHeading(Coordinate destination) {
+        if (destination.getX() - getLocation().getX() != 0) {
+            if (destination.getX() - getLocation().getX() < 0) {
+                return 180 + (Math.toDegrees(Math.atan((getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
+            } else {
+                return (Math.toDegrees(Math.atan((getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
+            }
+        } else {
+            return 0.0;
+        }
     }
 
     /**
