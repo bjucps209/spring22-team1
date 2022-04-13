@@ -48,7 +48,7 @@ public class Game {
             try {
                 // Removed Civ209
                 // TODO check to make sure this works
-                load("Levels/DemoLevel.dat");
+                load("Civ209/Levels/DemoLevel.dat");
             } catch (IOException xe) {
                 System.out.println("fatalError! " + xe);
                 System.exit(1);
@@ -135,8 +135,14 @@ public class Game {
                         Boolean selected = rd.readBoolean();
                         Nationality nationality = nation == 'P' ? Nationality.Player
                                 : nation == 'E' ? Nationality.Enemy : Nationality.Neutral;
+                        char dChar = rd.readChar();
+                        DestinationType destinationType = dChar == 'C' ? DestinationType.City
+                                : DestinationType.Coordiante;
+                        char tChar = rd.readChar();
+                        CityType troopType = tChar == 'S' ? CityType.Standard
+                                : tChar == 'F' ? CityType.Fast : CityType.Strong;
                         entity = new Troop(location, turnCount, speed, heading, destination, health, nationality,
-                                selected);
+                                selected, destinationType, troopType);
 
                     } else if (entityType.equals("Projectile")) {
 

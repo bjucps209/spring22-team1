@@ -3,9 +3,12 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class Level {
-    private List<City> cities = new ArrayList<City>(); 
-    private Season season; 
+    private List<Entity> cities = new ArrayList<Entity>(); 
+    private SeasonType season; 
 
     /**
      * Creates a subclass of City and adds it to the list of cities
@@ -13,7 +16,11 @@ public class Level {
      * @return the created city
      */
     public City create(Nationality nationality) {
-        City city = new City(nationality);  
+        Coordinate location = new Coordinate();
+        IntegerProperty intprop = new SimpleIntegerProperty(10); 
+        intprop.setValue(0);
+        City city = new City(location, 0, intprop , 0.0, nationality,
+        false, 0.0, CityType.Standard);  
         cities.add(city);
         return city;
     }
@@ -24,7 +31,8 @@ public class Level {
      * @return City with the specified id, or null if no such city is in the list
      */
     public City find(int id) {
-        for (City city : cities) {
+        for (Entity entity : cities) {
+            City city = (City) entity; 
             if (city.getId() == id) {
                 return city;
             }
@@ -38,25 +46,30 @@ public class Level {
      * @return the destroyed City, or null if no city had the specified id
      */
     public City delete(int id) {
-        for (City city : cities) {
+        for (Entity entity : cities) {
+            City city = (City) entity;
             if (city.getId() == id) {
-                cities.remove(city);
+                cities.remove(city); 
                 return city;
             }
         }
         return null;
     }
 
-    public List<City> getCities() {
+    public List<Entity> getCities() {
         return cities;
     }
 
-    public Season getSeason() {
+    public SeasonType getSeason() {
         return season;
     }
 
-    public void setSeason(Season season) {
+    public void setSeason(SeasonType season) {
         this.season = season;
+    }
+
+    public void add(City entity) {
+        cities.add(entity);
     }
     
 }

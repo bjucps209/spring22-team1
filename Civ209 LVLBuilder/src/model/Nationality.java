@@ -1,7 +1,11 @@
+//-----------------------------------------------------------
+//File:   Nationality.java
+//Desc:   This program structures the allowed types of nationality for entities
+//-----------------------------------------------------------
 package model;
 
 public enum Nationality {
-    PLAYER,
-    ENEMY,
-    NEUTRAL 
+    Player,
+    Neutral,
+    Enemy
 }

@@ -10,17 +10,10 @@ import model.*;
 
 public class EntityImage extends ImageView {
     private Entity entity;
-
-    private static final Image cityImage = new Image(
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/BSicon_Castle.svg/32px-BSicon_Castle.svg.png");
-
-    private static final Image playerImage = new Image("playerTroop.png");
-
-    private static final Image enemyImage = new Image("enemyTroop.png");
+    private Entity destination = null;
 
     // private static final Image projectileImage = null;
 
-    private static final Image blizzardImage = new Image("https://commons.wikimedia.org/wiki/File:Snowstorm.svg.png");
 
     // private static final Image droughtImage = null;
 
@@ -37,37 +30,31 @@ public class EntityImage extends ImageView {
 
         if (entity instanceof City) {
             City cityEntity = (City) entity;
-            this.setImage(cityImage);
+            this.entity = cityEntity;
+            this.setImage(Constants.cityImage);
             Coordinate cityLocation = cityEntity.getLocation();
-            SimpleDoubleProperty cityX = new SimpleDoubleProperty();
-            SimpleDoubleProperty cityY = new SimpleDoubleProperty();
-            cityX.bind(cityLocation.xProperty());
-            cityY.bind(cityLocation.yProperty());
-            this.setLayoutX(cityX.get() - cityImage.getWidth() / 2);
-            this.setLayoutY(cityY.get() - cityImage.getHeight() / 2);
-            Circle cityCircle = new Circle(cityX.get(), cityY.get(), 30, Paint.valueOf("transparent"));
+            this.setLayoutX(cityLocation.getX() - Constants.cityImage.getWidth() / 2);
+            this.setLayoutY(cityLocation.getY() - Constants.cityImage.getHeight() / 2);
+            Circle cityCircle = new Circle(cityLocation.getX(), cityLocation.getY(), Constants.cityRadius, Paint.valueOf("transparent"));
             cityCircle.setStroke(Paint.valueOf((cityEntity.getNationality() == Nationality.Enemy) ? "red"
                     : (cityEntity.getNationality() == Nationality.Player) ? "blue" : "grey"));
             cityCircle.setOnMouseClicked(e -> parent.onSelected(cityCircle, e, cityEntity));
             Label cityPop = new Label();
             cityPop.textProperty().bind(cityEntity.populationProperty().asString());
-            cityPop.setLayoutX(cityX.get() - cityImage.getWidth() / 1.5);
-            cityPop.setLayoutY(cityY.get() - cityImage.getHeight() / 1.5);
+            cityPop.setLayoutX(cityLocation.getX() - Constants.cityImage.getWidth() / 1.5);
+            cityPop.setLayoutY(cityLocation.getY() - Constants.cityImage.getHeight() / 1.5);
             pane.getChildren().addAll(List.of(this, cityPop, cityCircle));
 
         } else if (entity instanceof Troop) {
             Troop troopEntity = (Troop) entity;
+            this.entity = troopEntity;
             Coordinate troopLocation = troopEntity.getLocation();
-            SimpleDoubleProperty troopX = new SimpleDoubleProperty();
-            SimpleDoubleProperty troopY = new SimpleDoubleProperty();
-            troopX.bind(troopLocation.xProperty());
-            troopY.bind(troopLocation.yProperty());
-            Image troopImage = troopEntity.getNationality() == Nationality.Enemy ? enemyImage : playerImage;
+            Image troopImage = troopEntity.getNationality() == Nationality.Enemy ? Constants.enemyImage : Constants.playerImage;
             this.setImage(troopImage);
-            this.setFitWidth(15);
-            this.setFitHeight(15);
-            this.setLayoutX(troopX.get() - troopImage.getWidth() / 2);
-            this.setLayoutY(troopY.get() - troopImage.getHeight() / 2);
+            this.setFitWidth(Constants.troopRadius * 2);
+            this.setFitHeight(Constants.troopRadius * 2);
+            this.layoutXProperty().bind(troopLocation.xProperty().subtract(this.getFitWidth() / 2));
+            this.layoutYProperty().bind(troopLocation.yProperty().subtract(this.getFitHeight() / 2));
             this.setOnMouseClicked(e -> parent.onTroopSelected(e, troopEntity));
             pane.getChildren().add(this);
         }
@@ -101,10 +88,26 @@ public class EntityImage extends ImageView {
     }
 
     /**
-     * Method updates the location of the Critter based off of the model.
+     * Method updates the location of the Entity based off of the model.
      */
     public void update() {
         setLayoutX(entity.getLocation().getX());
         setLayoutY(entity.getLocation().getY());
+    }
+
+    public Entity getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Entity destination) {
+        this.destination = destination;
+    }
+
+    public Entity getEntity() {
+        return entity;
+    }
+
+    public void setEntity(Entity entity) {
+        this.entity = entity;
     }
 }

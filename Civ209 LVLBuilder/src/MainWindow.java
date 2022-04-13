@@ -10,9 +10,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import model.City;
 import model.CityObserver;
+import model.CityType;
 import model.Level;
 import model.Nationality;
-import model.Season;
+import model.SeasonType;
 
 
 public class MainWindow implements CityObserver {
@@ -35,8 +36,8 @@ public class MainWindow implements CityObserver {
     */
     @FXML
     void onPlayerCastleClicked(ActionEvent e) {
-        currentCity = level.create(Nationality.PLAYER);  
-        City city = level.getCities().get(id);
+        City city = level.create(Nationality.Player);  
+        //City city = (City) level.getCities().get(id);
         id++; 
         showCity(city, "playerbutton"); 
     }
@@ -47,8 +48,8 @@ public class MainWindow implements CityObserver {
     */
     @FXML
     void onEnemyCastleClicked(ActionEvent e) {
-        currentCity = level.create(Nationality.PLAYER);  
-        City city = level.getCities().get(id);
+        City city = level.create(Nationality.Enemy);  
+        //City city = (City) level.getCities().get(id);
         id++; 
         showCity(city, "enemybutton"); 
     }
@@ -58,8 +59,8 @@ public class MainWindow implements CityObserver {
     */
     @FXML
     void onNeutralCastleClicked(ActionEvent e) {
-        currentCity = level.create(Nationality.PLAYER);  
-        City city = level.getCities().get(id);
+        City city = level.create(Nationality.Neutral);  
+        //City city = (City) level.getCities().get(id);
         id++; 
         showCity(city, "neutralbutton"); 
 
@@ -67,7 +68,7 @@ public class MainWindow implements CityObserver {
     
     /**
      * displays the image of a city using the city and styleclass
-      * @param critter, styleclass - the city to show and the styleclass
+      * @param city, styleclass - the city to show and the styleclass
      */ 
     void showCity(City city, String styleclass) {
         ImageView image = new ImageView("images/castle.png"); 
@@ -76,25 +77,28 @@ public class MainWindow implements CityObserver {
         image.setId(Integer.toString(city.getId())); 
         image.getStyleClass().add(styleclass);
         image.setOnMouseClicked(this::onCityClicked);
-        pane.getChildren().add(image);    
+        pane.getChildren().add(image);  
+        this.currentCity = level.find(Integer.parseInt(image.getId())); 
+        display();  
+        makeDraggable(image);
     }
 
     /**
-    * puts a red highlight on the selected critter
     * makes the selected image draggable 
     */
     @FXML
     void onCityClicked(MouseEvent e) {
-        if (currentImage != null) {
-            lastImage = currentImage; 
-            lastImage.getStyleClass().remove("current"); 
-        }
+        // if (currentImage != null) {
+        //     lastImage = currentImage; 
+        //     lastImage.getStyleClass().remove("current"); 
+        // }
         currentImage = (ImageView) e.getSource();
-        currentImage.getStyleClass().add("current");
-        currentCity = level.find(Integer.parseInt(currentImage.getId())); 
-        display();
+        //currentImage.getStyleClass().add("current");
+        this.currentCity = level.find(Integer.parseInt(currentImage.getId())); 
+        // display();
         
-        makeDraggable(currentImage);
+        // makeDraggable(currentImage);
+        
     }
 
 
@@ -103,7 +107,7 @@ public class MainWindow implements CityObserver {
     public void makeDraggable(Node node) {
         final Delta dragDelta = new Delta();
 
-        node.setOnMouseEntered(me -> node.getScene().setCursor(Cursor.HAND) );
+        node.setOnMouseEntered(me -> node.getScene().setCursor(Cursor.HAND));
         node.setOnMouseExited(me -> node.getScene().setCursor(Cursor.DEFAULT) );
         node.setOnMousePressed(me -> {
             dragDelta.x = me.getX();
@@ -113,9 +117,11 @@ public class MainWindow implements CityObserver {
         node.setOnMouseDragged(me -> {
             double x = node.getLayoutX()+ me.getX()- dragDelta.x;
             double y = node.getLayoutY()+ me.getY()- dragDelta.y;
-            if ( x > 0 && x < 735 && y > 0 && y < 450) {
+            if ( x > -1 && x < 960 && y > -1 && y < 475) {
                 node.setLayoutX(node.getLayoutX() + me.getX()- dragDelta.x);
                 node.setLayoutY(node.getLayoutY() + me.getY() - dragDelta.y);
+                cityMoved((int) node.getLayoutX(), (int) node.getLayoutY()); 
+                display(); 
             }
         });
         node.setOnMouseReleased(me -> { 
@@ -123,12 +129,10 @@ public class MainWindow implements CityObserver {
 
             currentCity.setX((int) node.getLayoutX()); 
             currentCity.setY((int) node.getLayoutY());
-            cityMoved((int) node.getLayoutX(), (int) node.getLayoutY());
-         } );
+            cityMoved((int) node.getLayoutX(), (int) node.getLayoutY()); 
+            display(); 
 
-        // Prevent mouse clicks on img from propagating to the pane and
-        // resulting in creation of a new image
-        node.setOnMouseClicked(me -> me.consume());
+         } );
     }
 
     private class Delta {
@@ -137,13 +141,14 @@ public class MainWindow implements CityObserver {
     }
 
     /**
-    * deletes a critter and resets the labels
+    * deletes a city and resets the labels
     */
     @FXML 
     void onDeleteClicked(ActionEvent e) {
         int id = currentCity.getId(); 
-        ImageView image = (ImageView) pane.getChildren().get(id - 1); 
+        ImageView image = (ImageView) pane.getChildren().get(id - 1);
         level.delete(id); 
+        this.id -= 1;
         lblId.setText(""); 
         lblLoc.setText("");
         lblType.setText("");
@@ -155,19 +160,19 @@ public class MainWindow implements CityObserver {
         Button season = (Button) e.getSource(); 
         if (season.getText().equals("Summer")) {
             showSeason("/images/tentativesummer.png");
-            level.setSeason(Season.SUMMER);
+            level.setSeason(SeasonType.Summer);
         }
         if (season.getText().equals("Fall")) {
             showSeason("/images/tentativefall.png");
-            level.setSeason(Season.FALL);
+            level.setSeason(SeasonType.Fall);
         }
         if (season.getText().equals("Winter")) {
             showSeason("/images/tentativewinter.png");
-            level.setSeason(Season.WINTER);
+            level.setSeason(SeasonType.Winter);
         }
         if (season.getText().equals("Spring")) {
             showSeason("/images/tentativespring2.png");
-            level.setSeason(Season.SPRING);
+            level.setSeason(SeasonType.Spring);
         }
     }
 
@@ -181,22 +186,15 @@ public class MainWindow implements CityObserver {
         lblLoc.setText("(" +  x + ","+ y + ")"); 
     }
 
+
     /**
     * updates all of the labels 
     */
     public void display() {
         if (currentCity != null) {
-            Object[] info = currentCity.getInformation();
-            lblId.setText(Integer.toString((int) info[0]));
-            cityMoved((int) info[1], (int) info[2]);
-            if (info[3] == Nationality.ENEMY) {
-                lblType.setText("Enemy");
-            }
-            else if (info[3] == Nationality.PLAYER) {
-                lblType.setText("Player");
-            } else {
-                lblType.setText("Neutral");
-            }
+            cityMoved(currentCity.getX(), currentCity.getY());
+            lblType.setText("" + currentCity.getNationality());
+            lblId.setText("" + currentCity.getId());
         }
     }
 }
