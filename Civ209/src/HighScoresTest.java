@@ -1,12 +1,12 @@
-package tests;
+
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import HighScores.*;
 
 public class HighScoresTest {
 

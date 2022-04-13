@@ -1,31 +1,27 @@
-package HighScores;
+
 
 public class ScoreEntry {
     private String playerName; // the player's name
     private int playerScore; // the player's score
 
     public int getPlayerScore() {
-        throw new RuntimeException("Not implemented");
 
-        // return playerScore;
+        return playerScore;
     }
 
     public String getPlayerName() {
-        throw new RuntimeException("Not implemented");
 
-        // return playerName;
+        return playerName;
     }
 
     public void setPlayerName(String playerName) {
-        throw new RuntimeException("Not implemented");
 
-        // this.playerName = playerName;
+        this.playerName = playerName;
     }
 
     public void setPlayerScore(int playerScore) {
-        throw new RuntimeException("Not implemented");
 
-        // this.playerScore = playerScore;
+        this.playerScore = playerScore;
     }
 
     /**
