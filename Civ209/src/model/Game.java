@@ -137,8 +137,11 @@ public class Game {
                                 : nation == 'E' ? Nationality.Enemy : Nationality.Neutral;
                         char dChar = rd.readChar();
                         DestinationType destinationType = dChar == 'C' ? DestinationType.City : DestinationType.Coordiante;
+                        char tChar = rd.readChar();
+                        CityType troopType = tChar == 'S' ? CityType.Standard
+                        : tChar == 'F' ? CityType.Fast : CityType.Strong;
                         entity = new Troop(location, turnCount, speed, heading, destination, health, nationality,
-                                selected, destinationType);
+                                selected, destinationType, troopType);
 
                     } else if (entityType.equals("Projectile")) {
 

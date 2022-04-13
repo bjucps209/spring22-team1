@@ -108,11 +108,10 @@ public class City extends Entity {
         ArrayList<Troop> troops = new ArrayList<>();
         for (int i = 0; i < numtroops; i++) {
             double heading = figureHeading(destination);
-            Troop troop = new Troop(new Coordinate(getLocation()), getTurnCount(), (type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed, heading, destination, (type == CityType.Strong)? Constants.stronTroopHealth : Constants.standardTroopHealth, nationality, false, destinationType);
-            // troop.getLocation().setX(troop.getLocation().getX() + Constants.cityRadius * Math.cos(heading * Math.PI / 180));
-            // troop.getLocation().setY(troop.getLocation().getY() + Constants.cityRadius * Math.sin(heading * Math.PI / 180));
+            Troop troop = new Troop(new Coordinate(getLocation()), getTurnCount(), (type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed, heading, destination, (type == CityType.Strong)? Constants.stronTroopHealth : Constants.standardTroopHealth, nationality, false, destinationType, type);
             troops.add(troop);
         }
+
         setPopulation(getPopulation() - numtroops);
         return troops;
     }
