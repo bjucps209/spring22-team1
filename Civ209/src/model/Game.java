@@ -136,10 +136,11 @@ public class Game {
                         Nationality nationality = nation == 'P' ? Nationality.Player
                                 : nation == 'E' ? Nationality.Enemy : Nationality.Neutral;
                         char dChar = rd.readChar();
-                        DestinationType destinationType = dChar == 'C' ? DestinationType.City : DestinationType.Coordiante;
+                        DestinationType destinationType = dChar == 'C' ? DestinationType.City
+                                : DestinationType.Coordiante;
                         char tChar = rd.readChar();
                         CityType troopType = tChar == 'S' ? CityType.Standard
-                        : tChar == 'F' ? CityType.Fast : CityType.Strong;
+                                : tChar == 'F' ? CityType.Fast : CityType.Strong;
                         entity = new Troop(location, turnCount, speed, heading, destination, health, nationality,
                                 selected, destinationType, troopType);
 
