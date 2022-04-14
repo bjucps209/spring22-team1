@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
-public class City extends Entity{
+public class City extends Entity {
     private IntegerProperty populationProperty = new SimpleIntegerProperty();
     private double incrementRate;
     private Nationality nationality;
@@ -26,7 +26,8 @@ public class City extends Entity{
 
     private static int nextId;
    
-    public City(Coordinate location, int turnCount, IntegerProperty population, double incrementRate, Nationality nationality,
+    public City(Coordinate location, int turnCount, IntegerProperty population, double incrementRate, 
+            Nationality nationality,
             boolean selected, double fireRate, CityType type) {
         super(location, turnCount);
         this.populationProperty = population;
@@ -46,7 +47,7 @@ public class City extends Entity{
      */
     @Override
     public void update() {
-        if (getPopulation() < 30){
+        if (getPopulation() < 30) {
             setPopulation(getPopulation() + 1);
         }
         super.update();
@@ -54,73 +55,83 @@ public class City extends Entity{
 
     /**
      * generates percentage of population troops going to destination
-     * @param percentage percentage of city population to send out
+     * 
+     * @param percentage  percentage of city population to send out
      * @param destination destination of the generated troops
-     * @param type type of troop to be sending out
+     * @param type        type of troop to be sending out
      */
-    public ArrayList<Troop> sendTroops(double percentage, Coordinate destination, CityType type) { 
-        
-        
-    // Mr. Moffitt - 
-    // Butchered code, but the timer could be handy.
-    //                 if (selectedCity != null) {
-    //             ArrayList<Troop> troops = selectedCity.sendTroops(50.0, city.getLocation(), selectedCity.getType());
-    //             Timeline troopTimer = new Timeline(new KeyFrame(Duration.millis(200), ex -> {
-    //                 EntityImage circle = new EntityImage(this, mainPane, troops.get((getNextTroopSendIndex())));
-    //                 circle.layoutXProperty().bind(troops.get((getNextTroopSendIndex())).getLocation().xProperty());
-    //                 circle.layoutYProperty().bind(troops.get((getNextTroopSendIndex())).getLocation().yProperty());
-    //                 // circle.setFill(Paint.valueOf("transparent"));
-    //                 // circle.setStroke(Paint.valueOf((troops.get((getNextTroopSendIndex())).getNationality()
-    //                 // == Nationality.Enemy)
-    //                 // ? "red"
-    //                 // : (troops.get((getNextTroopSendIndex())).getNationality() ==
-    //                 // Nationality.Neutral) ? "grey" : "blue"));
-    //                 // circle.setRadius(5);
-    //                 circle.setUserData(troops.get((getNextTroopSendIndex())));
-    //                 troops.get((getNextTroopSendIndex())).setTroopDelete(this::onTroopDelete);
-    //             }));
-    //             troopTimer.setCycleCount(troops.size());
-    //             troopSendIndex = 0;
-    //             troopTimer.play();
+    public ArrayList<Troop> sendTroops(double percentage, Coordinate destination, CityType type,
+            DestinationType destinationType) {
 
-    //             game.getEntityList().addAll(troops);
+        // Mr. Moffitt -
+        // Butchered code, but the timer could be handy.
+        // if (selectedCity != null) {
+        // ArrayList<Troop> troops = selectedCity.sendTroops(50.0, city.getLocation(),
+        // selectedCity.getType());
+        // Timeline troopTimer = new Timeline(new KeyFrame(Duration.millis(200), ex -> {
+        // EntityImage circle = new EntityImage(this, mainPane,
+        // troops.get((getNextTroopSendIndex())));
+        // circle.layoutXProperty().bind(troops.get((getNextTroopSendIndex())).getLocation().xProperty());
+        // circle.layoutYProperty().bind(troops.get((getNextTroopSendIndex())).getLocation().yProperty());
+        // // circle.setFill(Paint.valueOf("transparent"));
+        // //
+        // circle.setStroke(Paint.valueOf((troops.get((getNextTroopSendIndex())).getNationality()
+        // // == Nationality.Enemy)
+        // // ? "red"
+        // // : (troops.get((getNextTroopSendIndex())).getNationality() ==
+        // // Nationality.Neutral) ? "grey" : "blue"));
+        // // circle.setRadius(5);
+        // circle.setUserData(troops.get((getNextTroopSendIndex())));
+        // troops.get((getNextTroopSendIndex())).setTroopDelete(this::onTroopDelete);
+        // }));
+        // troopTimer.setCycleCount(troops.size());
+        // troopSendIndex = 0;
+        // troopTimer.play();
 
+        // game.getEntityList().addAll(troops);
 
+        // //TODO Mr. Moffitt I made some code for you... may not be helpful but if you
+        // want it take it
+        // private int getNextTroopSendIndex() {
+        // int current = troopSendIndex;
+        // troopSendIndex++;
+        // return current;
+        // }
 
-
-    //                 //TODO Mr. Moffitt I made some code for you... may not be helpful but if you want it take it
-    // private int getNextTroopSendIndex() {
-    //     int current = troopSendIndex;
-    //     troopSendIndex++;
-    //     return current;
-    // }
-
-                       
         percentage = percentage / 100;
-        int numtroops = (int)(getPopulation() * percentage);
+        int numtroops = (int) (getPopulation() * percentage);
         ArrayList<Troop> troops = new ArrayList<>();
         for (int i = 0; i < numtroops; i++) {
-            double heading;
-            if (destination.getX() - getLocation().getX() != 0) {
-                if (destination.getX() - getLocation().getX() < 0) {
-                    heading = 180 + (Math.toDegrees(Math.atan((getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
-                } else {
-                    heading = (Math.toDegrees(Math.atan((getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
-                }
-            } else {
-                heading = 0.0;
-            }
-            Troop troop = new Troop(new Coordinate(getLocation()), getTurnCount(), (type == CityType.Fast) ? 7 : 5, heading, destination, (type == CityType.Strong)? 2 : 1, nationality, false);
-            troop.getLocation().setX(troop.getLocation().getX() + 35 * Math.cos(heading * Math.PI / 180));
-            troop.getLocation().setY(troop.getLocation().getY() + 35 * Math.sin(heading * Math.PI / 180));
+            double heading = figureHeading(destination);
+            Troop troop = new Troop(new Coordinate(getLocation()), getTurnCount(),
+                    (type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed, heading,
+                    destination,
+                    (type == CityType.Strong) ? Constants.strongTroopHealth : Constants.standardTroopHealth,
+                    nationality, false, destinationType, type);
             troops.add(troop);
         }
+
         setPopulation(getPopulation() - numtroops);
         return troops;
     }
 
+    public double figureHeading(Coordinate destination) {
+        if (destination.getX() - getLocation().getX() != 0) {
+            if (destination.getX() - getLocation().getX() < 0) {
+                return 180 + (Math.toDegrees(Math.atan(
+                        (getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
+            } else {
+                return (Math.toDegrees(Math.atan(
+                        (getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
+            }
+        } else {
+            return 0.0;
+        }
+    }
+
     /**
-     * fires a projectile from city at closest enemy if enemy in range and city population not 0
+     * fires a projectile from city at closest enemy if enemy in range and city
+     * population not 0
      */
     public void fireProjectile() {
         /**
@@ -143,7 +154,7 @@ public class City extends Entity{
         this.populationProperty.set(population);
     }
 
-    public IntegerProperty populationProperty(){
+    public IntegerProperty populationProperty() {
         return populationProperty;
     }
 
@@ -159,7 +170,6 @@ public class City extends Entity{
         return id;
     }
 
-
     public void setId(int id) {
         this.id = id;
     }
@@ -173,29 +183,20 @@ public class City extends Entity{
     }
 
     public int getX() {
-        // return xProperty.get();
         return x;
     }
 
     public void setX(int x) {
-        //this.xProperty.set(x);
          this.x = x;
     }
 
     public int getY() {
-       //return yProperty.get();
        return y;
     }
 
     public void setY(int y) {
-        // this.yProperty.set(y);
         this.y = y;
     } 
-
-    // public Object[] getInformation() {
-    //     Object[] items = {id, x, y, nationality}; 
-    //     return items; 
-    // }   
 
     public boolean isSelected() {
         return selected;
@@ -220,12 +221,4 @@ public class City extends Entity{
     public void setType(CityType type) {
         this.type = type;
     }
-
-    // public IntegerProperty getXProperty() {
-    //     return xProperty;
-    // }
-
-    // public IntegerProperty getYProperty() {
-    //     return xProperty;
-    // }
 }

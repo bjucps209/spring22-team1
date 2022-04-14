@@ -23,7 +23,6 @@ public class City extends Entity {
     private int id;
     private int x;
     private int y;
-    private CityObserver observer;
 
     private static int nextId;
 
@@ -41,12 +40,6 @@ public class City extends Entity {
         var rand = new Random();
         this.x = rand.nextInt(750);
         this.y = rand.nextInt(450);
-    }
-
-    public void updatePosition() {
-        if (observer != null) {
-            observer.cityMoved(x, y);
-        }
     }
 
     /**
@@ -203,11 +196,6 @@ public class City extends Entity {
 
     public void setY(int y) {
         this.y = y;
-    }
-
-    public Object[] getInformation() {
-        Object[] items = { id, x, y, nationality };
-        return items;
     }
 
     public boolean isSelected() {
