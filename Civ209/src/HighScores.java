@@ -5,9 +5,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -23,8 +26,11 @@ public class HighScores {
 
     @FXML
     public void initialize() throws IOException {
+        VBoxScores.getChildren().clear();
         lblHScoreTitle.setFont(Font.font("Times New Roman", 30));
         load();
+        sortScores(scoreList);
+        save(scoreList);
     }
 
     // An Arraylist holding all of the ScoreEntries.
@@ -44,33 +50,28 @@ public class HighScores {
     }
 
     /**
-     * Sorts the scores that are currently in the ArrayList by comparing the scores
-     * to each other and moving the entries around.
+     * Sorts the scores that are currently in the ArrayList by using a stream
      * 
-     * @return
+     * @return an ArrayList of sorted scores
      */
-    public ArrayList<ScoreEntry> sortScores() {
-        throw new RuntimeException("Not implemented");
+    public ArrayList<ScoreEntry> sortScores(ArrayList<ScoreEntry> scoreList) {
 
-        // loop through and check each score.
-        // do some calculations to see if the score is higher than the ones currently in
-        // the list
-        // if the score is greater than the one -1 positions in front, move it to
-        // (currentPos-1).
-        // if it is not, keep it in its position.
-        // return scoreList;
+        List<ScoreEntry> sortedList = this.scoreList.stream()
+                .sorted((s1, s2) -> Integer.compare(s2.getPlayerScore(), s1.getPlayerScore()))
+                .collect(Collectors.toList());
+        ArrayList<ScoreEntry> arraylist = new ArrayList<ScoreEntry>(sortedList);
+        for (ScoreEntry score:arraylist) {
+            // set the label value to each line value
+            Label lblScore = new Label();
+            String pName = score.getPlayerName();
+            int pScore = score.getPlayerScore();
+            lblScore.setText(pName + "," + pScore);
+            
+            VBoxScores.getChildren().add(lblScore);
+        }
+        return arraylist;
 
-        // https://www.geeksforgeeks.org/how-to-sort-an-arraylist-of-objects-by-property-in-java/
-        // public static Comparator<ScoreEntry> ScoreComparator = new
-        // Comparator<ScoreEntry>() {
-        // public int compare(ScoreEntry s1, ScoreEntry s2) {
-        // int score1 = s1.getPlayerScore();
-        // int score2 = s2.getPlayerScore();
-        // return score1 - score2;
-        // }
-        // };
     }
-    // Collections.sort(scoreList, ScoreEntry.getPlayerScore);
 
     /*
      * The save method takes in the scoreList and saves it into a text file
@@ -107,10 +108,9 @@ public class HighScores {
             String line;
 
             while ((line = bufferedReader.readLine()) != null) {
-                // set the label value to each line value
-                Label lblScore = new Label();
-                lblScore.setText(line);
-                VBoxScores.getChildren().add(lblScore);
+                String[] nameScore = line.split(",");
+                addScoreList((new ScoreEntry(nameScore[0], Integer.parseInt(nameScore[1]))));
+
             }
             reader.close();
 

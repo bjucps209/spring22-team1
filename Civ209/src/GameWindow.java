@@ -196,7 +196,7 @@ public class GameWindow {
         if (e.getButton() == MouseButton.SECONDARY) {
             if (pointInCircle != true && selectedCity != null) {
                 ArrayList<Troop> troops = selectedCity.sendTroops(50.0, destination, selectedCity.getType(),
-                        DestinationType.Coordiante);
+                        DestinationType.Coordiante); // might want to fix the spelling - Izzo
                 int numTroops = troops.size() - 1;
                 int ring = 1;
                 while (numTroops != 0) {

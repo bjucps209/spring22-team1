@@ -48,7 +48,7 @@ public class Game {
             try {
                 // Removed Civ209
                 // TODO check to make sure this works
-                load("Civ209/Levels/DemoLevel.dat");
+                load("Levels/DemoLevel.dat");
             } catch (IOException xe) {
                 System.out.println("fatalError! " + xe);
                 System.exit(1);
