@@ -41,7 +41,7 @@
             <Label fx:id="seasons" text = "       " />  
             <HBox spacing="30">
                 <Button text="Save" onAction="#onSaveClicked" />
-                <Button text="Load" onAction="#onLoadClicked" />
+                <Button fx:id="loadbtn" text="Load" onAction="#onLoadClicked" />
             </HBox>
         </HBox>
 </VBox>

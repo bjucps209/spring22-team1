@@ -15,8 +15,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class City extends Entity{
     private IntegerProperty populationProperty = new SimpleIntegerProperty();
-    // private IntegerProperty xProperty = new SimpleIntegerProperty(); 
-    // private IntegerProperty yProperty = new SimpleIntegerProperty(); 
     private double incrementRate;
     private Nationality nationality;
     private boolean selected = false;
@@ -25,7 +23,6 @@ public class City extends Entity{
     private int id;
     private int x;
     private int y;
-    private CityObserver observer; 
 
     private static int nextId;
    
@@ -40,16 +37,8 @@ public class City extends Entity{
         this.type = type;
         this.id = ++nextId;
         var rand = new Random();
-        // this.xProperty.set(rand.nextInt(750));
-        // this.yProperty.set(rand.nextInt(450));
         this.x = rand.nextInt(750);
         this.y = rand.nextInt(450);
-    }
-
-    public void updatePosition() {
-        if (observer != null) {
-            observer.cityMoved(x, y); 
-        }
     }
 
     /**
@@ -184,28 +173,29 @@ public class City extends Entity{
     }
 
     public int getX() {
-        //return xProperty.get();
+        // return xProperty.get();
         return x;
     }
 
     public void setX(int x) {
         //this.xProperty.set(x);
-        this.x = x;
+         this.x = x;
     }
 
     public int getY() {
-       // return yProperty.get();
+       //return yProperty.get();
        return y;
     }
 
     public void setY(int y) {
+        // this.yProperty.set(y);
         this.y = y;
     } 
 
-    public Object[] getInformation() {
-        Object[] items = {id, x, y, nationality}; 
-        return items; 
-    }   
+    // public Object[] getInformation() {
+    //     Object[] items = {id, x, y, nationality}; 
+    //     return items; 
+    // }   
 
     public boolean isSelected() {
         return selected;
@@ -230,4 +220,12 @@ public class City extends Entity{
     public void setType(CityType type) {
         this.type = type;
     }
+
+    // public IntegerProperty getXProperty() {
+    //     return xProperty;
+    // }
+
+    // public IntegerProperty getYProperty() {
+    //     return xProperty;
+    // }
 }

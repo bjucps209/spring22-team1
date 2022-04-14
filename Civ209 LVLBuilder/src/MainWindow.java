@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,13 +13,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import model.City;
-import model.CityObserver;
+import model.Entity;
 import model.Level;
 import model.Nationality;
 import model.SeasonType;
 
 
-public class MainWindow implements CityObserver {
+public class MainWindow {
 
     @FXML Pane pane; 
     @FXML Label lblId; 
@@ -26,14 +27,14 @@ public class MainWindow implements CityObserver {
     @FXML Label lblType;
     @FXML Button btnAnimate; 
     @FXML Label seasons; 
+    @FXML Button loadbtn; 
     City currentCity; 
     @FXML ImageView lastImage; 
     @FXML ImageView currentImage;  
     @FXML VBox vbox;
     int id = 0; 
     Level level = new Level();
-    LevelData leveldata = new LevelData(); 
-
+    LevelData leveldata = new LevelData(level); 
 
     /**
     * creates a player city and displays the city image using its coordinates
@@ -75,14 +76,15 @@ public class MainWindow implements CityObserver {
       * @param city, styleclass - the city to show and the styleclass
      */ 
     void showCity(City city, String url) {
-        currentCity = city; 
+        this.currentCity = city; 
         ImageView image = new ImageView(url);
         image.setFitHeight(50);
         image.setFitWidth(50);
-        image.setLayoutX(city.getX() - image.getFitWidth() / 2);
-        image.setLayoutY(city.getY() - image.getFitHeight() / 2);
+        //image.layoutXProperty().bindBidirectional(city.getX() - image.getFitWidth() / 2);
+        image.setLayoutY(city.getY()); // - image.getFitHeight() / 2);
+        image.setLayoutX(city.getX()); //- image.getFitHeight() / 2);
         image.setId(Integer.toString(city.getId())); 
-        image.setOnMouseClicked(this::onCityClicked);
+        image.setOnMouseClicked(this::onCityClicked); //:)
         pane.getChildren().add(image);  
         makeDraggable(image); 
         display();  
@@ -108,6 +110,7 @@ public class MainWindow implements CityObserver {
         node.setOnMouseEntered(me -> node.getScene().setCursor(Cursor.HAND));
         node.setOnMouseExited(me -> node.getScene().setCursor(Cursor.DEFAULT) );
         node.setOnMousePressed(me -> {
+            currentCity = level.find(Integer.parseInt(node.getId())); 
             dragDelta.x = me.getX();
             dragDelta.y = me.getY();
             node.getScene().setCursor(Cursor.MOVE);
@@ -116,6 +119,7 @@ public class MainWindow implements CityObserver {
             double x = node.getLayoutX()+ me.getX()- dragDelta.x;
             double y = node.getLayoutY()+ me.getY()- dragDelta.y;
             if ( x > -1 && x < 960 && y > -1 && y < 475) {
+                currentCity = level.find(Integer.parseInt(node.getId())); 
                 node.setLayoutX(node.getLayoutX() + me.getX()- dragDelta.x);
                 node.setLayoutY(node.getLayoutY() + me.getY() - dragDelta.y);
                 cityMoved((int) node.getLayoutX(), (int) node.getLayoutY()); 
@@ -125,6 +129,7 @@ public class MainWindow implements CityObserver {
         node.setOnMouseReleased(me -> { 
             node.getScene().setCursor(Cursor.HAND);
 
+            currentCity = level.find(Integer.parseInt(node.getId())); 
             currentCity.setX((int) node.getLayoutX()); 
             currentCity.setY((int) node.getLayoutY());
             cityMoved((int) node.getLayoutX(), (int) node.getLayoutY()); 
@@ -145,7 +150,7 @@ public class MainWindow implements CityObserver {
     void onDeleteClicked(ActionEvent e) {
         int id = currentCity.getId(); 
         ImageView image = (ImageView) pane.getChildren().get(id - 1);
-        level.delete(id); 
+        level.delete(id - 1); 
         this.id -= 1;
         lblId.setText(""); 
         lblLoc.setText("");
@@ -179,18 +184,39 @@ public class MainWindow implements CityObserver {
         }
     }
 
+    boolean load = false; 
+
     @FXML 
-    void onSaveClicked() {
+    void onSaveClicked(ActionEvent e) {
         try {
         leveldata.save();
-        } catch (IOException e) {}
+        load = false; 
+        loadbtn.setDisable(false); 
+        } catch (IOException error) {}
     }
 
     @FXML
-    void onLoadClicked() {
+    void onLoadClicked(ActionEvent e) {
+        pane.getChildren().removeAll(); 
         try {
             leveldata.load();
-            } catch (IOException e) {}
+            } catch (IOException error) {}
+        List<City> entityList = level.getCities();
+        for (City entity: entityList) {
+            City city = (City) entity; 
+            if (city.getNationality() == Nationality.Enemy) {
+                showCity(city, "/images/enemycastle.png");   
+            }
+            if (city.getNationality() == Nationality.Player) {
+                showCity(city, "/images/playercastle.png"); 
+            }
+            if (city.getNationality() == Nationality.Neutral) {
+                showCity(city, "/images/neutralcastle.png"); 
+            }
+        }
+
+        loadbtn.setDisable(true); 
+        load = true; 
     }
 
     @FXML
@@ -199,8 +225,10 @@ public class MainWindow implements CityObserver {
     }
 
 
-    public void cityMoved(int x, int y) {
-        lblLoc.setText("(" +  x + ","+ y + ")"); 
+    public void cityMoved( int x,int  y) {
+        lblLoc.setText("(" + x + ","+ y + ")");
+        currentCity.setX(x);
+        currentCity.setY(y); 
     }
 
 
