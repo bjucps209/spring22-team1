@@ -12,14 +12,16 @@ public class Troop extends MobileEntity {
     private boolean selected;
     private onTroopDeleteInterface troopDelete;
     private DestinationType destinationType;
+    private CityType troopType;
 
     public Troop(Coordinate location, int turnCount, double speed, double heading, Coordinate destination, int health,
-            Nationality nationality, boolean selected, DestinationType destinationType) {
+            Nationality nationality, boolean selected, DestinationType destinationType, CityType troopType) {
         super(location, turnCount, speed, heading, destination);
         this.health = health;
         this.nationality = nationality;
         this.selected = selected;
         this.destinationType = destinationType;
+        this.troopType = troopType;
     }
 
     /**
@@ -65,6 +67,18 @@ public class Troop extends MobileEntity {
         //TODO: Finish serialization
     }
 
+    public double figureHeading(Coordinate destination) {
+        if (destination.getX() - getLocation().getX() != 0) {
+            if (destination.getX() - getLocation().getX() < 0) {
+                return 180 + (Math.toDegrees(Math.atan((getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
+            } else {
+                return (Math.toDegrees(Math.atan((getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
+            }
+        } else {
+            return 0.0;
+        }
+    }
+
     public boolean isSelected() {
         return selected;
     }
@@ -103,5 +117,13 @@ public class Troop extends MobileEntity {
 
     public void setTroopDelete(onTroopDeleteInterface troopDelete) {
         this.troopDelete = troopDelete;
+    }
+
+    public CityType getTroopType() {
+        return troopType;
+    }
+
+    public void setTroopType(CityType troopType) {
+        this.troopType = troopType;
     }
 }
