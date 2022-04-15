@@ -62,7 +62,7 @@ public class LevelData {
         }
     }
 
-    public void load() throws IOException{
+    public Level load() throws IOException{
         this.level = new Level(); 
         try (DataInputStream rd = new DataInputStream(new FileInputStream("createdLevel.dat"))) {
             if (rd.readUTF().equals("Level")) {
@@ -114,5 +114,6 @@ public class LevelData {
                 }
             }
         }
+        return this.level; 
     }
 }

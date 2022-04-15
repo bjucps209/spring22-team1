@@ -197,9 +197,9 @@ public class MainWindow {
 
     @FXML
     void onLoadClicked(ActionEvent e) {
-        pane.getChildren().removeAll(); 
+        pane.getChildren().clear(); 
         try {
-            leveldata.load();
+            this.level = leveldata.load();
             } catch (IOException error) {}
         List<City> entityList = level.getCities();
         for (City entity: entityList) {
