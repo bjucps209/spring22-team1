@@ -160,9 +160,9 @@ public class Game {
 
                     } else if (entityType.equals("Projectile")) {
 
-                        Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         double speed = rd.readDouble();
                         double heading = rd.readDouble();
+                        Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         int damage = rd.readInt();
                         entity = new Projectile(location, turnCount, speed, heading, destination, damage);
 
@@ -185,7 +185,7 @@ public class Game {
     }
 
     public void update() {
-        //Slows score decrementation 
+        // Slows score decrementation
         turncount++;
         if (turncount % 3 == 0)
             setScore(getScore() - 1);
@@ -204,11 +204,13 @@ public class Game {
      * 
      * @throws IOException in case file not there
      */
-    public void save() throws IOException {
+    public void save(String lvlName) throws IOException {
         /**
          * stop timer
          */
-        try (DataOutputStream wr = new DataOutputStream(new FileOutputStream("savedGame.dat"))) {
+        if (lvlName.equals(""))
+            lvlName = "savedGame.dat";
+        try (DataOutputStream wr = new DataOutputStream(new FileOutputStream(lvlName))) {
             wr.writeUTF("Civilization209");
             wr.writeInt(getScore());
             wr.writeChar(this.season == SeasonType.Winter ? 'W'

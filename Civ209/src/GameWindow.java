@@ -67,7 +67,8 @@ public class GameWindow {
         for (Entity entity : game.getEntityList()) {
             new EntityImage(this, pane, entity);
         }
-        lblSize.textProperty().bind(Bindings.createStringBinding(() -> String.valueOf((int) slider.getValue()), slider.valueProperty()));
+        lblSize.textProperty().bind(
+                Bindings.createStringBinding(() -> String.valueOf((int) slider.getValue()), slider.valueProperty()));
         scoreLabel.setLayoutX(15);
         scoreLabel.setLayoutY(15);
         scoreLabel.textProperty().bind(SimpleStringProperty.stringExpression(game.scoreProperty()));
@@ -240,7 +241,8 @@ public class GameWindow {
         if (e.getButton() == MouseButton.SECONDARY) {
             if (selectedCity != null) {
                 if (pointInCircle) {
-                    ArrayList<Troop> troops = selectedCity.sendTroops(slider.getValue(), destination, selectedCity.getType(),
+                    ArrayList<Troop> troops = selectedCity.sendTroops(slider.getValue(), destination,
+                            selectedCity.getType(),
                             DestinationType.City);
                     for (Troop troop : troops) {
                         EntityImage circle = new EntityImage(this, pane, troop);
@@ -250,7 +252,8 @@ public class GameWindow {
                     }
                     game.getEntityList().addAll(troops);
                 } else {
-                    ArrayList<Troop> troops = selectedCity.sendTroops(slider.getValue(), destination, selectedCity.getType(),
+                    ArrayList<Troop> troops = selectedCity.sendTroops(slider.getValue(), destination,
+                            selectedCity.getType(),
                             DestinationType.Coordinate);
                     moveTroopToField(troops, destination);
                     for (Troop troop : troops) {
@@ -314,13 +317,18 @@ public class GameWindow {
                     double changeInHeading = (ring * 6) == 0 ? 0 : Math.toRadians((360.0 / (ring * 6.0)) * i);
                     troop.setDestination(
                             new Coordinate(
-                                    Math.max(Math.min(destination.getX() + (ring * Constants.troopRingRadius) * Math.cos(changeInHeading),
+                                    Math.max(Math.min(
+                                            destination.getX()
+                                                    + (ring * Constants.troopRingRadius) * Math.cos(changeInHeading),
                                             Constants.windowWidth), 0),
-                                    Math.max(Math.min(destination.getY() + (ring * Constants.troopRingRadius) * Math.sin(changeInHeading),
+                                    Math.max(Math.min(
+                                            destination.getY()
+                                                    + (ring * Constants.troopRingRadius) * Math.sin(changeInHeading),
                                             Constants.windowHeight), 0)));
                     troop.setHeading(troop.figureHeading(troop.getDestination()));
-                    // troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
-                    //         : Constants.standardTroopSpeed);
+                    // troop.setSpeed(troop.getTroopType() == CityType.Fast ?
+                    // Constants.fastTroopSpeed
+                    // : Constants.standardTroopSpeed);
                     troop.setDestinationType(DestinationType.Coordinate);
                     curTroop++;
                 }
@@ -331,7 +339,7 @@ public class GameWindow {
 
     @FXML
     public void onSaveClicked(ActionEvent e) throws IOException {
-        game.save();
+        game.save("Levels/savedGame.dat");
     }
 
     @FXML

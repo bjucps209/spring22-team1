@@ -44,7 +44,6 @@ public class Projectile extends MobileEntity {
         wr.writeUTF("Projectile");
         wr.writeDouble(this.getLocation().getX());
         wr.writeDouble(this.getLocation().getY());
-        wr.writeInt(this.getTurnCount());
         wr.writeDouble(this.getSpeed());
         wr.writeDouble(this.getHeading());
         wr.writeDouble(this.getDestination().getX());
