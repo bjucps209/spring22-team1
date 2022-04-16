@@ -20,6 +20,7 @@ import model.Game;
 import model.Troop;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameWindow {
@@ -52,9 +53,9 @@ public class GameWindow {
     Label scoreLabel = new Label();
 
     @FXML
-    public void initialize() {
+    public void initialize(String lvlname) {
         game = new Game();
-        game.initialize(Difficulty.Easy, "");
+        game.initialize(Difficulty.Easy, lvlname);
         for (Entity entity : game.getEntityList()) {
             new EntityImage(this, pane, entity);
         }
@@ -281,12 +282,12 @@ public class GameWindow {
     }
 
     @FXML
-    public void onSaveClicked(ActionEvent e) {
-
+    public void onSaveClicked(ActionEvent e) throws IOException {
+        game.save();
     }
 
     @FXML
-    public void onLoadClicked(ActionEvent e) {
-
+    public void onLoadClicked(ActionEvent e) throws IOException {
+        game.load("Levels/savedGame.dat");
     }
 }

@@ -203,7 +203,7 @@ public class Game {
         /**
          * stop timer
          */
-        try (DataOutputStream wr = new DataOutputStream(new FileOutputStream("savedGame.dat"))) {
+        try (DataOutputStream wr = new DataOutputStream(new FileOutputStream("Levels/savedGame.dat"))) {
             wr.writeUTF("Civilization209");
             wr.writeInt(getScore());
             wr.writeChar(this.season == SeasonType.Winter ? 'W'

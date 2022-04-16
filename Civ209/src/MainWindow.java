@@ -21,6 +21,24 @@ public class MainWindow {
     }
 
     @FXML
+    public void onLoadClicked(ActionEvent event) {
+        try {
+            var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
+            Scene scene;
+            scene = new Scene(loader.load());
+            var stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            GameWindow gameWindow = loader.getController();
+            gameWindow.initialize("Levels/savedGame.dat");
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void onPlayClicked(ActionEvent event) {
 
         try {
@@ -30,6 +48,9 @@ public class MainWindow {
             var stage = new Stage();
             stage.setScene(scene);
             stage.show();
+            GameWindow gameWindow = loader.getController();
+            gameWindow.initialize("");
+
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

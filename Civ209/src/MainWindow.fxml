@@ -6,7 +6,7 @@
 <VBox fx:controller="MainWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="@MainWindow.css" spacing="20" prefHeight="400" prefWidth="400">
 
     <HBox>
-        <Label fx:id= "lblGameTitle" text="Civilization 209"></Label>
+        <Label fx:id="lblGameTitle" text="Civilization 209"></Label>
     </HBox>
 
     <HBox>
@@ -14,7 +14,12 @@
     </HBox>
 
     <HBox>
+        <Button onAction="#onLoadClicked" text="Load Saved Game" />
+    </HBox>
+
+    <HBox>
         <Button onAction="#onScoresClicked" text="High Scores" />
     </HBox>
+
 
 </VBox>
