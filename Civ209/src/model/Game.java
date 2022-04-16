@@ -23,6 +23,8 @@ public class Game {
     private int numPlayerCitiesLeft;
     private SeasonType season;
     private ArrayList<Entity> deleteEntityList = new ArrayList<>();
+    private Difficulty difficulty;
+
 
     /**
      * instantiates game from lvl with a computer of level difficulty
@@ -31,6 +33,7 @@ public class Game {
      * @param lvlName    id of level played to load in from binary file
      */
     public void initialize(Difficulty difficulty, String lvlName) {
+        this.difficulty = difficulty;
         switch (difficulty) {
             case Easy:
                 this.computer = new EasyComputer();
@@ -194,6 +197,7 @@ public class Game {
             wr.writeUTF("Civilization209");
             wr.writeInt(getScore());
             wr.writeInt(entityList.size());
+            wr.writeChar();
             for (Entity entity : entityList) {
                 entity.serialize(wr);
             }

@@ -8,6 +8,7 @@ package model;
 import java.util.Random;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javafx.beans.property.IntegerProperty;
@@ -141,9 +142,21 @@ public class City extends Entity {
 
     /**
      * packages the object and writes it in file according to serialization pattern
+     * 
+     * @throws IOException
      */
     @Override
-    public void serialize(DataOutputStream wr) {
+    public void serialize(DataOutputStream wr) throws IOException {
+        // Goes through and writes all of the information necessary for a constructor.
+        wr.writeDouble(this.getLocation().getX());
+        wr.writeDouble(this.getLocation().getY());
+        wr.writeInt(this.getTurnCount());
+        wr.writeInt(this.getPopulation());
+        wr.writeDouble(incrementRate);
+        wr.writeChar((nationality == Nationality.Player) ? 'P' : nationality == Nationality.Enemy ? 'E' : 'N');
+        wr.writeBoolean(selected);
+        wr.writeDouble(fireRate);
+        wr.writeChar((type == CityType.Fast) ? 'F' : type == CityType.Strong ? 'S' : 's');
     }
 
     public int getPopulation() {
@@ -196,6 +209,11 @@ public class City extends Entity {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public Object[] getInformation() {
+        Object[] items = { id, x, y, nationality };
+        return items;
     }
 
     public boolean isSelected() {
