@@ -72,11 +72,13 @@ public class City extends Entity {
             DestinationType destinationType) {
         percentage = percentage / 100;
         int numtroops = (int) (getPopulation() * percentage);
+        if (numtroops < 1)
+            numtroops = 1;
         ArrayList<Troop> troops = new ArrayList<>();
         for (int i = 0; i < numtroops; i++) {
             double heading = figureHeading(destination);
             Troop troop = new Troop(new Coordinate(getLocation()), getTurnCount(),
-                   0, heading,
+                    0, heading,
                     destination,
                     (type == CityType.Strong) ? Constants.strongTroopHealth : Constants.standardTroopHealth,
                     nationality, false, destinationType, type);
@@ -86,7 +88,7 @@ public class City extends Entity {
         Timeline timer = new Timeline(new KeyFrame(Duration.millis(300), e -> {
             Troop troop = troops.get(0);
             troops.remove(troop);
-            troop.setSpeed( (type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed);
+            troop.setSpeed((type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed);
         }));
         timer.setCycleCount(troops.size());
         timer.play();
@@ -94,9 +96,6 @@ public class City extends Entity {
         setPopulation(getPopulation() - numtroops);
         return troops;
     }
-
-    
-
 
     public double figureHeading(Coordinate destination) {
         if (destination.getX() - getLocation().getX() != 0) {

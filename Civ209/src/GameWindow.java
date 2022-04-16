@@ -1,9 +1,11 @@
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -53,12 +55,19 @@ public class GameWindow {
     Label scoreLabel = new Label();
 
     @FXML
+    Label lblSize;
+
+    @FXML
+    Slider slider;
+
+    @FXML
     public void initialize(String lvlname) {
         game = new Game();
         game.initialize(Difficulty.Easy, lvlname);
         for (Entity entity : game.getEntityList()) {
             new EntityImage(this, pane, entity);
         }
+        lblSize.textProperty().bind(Bindings.createStringBinding(() -> String.valueOf((int) slider.getValue()), slider.valueProperty()));
         scoreLabel.setLayoutX(15);
         scoreLabel.setLayoutY(15);
         scoreLabel.textProperty().bind(SimpleStringProperty.stringExpression(game.scoreProperty()));
@@ -231,7 +240,7 @@ public class GameWindow {
         if (e.getButton() == MouseButton.SECONDARY) {
             if (selectedCity != null) {
                 if (pointInCircle) {
-                    ArrayList<Troop> troops = selectedCity.sendTroops(50.0, destination, selectedCity.getType(),
+                    ArrayList<Troop> troops = selectedCity.sendTroops(slider.getValue(), destination, selectedCity.getType(),
                             DestinationType.City);
                     for (Troop troop : troops) {
                         EntityImage circle = new EntityImage(this, pane, troop);
@@ -241,7 +250,7 @@ public class GameWindow {
                     }
                     game.getEntityList().addAll(troops);
                 } else {
-                    ArrayList<Troop> troops = selectedCity.sendTroops(50.0, destination, selectedCity.getType(),
+                    ArrayList<Troop> troops = selectedCity.sendTroops(slider.getValue(), destination, selectedCity.getType(),
                             DestinationType.Coordinate);
                     moveTroopToField(troops, destination);
                     for (Troop troop : troops) {
