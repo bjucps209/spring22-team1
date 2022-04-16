@@ -1,3 +1,2 @@
-simon,200
-ryan,900
-tim,400
+Eric,702
+Caleb,540

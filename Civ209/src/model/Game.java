@@ -23,6 +23,8 @@ public class Game {
     private int numPlayerCitiesLeft;
     private SeasonType season;
     private ArrayList<Entity> deleteEntityList = new ArrayList<>();
+    private Difficulty difficulty;
+    private int turncount = 0;
 
     /**
      * instantiates game from lvl with a computer of level difficulty
@@ -31,6 +33,7 @@ public class Game {
      * @param lvlName    id of level played to load in from binary file
      */
     public void initialize(Difficulty difficulty, String lvlName) {
+        this.difficulty = difficulty;
         switch (difficulty) {
             case Easy:
                 this.computer = new EasyComputer();
@@ -90,14 +93,25 @@ public class Game {
     public void load(String lvlName) throws IOException {
         try (DataInputStream rd = new DataInputStream(new FileInputStream(lvlName))) {
             if (rd.readUTF().equals("Civilization209")) {
-
                 entityList.clear();
-
                 setScore(rd.readInt());
                 char s = rd.readChar();
-
                 this.season = s == 'W' ? SeasonType.Winter
                         : s == 'F' ? SeasonType.Fall : s == 'S' ? SeasonType.Summer : SeasonType.Spring;
+                char diff = rd.readChar();
+                this.difficulty = diff == 'E' ? Difficulty.Easy : diff == 'M' ? Difficulty.Medium : Difficulty.Hard;
+
+                switch (difficulty) {
+                    case Easy:
+                        this.computer = new EasyComputer();
+                        break;
+                    case Medium:
+                        this.computer = new MediumComputer();
+                        break;
+                    case Hard:
+                        this.computer = new HardComputer();
+                        break;
+                }
                 this.numPlayerCitiesLeft = rd.readInt();
 
                 this.gameSpeed = rd.readDouble();
@@ -126,8 +140,6 @@ public class Game {
                         entity = new City(location, turnCount, popProperty, incrementRate, nationality, selected,
                                 fireRate, cityType);
                     } else if (entityType.equals("Troop")) {
-
-                        Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         double speed = rd.readDouble();
                         double heading = rd.readDouble();
                         int health = rd.readInt();
@@ -136,11 +148,13 @@ public class Game {
                         Nationality nationality = nation == 'P' ? Nationality.Player
                                 : nation == 'E' ? Nationality.Enemy : Nationality.Neutral;
                         char dChar = rd.readChar();
-                        DestinationType destinationType = dChar == 'C' ? DestinationType.City
-                                : DestinationType.Coordiante;
+                        DestinationType destinationType = dChar == 'i' ? DestinationType.City
+                                : DestinationType.Coordinate;
                         char tChar = rd.readChar();
                         CityType troopType = tChar == 'S' ? CityType.Standard
                                 : tChar == 'F' ? CityType.Fast : CityType.Strong;
+                        Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
+
                         entity = new Troop(location, turnCount, speed, heading, destination, health, nationality,
                                 selected, destinationType, troopType);
 
@@ -154,13 +168,13 @@ public class Game {
 
                     } else {
 
-                        Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
                         double speed = rd.readDouble();
                         double heading = rd.readDouble();
-                        char type = rd.readChar();
-                        WeatherType weatherType = type == 'L' ? WeatherType.LightningStorm
-                                : type == 'B' ? WeatherType.Blizzard
-                                        : type == 'F' ? WeatherType.Flood : WeatherType.Drought;
+                        WeatherType weatherType = entityType == "L" ? WeatherType.LightningStorm
+                                : entityType == "B" ? WeatherType.Blizzard
+                                        : entityType == "F" ? WeatherType.Flood : WeatherType.Drought;
+                        Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
+
                         entity = new Weather(location, turnCount, speed, heading, destination, weatherType);
 
                     }
@@ -171,7 +185,11 @@ public class Game {
     }
 
     public void update() {
-        setScore(getScore() - 1);
+        //Slows score decrementation 
+        turncount++;
+        if (turncount % 3 == 0)
+            setScore(getScore() - 1);
+
         for (Entity entity : deleteEntityList) {
             entityList.remove(entity);
         }
@@ -190,9 +208,17 @@ public class Game {
         /**
          * stop timer
          */
-        try (DataOutputStream wr = new DataOutputStream(new FileOutputStream("savedGame.dat"))) {
+        try (DataOutputStream wr = new DataOutputStream(new FileOutputStream("Levels/savedGame.dat"))) {
             wr.writeUTF("Civilization209");
             wr.writeInt(getScore());
+            wr.writeChar(this.season == SeasonType.Winter ? 'W'
+                    : this.season == SeasonType.Fall ? 'F' : this.season == SeasonType.Summer ? 'S' : 's');
+            // this.difficulty = diff == 'E' ? Difficulty.Easy : diff == 'M' ?
+            // Difficulty.Medium : Difficulty.Hard;
+            wr.writeChar(this.difficulty == Difficulty.Easy ? 'E' : this.difficulty == Difficulty.Medium ? 'M' : 'H');
+            wr.writeInt(numPlayerCitiesLeft);
+            wr.writeDouble(gameSpeed);
+
             wr.writeInt(entityList.size());
             for (Entity entity : entityList) {
                 entity.serialize(wr);

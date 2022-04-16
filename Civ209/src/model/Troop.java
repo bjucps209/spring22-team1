@@ -5,6 +5,7 @@
 package model;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class Troop extends MobileEntity {
     private int health;
@@ -25,7 +26,8 @@ public class Troop extends MobileEntity {
     }
 
     /**
-     * checks for if reached destination or hit another troop and then updates the position and image
+     * checks for if reached destination or hit another troop and then updates the
+     * position and image
      */
     @Override
     public void update() {
@@ -34,19 +36,35 @@ public class Troop extends MobileEntity {
          * check if reached destination
          */
         if (destinationType == DestinationType.City) {
-            double distToDest = Math.sqrt(Math.pow((getDestination().getX() - (getLocation().getX() + getSpeed() * Math.cos(getHeading() * Math.PI / 180))), 2.0) + Math.pow((getDestination().getY() - (getLocation().getY() + getSpeed() * Math.sin(getHeading() * Math.PI / 180))), 2.0));
-            if (Math.abs(distToDest) < Constants.cityRadius + Constants.troopRadius) {
+            double distToDest = Math.sqrt(Math
+                    .pow((getDestination().getX()
+                            - (getLocation().getX() + getSpeed() * Math.cos(getHeading() * Math.PI / 180))), 2.0)
+                    + Math.pow(
+                            (getDestination().getY()
+                                    - (getLocation().getY() + getSpeed() * Math.sin(getHeading() * Math.PI / 180))),
+                            2.0));
+            if (Math.abs(distToDest) < Constants.cityRadius - 10 + Constants.troopRadius) {
                 troopDelete.onTroopDelete(this);
             }
-        }
-        else {
-            double dist = Math.sqrt(Math.pow((getLocation().getX() - (getLocation().getX() + getSpeed() * Math.cos(getHeading() * Math.PI / 180))), 2.0) + Math.pow((getLocation().getY() - (getLocation().getY() + getSpeed() * Math.sin(getHeading() * Math.PI / 180))), 2.0));
-            double distToDest = Math.sqrt(Math.pow((getDestination().getX() - (getLocation().getX() + getSpeed() * Math.cos(getHeading() * Math.PI / 180))), 2.0) + Math.pow((getDestination().getY() - (getLocation().getY() + getSpeed() * Math.sin(getHeading() * Math.PI / 180))), 2.0));
+        } else {
+            double dist = Math.sqrt(Math
+                    .pow((getLocation().getX()
+                            - (getLocation().getX() + getSpeed() * Math.cos(getHeading() * Math.PI / 180))), 2.0)
+                    + Math.pow(
+                            (getLocation().getY()
+                                    - (getLocation().getY() + getSpeed() * Math.sin(getHeading() * Math.PI / 180))),
+                            2.0));
+            double distToDest = Math.sqrt(Math
+                    .pow((getDestination().getX()
+                            - (getLocation().getX() + getSpeed() * Math.cos(getHeading() * Math.PI / 180))), 2.0)
+                    + Math.pow(
+                            (getDestination().getY()
+                                    - (getLocation().getY() + getSpeed() * Math.sin(getHeading() * Math.PI / 180))),
+                            2.0));
             if (dist > distToDest) {
                 setSpeed(0);
             }
         }
-        
         super.update();
     }
 
@@ -63,19 +81,34 @@ public class Troop extends MobileEntity {
      * packages the object and writes it in file according to serialization pattern
      */
     @Override
-    public void serialize(DataOutputStream wr) {
-        //TODO: Finish serialization
+    public void serialize(DataOutputStream wr) throws IOException {
+        wr.writeUTF("Troop");
+        wr.writeDouble(this.getLocation().getX());
+        wr.writeDouble(this.getLocation().getY());
+        wr.writeInt(this.getTurnCount());
+        wr.writeDouble(this.getSpeed());
+        wr.writeDouble(this.getHeading());
+        wr.writeInt(health);
+        wr.writeChar((nationality == Nationality.Player) ? 'P' : nationality == Nationality.Enemy ? 'E' : 'N');
+        wr.writeBoolean(selected);
+        wr.writeChar((destinationType == DestinationType.City ? 'i' : 'o'));
+        wr.writeChar((troopType == CityType.Fast) ? 'F' : troopType == CityType.Strong ? 'S' : 's');
+        wr.writeDouble(this.getDestination().getX());
+        wr.writeDouble(this.getDestination().getY());
+
     }
 
     public double figureHeading(Coordinate destination) {
         if (destination.getX() - getLocation().getX() != 0) {
             if (destination.getX() - getLocation().getX() < 0) {
-                return 180 + (Math.toDegrees(Math.atan((getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
+                return 180 + (Math.toDegrees(Math.atan(
+                        (getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
             } else {
-                return (Math.toDegrees(Math.atan((getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
+                return (Math.toDegrees(Math.atan(
+                        (getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
             }
         } else {
-            return 0.0;
+            return (destination.getY() - getLocation().getY() > 0) ? 90 : 270;
         }
     }
 

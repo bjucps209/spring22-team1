@@ -19,10 +19,10 @@ public class SerilizationTests {
     @Test
     public void test_save_then_load() throws IOException {
         Game game = new Game();
-        game.initialize(Difficulty.Easy, "lvl1.dat");
+        game.initialize(Difficulty.Easy, "Levels/DemoLevel.dat");
         ArrayList<Entity> entityList = new ArrayList<Entity>();
         entityList.add(new City(new Coordinate(39, 42), 0, new SimpleIntegerProperty(3), 3.4, Nationality.Enemy, false, 1.0, CityType.Standard));
-        entityList.add(new Troop(new Coordinate(), 0, 2, 180, new Coordinate(), 1, Nationality.Player, false));
+        entityList.add(new Troop(new Coordinate(), 0, 2, 180, new Coordinate(), 1, Nationality.Player, false, DestinationType.Coordinate, CityType.Standard));
         entityList.add(new Projectile(new Coordinate(100, 100), 0, 100, 180, new Coordinate(), 2));
         entityList.add(new Weather(new Coordinate(40, 40), 7, 3, 180, new Coordinate(), WeatherType.Blizzard));
         game.setEntityList(entityList);
