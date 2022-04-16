@@ -5,6 +5,7 @@
 package model;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class Entity {
     private Coordinate location;
@@ -18,8 +19,9 @@ public class Entity {
     /**
      *  packages an object and writes it in file according to serialization pattern
      * @param wr data writer used to write object to binary file
+     * @throws IOException
      */
-    public void serialize(DataOutputStream wr) {
+    public void serialize(DataOutputStream wr) throws IOException {
         /**
          * saves entity in file according to serialization pattern
          */
