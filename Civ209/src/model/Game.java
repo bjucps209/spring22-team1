@@ -92,12 +92,9 @@ public class Game {
     public void load(String lvlName) throws IOException {
         try (DataInputStream rd = new DataInputStream(new FileInputStream(lvlName))) {
             if (rd.readUTF().equals("Civilization209")) {
-
                 entityList.clear();
-
                 setScore(rd.readInt());
                 char s = rd.readChar();
-
                 this.season = s == 'W' ? SeasonType.Winter
                         : s == 'F' ? SeasonType.Fall : s == 'S' ? SeasonType.Summer : SeasonType.Spring;
                 char diff = rd.readChar();
