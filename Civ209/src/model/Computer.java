@@ -4,6 +4,8 @@
 //-----------------------------------------------------------
 package model;
 
+import java.util.ArrayList;
+
 public class Computer {
     private Difficulty difficulty;
     private int turnCount;
@@ -16,6 +18,9 @@ public class Computer {
         /**
          * Depending on level of difficulty, creates action and executes said action
          */
+        ArrayList<Entity> entities = game.getEntityList();
+        ArrayList<City> enemyCities;
+        
     }
 
     public Difficulty getDifficulty() {
