@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
@@ -23,6 +24,7 @@ public class HighScores {
     Label lblHScoreTitle;
     @FXML
     VBox VBoxScores;
+    @FXML Slider slDifficulty;
 
     @FXML
     public void initialize() throws IOException {
@@ -71,6 +73,10 @@ public class HighScores {
         }
         return arraylist;
 
+    }
+
+    public int getDifficulty() {
+        return (int)slDifficulty.getValue();
     }
 
     /*

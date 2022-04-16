@@ -59,9 +59,6 @@ public class GameWindow {
         for (Entity entity : game.getEntityList()) {
             new EntityImage(this, pane, entity);
         }
-        // We'll have to set this to the required resolultion
-        // mainVbox.setPrefSize(1025, 525);
-        // mainVbox.setMinHeight(525); mainVbox.setMinWidth(1025);
         scoreLabel.setLayoutX(15);
         scoreLabel.setLayoutY(15);
         scoreLabel.textProperty().bind(SimpleStringProperty.stringExpression(game.scoreProperty()));
@@ -297,24 +294,26 @@ public class GameWindow {
     public void moveTroopToField(ArrayList<Troop> troops, Coordinate destination) {
         int numTroops = troops.size();
         int ring = 0;
+        int curTroop = 0;
         while (numTroops != 0) {
             for (int i = 0; i < Math.max(ring * 6, 1); i++) {
                 if (numTroops == 0) {
                     break;
                 } else {
                     numTroops--;
-                    Troop troop = troops.get(numTroops);
-                    double changeInHeading = (ring * 6) == 0 ? 0 : Math.toRadians((360 / (ring * 6)) * i);
+                    Troop troop = troops.get(curTroop);
+                    double changeInHeading = (ring * 6) == 0 ? 0 : Math.toRadians((360.0 / (ring * 6.0)) * i);
                     troop.setDestination(
                             new Coordinate(
-                                    Math.max(Math.min(destination.getX() + (ring * 10) * Math.cos(changeInHeading),
+                                    Math.max(Math.min(destination.getX() + (ring * Constants.troopRingRadius) * Math.cos(changeInHeading),
                                             Constants.windowWidth), 0),
-                                    Math.max(Math.min(destination.getY() + (ring * 10) * Math.sin(changeInHeading),
+                                    Math.max(Math.min(destination.getY() + (ring * Constants.troopRingRadius) * Math.sin(changeInHeading),
                                             Constants.windowHeight), 0)));
                     troop.setHeading(troop.figureHeading(troop.getDestination()));
                     troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
                             : Constants.standardTroopSpeed);
                     troop.setDestinationType(DestinationType.Coordinate);
+                    curTroop++;
                 }
             }
             ring++;

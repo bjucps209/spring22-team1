@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.Constants;
@@ -13,11 +15,16 @@ public class MainWindow {
 
     @FXML
     Label lblGameTitle;
+    @FXML VBox VBoxMain;
+    @FXML TextField userName;
+
+    public String getUserName() {
+        return String.valueOf(userName);
+    }
 
     @FXML
     public void initialize() throws IOException {
-        lblGameTitle.setFont(Font.font("Times New Roman", 40)); // https://www.codegrepper.com/code-examples/java/how+to+change+font+in+javafx
-
+        lblGameTitle.setFont(Font.font("Georgia", 40)); // https://www.codegrepper.com/code-examples/java/how+to+change+font+in+javafx
     }
 
     @FXML
