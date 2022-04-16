@@ -15,8 +15,10 @@ public class MainWindow {
 
     @FXML
     Label lblGameTitle;
-    @FXML VBox VBoxMain;
-    @FXML TextField userName;
+    @FXML
+    VBox VBoxMain;
+    @FXML
+    TextField userName;
 
     public String getUserName() {
         return String.valueOf(userName);
