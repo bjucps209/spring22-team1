@@ -55,7 +55,6 @@ public class EntityImage extends ImageView {
             this.setFitHeight(Constants.troopRadius * 2);
             this.layoutXProperty().bind(troopLocation.xProperty().subtract(this.getFitWidth() / 2));
             this.layoutYProperty().bind(troopLocation.yProperty().subtract(this.getFitHeight() / 2));
-            this.setOnMouseClicked(e -> parent.onTroopSelected(e, troopEntity));
             pane.getChildren().add(this);
         }
         // else if (entity instanceof Projectile) {

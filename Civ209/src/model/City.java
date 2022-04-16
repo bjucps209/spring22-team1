@@ -8,6 +8,7 @@ package model;
 import java.util.Random;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javafx.beans.property.IntegerProperty;
@@ -23,7 +24,6 @@ public class City extends Entity {
     private int id;
     private int x;
     private int y;
-    private CityObserver observer;
 
     private static int nextId;
 
@@ -41,12 +41,6 @@ public class City extends Entity {
         var rand = new Random();
         this.x = rand.nextInt(750);
         this.y = rand.nextInt(450);
-    }
-
-    public void updatePosition() {
-        if (observer != null) {
-            observer.cityMoved(x, y);
-        }
     }
 
     /**
@@ -132,7 +126,7 @@ public class City extends Entity {
                         (getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
             }
         } else {
-            return 0.0;
+            return (destination.getY() - getLocation().getY() > 0) ? 90 : 270;
         }
     }
 
@@ -148,9 +142,22 @@ public class City extends Entity {
 
     /**
      * packages the object and writes it in file according to serialization pattern
+     * 
+     * @throws IOException
      */
     @Override
-    public void serialize(DataOutputStream wr) {
+    public void serialize(DataOutputStream wr) throws IOException {
+        // Goes through and writes all of the information necessary for a constructor.
+        wr.writeUTF("City");
+        wr.writeDouble(this.getLocation().getX());
+        wr.writeDouble(this.getLocation().getY());
+        wr.writeInt(this.getTurnCount());
+        wr.writeInt(this.getPopulation());
+        wr.writeDouble(incrementRate);
+        wr.writeChar((nationality == Nationality.Player) ? 'P' : nationality == Nationality.Enemy ? 'E' : 'N');
+        wr.writeBoolean(selected);
+        wr.writeDouble(fireRate);
+        wr.writeChar((type == CityType.Fast) ? 'F' : type == CityType.Strong ? 'S' : 's');
     }
 
     public int getPopulation() {

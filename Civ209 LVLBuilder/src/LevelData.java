@@ -3,6 +3,7 @@ import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.beans.property.IntegerProperty;
@@ -19,6 +20,10 @@ public class LevelData {
 
     Level level; 
 
+    public Level getLevel() {
+        return level;
+    }
+
     LevelData() {
         level = new Level(); 
     }
@@ -31,46 +36,84 @@ public class LevelData {
     public void save() throws IOException{
         try (DataOutputStream wr = new DataOutputStream(new FileOutputStream("createdLevel.dat"))) {
             wr.writeUTF("Level");
-            wr.writeInt(level.getCities().size());
-            List<Entity> entityList = level.getCities(); 
-            for (Entity entity : entityList) {
-                entity.serialize(wr);
+            wr.writeUTF("" + level.getSeason());
+            wr.writeUTF(Integer.toString(level.getCities().size()));
+            List<City> entityList = level.getCities(); 
+            for (City entity : entityList) {
+                City city = entity;
+                String id = Integer.toString(city.getId());
+                wr.writeUTF(id); 
+                String x= Integer.toString(city.getX());
+                wr.writeUTF(x);
+                String y= Integer.toString(city.getY());
+                wr.writeUTF(y);
+                String nationality = "N"; 
+                if (city.getNationality() == Nationality.Enemy) {
+                    nationality = Character.toString('E');
+                }
+                if (city.getNationality() == Nationality.Player) {
+                    nationality = Character.toString('P');
+                }
+                if (city.getNationality() == Nationality.Neutral) {
+                    nationality = Character.toString('N');
+                }
+                wr.writeUTF(nationality);
             }
         }
     }
 
-    public void load() throws IOException{
+    public Level load() throws IOException{
+        this.level = new Level(); 
         try (DataInputStream rd = new DataInputStream(new FileInputStream("createdLevel.dat"))) {
-            if (rd.readUTF().equals("Civilization209")) {
+            if (rd.readUTF().equals("Level")) {
                 
-                char s = rd.readChar();
-                SeasonType season = level.getSeason(); 
+                String s = rd.readUTF();
 
-                season = s == 'W' ? SeasonType.Winter
-                        : s == 'F' ? SeasonType.Fall : s == 'S' ? SeasonType.Summer : SeasonType.Spring;
+                if (s.equals("Winter")) {
+                    level.setSeason(SeasonType.Winter);
+                }
+                if (s.equals("Summer") ) {
+                    level.setSeason(SeasonType.Summer);
+                }
+                if (s.equals("Spring")) {
+                    level.setSeason(SeasonType.Spring);
+                }
+                if (s.equals("Fall")) {
+                    level.setSeason(SeasonType.Fall);
+                }
 
-                int size = rd.readInt();
+                int size = Integer.parseInt(rd.readUTF());
                 for (int i = 0; i < size; i++) {
 
                     Entity entity;
-                    Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
-                    int turnCount = rd.readInt();
+                    //Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
+                    int id = Integer.parseInt(rd.readUTF());
+                    int x = Integer.parseInt(rd.readUTF());
+                    int y = Integer.parseInt(rd.readUTF());
+                    String nation = rd.readUTF();
+                    Nationality nationality = Nationality.Neutral; 
+                    if (nation.equals("P")) {
+                        nationality = Nationality.Player; 
+                    }
+                    if (nation.equals("E")) {
+                        nationality = Nationality.Enemy; 
+                    }
+                    if (nation.equals("N")) {
+                        nationality = Nationality.Neutral; 
+                    }
 
-                    double incrementRate = rd.readDouble();
-                    char nation = rd.readChar();
-                    Nationality nationality = nation == 'P' ? Nationality.Player
-                            : nation == 'E' ? Nationality.Enemy : Nationality.Neutral;
-                    boolean selected = rd.readBoolean();
-                    double fireRate = rd.readDouble();
-                    char cityT = rd.readChar();
-                    CityType cityType = cityT == 'S' ? CityType.Standard
-                            : cityT == 'F' ? CityType.Fast : CityType.Strong;
                     IntegerProperty intprop = new SimpleIntegerProperty(10); 
-                    entity = new City(location, turnCount, intprop , incrementRate, nationality, selected,
-                            fireRate, cityType);
-                    level.add((City) entity);
+                    Coordinate location = new Coordinate();
+                    entity = new City(location, 0, intprop , 0, nationality, false,
+                            0.0, CityType.Standard);
+                    City city = (City) entity; 
+                    city.setX(x);
+                    city.setY(y); 
+                    city.setId(id); 
+                    level.add(city);
                 }
             }
         }
+        return this.level; 
     }
 }

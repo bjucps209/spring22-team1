@@ -5,6 +5,7 @@
 package model;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class Weather extends MobileEntity {
     private WeatherType type;
@@ -16,7 +17,8 @@ public class Weather extends MobileEntity {
     }
 
     /**
-     * checks for if completed requirements for type and checks to see if troop in range
+     * checks for if completed requirements for type and checks to see if troop in
+     * range
      */
     @Override
     public void update() {
@@ -30,8 +32,16 @@ public class Weather extends MobileEntity {
      * packages the object and writes it in file according to serialization pattern
      */
     @Override
-    public void serialize(DataOutputStream wr) {
-        //TODO: Finish serialization
+    public void serialize(DataOutputStream wr) throws IOException {
+        wr.writeUTF(type == WeatherType.LightningStorm ? "L"
+                : type == WeatherType.Blizzard ? "B" : type == WeatherType.Drought ? "D" : "F");
+        wr.writeDouble(this.getLocation().getX());
+        wr.writeDouble(this.getLocation().getY());
+        wr.writeInt(this.getTurnCount());
+        wr.writeDouble(this.getSpeed());
+        wr.writeDouble(this.getHeading());
+        wr.writeDouble(this.getDestination().getX());
+        wr.writeDouble(this.getDestination().getY());
     }
 
     public WeatherType getType() {

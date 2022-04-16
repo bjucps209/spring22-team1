@@ -6,11 +6,15 @@
 <VBox fx:id = "VBoxMain" fx:controller="MainWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="@MainWindow.css" spacing="20" prefHeight="400" prefWidth="400">
 
     <HBox>
-        <Label fx:id= "lblGameTitle" text="Civilization 209"></Label>
+        <Label fx:id="lblGameTitle" text="Civilization 209"></Label>
     </HBox>
 
     <HBox>
         <Button onAction="#onPlayClicked" text="Play" />
+    </HBox>
+
+    <HBox>
+        <Button onAction="#onLoadClicked" text="Load Saved Game" />
     </HBox>
 
     <HBox>
@@ -24,5 +28,6 @@
     </HBox>
     <Label text= "Difficulty Level"></Label>
     <Slider fx:id="slDifficulty" min="1" max="3" showTickMarks="true" showTickLabels="true" minorTickCount="0" majorTickUnit="1" snapToTicks="true" />
+
 
 </VBox>

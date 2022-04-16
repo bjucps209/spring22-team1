@@ -37,5 +37,11 @@
             <Button text="Fall" onAction="#onSeasonClicked" />
             <Button text="Winter" onAction="#onSeasonClicked" />
             <Button text="Spring" onAction="#onSeasonClicked" />
+            <Label  text="Current Season: " />
+            <Label fx:id="seasons" text = "       " />  
+            <HBox spacing="30">
+                <Button text="Save" onAction="#onSaveClicked" />
+                <Button fx:id="loadbtn" text="Load" onAction="#onLoadClicked" />
+            </HBox>
         </HBox>
 </VBox>

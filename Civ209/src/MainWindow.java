@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import model.Constants;
 
 public class MainWindow {
 
@@ -27,16 +28,36 @@ public class MainWindow {
     }
 
     @FXML
+    public void onLoadClicked(ActionEvent event) {
+        try {
+            var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
+            Scene scene;
+            scene = new Scene(loader.load());
+            var stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            GameWindow gameWindow = loader.getController();
+            gameWindow.initialize("Levels/savedGame.dat");
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
     public void onPlayClicked(ActionEvent event) {
 
         try {
             var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
             Scene scene;
             scene = new Scene(loader.load());
-
             var stage = new Stage();
             stage.setScene(scene);
             stage.show();
+            GameWindow gameWindow = loader.getController();
+            gameWindow.initialize("");
+
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

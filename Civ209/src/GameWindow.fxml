@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:controller="GameWindow" fx:id="mainVbox" xmlns:fx="http://javafx.com/fxml"  stylesheets="@MainWindow.css"
-    spacing="10" prefHeight="900" prefWidth="1400">
-
+<VBox fx:id="vbox" alignment="CENTER" spacing="10" stylesheets="@MainWindow.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="GameWindow">
+    <Label text="NOT FINAL GUI - TESTING" styleClass="title" />
+    <HBox spacing="10">
+        <VBox spacing="10">
+         
+        </VBox>
+        <Pane fx:id="pane" prefHeight="525" prefWidth="1025" style="-fx-background-color: lightgray" />
+        <HBox spacing="10" styleClass="propview">
+        </HBox>
+    </HBox>
+        <HBox  fx:id="controls"  spacing="30" > 
+           
+            <HBox spacing="30">
+                <Button text="Save" onAction="#onSaveClicked" />
+                <Button text="Load" onAction="#onLoadClicked" />
+            </HBox>
+        </HBox>
 </VBox>
