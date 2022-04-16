@@ -59,9 +59,6 @@ public class GameWindow {
         for (Entity entity : game.getEntityList()) {
             new EntityImage(this, pane, entity);
         }
-        // We'll have to set this to the required resolultion
-        // mainVbox.setPrefSize(1025, 525);
-        // mainVbox.setMinHeight(525); mainVbox.setMinWidth(1025);
         scoreLabel.setLayoutX(15);
         scoreLabel.setLayoutY(15);
         scoreLabel.textProperty().bind(SimpleStringProperty.stringExpression(game.scoreProperty()));
@@ -203,7 +200,7 @@ public class GameWindow {
         if (e.getButton() == MouseButton.SECONDARY) {
             if (selectedCity != null) {
                 if (pointInCircle) {
-                    ArrayList<Troop> troops = selectedCity.sendTroops(100, destination, selectedCity.getType(),
+                    ArrayList<Troop> troops = selectedCity.sendTroops(50.0, destination, selectedCity.getType(),
                             DestinationType.City);
                     for (Troop troop : troops) {
                         EntityImage circle = new EntityImage(this, pane, troop);
@@ -268,9 +265,9 @@ public class GameWindow {
                     double changeInHeading = (ring * 6) == 0 ? 0 : Math.toRadians((360.0 / (ring * 6.0)) * i);
                     troop.setDestination(
                             new Coordinate(
-                                    Math.max(Math.min(destination.getX() + (ring * 10) * Math.cos(changeInHeading),
+                                    Math.max(Math.min(destination.getX() + (ring * Constants.troopRingRadius) * Math.cos(changeInHeading),
                                             Constants.windowWidth), 0),
-                                    Math.max(Math.min(destination.getY() + (ring * 10) * Math.sin(changeInHeading),
+                                    Math.max(Math.min(destination.getY() + (ring * Constants.troopRingRadius) * Math.sin(changeInHeading),
                                             Constants.windowHeight), 0)));
                     troop.setHeading(troop.figureHeading(troop.getDestination()));
                     troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
