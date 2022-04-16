@@ -47,7 +47,7 @@ public class City extends Entity {
      */
     @Override
     public void update() {
-        if (getPopulation() < 30) {
+        if (getPopulation() < 100) {
             setPopulation(getPopulation() + 1);
         }
         super.update();
