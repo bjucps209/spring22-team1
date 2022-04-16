@@ -1,12 +1,12 @@
 import javafx.beans.property.SimpleStringProperty;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import model.City;
@@ -20,16 +20,10 @@ import model.Game;
 import model.Troop;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameWindow {
-
-    @FXML
-    VBox mainVbox;
-    @FXML
-    Pane mainPane = new Pane();
-    @FXML
-    Label scoreLabel = new Label();
 
     private Game game;
     private City selectedCity;
@@ -49,11 +43,21 @@ public class GameWindow {
     }
 
     @FXML
-    public void initialize() {
+    Pane pane;
+    @FXML
+    VBox vbox;
+    @FXML
+    HBox controls;
+
+    @FXML
+    Label scoreLabel = new Label();
+
+    @FXML
+    public void initialize(String lvlname) {
         game = new Game();
-        game.initialize(Difficulty.Easy, "");
+        game.initialize(Difficulty.Easy, lvlname);
         for (Entity entity : game.getEntityList()) {
-            new EntityImage(this, mainPane, entity);
+            new EntityImage(this, pane, entity);
         }
         // We'll have to set this to the required resolultion
         // mainVbox.setPrefSize(1025, 525);
@@ -61,9 +65,8 @@ public class GameWindow {
         scoreLabel.setLayoutX(15);
         scoreLabel.setLayoutY(15);
         scoreLabel.textProperty().bind(SimpleStringProperty.stringExpression(game.scoreProperty()));
-        mainPane.getChildren().add(scoreLabel);
-        mainVbox.getChildren().add(mainPane);
-        mainPane.setOnMousePressed(me -> {
+        pane.getChildren().add(scoreLabel);
+        pane.setOnMousePressed(me -> {
             if (!checkInCity(me) && me.getButton() == MouseButton.PRIMARY) {
                 deSelect();
                 inCity = false;
@@ -72,7 +75,7 @@ public class GameWindow {
                 dragBox.setLayoutX(me.getX());
                 dragBox.setLayoutY(me.getY());
                 dragBox.setStyle("-fx-border-color: black");
-                mainPane.getChildren().add(dragBox);
+                pane.getChildren().add(dragBox);
                 upperLeft.setX(me.getX());
                 upperLeft.setY(me.getY());
             } else if (me.getButton() == MouseButton.PRIMARY && checkInCity(me)) {
@@ -82,7 +85,7 @@ public class GameWindow {
                 inCity = false;
             }
         });
-        mainPane.setOnMouseDragged(me -> {
+        pane.setOnMouseDragged(me -> {
             if (!inCity) {
                 if (me.getX() - dragDelta.x < 0) {
                     dragBox.setPrefWidth(dragDelta.x - me.getX());
@@ -106,16 +109,16 @@ public class GameWindow {
                 }
             }
         });
-        mainPane.setOnMouseReleased(me -> {
+        pane.setOnMouseReleased(me -> {
             if (me.getButton() == MouseButton.PRIMARY) {
-                mainPane.getChildren().remove(dragBox);
+                pane.getChildren().remove(dragBox);
                 for (Entity entity : game.getEntityList()) {
                     if (entity instanceof Troop) {
                         Troop troop = (Troop) entity;
                         Coordinate location = troop.getLocation();
                         if (location.getX() >= upperLeft.getX() && location.getY() >= upperLeft.getY()
                                 && location.getX() <= lowerRight.getX() && location.getY() <= lowerRight.getY()) {
-                            for (Node node : mainPane.getChildren()) {
+                            for (Node node : pane.getChildren()) {
                                 if (node instanceof EntityImage) {
                                     EntityImage entityNode = (EntityImage) node;
                                     if (entityNode.getEntity() == troop) {
@@ -136,11 +139,11 @@ public class GameWindow {
         });
         // Prevent mouse clicks on img from propagating to the pane and
         // resulting in creation of a new image
-        mainPane.setOnMouseClicked(me -> me.consume());
+        pane.setOnMouseClicked(me -> me.consume());
     }
 
     public void deSelect() {
-        for (Node oldNodes : mainPane.getChildren()) {
+        for (Node oldNodes : pane.getChildren()) {
             if (oldNodes.getStyleClass().contains("selected")) {
                 oldNodes.getStyleClass().remove("selected");
             }
@@ -203,18 +206,18 @@ public class GameWindow {
                     ArrayList<Troop> troops = selectedCity.sendTroops(100, destination, selectedCity.getType(),
                             DestinationType.City);
                     for (Troop troop : troops) {
-                        EntityImage circle = new EntityImage(this, mainPane, troop);
+                        EntityImage circle = new EntityImage(this, pane, troop);
                         circle.setUserData(troop);
                         troop.setDestination(cityCenter);
                         troop.setTroopDelete(this::onTroopDelete);
                     }
                     game.getEntityList().addAll(troops);
                 } else {
-                    ArrayList<Troop> troops = selectedCity.sendTroops(100, destination, selectedCity.getType(),
-                            DestinationType.Coordiante);
+                    ArrayList<Troop> troops = selectedCity.sendTroops(50.0, destination, selectedCity.getType(),
+                            DestinationType.Coordinate);
                     moveTroopToField(troops, destination);
                     for (Troop troop : troops) {
-                        EntityImage circle = new EntityImage(this, mainPane, troop);
+                        EntityImage circle = new EntityImage(this, pane, troop);
                         circle.setUserData(troop);
                     }
                     game.getEntityList().addAll(troops);
@@ -242,9 +245,9 @@ public class GameWindow {
     }
 
     public void onTroopDelete(Troop troop) {
-        for (Node node : mainPane.getChildren()) {
+        for (Node node : pane.getChildren()) {
             if (node.getUserData() == troop) {
-                mainPane.getChildren().remove(node);
+                pane.getChildren().remove(node);
                 break;
             }
         }
@@ -272,11 +275,21 @@ public class GameWindow {
                     troop.setHeading(troop.figureHeading(troop.getDestination()));
                     troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
                             : Constants.standardTroopSpeed);
-                    troop.setDestinationType(DestinationType.Coordiante);
+                    troop.setDestinationType(DestinationType.Coordinate);
                     curTroop++;
                 }
             }
             ring++;
         }
+    }
+
+    @FXML
+    public void onSaveClicked(ActionEvent e) throws IOException {
+        game.save();
+    }
+
+    @FXML
+    public void onLoadClicked(ActionEvent e) throws IOException {
+        game.load("Levels/savedGame.dat");
     }
 }

@@ -3,10 +3,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:controller="MainWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="@MainWindow.css" spacing="20" prefHeight="400" prefWidth="400">
+<VBox fx:id = "VBoxMain" fx:controller="MainWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="@MainWindow.css" spacing="20" prefHeight="400" prefWidth="400">
 
     <HBox>
-        <Label fx:id= "lblGameTitle" text="Civilization 209"></Label>
+        <Label fx:id="lblGameTitle" text="Civilization 209"></Label>
     </HBox>
 
     <HBox>
@@ -14,7 +14,20 @@
     </HBox>
 
     <HBox>
+        <Button onAction="#onLoadClicked" text="Load Saved Game" />
+    </HBox>
+
+    <HBox>
         <Button onAction="#onScoresClicked" text="High Scores" />
     </HBox>
+    <HBox>
+        <VBox spacing = "8">
+            <Label text = "Enter your username: "></Label>
+            <TextField fx:id= "userName"></TextField>
+        </VBox>
+    </HBox>
+    <Label text= "Difficulty Level"></Label>
+    <Slider fx:id="slDifficulty" min="1" max="3" showTickMarks="true" showTickLabels="true" minorTickCount="0" majorTickUnit="1" snapToTicks="true" />
+
 
 </VBox>

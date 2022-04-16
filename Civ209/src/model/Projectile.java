@@ -5,6 +5,7 @@
 package model;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
 
 public class Projectile extends MobileEntity {
     private int damage;
@@ -39,8 +40,16 @@ public class Projectile extends MobileEntity {
      * packages the object and writes it in file according to serialization pattern
      */
     @Override
-    public void serialize(DataOutputStream wr) {
-        //TODO: Finish serialization
+    public void serialize(DataOutputStream wr) throws IOException {
+        wr.writeUTF("Projectile");
+        wr.writeDouble(this.getLocation().getX());
+        wr.writeDouble(this.getLocation().getY());
+        wr.writeInt(this.getTurnCount());
+        wr.writeDouble(this.getSpeed());
+        wr.writeDouble(this.getHeading());
+        wr.writeDouble(this.getDestination().getX());
+        wr.writeDouble(this.getDestination().getY());
+        wr.writeInt(damage);
     }
 
     public int getDamage() {
@@ -50,6 +59,5 @@ public class Projectile extends MobileEntity {
     public void setDamage(int damage) {
         this.damage = damage;
     }
-
 
 }

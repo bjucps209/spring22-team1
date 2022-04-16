@@ -8,6 +8,7 @@ package model;
 import java.util.Random;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javafx.beans.property.IntegerProperty;
@@ -62,42 +63,6 @@ public class City extends Entity {
      */
     public ArrayList<Troop> sendTroops(double percentage, Coordinate destination, CityType type,
             DestinationType destinationType) {
-
-        // Mr. Moffitt -
-        // Butchered code, but the timer could be handy.
-        // if (selectedCity != null) {
-        // ArrayList<Troop> troops = selectedCity.sendTroops(50.0, city.getLocation(),
-        // selectedCity.getType());
-        // Timeline troopTimer = new Timeline(new KeyFrame(Duration.millis(200), ex -> {
-        // EntityImage circle = new EntityImage(this, mainPane,
-        // troops.get((getNextTroopSendIndex())));
-        // circle.layoutXProperty().bind(troops.get((getNextTroopSendIndex())).getLocation().xProperty());
-        // circle.layoutYProperty().bind(troops.get((getNextTroopSendIndex())).getLocation().yProperty());
-        // // circle.setFill(Paint.valueOf("transparent"));
-        // //
-        // circle.setStroke(Paint.valueOf((troops.get((getNextTroopSendIndex())).getNationality()
-        // // == Nationality.Enemy)
-        // // ? "red"
-        // // : (troops.get((getNextTroopSendIndex())).getNationality() ==
-        // // Nationality.Neutral) ? "grey" : "blue"));
-        // // circle.setRadius(5);
-        // circle.setUserData(troops.get((getNextTroopSendIndex())));
-        // troops.get((getNextTroopSendIndex())).setTroopDelete(this::onTroopDelete);
-        // }));
-        // troopTimer.setCycleCount(troops.size());
-        // troopSendIndex = 0;
-        // troopTimer.play();
-
-        // game.getEntityList().addAll(troops);
-
-        // //TODO Mr. Moffitt I made some code for you... may not be helpful but if you
-        // want it take it
-        // private int getNextTroopSendIndex() {
-        // int current = troopSendIndex;
-        // troopSendIndex++;
-        // return current;
-        // }
-
         percentage = percentage / 100;
         int numtroops = (int) (getPopulation() * percentage);
         ArrayList<Troop> troops = new ArrayList<>();
@@ -141,9 +106,22 @@ public class City extends Entity {
 
     /**
      * packages the object and writes it in file according to serialization pattern
+     * 
+     * @throws IOException
      */
     @Override
-    public void serialize(DataOutputStream wr) {
+    public void serialize(DataOutputStream wr) throws IOException {
+        // Goes through and writes all of the information necessary for a constructor.
+        wr.writeUTF("City");
+        wr.writeDouble(this.getLocation().getX());
+        wr.writeDouble(this.getLocation().getY());
+        wr.writeInt(this.getTurnCount());
+        wr.writeInt(this.getPopulation());
+        wr.writeDouble(incrementRate);
+        wr.writeChar((nationality == Nationality.Player) ? 'P' : nationality == Nationality.Enemy ? 'E' : 'N');
+        wr.writeBoolean(selected);
+        wr.writeDouble(fireRate);
+        wr.writeChar((type == CityType.Fast) ? 'F' : type == CityType.Strong ? 'S' : 's');
     }
 
     public int getPopulation() {
@@ -196,6 +174,11 @@ public class City extends Entity {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public Object[] getInformation() {
+        Object[] items = { id, x, y, nationality };
+        return items;
     }
 
     public boolean isSelected() {
