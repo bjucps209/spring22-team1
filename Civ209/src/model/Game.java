@@ -24,6 +24,7 @@ public class Game {
     private SeasonType season;
     private ArrayList<Entity> deleteEntityList = new ArrayList<>();
     private Difficulty difficulty;
+    private int turncount = 0;
 
     /**
      * instantiates game from lvl with a computer of level difficulty
@@ -184,7 +185,11 @@ public class Game {
     }
 
     public void update() {
-        setScore(getScore() - 1);
+        //Slows score decrementation 
+        turncount++;
+        if (turncount % 3 == 0)
+            setScore(getScore() - 1);
+
         for (Entity entity : deleteEntityList) {
             entityList.remove(entity);
         }

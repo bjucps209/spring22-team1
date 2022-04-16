@@ -11,8 +11,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.util.Duration;
 
 public class City extends Entity {
     private IntegerProperty populationProperty = new SimpleIntegerProperty();
@@ -24,6 +27,8 @@ public class City extends Entity {
     private int id;
     private int x;
     private int y;
+    private CityObserver obs;
+    private int turnCount = 0;
 
     private static int nextId;
 
@@ -48,8 +53,10 @@ public class City extends Entity {
      */
     @Override
     public void update() {
-        if (getPopulation() < Constants.cityPopulationLimit) {
+        turnCount++;
+        if (getPopulation() < Constants.cityPopulationLimit && turnCount % 2 == 0) {
             setPopulation(getPopulation() + 1);
+
         }
         super.update();
     }
@@ -65,16 +72,26 @@ public class City extends Entity {
             DestinationType destinationType) {
         percentage = percentage / 100;
         int numtroops = (int) (getPopulation() * percentage);
+        if (numtroops < 1)
+            numtroops = 1;
         ArrayList<Troop> troops = new ArrayList<>();
         for (int i = 0; i < numtroops; i++) {
             double heading = figureHeading(destination);
             Troop troop = new Troop(new Coordinate(getLocation()), getTurnCount(),
-                    (type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed, heading,
+                    0, heading,
                     destination,
                     (type == CityType.Strong) ? Constants.strongTroopHealth : Constants.standardTroopHealth,
                     nationality, false, destinationType, type);
             troops.add(troop);
         }
+
+        Timeline timer = new Timeline(new KeyFrame(Duration.millis(300), e -> {
+            Troop troop = troops.get(0);
+            troops.remove(troop);
+            troop.setSpeed((type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed);
+        }));
+        timer.setCycleCount(troops.size());
+        timer.play();
 
         setPopulation(getPopulation() - numtroops);
         return troops;
@@ -102,6 +119,23 @@ public class City extends Entity {
         /**
          * check if any enemies in range. If so, fire projectiles
          */
+    }
+
+    public void recieveTroops(int amount, Nationality attackingType) {
+
+        if (nationality == attackingType) {
+            populationProperty.set(populationProperty.get() + amount);
+        } else {
+            if (populationProperty.get() - amount > -1) {
+                populationProperty.set(populationProperty.get() - amount);
+                System.out.println("Trying to decrement");
+            } else {
+                nationality = attackingType;
+                obs.update();
+                System.out.println("Trying to switch city type");
+                populationProperty.set(0);
+            }
+        }
     }
 
     /**
@@ -203,5 +237,9 @@ public class City extends Entity {
 
     public void setType(CityType type) {
         this.type = type;
+    }
+
+    public void setObs(CityObserver obs) {
+        this.obs = obs;
     }
 }

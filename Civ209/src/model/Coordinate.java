@@ -35,6 +35,7 @@ public class Coordinate {
         setY(coord.getY());
     }
 
+
     public String toString() {
         return "COORDINATE: X is " + getX() + ", and Y is " + getY() + ".";
     }

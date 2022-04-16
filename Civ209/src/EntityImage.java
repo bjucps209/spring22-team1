@@ -8,12 +8,16 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import model.*;
 
-public class EntityImage extends ImageView {
+public class EntityImage extends ImageView implements CityObserver {
     private Entity entity;
     private Entity destination = null;
+    private Nationality nationality;
+    private GameWindow parent;
+    private Pane pane;
+    private Circle cityCircle;
+    private Label cityPop;
 
     // private static final Image projectileImage = null;
-
 
     // private static final Image droughtImage = null;
 
@@ -27,29 +31,35 @@ public class EntityImage extends ImageView {
 
     public EntityImage(GameWindow parent, Pane pane, Entity entity) {
         this.entity = entity;
+        this.parent = parent;
+        this.pane = pane;
 
         if (entity instanceof City) {
             City cityEntity = (City) entity;
+            cityEntity.setObs(this);
+            this.nationality = cityEntity.getNationality();
             this.entity = cityEntity;
             this.setImage(Constants.cityImage);
             Coordinate cityLocation = cityEntity.getLocation();
             this.setLayoutX(cityLocation.getX() - Constants.cityImage.getWidth() / 2);
             this.setLayoutY(cityLocation.getY() - Constants.cityImage.getHeight() / 2);
-            Circle cityCircle = new Circle(cityLocation.getX(), cityLocation.getY(), Constants.cityRadius, Paint.valueOf("transparent"));
+            cityCircle = new Circle(cityLocation.getX(), cityLocation.getY(), Constants.cityRadius,
+                    Paint.valueOf("transparent"));
             cityCircle.setStroke(Paint.valueOf((cityEntity.getNationality() == Nationality.Enemy) ? "red"
                     : (cityEntity.getNationality() == Nationality.Player) ? "blue" : "grey"));
             cityCircle.setOnMouseClicked(e -> parent.onSelected(cityCircle, e, cityEntity));
-            Label cityPop = new Label();
+            cityPop = new Label();
             cityPop.textProperty().bind(cityEntity.populationProperty().asString());
             cityPop.setLayoutX(cityLocation.getX() - Constants.cityImage.getWidth() / 1.5);
             cityPop.setLayoutY(cityLocation.getY() - Constants.cityImage.getHeight() / 1.5);
-            pane.getChildren().addAll(List.of(this, cityPop, cityCircle));
+            pane.getChildren().addAll(List.of(this, cityCircle, cityPop));
 
         } else if (entity instanceof Troop) {
             Troop troopEntity = (Troop) entity;
             this.entity = troopEntity;
             Coordinate troopLocation = troopEntity.getLocation();
-            Image troopImage = troopEntity.getNationality() == Nationality.Enemy ? Constants.enemyImage : Constants.playerImage;
+            Image troopImage = troopEntity.getNationality() == Nationality.Enemy ? Constants.enemyImage
+                    : Constants.playerImage;
             this.setImage(troopImage);
             this.setFitWidth(Constants.troopRadius * 2);
             this.setFitHeight(Constants.troopRadius * 2);
@@ -90,8 +100,17 @@ public class EntityImage extends ImageView {
      * Method updates the location of the Entity based off of the model.
      */
     public void update() {
-        setLayoutX(entity.getLocation().getX());
-        setLayoutY(entity.getLocation().getY());
+        if (entity instanceof City) {
+            City city = (City) entity;
+            System.out.println("Trying to show change in city");
+            System.out.println("Current nationality: " + nationality + "    cityObjectNat: " + city.getNationality());
+            if (city.getNationality() != nationality) {
+                System.out.println("Nationality test works");
+                this.nationality = city.getNationality();
+                cityCircle.setStroke(Paint.valueOf((city.getNationality() == Nationality.Enemy) ? "red"
+                        : (city.getNationality() == Nationality.Player) ? "blue" : "grey"));
+                cityCircle.setOnMouseClicked(e -> parent.onSelected(cityCircle, e, city));            }
+        }
     }
 
     public Entity getDestination() {
