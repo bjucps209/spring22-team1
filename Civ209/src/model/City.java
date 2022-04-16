@@ -11,8 +11,11 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.util.Duration;
 
 public class City extends Entity {
     private IntegerProperty populationProperty = new SimpleIntegerProperty();
@@ -73,16 +76,27 @@ public class City extends Entity {
         for (int i = 0; i < numtroops; i++) {
             double heading = figureHeading(destination);
             Troop troop = new Troop(new Coordinate(getLocation()), getTurnCount(),
-                    (type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed, heading,
+                   0, heading,
                     destination,
                     (type == CityType.Strong) ? Constants.strongTroopHealth : Constants.standardTroopHealth,
                     nationality, false, destinationType, type);
             troops.add(troop);
         }
 
+        Timeline timer = new Timeline(new KeyFrame(Duration.millis(300), e -> {
+            Troop troop = troops.get(0);
+            troops.remove(troop);
+            troop.setSpeed( (type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed);
+        }));
+        timer.setCycleCount(troops.size());
+        timer.play();
+
         setPopulation(getPopulation() - numtroops);
         return troops;
     }
+
+    
+
 
     public double figureHeading(Coordinate destination) {
         if (destination.getX() - getLocation().getX() != 0) {

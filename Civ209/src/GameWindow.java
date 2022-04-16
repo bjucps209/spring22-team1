@@ -27,7 +27,7 @@ public class GameWindow {
 
     private Game game;
     private City selectedCity;
-    private ArrayList<EntityImage> selectedTroops = new ArrayList<>();
+    private ArrayList<EntityImage> selectedTroops = new ArrayList<EntityImage>();
     private Coordinate upperLeft = new Coordinate();
     private Coordinate lowerRight = new Coordinate();
     private VBox dragBox = new VBox();
@@ -310,8 +310,8 @@ public class GameWindow {
                                     Math.max(Math.min(destination.getY() + (ring * Constants.troopRingRadius) * Math.sin(changeInHeading),
                                             Constants.windowHeight), 0)));
                     troop.setHeading(troop.figureHeading(troop.getDestination()));
-                    troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
-                            : Constants.standardTroopSpeed);
+                    // troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
+                    //         : Constants.standardTroopSpeed);
                     troop.setDestinationType(DestinationType.Coordinate);
                     curTroop++;
                 }
