@@ -65,7 +65,6 @@ public class Troop extends MobileEntity {
                 setSpeed(0);
             }
         }
-
         super.update();
     }
 
@@ -108,7 +107,7 @@ public class Troop extends MobileEntity {
                         (getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
             }
         } else {
-            return 0.0;
+            return (destination.getY() - getLocation().getY() > 0) ? 90 : 270;
         }
     }
 

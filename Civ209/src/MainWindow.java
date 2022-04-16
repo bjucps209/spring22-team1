@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import model.Constants;
 
 public class MainWindow {
 
@@ -26,7 +27,6 @@ public class MainWindow {
             var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
             Scene scene;
             scene = new Scene(loader.load());
-
             var stage = new Stage();
             stage.setScene(scene);
             stage.show();

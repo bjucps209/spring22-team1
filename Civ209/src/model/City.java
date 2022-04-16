@@ -126,7 +126,7 @@ public class City extends Entity {
                         (getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
             }
         } else {
-            return 0.0;
+            return (destination.getY() - getLocation().getY() > 0) ? 90 : 270;
         }
     }
 
