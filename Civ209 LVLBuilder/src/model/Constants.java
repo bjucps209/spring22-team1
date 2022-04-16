@@ -3,13 +3,11 @@ package model;
 import javafx.scene.image.Image;
 
 public class Constants {
-    public final static int troopRadius = 4;
+    public final static int troopRadius = 8;
     public final static int cityRadius = 35;
     public final static int standardTroopSpeed = 5;
     public final static int fastTroopSpeed = 8;
     public final static int standardTroopHealth = 1;
-    public final static int windowHeight = 900;
-    public final static int windowWidth = 1400;
     public final static int strongTroopHealth = 2;
     public static final Image blizzardImage = new Image("https://commons.wikimedia.org/wiki/File:Snowstorm.svg.png");
     public static final Image cityImage = new Image(
@@ -17,3 +15,4 @@ public class Constants {
     public static final Image playerImage = new Image("playerTroop.png");
     public static final Image enemyImage = new Image("enemyTroop.png");
 }
+

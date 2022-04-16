@@ -7,7 +7,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class Level {
-    private List<Entity> cities = new ArrayList<Entity>(); 
+    private List<City> cities = new ArrayList<City>(); 
     private SeasonType season; 
 
     /**
@@ -49,14 +49,14 @@ public class Level {
         for (Entity entity : cities) {
             City city = (City) entity;
             if (city.getId() == id) {
-                cities.remove(city); 
+                cities.remove(city.getId()); 
                 return city;
             }
         }
         return null;
     }
 
-    public List<Entity> getCities() {
+    public List<City> getCities() {
         return cities;
     }
 
@@ -71,5 +71,9 @@ public class Level {
     public void add(City entity) {
         cities.add(entity);
     }
+
+    // public void move(City entity) {
+    //     entity.updatePosition(); 
+    // }
     
 }

@@ -1,12 +1,12 @@
-package tests;
+
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import HighScores.*;
 
 public class HighScoresTest {
 
@@ -32,7 +32,7 @@ public class HighScoresTest {
         assertEquals(1, hScores.getScoreList().size());
         hScores.addScoreList(score2);
         assertEquals(2, hScores.getScoreList().size());
-        hScores.sortScores();
+        //hScores.sortScores(hScores);
         assertEquals("Isaac", hScores.getScoreList().get(0).getPlayerName());
 
     }

@@ -5,20 +5,23 @@
 package model;
 
 import java.io.DataOutputStream;
-import java.util.function.Predicate;
 
 public class Troop extends MobileEntity {
     private int health;
     private Nationality nationality;
     private boolean selected;
     private onTroopDeleteInterface troopDelete;
+    private DestinationType destinationType;
+    private CityType troopType;
 
     public Troop(Coordinate location, int turnCount, double speed, double heading, Coordinate destination, int health,
-            Nationality nationality, boolean selected) {
+            Nationality nationality, boolean selected, DestinationType destinationType, CityType troopType) {
         super(location, turnCount, speed, heading, destination);
         this.health = health;
         this.nationality = nationality;
         this.selected = selected;
+        this.destinationType = destinationType;
+        this.troopType = troopType;
     }
 
     /**
@@ -30,11 +33,20 @@ public class Troop extends MobileEntity {
          * check collision
          * check if reached destination
          */
-        // double dist = Math.sqrt(Math.pow((getLocation().getX() - (getLocation().getX() + getSpeed() * Math.cos(getHeading() * Math.PI / 180))), 2.0) + Math.pow((getLocation().getY() - (getLocation().getY() + getSpeed() * Math.sin(getHeading() * Math.PI / 180))), 2.0));
-        double distToDest = Math.sqrt(Math.pow((getDestination().getX() - (getLocation().getX() + getSpeed() * Math.cos(getHeading() * Math.PI / 180))), 2.0) + Math.pow((getDestination().getY() - (getLocation().getY() + getSpeed() * Math.sin(getHeading() * Math.PI / 180))), 2.0));
-        if (Math.abs(distToDest) < 40) { // TODO: magic number for city radius + troop radius
-            troopDelete.onTroopDelete(this);
+        if (destinationType == DestinationType.City) {
+            double distToDest = Math.sqrt(Math.pow((getDestination().getX() - (getLocation().getX() + getSpeed() * Math.cos(getHeading() * Math.PI / 180))), 2.0) + Math.pow((getDestination().getY() - (getLocation().getY() + getSpeed() * Math.sin(getHeading() * Math.PI / 180))), 2.0));
+            if (Math.abs(distToDest) < Constants.cityRadius + Constants.troopRadius) {
+                troopDelete.onTroopDelete(this);
+            }
         }
+        else {
+            double dist = Math.sqrt(Math.pow((getLocation().getX() - (getLocation().getX() + getSpeed() * Math.cos(getHeading() * Math.PI / 180))), 2.0) + Math.pow((getLocation().getY() - (getLocation().getY() + getSpeed() * Math.sin(getHeading() * Math.PI / 180))), 2.0));
+            double distToDest = Math.sqrt(Math.pow((getDestination().getX() - (getLocation().getX() + getSpeed() * Math.cos(getHeading() * Math.PI / 180))), 2.0) + Math.pow((getDestination().getY() - (getLocation().getY() + getSpeed() * Math.sin(getHeading() * Math.PI / 180))), 2.0));
+            if (dist > distToDest) {
+                setSpeed(0);
+            }
+        }
+        
         super.update();
     }
 
@@ -55,6 +67,18 @@ public class Troop extends MobileEntity {
         //TODO: Finish serialization
     }
 
+    public double figureHeading(Coordinate destination) {
+        if (destination.getX() - getLocation().getX() != 0) {
+            if (destination.getX() - getLocation().getX() < 0) {
+                return 180 + (Math.toDegrees(Math.atan((getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
+            } else {
+                return (Math.toDegrees(Math.atan((getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
+            }
+        } else {
+            return 0.0;
+        }
+    }
+
     public boolean isSelected() {
         return selected;
     }
@@ -69,6 +93,14 @@ public class Troop extends MobileEntity {
 
     public void setHealth(int health) {
         this.health = health;
+    }
+
+    public DestinationType getDestinationType() {
+        return destinationType;
+    }
+
+    public void setDestinationType(DestinationType destinationType) {
+        this.destinationType = destinationType;
     }
 
     public Nationality getNationality() {
@@ -86,5 +118,12 @@ public class Troop extends MobileEntity {
     public void setTroopDelete(onTroopDeleteInterface troopDelete) {
         this.troopDelete = troopDelete;
     }
-}
 
+    public CityType getTroopType() {
+        return troopType;
+    }
+
+    public void setTroopType(CityType troopType) {
+        this.troopType = troopType;
+    }
+}

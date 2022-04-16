@@ -14,7 +14,7 @@ public class MainWindow {
     @FXML
     Label lblGameTitle;
 
-@FXML
+    @FXML
     public void initialize() throws IOException {
         lblGameTitle.setFont(Font.font("Times New Roman", 40)); // https://www.codegrepper.com/code-examples/java/how+to+change+font+in+javafx
 
@@ -35,7 +35,6 @@ public class MainWindow {
             e.printStackTrace();
         }
     }
-    
 
     @FXML
     public void onScoresClicked(ActionEvent event) {
