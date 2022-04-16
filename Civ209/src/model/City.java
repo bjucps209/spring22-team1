@@ -24,6 +24,8 @@ public class City extends Entity {
     private int id;
     private int x;
     private int y;
+    private CityObserver obs;
+    private int turnCount = 0;
 
     private static int nextId;
 
@@ -48,7 +50,8 @@ public class City extends Entity {
      */
     @Override
     public void update() {
-        if (getPopulation() < 30) {
+        turnCount++;
+        if (getPopulation() < 30 && turnCount % 3 == 0) {
             setPopulation(getPopulation() + 1);
         }
         super.update();
@@ -138,6 +141,23 @@ public class City extends Entity {
         /**
          * check if any enemies in range. If so, fire projectiles
          */
+    }
+
+    public void recieveTroops(int amount, Nationality attackingType) {
+
+        if (nationality == attackingType) {
+            populationProperty.set(populationProperty.get() + amount);
+        } else {
+            if (populationProperty.get() - amount > -1) {
+                populationProperty.set(populationProperty.get() - amount);
+                System.out.println("Trying to decrement");
+            } else {
+                nationality = attackingType;
+                obs.update();
+                System.out.println("Trying to switch city type");
+                populationProperty.set(0);
+            }
+        }
     }
 
     /**
@@ -239,5 +259,9 @@ public class City extends Entity {
 
     public void setType(CityType type) {
         this.type = type;
+    }
+
+    public void setObs(CityObserver obs) {
+        this.obs = obs;
     }
 }

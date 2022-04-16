@@ -168,7 +168,38 @@ public class GameWindow {
         }
     }
 
+    public City getCityHit(Coordinate coordinate) {
+        City city = null;
+        for (Entity entity : game.getEntityList()) {
+            if (entity instanceof City) {
+                City cityEntity = (City) entity;
+                if (Math.pow(coordinate.getX() - cityEntity.getLocation().getX(), 2) + Math
+                        .pow(coordinate.getY() - cityEntity.getLocation().getY(), 2) <= Math.pow(Constants.cityRadius,
+                                2)) {
+                    city = cityEntity;
+                    break;
+                }
+            }
+        }
+        return city;
+    }
+
     public boolean checkInCity(MouseEvent e) {
+        boolean pointInCircle = false;
+        for (Entity entity : game.getEntityList()) {
+            if (entity instanceof City) {
+                City cityEntity = (City) entity;
+                if (Math.pow(e.getX() - cityEntity.getLocation().getX(), 2) + Math
+                        .pow(e.getY() - cityEntity.getLocation().getY(), 2) <= Math.pow(Constants.cityRadius, 2)) {
+                    pointInCircle = true;
+                    break;
+                }
+            }
+        }
+        return pointInCircle;
+    }
+
+    public boolean checkInCity(Coordinate e) {
         boolean pointInCircle = false;
         for (Entity entity : game.getEntityList()) {
             if (entity instanceof City) {
@@ -251,6 +282,15 @@ public class GameWindow {
                 break;
             }
         }
+
+        Coordinate location = troop.getLocation();
+
+        if (checkInCity(location)) {
+            City city = getCityHit(location);
+            if (city != null)
+                city.recieveTroops(troop.getHealth(), troop.getNationality());
+        }
+
         game.getDeleteEntityList().add(troop);
     }
 

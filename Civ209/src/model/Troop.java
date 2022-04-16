@@ -43,7 +43,7 @@ public class Troop extends MobileEntity {
                             (getDestination().getY()
                                     - (getLocation().getY() + getSpeed() * Math.sin(getHeading() * Math.PI / 180))),
                             2.0));
-            if (Math.abs(distToDest) < Constants.cityRadius + Constants.troopRadius) {
+            if (Math.abs(distToDest) < Constants.cityRadius - 10 + Constants.troopRadius) {
                 troopDelete.onTroopDelete(this);
             }
         } else {
