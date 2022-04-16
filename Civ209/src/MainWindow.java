@@ -19,9 +19,14 @@ public class MainWindow {
     VBox VBoxMain;
     @FXML
     TextField userName;
+    private String name;
 
-    public String getUserName() {
-        return String.valueOf(userName);
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @FXML
@@ -49,6 +54,7 @@ public class MainWindow {
 
     @FXML
     public void onPlayClicked(ActionEvent event) {
+        setName(userName.getText().toString());
 
         try {
             var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));

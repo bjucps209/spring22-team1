@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -32,8 +34,9 @@ public class HighScoresTest {
         assertEquals(1, hScores.getScoreList().size());
         hScores.addScoreList(score2);
         assertEquals(2, hScores.getScoreList().size());
-        hScores.sortScores(hScores.getScoreList());
-        assertEquals("Isaac", hScores.getScoreList().get(0).getPlayerName());
+        ArrayList<ScoreEntry> scoreList = hScores.getScoreList();
+        ArrayList<ScoreEntry> sortedScores = hScores.sortScores(scoreList);
+        assertEquals("Isaac", sortedScores.get(0).getPlayerName());
 
     }
 

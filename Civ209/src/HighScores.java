@@ -24,7 +24,8 @@ public class HighScores {
     Label lblHScoreTitle;
     @FXML
     VBox VBoxScores;
-    @FXML Slider slDifficulty;
+    @FXML
+    Slider slDifficulty;
 
     @FXML
     public void initialize() throws IOException {
@@ -32,6 +33,7 @@ public class HighScores {
         lblHScoreTitle.setFont(Font.font("Times New Roman", 30));
         load();
         sortScores(scoreList);
+        makeLabels();
         save(scoreList);
     }
 
@@ -62,20 +64,23 @@ public class HighScores {
                 .sorted((s1, s2) -> Integer.compare(s2.getPlayerScore(), s1.getPlayerScore()))
                 .collect(Collectors.toList());
         ArrayList<ScoreEntry> arraylist = new ArrayList<ScoreEntry>(sortedList);
-        for (ScoreEntry score:arraylist) {
+        
+        return arraylist;
+    }
+
+    public void makeLabels() {
+        for (ScoreEntry score : sortScores(scoreList)) {
             // set the label value to each line value
             Label lblScore = new Label();
             String pName = score.getPlayerName();
             int pScore = score.getPlayerScore();
-            lblScore.setText("*   " + pName + "          " + pScore);
+            lblScore.setText(pName + "," + pScore);
             VBoxScores.getChildren().add(lblScore);
         }
-        return arraylist;
-
     }
 
     public int getDifficulty() {
-        return (int)slDifficulty.getValue();
+        return (int) slDifficulty.getValue();
     }
 
     /*
