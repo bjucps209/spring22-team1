@@ -124,7 +124,7 @@ public class City extends Entity {
                 return (Math.toDegrees(Math.atan((getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
             }
         } else {
-            return 0.0;
+            return (destination.getY() - getLocation().getY() > 0) ? 90 : 270;
         }
     }
 
