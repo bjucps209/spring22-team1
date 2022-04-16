@@ -82,18 +82,19 @@ public class Troop extends MobileEntity {
      */
     @Override
     public void serialize(DataOutputStream wr) throws IOException {
+        wr.writeUTF("Troop");
         wr.writeDouble(this.getLocation().getX());
         wr.writeDouble(this.getLocation().getY());
         wr.writeInt(this.getTurnCount());
         wr.writeDouble(this.getSpeed());
         wr.writeDouble(this.getHeading());
-        wr.writeDouble(this.getDestination().getX());
-        wr.writeDouble(this.getDestination().getY());
         wr.writeInt(health);
         wr.writeChar((nationality == Nationality.Player) ? 'P' : nationality == Nationality.Enemy ? 'E' : 'N');
         wr.writeBoolean(selected);
         wr.writeChar((destinationType == DestinationType.City ? 'i' : 'o'));
         wr.writeChar((troopType == CityType.Fast) ? 'F' : troopType == CityType.Strong ? 'S' : 's');
+        wr.writeDouble(this.getDestination().getX());
+        wr.writeDouble(this.getDestination().getY());
 
     }
 

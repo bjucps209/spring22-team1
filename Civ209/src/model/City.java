@@ -148,6 +148,7 @@ public class City extends Entity {
     @Override
     public void serialize(DataOutputStream wr) throws IOException {
         // Goes through and writes all of the information necessary for a constructor.
+        wr.writeUTF("City");
         wr.writeDouble(this.getLocation().getX());
         wr.writeDouble(this.getLocation().getY());
         wr.writeInt(this.getTurnCount());

@@ -41,6 +41,7 @@ public class Projectile extends MobileEntity {
      */
     @Override
     public void serialize(DataOutputStream wr) throws IOException {
+        wr.writeUTF("Projectile");
         wr.writeDouble(this.getLocation().getX());
         wr.writeDouble(this.getLocation().getY());
         wr.writeInt(this.getTurnCount());

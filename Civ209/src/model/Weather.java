@@ -33,6 +33,8 @@ public class Weather extends MobileEntity {
      */
     @Override
     public void serialize(DataOutputStream wr) throws IOException {
+        wr.writeUTF(type == WeatherType.LightningStorm ? "L"
+                : type == WeatherType.Blizzard ? "B" : type == WeatherType.Drought ? "D" : "F");
         wr.writeDouble(this.getLocation().getX());
         wr.writeDouble(this.getLocation().getY());
         wr.writeInt(this.getTurnCount());
