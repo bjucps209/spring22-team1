@@ -21,6 +21,7 @@ public class City extends Entity {
     private double fireRate;
     private CityType type;
     private int id;
+    private Coordinate location; 
     private int x;
     private int y;
 
@@ -30,6 +31,7 @@ public class City extends Entity {
             Nationality nationality,
             boolean selected, double fireRate, CityType type) {
         super(location, turnCount);
+        this.location = location; 
         this.populationProperty = population;
         this.incrementRate = incrementRate;
         this.nationality = nationality;
@@ -37,9 +39,9 @@ public class City extends Entity {
         this.fireRate = fireRate;
         this.type = type;
         this.id = ++nextId;
-        var rand = new Random();
-        this.x = rand.nextInt(750);
-        this.y = rand.nextInt(450);
+        // var rand = new Random();
+        // this.x = rand.nextInt(750);
+        // this.y = rand.nextInt(450);
     }
 
     /**
@@ -183,19 +185,19 @@ public class City extends Entity {
     }
 
     public int getX() {
-        return x;
+        return (int) location.getX();
     }
 
     public void setX(int x) {
-         this.x = x;
+        location.setX(x);
     }
 
     public int getY() {
-       return y;
+       return (int) location.getY();
     }
 
     public void setY(int y) {
-        this.y = y;
+        location.setY(y); 
     } 
 
     public boolean isSelected() {

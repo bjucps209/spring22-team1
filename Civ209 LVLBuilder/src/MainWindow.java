@@ -12,7 +12,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import model.City;
+import model.Constants;
 import model.Entity;
 import model.Level;
 import model.Nationality;
@@ -29,12 +32,13 @@ public class MainWindow {
     @FXML Label seasons; 
     @FXML Button loadbtn; 
     City currentCity; 
-    @FXML ImageView lastImage; 
     @FXML ImageView currentImage;  
+    @FXML Circle currentCircle; 
     @FXML VBox vbox;
     int id = 0; 
     Level level = new Level();
     LevelData leveldata = new LevelData(level); 
+
 
     /**
     * creates a player city and displays the city image using its coordinates
@@ -44,7 +48,7 @@ public class MainWindow {
         City city = level.create(Nationality.Player);  
         //City city = (City) level.getCities().get(id);
         id++; 
-        showCity(city, "/images/playercastle.png"); 
+        showCity(city, "blue"); 
     }
 
     
@@ -56,7 +60,7 @@ public class MainWindow {
         City city = level.create(Nationality.Enemy);  
         //City city = (City) level.getCities().get(id);
         id++; 
-        showCity(city, "/images/enemycastle.png"); 
+        showCity(city, "red"); 
     }
 
      /**
@@ -67,7 +71,7 @@ public class MainWindow {
         City city = level.create(Nationality.Neutral);  
         //City city = (City) level.getCities().get(id);
         id++; 
-        showCity(city, "/images/neutralcastle.png"); 
+        showCity(city, "grey"); 
 
     }
     
@@ -75,18 +79,36 @@ public class MainWindow {
      * displays the image of a city using the city and styleclass
       * @param city, styleclass - the city to show and the styleclass
      */ 
-    void showCity(City city, String url) {
+    void showCity(City city , String color) {
         this.currentCity = city; 
-        ImageView image = new ImageView(url);
-        image.setFitHeight(50);
-        image.setFitWidth(50);
+        ImageView image = new ImageView("/images/castle.png"); //setImage(Constants.cityImage);
+        image.setFitWidth(20);
+        image.setFitHeight(20);
+        Circle cityCircle = new Circle(10 , 10, 35, Paint.valueOf("transparent")); // currentCity.getX() + 10, currentCity.getY() + 10
+        cityCircle.setStroke(Paint.valueOf(color)); 
+        image.layoutXProperty().bindBidirectional(cityCircle.layoutXProperty()); 
+        image.layoutYProperty().bindBidirectional(cityCircle.layoutYProperty()); 
+        image.setLayoutX(currentCity.getX());
+        image.setLayoutY(currentCity.getY());
+        image.setId(Integer.toString(currentCity.getId())); 
+        // image.setX(currentCity.getX());
+        // image.setY(currentCity.getY());
+        //cityCircle.layoutXProperty().bind(image.layoutXProperty()); 
+        //cityCircle.layoutYProperty().bind(image.layoutYProperty()); 
         //image.layoutXProperty().bindBidirectional(city.getX() - image.getFitWidth() / 2);
-        image.setLayoutY(city.getY()); // - image.getFitHeight() / 2);
-        image.setLayoutX(city.getX()); //- image.getFitHeight() / 2);
-        image.setId(Integer.toString(city.getId())); 
-        image.setOnMouseClicked(this::onCityClicked); //:)
-        pane.getChildren().add(image);  
-        makeDraggable(image); 
+        //image.setLayoutY(city.getY()); // - image.getFitHeight() / 2);
+        //image.setLayoutX(city.getX()); //- image.getFitHeight() / 2);
+        cityCircle.setId(Integer.toString(city.getId())); 
+        cityCircle.setOnMouseClicked((e) -> onCityClicked(e, image)); 
+
+
+        //image.setId(Integer.toString(city.getId())); 
+        //image.setOnMouseClicked(this::onCityClicked); //:)
+        pane.getChildren().addAll(image, cityCircle);  
+        currentImage = image; 
+        currentCircle = cityCircle; 
+        //makeDraggable(image); 
+        makeDraggable(cityCircle);
         display();  
     }
 
@@ -94,9 +116,11 @@ public class MainWindow {
     * makes the selected image draggable 
     */
     @FXML
-    void onCityClicked(MouseEvent e) {
-        currentImage = (ImageView) e.getSource(); //image;
-        this.currentCity = level.find(Integer.parseInt(currentImage.getId())); 
+    void onCityClicked(MouseEvent e, ImageView image) {
+        currentImage = image; 
+        Circle circle = (Circle) e.getSource(); //circle;
+        currentCircle = circle; 
+        this.currentCity = level.find(Integer.parseInt(circle.getId())); 
         display();
         
     }
@@ -116,13 +140,13 @@ public class MainWindow {
             node.getScene().setCursor(Cursor.MOVE);
         });
         node.setOnMouseDragged(me -> {
-            double x = node.getLayoutX()+ me.getX()- dragDelta.x;
-            double y = node.getLayoutY()+ me.getY()- dragDelta.y;
-            if ( x > -1 && x < 960 && y > -1 && y < 475) {
+            double x = node.getLayoutX() + me.getX()- dragDelta.x;
+            double y = node.getLayoutY() + me.getY()- dragDelta.y;
+            if ( x > 26 && x < 980 && y > 25 && y < 480) {
                 currentCity = level.find(Integer.parseInt(node.getId())); 
                 node.setLayoutX(node.getLayoutX() + me.getX()- dragDelta.x);
                 node.setLayoutY(node.getLayoutY() + me.getY() - dragDelta.y);
-                cityMoved((int) node.getLayoutX(), (int) node.getLayoutY()); 
+                cityMoved((int) node.getLayoutX(), (int) node.getLayoutY());
                 display(); 
             }
         });
@@ -149,13 +173,13 @@ public class MainWindow {
     @FXML 
     void onDeleteClicked(ActionEvent e) {
         int id = currentCity.getId(); 
-        ImageView image = (ImageView) pane.getChildren().get(id - 1);
         level.delete(id - 1); 
         this.id -= 1;
         lblId.setText(""); 
         lblLoc.setText("");
         lblType.setText("");
-        image.setImage(null);
+        pane.getChildren().remove(currentCircle);
+        currentImage.setImage(null);
     }
 
     @FXML
@@ -205,13 +229,13 @@ public class MainWindow {
         for (City entity: entityList) {
             City city = (City) entity; 
             if (city.getNationality() == Nationality.Enemy) {
-                showCity(city, "/images/enemycastle.png");   
+                showCity(city, "red");   
             }
             if (city.getNationality() == Nationality.Player) {
-                showCity(city, "/images/playercastle.png"); 
+                showCity(city, "blue"); 
             }
             if (city.getNationality() == Nationality.Neutral) {
-                showCity(city, "/images/neutralcastle.png"); 
+                showCity(city, "grey"); 
             }
         }
 
@@ -242,5 +266,13 @@ public class MainWindow {
             lblId.setText("" + currentCity.getId());
         }
     }
+
+    // @FXML
+    // void onEntityClicked(Circle cityCircle, MouseEvent e, City city) {
+    //     currentImage = (ImageView) e.getSource(); //image;
+    //     this.currentCity = level.find(Integer.parseInt(currentImage.getId())); 
+    //     display();
+        
+    // }
 }
 

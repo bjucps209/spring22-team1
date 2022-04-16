@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -16,7 +17,10 @@ public class Level {
      * @return the created city
      */
     public City create(Nationality nationality) {
-        Coordinate location = new Coordinate();
+        var rand = new Random();
+        int x = rand.nextInt(750);
+        int y = rand.nextInt(450);
+        Coordinate location = new Coordinate(x, y);
         IntegerProperty intprop = new SimpleIntegerProperty(10); 
         intprop.setValue(0);
         City city = new City(location, 0, intprop , 0.0, nationality,

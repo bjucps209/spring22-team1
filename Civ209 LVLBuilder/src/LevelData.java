@@ -103,7 +103,7 @@ public class LevelData {
                     }
 
                     IntegerProperty intprop = new SimpleIntegerProperty(10); 
-                    Coordinate location = new Coordinate();
+                    Coordinate location = new Coordinate(x, y);
                     entity = new City(location, 0, intprop , 0, nationality, false,
                             0.0, CityType.Standard);
                     City city = (City) entity; 
