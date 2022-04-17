@@ -64,6 +64,19 @@ public class LevelData {
         try (DataOutputStream wr = new DataOutputStream(new
         FileOutputStream("createdLevel.dat"))) {
         wr.writeUTF("Level");
+        String season = null; 
+        if (level.getSeason() == SeasonType.Fall) {
+            season = "Fall"; 
+        }
+        if (level.getSeason() == SeasonType.Spring) {
+            season = "Spring"; 
+        }
+        if (level.getSeason() == SeasonType.Winter) {
+            season = "Winter"; 
+        }
+        if (level.getSeason() == SeasonType.Summer) {
+            season = "Summer"; 
+        }
         wr.writeUTF("" + level.getSeason());
         wr.writeUTF(Integer.toString(level.getCities().size()));
         List<City> entityList = level.getCities();
