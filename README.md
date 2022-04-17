@@ -22,7 +22,7 @@ You win when you control all of the cities on the map. You lose if all of your c
 
 * Model-view violations
 
-### Recording
+### [Recording](https://youtu.be/fqHC75AZ9QE)
 
 ### Expenses
 | Name | Username | Ownership Area | Hours Invested | Hours Remaining | Link to Journal | 
