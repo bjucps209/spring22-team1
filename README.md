@@ -10,6 +10,21 @@ CPS 209 Spring Team 1 Project
 
 You win when you control all of the cities on the map. You lose if all of your cities are taken over, or if your score reaches zero.  
 
+### Work Completed 
+* Game Functionality
+* Serialization
+* Level Builder
+* Auxilary Screens
+
+### Known Issues
+
+### Recording
+
+### Expenses
+| Name | Username | Ownership Area | Hours Invested | Hours Remaining | Link to Journal | 
+| ----------- | ----------- | ----------- | ----------- | ----------- | ----------- |
+| x | x | x | x | x | x |
+
 ## Assets used:
 
 ### Castle icon
