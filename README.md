@@ -27,6 +27,7 @@ You win when you control all of the cities on the map. You lose if all of your c
 | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- |
 | Isabelle Overton | iover106 | High Scores Design | 11 hours 50 minutes | 37 hours 10 minutes | [Isabelle's Journal](https://github.com/bjucps209/spring22-team1/wiki/OvertonJournal) |
 | Rhys Fuller | RFuller25 | Serialization | 17 hours 33 minutes | 32 hours 27 minutes | [Rhys's Journal](https://github.com/bjucps209/spring22-team1/wiki/Fuller-Journal) |
+| Emily Bronkema | embronk | Level Builder | 15 hours 52 minutes | 34 hours 08 minutes | [Emily's Journal](https://github.com/bjucps209/spring22-team1/wiki/Bronkema-Journal) | 
 
 
 ## Assets used:
