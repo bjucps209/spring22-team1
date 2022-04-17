@@ -13,8 +13,8 @@ You win when you control all of the cities on the map. You lose if all of your c
 ### Work Completed 
 * Game Functionality
 * Serialization
-* Level Builder
-    The program allows the user to place the enemy, neutral, and player cities wherever wanted on the map, and decide on the playing season. The user can save the level, close the window, and load the level later, or they can save the level and continue to change it, decide they want to go back to what they saved, and load the level from the same window. 
+* Level Builder: 
+  The program allows the user to place the enemy, neutral, and player cities wherever wanted on the map, and decide on the playing season. The user can save the level, close the window, and load the level later, or they can save the level and continue to change it, decide they want to go back to what they saved, and load the level from the same window. 
 * Auxilary Screens
 
 ### Known Issues
