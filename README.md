@@ -12,7 +12,8 @@ You win when you control all of the cities on the map. You lose if all of your c
 
 ### Work Completed 
 * Game Functionality
-* Serialization
+* Serialization: 
+  The save function creates a save file at the given filename. It saves the current score, state of the game, and all of the cities and troops on the map, along with their destinations, speeds, headings, population counts, and type, as relevant. When the load function is called, it loads all of the game in the exact state that it was saved in. Cities are at their populations, and troops are not only where they were when the game was saved, but heading in the same direction at the same speed, and are actively moving when the game is loaded. Code passes all unit tests.
 * Level Builder: 
   The program allows the user to place the enemy, neutral, and player cities wherever wanted on the map, and decide on the playing season. The user can save the level, close the window, and load the level later, or they can save the level and continue to change it, decide they want to go back to what they saved, and load the level from the same window. 
 * Auxilary Screens
