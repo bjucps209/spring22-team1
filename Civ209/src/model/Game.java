@@ -19,7 +19,7 @@ public class Game {
     private String fileName;
     private double gameSpeed;
     private IntegerProperty scoreProperty = new SimpleIntegerProperty();
-    private Computer computer;
+    private Computer computer = new Computer();
     private int numPlayerCitiesLeft;
     private SeasonType season;
     private ArrayList<Entity> deleteEntityList = new ArrayList<>();
@@ -34,17 +34,7 @@ public class Game {
      */
     public void initialize(Difficulty difficulty, String lvlName) {
         this.difficulty = difficulty;
-        switch (difficulty) {
-            case Easy:
-                this.computer = new EasyComputer();
-                break;
-            case Medium:
-                this.computer = new MediumComputer();
-                break;
-            case Hard:
-                this.computer = new HardComputer();
-                break;
-        }
+
         try {
             load(lvlName);
         } catch (IOException e) {
@@ -100,18 +90,6 @@ public class Game {
                         : s == 'F' ? SeasonType.Fall : s == 'S' ? SeasonType.Summer : SeasonType.Spring;
                 char diff = rd.readChar();
                 this.difficulty = diff == 'E' ? Difficulty.Easy : diff == 'M' ? Difficulty.Medium : Difficulty.Hard;
-
-                switch (difficulty) {
-                    case Easy:
-                        this.computer = new EasyComputer();
-                        break;
-                    case Medium:
-                        this.computer = new MediumComputer();
-                        break;
-                    case Hard:
-                        this.computer = new HardComputer();
-                        break;
-                }
                 this.numPlayerCitiesLeft = rd.readInt();
 
                 this.gameSpeed = rd.readDouble();
@@ -226,6 +204,10 @@ public class Game {
                 entity.serialize(wr);
             }
         }
+    }
+
+    public void setUpComputer(ComputerObserver window) {
+        computer.setObs(window);
     }
 
     public void startTimer() {

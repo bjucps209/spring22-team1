@@ -12,7 +12,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import model.City;
+import model.CityObserver;
 import model.CityType;
+import model.ComputerObserver;
 import model.Constants;
 import model.Coordinate;
 import model.DestinationType;
@@ -25,7 +27,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class GameWindow {
+public class GameWindow implements ComputerObserver {
 
     private Game game;
     private City selectedCity;
@@ -63,6 +65,7 @@ public class GameWindow {
     @FXML
     public void initialize(String lvlname) {
         game = new Game();
+        game.setUpComputer(this);
         game.initialize(Difficulty.Easy, lvlname);
         for (Entity entity : game.getEntityList()) {
             new EntityImage(this, pane, entity);
@@ -234,6 +237,29 @@ public class GameWindow {
         return null;
     }
 
+    public void sendTroopsFromCity(City selectedCity, Coordinate destination) {
+        ArrayList<Troop> troops = selectedCity.sendTroops(slider.getValue(), destination,
+                selectedCity.getType(),
+                DestinationType.City);
+        for (Troop troop : troops) {
+            EntityImage circle = new EntityImage(this, pane, troop);
+            circle.setUserData(troop);
+            troop.setDestination(destination);
+            troop.setTroopDelete(this::onTroopDelete);
+        }
+    }
+
+    public void sendTroopsFromGround(ArrayList<Troop> selectedTroops, Coordinate destination) {
+        for (Troop troop : selectedTroops) {
+            troop.setDestination(destination);
+            troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
+                    : Constants.standardTroopSpeed);
+            troop.setHeading(troop.figureHeading(destination));
+            troop.setTroopDelete(this::onTroopDelete);
+            troop.setDestinationType(DestinationType.City);
+        }
+    }
+
     public void deployTroops(MouseEvent e) {
         Coordinate destination = new Coordinate(e.getX(), e.getY());
         boolean pointInCircle = checkInCity(e);
@@ -278,6 +304,10 @@ public class GameWindow {
                     for (EntityImage entity : selectedTroops) {
                         troops.add((Troop) entity.getEntity());
                         moveTroopToField(troops, destination);
+                    }
+                    for (Troop troop : troops) {
+                        troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
+                                : Constants.standardTroopSpeed);
                     }
                 }
             }
