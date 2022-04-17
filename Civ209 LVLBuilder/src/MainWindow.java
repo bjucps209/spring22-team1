@@ -238,6 +238,26 @@ public class MainWindow {
                 showCity(city, "grey"); 
             }
         }
+        if (level.getSeason() != null) {
+            SeasonType season = level.getSeason(); 
+            if (season == SeasonType.Summer) {
+                showSeason("/images/tentativesummer.png");
+                seasons.setText("Summer");
+    
+            }
+            if (season == SeasonType.Fall) {
+                showSeason("/images/tentativefall.png");
+                seasons.setText("Fall");
+            }
+            if (season == SeasonType.Winter) {
+                showSeason("/images/tentativewinter.png");
+                seasons.setText("Winter");
+            }
+            if (season == SeasonType.Spring) {
+                showSeason("/images/tentativespring2.png");
+                seasons.setText("Spring");
+            }
+        }
 
         loadbtn.setDisable(true); 
         load = true; 
