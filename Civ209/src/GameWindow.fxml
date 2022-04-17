@@ -15,7 +15,7 @@
 
         <HBox spacing="30">
             <Button text="Save" onAction="#onSaveClicked" />
-            <Button text="Load" onAction="#onLoadClicked" />
+            <!-- <Button text="Load" onAction="#onLoadClicked" /> -->
             <VBox>
                 <Slider fx:id="slider" min="1" max="100" majorTickUnit="1.0" minorTickCount="0" snapToTicks="true" value="50" />
                 <Label fx:id="lblSize" text="${slider.value}" />

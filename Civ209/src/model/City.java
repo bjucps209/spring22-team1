@@ -128,11 +128,9 @@ public class City extends Entity {
         } else {
             if (populationProperty.get() - amount > -1) {
                 populationProperty.set(populationProperty.get() - amount);
-                System.out.println("Trying to decrement");
             } else {
                 nationality = attackingType;
                 obs.update();
-                System.out.println("Trying to switch city type");
                 populationProperty.set(0);
             }
         }

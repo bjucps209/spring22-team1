@@ -74,7 +74,7 @@ public class HighScores {
             Label lblScore = new Label();
             String pName = score.getPlayerName();
             int pScore = score.getPlayerScore();
-            lblScore.setText(pName + "," + pScore);
+            lblScore.setText(pName + "                     " + pScore);
             VBoxScores.getChildren().add(lblScore);
         }
     }
