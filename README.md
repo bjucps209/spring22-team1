@@ -18,12 +18,14 @@ You win when you control all of the cities on the map. You lose if all of your c
 
 ### Known Issues
 
+* Egregious model-view violations, courtesy of Mr. Moffitt.
+
 ### Recording
 
 ### Expenses
 | Name | Username | Ownership Area | Hours Invested | Hours Remaining | Link to Journal | 
 | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- |
-| x | x | x | x | x | x |
+| Isabelle Overton | iover106 | High Scores Design | 11 hours 50 minutes | 37 hours 10 minutes | https://github.com/bjucps209/spring22-team1/wiki/OvertonJournal |
 
 ## Assets used:
 
