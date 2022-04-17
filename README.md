@@ -11,7 +11,8 @@ CPS 209 Spring Team 1 Project
 You win when you control all of the cities on the map. You lose if all of your cities are taken over, or if your score reaches zero.  
 
 ### Work Completed 
-* Game Functionality
+* Game Functionality:
+  The game initializes the list of entities supplied by the load function and starts the game loop. The game handles clicks by the user on cities, for selecting troops, and moving troops. There is a slider that allows the user to specify the percent of population to move out of a city at a given time. The game handles a drag box which allows the user to select troops and groop them together for group movement or attacks.
 * Serialization: 
   The save function creates a save file at the given filename. It saves the current score, state of the game, and all of the cities and troops on the map, along with their destinations, speeds, headings, population counts, and type, as relevant. When the load function is called, it loads all of the game in the exact state that it was saved in. Cities are at their populations, and troops are not only where they were when the game was saved, but heading in the same direction at the same speed, and are actively moving when the game is loaded. Code passes all unit tests.
 * Level Builder: 
@@ -30,6 +31,7 @@ You win when you control all of the cities on the map. You lose if all of your c
 | Isabelle Overton | iover106 | High Scores Design | 11 hours 50 minutes | 37 hours 10 minutes | [Isabelle's Journal](https://github.com/bjucps209/spring22-team1/wiki/OvertonJournal) |
 | Rhys Fuller | RFuller25 | Serialization | 17 hours 33 minutes | 32 hours 27 minutes | [Rhys's Journal](https://github.com/bjucps209/spring22-team1/wiki/Fuller-Journal) |
 | Emily Bronkema | embronk | Level Builder | 15 hours 52 minutes | 34 hours 08 minutes | [Emily's Journal](https://github.com/bjucps209/spring22-team1/wiki/Bronkema-Journal) | 
+| Ryan Moffitt | Sintfoap | Basic Game Play | 22 hours 30 minutes | 27 hours 30 minutes | [Ryan's Journal](https://github.com/bjucps209/spring22-team1/wiki/MoffittJournal) | 
 
 
 ## Assets used:
