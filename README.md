@@ -20,7 +20,7 @@ You win when you control all of the cities on the map. You lose if all of your c
 
 ### Known Issues
 
-* Egregious model-view violations, courtesy of Mr. Moffitt.
+* Model-view violations
 
 ### Recording
 
