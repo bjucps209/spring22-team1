@@ -25,6 +25,8 @@ public class Game {
     private ArrayList<Entity> deleteEntityList = new ArrayList<>();
     private Difficulty difficulty;
     private int turncount = 0;
+    private ArrayList<Troop> selectedTroops = new ArrayList<>();
+    private City selectedCity;
 
     /**
      * instantiates game from lvl with a computer of level difficulty
@@ -41,7 +43,7 @@ public class Game {
             try {
                 // Removed Civ209
                 // TODO check to make sure this works
-                load("Levels/DemoLevel.dat");
+                load("Civ209/Levels/DemoLevel.dat");
             } catch (IOException xe) {
                 System.out.println("fatalError! " + xe);
                 System.exit(1);
@@ -58,11 +60,20 @@ public class Game {
      * @param coord2      bottom right corner of box
      * @param nationality nationality of troops to select
      */
-    public void selectTroops(Coordinate coord1, Coordinate coord2, Nationality nationality) {
-        /**
-         * iterate through troops and select troops based on nationality and if in box
-         * created by x, y coordinate
-         */
+    public ArrayList<Troop> selectTroops(Coordinate coord1, Coordinate coord2, Nationality nationality) {
+        selectedTroops.clear();
+        for (Entity entity : getEntityList()) {
+            if (entity instanceof Troop) {
+                Troop troop = (Troop) entity;
+                Coordinate location = troop.getLocation();
+                if (location.getX() >= coord1.getX() && location.getY() >= coord1.getY()
+                        && location.getX() <= coord2.getX() && location.getY() <= coord2.getY()) {
+                    troop.setSelected(true);
+                    selectedTroops.add(troop);
+                }
+            }
+        }
+        return selectedTroops;
     }
 
     /**
@@ -177,6 +188,19 @@ public class Game {
         }
     }
 
+    public void deSelect() {
+        if (selectedCity != null) {
+            selectedCity.setSelected(false);
+        }
+        selectedCity = null;
+        for (Entity entity : selectedTroops) {
+            Troop troop = (Troop) entity;
+            troop.setSelected(false);
+        }
+        selectedTroops = new ArrayList<>();
+    }
+
+
     /**
      * stops timer and saves all objects to saved game portion of game file
      * 
@@ -208,6 +232,55 @@ public class Game {
 
     public void setUpComputer(ComputerObserver window) {
         computer.setObs(window);
+    }
+
+    public City getCityHit(Coordinate coordinate) {
+        City city = null;
+        for (Entity entity : getEntityList()) {
+            if (entity instanceof City) {
+                City cityEntity = (City) entity;
+                if (Math.pow(coordinate.getX() - cityEntity.getLocation().getX(), 2) + Math
+                        .pow(coordinate.getY() - cityEntity.getLocation().getY(), 2) <= Math.pow(Constants.cityRadius,
+                                2)) {
+                    city = cityEntity;
+                    break;
+                }
+            }
+        }
+        return city;
+    }
+    public void moveTroopToField(ArrayList<Troop> troops, Coordinate destination) {
+        int numTroops = troops.size();
+        int ring = 0;
+        int curTroop = 0;
+        while (numTroops != 0) {
+            for (int i = 0; i < Math.max(ring * 6, 1); i++) {
+                if (numTroops == 0) {
+                    break;
+                } else {
+                    numTroops--;
+                    Troop troop = troops.get(curTroop);
+                    double changeInHeading = (ring * 6) == 0 ? 0 : Math.toRadians((360.0 / (ring * 6.0)) * i);
+                    troop.setDestination(
+                            new Coordinate(
+                                    Math.max(Math.min(
+                                            destination.getX()
+                                                    + (ring * Constants.troopRingRadius) * Math.cos(changeInHeading),
+                                            Constants.windowWidth), 0),
+                                    Math.max(Math.min(
+                                            destination.getY()
+                                                    + (ring * Constants.troopRingRadius) * Math.sin(changeInHeading),
+                                            Constants.windowHeight), 0)));
+                    troop.setHeading(troop.figureHeading(troop.getDestination()));
+                    // troop.setSpeed(troop.getTroopType() == CityType.Fast ?
+                    // Constants.fastTroopSpeed
+                    // : Constants.standardTroopSpeed);
+                    troop.setDestinationType(DestinationType.Coordinate);
+                    curTroop++;
+                }
+            }
+            ring++;
+        }
     }
 
     public void startTimer() {
@@ -298,6 +371,22 @@ public class Game {
 
     public void setDeleteEntityList(ArrayList<Entity> deleteEntityList) {
         this.deleteEntityList = deleteEntityList;
+    }
+
+    public ArrayList<Troop> getSelectedTroops() {
+        return selectedTroops;
+    }
+
+    public void setSelectedTroops(ArrayList<Troop> selectedTroops) {
+        this.selectedTroops = selectedTroops;
+    }
+
+    public City getSelectedCity() {
+        return selectedCity;
+    }
+
+    public void setSelectedCity(City selectedCity) {
+        this.selectedCity = selectedCity;
     }
 
 }
