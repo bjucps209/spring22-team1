@@ -4,6 +4,7 @@
 //-----------------------------------------------------------
 package model;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
@@ -14,6 +15,16 @@ public class Projectile extends MobileEntity {
             Coordinate destination, int damage) {
         super(location, turnCount, speed, heading, destination);
         this.damage = damage;
+    }
+
+    public static Entity load(DataInputStream rd) throws IOException {
+        Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
+        int turnCount = rd.readInt();
+        double speed = rd.readDouble();
+        double heading = rd.readDouble();
+        Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
+        int damage = rd.readInt();
+        return new Projectile(location, turnCount, speed, heading, destination, damage);
     }
 
     /**
