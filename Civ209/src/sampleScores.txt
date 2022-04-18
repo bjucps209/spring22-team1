@@ -1,2 +1,4 @@
 Eric,702
 Caleb,540
+Ryan,320
+Jose,650
