@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:controller="AboutScreen" xmlns:fx="http://javafx.com/fxml" stylesheets="@HighScores.css" spacing="20" prefHeight="500" prefWidth="500">
+    <Label fx:id = "lblAboutTitle" text = "About"/>
+    <HBox spacing = "20">
+        <Label fx:id = "lblCoders" text = "CODERS"></Label>
+    </HBox>
+    <VBox fx:id = "VBoxScores" spacing = "20">
+        <Label text = "Emily Bronkema"></Label>
+        <Label text = "Rhys Fuller"></Label>
+        <Label text = "Ryan Moffitt"></Label>
+        <Label text = "Isabelle Overton"></Label>
+    </VBox>
+
+</VBox>

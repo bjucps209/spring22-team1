@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import model.Constants;
 
 public class MainWindow {
+    public static final Image cityImage = new Image(
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/BSicon_Castle.svg/32px-BSicon_Castle.svg.png");
 
     @FXML
     Label lblGameTitle;
@@ -31,43 +33,21 @@ public class MainWindow {
 
     @FXML
     public void initialize() throws IOException {
-        lblGameTitle.setFont(Font.font("Georgia", 40)); // https://www.codegrepper.com/code-examples/java/how+to+change+font+in+javafx
+
+        lblGameTitle.setFont(Font.font("Impact", 40)); // https://www.codegrepper.com/code-examples/java/how+to+change+font+in+javafx
     }
 
     @FXML
-    public void onLoadClicked(ActionEvent event) {
+    public void onLevelsClicked(ActionEvent event) {
         try {
-            var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
+            var loader = new FXMLLoader(getClass().getResource("Levels.fxml"));
             Scene scene;
             scene = new Scene(loader.load());
+
             var stage = new Stage();
             stage.setScene(scene);
             stage.show();
-            GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("Levels/savedGame.dat");
-
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    public void onPlayClicked(ActionEvent event) {
-        setName(userName.getText().toString());
-
-        try {
-            var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
-            Scene scene;
-            scene = new Scene(loader.load());
-            var stage = new Stage();
-            stage.setScene(scene);
-            stage.show();
-            GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("");
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -76,6 +56,36 @@ public class MainWindow {
     public void onScoresClicked(ActionEvent event) {
         try {
             var loader = new FXMLLoader(getClass().getResource("HighScores.fxml"));
+            Scene scene;
+            scene = new Scene(loader.load());
+
+            var stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onAboutClicked(ActionEvent event) {
+        try {
+            var loader = new FXMLLoader(getClass().getResource("AboutScreen.fxml"));
+            Scene scene;
+            scene = new Scene(loader.load());
+
+            var stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onHelpClicked(ActionEvent event) {
+        try {
+            var loader = new FXMLLoader(getClass().getResource("HelpScreen.fxml"));
             Scene scene;
             scene = new Scene(loader.load());
 

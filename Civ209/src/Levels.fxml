@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox fx:controller="Levels" xmlns:fx="http://javafx.com/fxml" stylesheets="@MainWindow.css" spacing="20" prefHeight="500" prefWidth="500">
+    <Label fx:id="lblLevelTitle" text="Select A Level" />
+    <Label text="LEVELS"></Label>
+    <Button onAction="#onLoadClicked" text="Load Saved Game" />
+    <Button onAction="#onPlayClicked" text="Play" />
+
+</VBox>

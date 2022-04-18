@@ -30,7 +30,7 @@ public class HighScores {
     @FXML
     public void initialize() throws IOException {
         VBoxScores.getChildren().clear();
-        lblHScoreTitle.setFont(Font.font("Times New Roman", 30));
+        lblHScoreTitle.setFont(Font.font("Impact", 30));
         load();
         sortScores(scoreList);
         makeLabels();
@@ -64,7 +64,7 @@ public class HighScores {
                 .sorted((s1, s2) -> Integer.compare(s2.getPlayerScore(), s1.getPlayerScore()))
                 .collect(Collectors.toList());
         ArrayList<ScoreEntry> arraylist = new ArrayList<ScoreEntry>(sortedList);
-        
+
         return arraylist;
     }
 

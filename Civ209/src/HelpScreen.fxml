@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:controller="HelpScreen" xmlns:fx="http://javafx.com/fxml" stylesheets="@HighScores.css" spacing="10" prefHeight="500" prefWidth="700">
+    <Label fx:id = "lblHelpTitle" text = "Help"/>
+    <HBox spacing = "30">
+        <Label fx:id = "lblHowTo" text = "How To Play"></Label>
+    </HBox>
+    <VBox fx:id = "VBoxScores" spacing = "10">
+        <Label text = "Objective: capture all the cities by clicking on the blue cities"></Label>
+        <Label text = "and sending troops to the (red) enemy and (gray) neutral cities by clicking on them."></Label>
+
+        <Label text = " * Drag the slider to choose how many troops you want to send from that city."></Label>
+        <Label text = " * Troops will be produced in each city once per second until the max count is reached."></Label>
+        <Label text = " * When you defeat a neutral or enemy city, the city will become yours."></Label>
+        <Label text = " * You lose if all of your cities are taken over, or if your score reaches zero."></Label>
+    </VBox>
+
+</VBox>
