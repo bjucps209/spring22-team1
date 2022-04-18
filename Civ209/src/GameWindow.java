@@ -118,6 +118,7 @@ public class GameWindow implements ComputerObserver {
         });
         pane.setOnMouseReleased(me -> {
             if (me.getButton() == MouseButton.PRIMARY) {
+                deSelect();
                 pane.getChildren().remove(dragBox);
                 game.selectTroops(upperLeft, lowerRight, Nationality.Player).stream().forEach(t -> selectedTroops
                         .add((EntityImage) pane.getChildren().filtered(e -> e.getUserData() == t).toArray()[0]));
@@ -141,6 +142,7 @@ public class GameWindow implements ComputerObserver {
                 oldNodes.getStyleClass().remove("selected");
             }
         }
+        selectedTroops.clear();
         game.deSelect();
     }
 

@@ -193,11 +193,10 @@ public class Game {
             selectedCity.setSelected(false);
         }
         selectedCity = null;
-        for (Entity entity : selectedTroops) {
-            Troop troop = (Troop) entity;
+        for (Troop troop : selectedTroops) {
             troop.setSelected(false);
         }
-        selectedTroops = new ArrayList<>();
+        selectedTroops.clear();
     }
 
 
