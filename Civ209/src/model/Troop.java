@@ -183,4 +183,8 @@ public class Troop extends MobileEntity {
     public void setTroopType(CityType troopType) {
         this.troopType = troopType;
     }
+
+    public String __str__() {
+        return "" + getSpeed() + " " + getHeading() + " " + getDestination();
+    }
 }

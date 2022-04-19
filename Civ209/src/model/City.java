@@ -103,13 +103,18 @@ public class City extends Entity {
             troops.add(troop);
         }
 
-        Timeline timer = new Timeline(new KeyFrame(Duration.millis(300), e -> {
-            Troop troop = troops.get(0);
-            troops.remove(troop);
-            troop.setSpeed((type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed);
-        }));
-        timer.setCycleCount(troops.size());
-        timer.play();
+
+
+        Thread t = new Thread(() -> {
+            Timeline timer = new Timeline(new KeyFrame(Duration.millis(300), e -> {
+                Troop troop = troops.get(0);
+                troops.remove(troop);
+                troop.setSpeed((type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed);
+            }));
+            timer.setCycleCount(troops.size());
+            timer.play();
+        });
+        t.start();
 
         setPopulation(getPopulation() - numtroops);
         return troops;

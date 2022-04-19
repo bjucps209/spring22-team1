@@ -50,16 +50,23 @@ public class Computer {
                 }
             }
         }
-        if (turnCount % 45 == 0) {
+
+        if (turnCount % 60 == 0) {
             City cityToAttack = calculateAttackCity(otherCities);
             for (City city : computerCities) {
-                city.sendTroops(45, cityToAttack.getLocation(), city.getType(), DestinationType.City);
+                ArrayList<Troop> troops = game.sendTroopsFromCity(city, cityToAttack.getLocation(), 100);
+                game.getEntityList().addAll(troops);
+                obs.renderTroops(troops);
             }
-        } else if (turnCount % 7 == 0) {
+        } else if (turnCount % 15 == 0) {
             for (City city : computerCities) {
-                city.sendTroops(1,
-                        new Coordinate(r.nextDouble(40, 90) + city.getLocation().getX(), r.nextDouble(40, 90)),
+                ArrayList<Troop> troops = city.sendTroops(1,
+                        new Coordinate(r.nextDouble(50, 100) + city.getLocation().getX(),
+                        r.nextDouble(50, 100)),
                         city.getType(), DestinationType.Coordinate);
+                obs.renderTroops(troops);
+                game.getEntityList().addAll(troops);
+
             }
         }
 
@@ -81,9 +88,10 @@ public class Computer {
     private City calculateAttackCity(ArrayList<City> cities) {
         City returnCity = null;
         for (City city : cities) {
-            if (returnCity == null) {
+            if (returnCity == null && city.getNationality() != Nationality.Enemy) {
                 returnCity = city;
-            } else if (city.getPopulation() > returnCity.getPopulation()) {
+            } else if (city.getPopulation() > returnCity.getPopulation()
+                    && city.getNationality() != Nationality.Enemy) {
                 returnCity = city;
             }
 
