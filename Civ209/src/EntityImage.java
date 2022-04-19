@@ -1,6 +1,5 @@
 import java.util.List;
 
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Label;
 import javafx.scene.image.*;
 import javafx.scene.layout.Pane;
@@ -13,7 +12,6 @@ public class EntityImage extends ImageView implements CityObserver {
     private Entity destination = null;
     private Nationality nationality;
     private GameWindow parent;
-    private Pane pane;
     private Circle cityCircle;
     private Label cityPop;
 
@@ -32,7 +30,6 @@ public class EntityImage extends ImageView implements CityObserver {
     public EntityImage(GameWindow parent, Pane pane, Entity entity) {
         this.entity = entity;
         this.parent = parent;
-        this.pane = pane;
 
         if (entity instanceof City) {
             City cityEntity = (City) entity;
@@ -109,7 +106,8 @@ public class EntityImage extends ImageView implements CityObserver {
                 this.nationality = city.getNationality();
                 cityCircle.setStroke(Paint.valueOf((city.getNationality() == Nationality.Enemy) ? "red"
                         : (city.getNationality() == Nationality.Player) ? "blue" : "grey"));
-                cityCircle.setOnMouseClicked(e -> parent.onSelected(cityCircle, e, city));            }
+                cityCircle.setOnMouseClicked(e -> parent.onSelected(cityCircle, e, city));
+            }
         }
     }
 
