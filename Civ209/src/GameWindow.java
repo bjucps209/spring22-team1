@@ -10,22 +10,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-import model.City;
-import model.CityType;
-import model.ComputerObserver;
-import model.Constants;
-import model.Coordinate;
-import model.DestinationType;
-import model.Difficulty;
-import model.Entity;
-import model.Game;
-import model.Nationality;
-import model.Troop;
+import model.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class GameWindow {
+public class GameWindow implements ComputerObserver {
 
     private Game game;
     private ArrayList<EntityImage> selectedTroops = new ArrayList<EntityImage>();
@@ -64,6 +54,7 @@ public class GameWindow {
     @FXML
     public void initialize(String lvlname) {
         game = new Game();
+        game.getComputer().setObs(this);
         game.initialize(Difficulty.Easy, lvlname);
         for (Entity entity : game.getEntityList()) {
             new EntityImage(this, pane, entity);
@@ -86,7 +77,8 @@ public class GameWindow {
                 pane.getChildren().add(dragBox);
                 upperLeft.setX(me.getX());
                 upperLeft.setY(me.getY());
-            } else if (me.getButton() == MouseButton.PRIMARY && game.checkInCity(new Coordinate(me.getX(), me.getY()))) {
+            } else if (me.getButton() == MouseButton.PRIMARY
+                    && game.checkInCity(new Coordinate(me.getX(), me.getY()))) {
                 inCity = true;
             } else {
                 deployTroops(me);
@@ -202,6 +194,14 @@ public class GameWindow {
             }
         }
         game.deleteTroop(troop);
+    }
+
+    public void renderTroops(ArrayList<Troop> troops) {
+        for (Troop troop : troops) {
+            EntityImage circle = new EntityImage(this, pane, troop);
+            circle.setUserData(troop);
+            troop.setTroopDelete(this::onTroopDelete);
+        }
     }
 
     @FXML

@@ -68,11 +68,13 @@ public class Game {
         for (Entity entity : getEntityList()) {
             if (entity instanceof Troop) {
                 Troop troop = (Troop) entity;
-                Coordinate location = troop.getLocation();
-                if (location.getX() >= coord1.getX() && location.getY() >= coord1.getY()
-                        && location.getX() <= coord2.getX() && location.getY() <= coord2.getY()) {
-                    troop.setSelected(true);
-                    selectedTroops.add(troop);
+                if (troop.getNationality() == nationality) {
+                    Coordinate location = troop.getLocation();
+                    if (location.getX() >= coord1.getX() && location.getY() >= coord1.getY()
+                            && location.getX() <= coord2.getX() && location.getY() <= coord2.getY()) {
+                        troop.setSelected(true);
+                        selectedTroops.add(troop);
+                    }
                 }
             }
         }
@@ -131,6 +133,7 @@ public class Game {
 
     public void update() {
         // Slows score decrementation
+        computer.executeAction(this);
         turncount++;
         if (turncount % 3 == 0)
             setScore(getScore() - 1);

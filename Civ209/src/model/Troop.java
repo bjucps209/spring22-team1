@@ -203,4 +203,7 @@ public class Troop extends MobileEntity {
         this.game = game;
     }
 
+    public String __str__() {
+        return "" + getSpeed() + " " + getHeading() + " " + getDestination();
+    }
 }
