@@ -152,6 +152,68 @@ public class Game {
         selectedTroops.clear();
     }
 
+    public ArrayList<Troop> sendTroopsFromCity(City selectedCity, Coordinate destination, double percentage) {
+        ArrayList<Troop> troops = selectedCity.sendTroops(percentage, destination,
+                selectedCity.getType(),
+                DestinationType.City);
+        troops.stream().forEach(e -> e.setDestination(destination));
+        return troops;
+
+    }
+
+    public ArrayList<Troop> sendTroopsFromGround(ArrayList<Troop> troops, Coordinate destination) {
+        for (Troop troop : troops) {
+            troop.setDestination(destination);
+            troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
+                    : Constants.standardTroopSpeed);
+            troop.setHeading(troop.figureHeading(destination));
+            troop.setDestinationType(DestinationType.City);
+        }
+        return troops;
+    }
+
+    public ArrayList<Troop> deployTroops(boolean pointInCircle, Coordinate cityCenter, Coordinate destination,
+            double percentage) {
+        if (getSelectedCity() != null) {
+            if (pointInCircle) {
+                ArrayList<Troop> troops = getSelectedCity().sendTroops(percentage, destination,
+                        getSelectedCity().getType(),
+                        DestinationType.City);
+                getEntityList().addAll(troops);
+                return troops;
+            } else {
+                ArrayList<Troop> troops = getSelectedCity().sendTroops(percentage, destination,
+                        getSelectedCity().getType(),
+                        DestinationType.Coordinate);
+                moveTroopToField(troops, destination);
+                getEntityList().addAll(troops);
+                return troops;
+            }
+        } else {
+            if (pointInCircle) {
+                for (Troop troop : selectedTroops) {
+                    troop.setDestination(cityCenter);
+                    troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
+                            : Constants.standardTroopSpeed);
+                    troop.setHeading(troop.figureHeading(cityCenter));
+                    troop.setDestinationType(DestinationType.City);
+                }
+                return selectedTroops;
+            } else {
+                ArrayList<Troop> troops = new ArrayList<>();
+                for (Troop troop : selectedTroops) {
+                    troops.add(troop);
+                    moveTroopToField(troops, destination);
+                }
+                for (Troop troop : troops) {
+                    troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
+                            : Constants.standardTroopSpeed);
+                }
+                return troops;
+            }
+        }
+    }
+
     /**
      * stops timer and saves all objects to saved game portion of game file
      * 
@@ -201,6 +263,34 @@ public class Game {
         return city;
     }
 
+    public boolean checkInCity(Coordinate e) {
+        boolean pointInCircle = false;
+        for (Entity entity : getEntityList()) {
+            if (entity instanceof City) {
+                City cityEntity = (City) entity;
+                if (Math.pow(e.getX() - cityEntity.getLocation().getX(), 2) + Math
+                        .pow(e.getY() - cityEntity.getLocation().getY(), 2) <= Math.pow(Constants.cityRadius, 2)) {
+                    pointInCircle = true;
+                    break;
+                }
+            }
+        }
+        return pointInCircle;
+    }
+
+    public Coordinate checkInCity(Coordinate e, boolean returnCity) {
+        for (Entity entity : getEntityList()) {
+            if (entity instanceof City) {
+                City cityEntity = (City) entity;
+                if (Math.pow(e.getX() - cityEntity.getLocation().getX(), 2) + Math
+                        .pow(e.getY() - cityEntity.getLocation().getY(), 2) <= Math.pow(Constants.cityRadius, 2)) {
+                    return cityEntity.getLocation();
+                }
+            }
+        }
+        return null;
+    }
+
     public void moveTroopToField(ArrayList<Troop> troops, Coordinate destination) {
         int numTroops = troops.size();
         int ring = 0;
@@ -233,6 +323,18 @@ public class Game {
             }
             ring++;
         }
+    }
+
+    public void deleteTroop(Troop troop) {
+        Coordinate location = troop.getLocation();
+
+        if (checkInCity(location)) {
+            City city = getCityHit(location);
+            if (city != null)
+                city.recieveTroops(troop.getHealth(), troop.getNationality());
+        }
+
+        getDeleteEntityList().add(troop);
     }
 
     public void startTimer() {
