@@ -25,7 +25,7 @@ import model.Troop;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class GameWindow implements ComputerObserver {
+public class GameWindow {
 
     private Game game;
     private ArrayList<EntityImage> selectedTroops = new ArrayList<EntityImage>();
@@ -45,8 +45,10 @@ public class GameWindow implements ComputerObserver {
 
     @FXML
     Pane pane;
+
     @FXML
     VBox vbox;
+
     @FXML
     HBox controls;
 
@@ -62,7 +64,6 @@ public class GameWindow implements ComputerObserver {
     @FXML
     public void initialize(String lvlname) {
         game = new Game();
-        game.setUpComputer(this);
         game.initialize(Difficulty.Easy, lvlname);
         for (Entity entity : game.getEntityList()) {
             new EntityImage(this, pane, entity);
@@ -74,7 +75,7 @@ public class GameWindow implements ComputerObserver {
         scoreLabel.textProperty().bind(SimpleStringProperty.stringExpression(game.scoreProperty()));
         pane.getChildren().add(scoreLabel);
         pane.setOnMousePressed(me -> {
-            if (!checkInCity(new Coordinate(me.getX(), me.getY())) && me.getButton() == MouseButton.PRIMARY) {
+            if (!game.checkInCity(new Coordinate(me.getX(), me.getY())) && me.getButton() == MouseButton.PRIMARY) {
                 deSelect();
                 inCity = false;
                 dragDelta.x = me.getX();
@@ -85,7 +86,7 @@ public class GameWindow implements ComputerObserver {
                 pane.getChildren().add(dragBox);
                 upperLeft.setX(me.getX());
                 upperLeft.setY(me.getY());
-            } else if (me.getButton() == MouseButton.PRIMARY && checkInCity(new Coordinate(me.getX(), me.getY()))) {
+            } else if (me.getButton() == MouseButton.PRIMARY && game.checkInCity(new Coordinate(me.getX(), me.getY()))) {
                 inCity = true;
             } else {
                 deployTroops(me);
@@ -155,108 +156,40 @@ public class GameWindow implements ComputerObserver {
         }
     }
 
-    public boolean checkInCity(Coordinate e) {
-        boolean pointInCircle = false;
-        for (Entity entity : game.getEntityList()) {
-            if (entity instanceof City) {
-                City cityEntity = (City) entity;
-                if (Math.pow(e.getX() - cityEntity.getLocation().getX(), 2) + Math
-                        .pow(e.getY() - cityEntity.getLocation().getY(), 2) <= Math.pow(Constants.cityRadius, 2)) {
-                    pointInCircle = true;
-                    break;
-                }
-            }
-        }
-        return pointInCircle;
-    }
-
-    public Coordinate checkInCity(Coordinate e, boolean returnCity) {
-        for (Entity entity : game.getEntityList()) {
-            if (entity instanceof City) {
-                City cityEntity = (City) entity;
-                if (Math.pow(e.getX() - cityEntity.getLocation().getX(), 2) + Math
-                        .pow(e.getY() - cityEntity.getLocation().getY(), 2) <= Math.pow(Constants.cityRadius, 2)) {
-                    return cityEntity.getLocation();
-                }
-            }
-        }
-        return null;
-    }
-
-    // TODO: Rhys, don't know if these two methods should be in game. They may be getting passed into the computer, and i'm not sure how that's happening.
     public void sendTroopsFromCity(City selectedCity, Coordinate destination) {
-        ArrayList<Troop> troops = selectedCity.sendTroops(slider.getValue(), destination,
-                selectedCity.getType(),
-                DestinationType.City);
-        for (Troop troop : troops) {
-            EntityImage circle = new EntityImage(this, pane, troop);
-            circle.setUserData(troop);
-            troop.setDestination(destination);
-            troop.setTroopDelete(this::onTroopDelete);
-        }
+        game.sendTroopsFromCity(selectedCity, destination, slider.getValue()).stream().forEach(t -> {
+            EntityImage circle = new EntityImage(this, pane, t);
+            circle.setUserData(t);
+            t.setTroopDelete(this::onTroopDelete);
+        });
     }
 
-    public void sendTroopsFromGround(ArrayList<Troop> selectedTroops, Coordinate destination) {
-        for (Troop troop : selectedTroops) {
-            troop.setDestination(destination);
-            troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
-                    : Constants.standardTroopSpeed);
-            troop.setHeading(troop.figureHeading(destination));
-            troop.setTroopDelete(this::onTroopDelete);
-            troop.setDestinationType(DestinationType.City);
-        }
+    public void sendTroopsFromGround(ArrayList<Troop> troops, Coordinate destination) {
+        game.sendTroopsFromGround(troops, destination).stream().forEach(t -> t.setTroopDelete(this::onTroopDelete));
+        ;
     }
 
     public void deployTroops(MouseEvent e) {
         Coordinate destination = new Coordinate(e.getX(), e.getY());
-        boolean pointInCircle = checkInCity(destination);
-        Coordinate cityCenter = checkInCity(destination, true);
+        boolean pointInCircle = game.checkInCity(destination);
+        Coordinate cityCenter = game.checkInCity(destination, true);
         if (e.getButton() == MouseButton.SECONDARY) {
+            ArrayList<Troop> troops = game.deployTroops(pointInCircle, cityCenter, destination, slider.getValue());
             if (game.getSelectedCity() != null) {
                 if (pointInCircle) {
-                    ArrayList<Troop> troops = game.getSelectedCity().sendTroops(slider.getValue(), destination,
-                            game.getSelectedCity().getType(),
-                            DestinationType.City);
                     for (Troop troop : troops) {
                         EntityImage circle = new EntityImage(this, pane, troop);
                         circle.setUserData(troop);
-                        troop.setDestination(cityCenter);
                         troop.setTroopDelete(this::onTroopDelete);
                     }
-                    game.getEntityList().addAll(troops);
                 } else {
-                    ArrayList<Troop> troops = game.getSelectedCity().sendTroops(slider.getValue(), destination,
-                            game.getSelectedCity().getType(),
-                            DestinationType.Coordinate);
-                    moveTroopToField(troops, destination);
                     for (Troop troop : troops) {
                         EntityImage circle = new EntityImage(this, pane, troop);
                         circle.setUserData(troop);
                     }
-                    game.getEntityList().addAll(troops);
                 }
-            } else if (selectedTroops.size() != 0) {
-                if (pointInCircle) {
-                    for (EntityImage entity : selectedTroops) {
-                        Troop troop = (Troop) entity.getEntity();
-                        troop.setDestination(cityCenter);
-                        troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
-                                : Constants.standardTroopSpeed);
-                        troop.setHeading(troop.figureHeading(cityCenter));
-                        troop.setTroopDelete(this::onTroopDelete);
-                        troop.setDestinationType(DestinationType.City);
-                    }
-                } else {
-                    ArrayList<Troop> troops = new ArrayList<>();
-                    for (EntityImage entity : selectedTroops) {
-                        troops.add((Troop) entity.getEntity());
-                        moveTroopToField(troops, destination);
-                    }
-                    for (Troop troop : troops) {
-                        troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
-                                : Constants.standardTroopSpeed);
-                    }
-                }
+            } else {
+                troops.stream().forEach(t -> t.setTroopDelete(this::onTroopDelete));
             }
         }
     }
@@ -268,50 +201,7 @@ public class GameWindow implements ComputerObserver {
                 break;
             }
         }
-
-        Coordinate location = troop.getLocation();
-
-        if (checkInCity(location)) {
-            City city = game.getCityHit(location);
-            if (city != null)
-                city.recieveTroops(troop.getHealth(), troop.getNationality());
-        }
-
-        game.getDeleteEntityList().add(troop);
-    }
-
-    public void moveTroopToField(ArrayList<Troop> troops, Coordinate destination) {
-        int numTroops = troops.size();
-        int ring = 0;
-        int curTroop = 0;
-        while (numTroops != 0) {
-            for (int i = 0; i < Math.max(ring * 6, 1); i++) {
-                if (numTroops == 0) {
-                    break;
-                } else {
-                    numTroops--;
-                    Troop troop = troops.get(curTroop);
-                    double changeInHeading = (ring * 6) == 0 ? 0 : Math.toRadians((360.0 / (ring * 6.0)) * i);
-                    troop.setDestination(
-                            new Coordinate(
-                                    Math.max(Math.min(
-                                            destination.getX()
-                                                    + (ring * Constants.troopRingRadius) * Math.cos(changeInHeading),
-                                            Constants.windowWidth), 0),
-                                    Math.max(Math.min(
-                                            destination.getY()
-                                                    + (ring * Constants.troopRingRadius) * Math.sin(changeInHeading),
-                                            Constants.windowHeight), 0)));
-                    troop.setHeading(troop.figureHeading(troop.getDestination()));
-                    // troop.setSpeed(troop.getTroopType() == CityType.Fast ?
-                    // Constants.fastTroopSpeed
-                    // : Constants.standardTroopSpeed);
-                    troop.setDestinationType(DestinationType.Coordinate);
-                    curTroop++;
-                }
-            }
-            ring++;
-        }
+        game.deleteTroop(troop);
     }
 
     @FXML
