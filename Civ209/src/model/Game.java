@@ -110,63 +110,16 @@ public class Game {
 
                     Entity entity;
                     String entityType = rd.readUTF();
-                    Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
-                    int turnCount = rd.readInt();
 
-                    if (entityType.equals("City")) {
+                    if (entityType.equals("City"))
+                        entity = City.load(rd);
+                    else if (entityType.equals("Troop"))
+                        entity = Troop.load(rd);
+                    else if (entityType.equals("Projectile"))
+                        entity = Projectile.load(rd);
+                    else
+                        entity = Weather.load(rd, entityType);
 
-                        int population = rd.readInt();
-                        IntegerProperty popProperty = new SimpleIntegerProperty(population);
-                        double incrementRate = rd.readDouble();
-                        char nation = rd.readChar();
-                        Nationality nationality = nation == 'P' ? Nationality.Player
-                                : nation == 'E' ? Nationality.Enemy : Nationality.Neutral;
-                        boolean selected = rd.readBoolean();
-                        double fireRate = rd.readDouble();
-                        char cityT = rd.readChar();
-                        CityType cityType = cityT == 'S' ? CityType.Standard
-                                : cityT == 'F' ? CityType.Fast : CityType.Strong;
-                        entity = new City(location, turnCount, popProperty, incrementRate, nationality, selected,
-                                fireRate, cityType);
-                    } else if (entityType.equals("Troop")) {
-                        double speed = rd.readDouble();
-                        double heading = rd.readDouble();
-                        int health = rd.readInt();
-                        char nation = rd.readChar();
-                        Boolean selected = rd.readBoolean();
-                        Nationality nationality = nation == 'P' ? Nationality.Player
-                                : nation == 'E' ? Nationality.Enemy : Nationality.Neutral;
-                        char dChar = rd.readChar();
-                        DestinationType destinationType = dChar == 'i' ? DestinationType.City
-                                : DestinationType.Coordinate;
-                        char tChar = rd.readChar();
-                        CityType troopType = tChar == 'S' ? CityType.Standard
-                                : tChar == 'F' ? CityType.Fast : CityType.Strong;
-                        Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
-
-                        entity = new Troop(location, turnCount, speed, heading, destination, health, nationality,
-                                selected, destinationType, troopType);
-
-                    } else if (entityType.equals("Projectile")) {
-
-                        double speed = rd.readDouble();
-                        double heading = rd.readDouble();
-                        Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
-                        int damage = rd.readInt();
-                        entity = new Projectile(location, turnCount, speed, heading, destination, damage);
-
-                    } else {
-
-                        double speed = rd.readDouble();
-                        double heading = rd.readDouble();
-                        WeatherType weatherType = entityType == "L" ? WeatherType.LightningStorm
-                                : entityType == "B" ? WeatherType.Blizzard
-                                        : entityType == "F" ? WeatherType.Flood : WeatherType.Drought;
-                        Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
-
-                        entity = new Weather(location, turnCount, speed, heading, destination, weatherType);
-
-                    }
                     entityList.add(entity);
                 }
             }

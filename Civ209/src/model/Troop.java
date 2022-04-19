@@ -4,6 +4,7 @@
 //-----------------------------------------------------------
 package model;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
@@ -23,6 +24,29 @@ public class Troop extends MobileEntity {
         this.selected = selected;
         this.destinationType = destinationType;
         this.troopType = troopType;
+    }
+
+    public static Entity load(DataInputStream rd) throws IOException {
+
+        Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
+        int turnCount = rd.readInt();
+        double speed = rd.readDouble();
+        double heading = rd.readDouble();
+        int health = rd.readInt();
+        char nation = rd.readChar();
+        Boolean selected = rd.readBoolean();
+        Nationality nationality = nation == 'P' ? Nationality.Player
+                : nation == 'E' ? Nationality.Enemy : Nationality.Neutral;
+        char dChar = rd.readChar();
+        DestinationType destinationType = dChar == 'i' ? DestinationType.City
+                : DestinationType.Coordinate;
+        char tChar = rd.readChar();
+        CityType troopType = tChar == 'S' ? CityType.Standard
+                : tChar == 'F' ? CityType.Fast : CityType.Strong;
+        Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
+
+        return new Troop(location, turnCount, speed, heading, destination, health, nationality, selected,
+                destinationType, troopType);
     }
 
     /**

@@ -4,6 +4,7 @@
 //-----------------------------------------------------------
 package model;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
@@ -26,6 +27,19 @@ public class Weather extends MobileEntity {
          * check if troops in range, if so do thing
          */
         super.update();
+    }
+
+    public static Entity load(DataInputStream rd, String entityType) throws IOException {
+        Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
+        int turnCount = rd.readInt();
+        double speed = rd.readDouble();
+        double heading = rd.readDouble();
+        WeatherType weatherType = entityType == "L" ? WeatherType.LightningStorm
+                : entityType == "B" ? WeatherType.Blizzard
+                        : entityType == "F" ? WeatherType.Flood : WeatherType.Drought;
+        Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
+
+        return new Weather(location, turnCount, speed, heading, destination, weatherType);
     }
 
     /**
