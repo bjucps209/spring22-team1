@@ -7,6 +7,7 @@ package model;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Troop extends MobileEntity {
     private int health;
@@ -15,6 +16,7 @@ public class Troop extends MobileEntity {
     private onTroopDeleteInterface troopDelete;
     private DestinationType destinationType;
     private CityType troopType;
+    private Game game;
 
     public Troop(Coordinate location, int turnCount, double speed, double heading, Coordinate destination, int health,
             Nationality nationality, boolean selected, DestinationType destinationType, CityType troopType) {
@@ -59,6 +61,7 @@ public class Troop extends MobileEntity {
          * check collision
          * check if reached destination
          */
+        collisionDetection();
         if (destinationType == DestinationType.City) {
             double distToDest = Math.sqrt(Math
                     .pow((getDestination().getX()
@@ -96,9 +99,22 @@ public class Troop extends MobileEntity {
      * checks to see if hit another troop
      */
     public void collisionDetection() {
-        /**
-         * check if hit another enemy troop
-         */
+        if (game != null) {
+            ArrayList<Troop> troops = new ArrayList<>();
+            game.getEntityList().stream().forEach(t -> {
+                if (t instanceof Troop
+                        && ((Troop) t).getNationality() == ((getNationality() == Nationality.Player) ? Nationality.Enemy
+                                : Nationality.Player)) {
+                    troops.add((Troop) t);
+                }
+            });
+            for (Troop troop: troops) {
+                double distToTroop = Math.sqrt(Math.pow(troop.getLocation().getY() - getLocation().getY(), 2) + Math.pow(troop.getLocation().getX() - getLocation().getX(), 2));
+                if (distToTroop < Constants.troopRadius) {
+                    game.deleteTroop(troop); game.deleteTroop(this);
+                }
+            }
+        }
     }
 
     /**
@@ -119,7 +135,6 @@ public class Troop extends MobileEntity {
         wr.writeChar((troopType == CityType.Fast) ? 'F' : troopType == CityType.Strong ? 'S' : 's');
         wr.writeDouble(this.getDestination().getX());
         wr.writeDouble(this.getDestination().getY());
-
     }
 
     public double figureHeading(Coordinate destination) {
@@ -183,4 +198,9 @@ public class Troop extends MobileEntity {
     public void setTroopType(CityType troopType) {
         this.troopType = troopType;
     }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
 }

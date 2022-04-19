@@ -12,6 +12,9 @@ import javafx.util.Duration;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Game {
     private Timeline timer;
@@ -156,9 +159,8 @@ public class Game {
         ArrayList<Troop> troops = selectedCity.sendTroops(percentage, destination,
                 selectedCity.getType(),
                 DestinationType.City);
-        troops.stream().forEach(e -> e.setDestination(destination));
+        troops.stream().forEach(e -> {e.setDestination(destination); e.setGame(this);});
         return troops;
-
     }
 
     public ArrayList<Troop> sendTroopsFromGround(ArrayList<Troop> troops, Coordinate destination) {
