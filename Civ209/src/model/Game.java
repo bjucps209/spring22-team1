@@ -353,7 +353,7 @@ public class Game {
 
     public void startTimer() {
         if (timer == null) {
-            timer = new Timeline(new KeyFrame(Duration.millis(200), e -> update()));
+            timer = new Timeline(new KeyFrame(Duration.millis(Constants.tickSpeed), e -> update()));
             timer.setCycleCount(Timeline.INDEFINITE);
             timer.play();
         } else {
