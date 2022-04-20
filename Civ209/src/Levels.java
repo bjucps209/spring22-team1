@@ -47,7 +47,7 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("");
+            gameWindow.initialize("Levels/Level1.dat");
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
