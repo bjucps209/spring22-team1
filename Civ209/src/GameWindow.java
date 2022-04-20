@@ -14,8 +14,6 @@ import model.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 public class GameWindow implements ComputerObserver {
 

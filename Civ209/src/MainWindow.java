@@ -9,7 +9,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import model.Constants;
 
 public class MainWindow {
     public static final Image cityImage = new Image(

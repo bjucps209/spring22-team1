@@ -6,8 +6,6 @@ package model;
 
 import java.util.ArrayList;
 
-import java.util.Random;
-
 public class Computer {
 
     // NOT FUNCTIONAL
@@ -25,7 +23,6 @@ public class Computer {
      */
     public void executeAction(Game game) {
 
-        Random r = new Random();
         /**
          * Depending on level of difficulty, creates action and executes said action
          */
