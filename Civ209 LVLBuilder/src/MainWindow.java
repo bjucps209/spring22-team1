@@ -91,23 +91,13 @@ public class MainWindow {
         image.setLayoutX(currentCity.getX());
         image.setLayoutY(currentCity.getY());
         image.setId(Integer.toString(currentCity.getId())); 
-        // image.setX(currentCity.getX());
-        // image.setY(currentCity.getY());
-        //cityCircle.layoutXProperty().bind(image.layoutXProperty()); 
-        //cityCircle.layoutYProperty().bind(image.layoutYProperty()); 
-        //image.layoutXProperty().bindBidirectional(city.getX() - image.getFitWidth() / 2);
-        //image.setLayoutY(city.getY()); // - image.getFitHeight() / 2);
-        //image.setLayoutX(city.getX()); //- image.getFitHeight() / 2);
         cityCircle.setId(Integer.toString(city.getId())); 
         cityCircle.setOnMouseClicked((e) -> onCityClicked(e, image)); 
 
 
-        //image.setId(Integer.toString(city.getId())); 
-        //image.setOnMouseClicked(this::onCityClicked); //:)
         pane.getChildren().addAll(image, cityCircle);  
         currentImage = image; 
         currentCircle = cityCircle; 
-        //makeDraggable(image); 
         makeDraggable(cityCircle);
         display();  
     }
