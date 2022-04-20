@@ -34,73 +34,73 @@ public class LevelData {
 
     public void save() throws IOException {
 
-        // List<City> entityList = level.getCities();
+        List<City> entityList = level.getCities();
 
-        // ArrayList<City> playerCities = new ArrayList<City>();
+        ArrayList<City> playerCities = new ArrayList<City>();
 
-        // for (City city : entityList) {
-        //     if (city.getNationality() == Nationality.Player) {
-        //         playerCities.add(city);
-        //     }
-        // }
+        for (City city : entityList) {
+            if (city.getNationality() == Nationality.Player) {
+                playerCities.add(city);
+            }
+        }
 
-        // try (DataOutputStream wr = new DataOutputStream(new FileOutputStream("savedGame.dat"))) {
-        //     wr.writeUTF("Civilization209");
-        //     wr.writeInt(300 + (entityList.size() * 16) * 1);
-        //     wr.writeChar(level.getSeason() == SeasonType.Winter ? 'W'
-        //             : level.getSeason() == SeasonType.Fall ? 'F' : level.getSeason() == SeasonType.Summer ? 'S' : 's');
-        //     // this.difficulty = diff == 'E' ? Difficulty.Easy : diff == 'M' ?
-        //     // Difficulty.Medium : Difficulty.Hard;
-        //     wr.writeChar('E');
-        //     wr.writeInt(playerCities.size());
-        //     wr.writeDouble(1);
-        //     wr.writeInt(entityList.size());
-        //     for (Entity entity : entityList) {
-        //         entity.serialize(wr);
-        //     }
-        // }
+        try (DataOutputStream wr = new DataOutputStream(new FileOutputStream("Level1.dat"))) {
+            wr.writeUTF("Civilization209");
+            wr.writeInt(300 + (entityList.size() * 16) * 1);
+            wr.writeChar(level.getSeason() == SeasonType.Winter ? 'W'
+                    : level.getSeason() == SeasonType.Fall ? 'F' : level.getSeason() == SeasonType.Summer ? 'S' : 's');
+            // this.difficulty = diff == 'E' ? Difficulty.Easy : diff == 'M' ?
+            // Difficulty.Medium : Difficulty.Hard;
+            wr.writeChar('E');
+            wr.writeInt(playerCities.size());
+            wr.writeDouble(1);
+            wr.writeInt(entityList.size());
+            for (Entity entity : entityList) {
+                entity.serialize(wr);
+            }
+        }
         //Following code writes with LevelBuilder Save Pattern:
         
-        try (DataOutputStream wr = new DataOutputStream(new
-        FileOutputStream("createdLevel.dat"))) {
-        wr.writeUTF("Level");
-        String season = null; 
-        if (level.getSeason() == SeasonType.Fall) {
-            season = "Fall"; 
-        }
-        if (level.getSeason() == SeasonType.Spring) {
-            season = "Spring"; 
-        }
-        if (level.getSeason() == SeasonType.Winter) {
-            season = "Winter"; 
-        }
-        if (level.getSeason() == SeasonType.Summer) {
-            season = "Summer"; 
-        }
-        wr.writeUTF("" + level.getSeason());
-        wr.writeUTF(Integer.toString(level.getCities().size()));
-        List<City> entityList = level.getCities();
-        for (City entity : entityList) {
-        City city = entity;
-        String id = Integer.toString(city.getId());
-        wr.writeUTF(id);
-        String x = Integer.toString(city.getX());
-        wr.writeUTF(x);
-        String y = Integer.toString(city.getY());
-        wr.writeUTF(y);
-        String nationality = "N";
-        if (city.getNationality() == Nationality.Enemy) {
-        nationality = Character.toString('E');
-        }
-        if (city.getNationality() == Nationality.Player) {
-        nationality = Character.toString('P');
-        }
-        if (city.getNationality() == Nationality.Neutral) {
-        nationality = Character.toString('N');
-        }
-        wr.writeUTF(nationality);
-        }
-        }
+        // try (DataOutputStream wr = new DataOutputStream(new
+        // FileOutputStream("createdLevel.dat"))) {
+        // wr.writeUTF("Level");
+        // String season = null; 
+        // if (level.getSeason() == SeasonType.Fall) {
+        //     season = "Fall"; 
+        // }
+        // if (level.getSeason() == SeasonType.Spring) {
+        //     season = "Spring"; 
+        // }
+        // if (level.getSeason() == SeasonType.Winter) {
+        //     season = "Winter"; 
+        // }
+        // if (level.getSeason() == SeasonType.Summer) {
+        //     season = "Summer"; 
+        // }
+        // wr.writeUTF("" + level.getSeason());
+        // wr.writeUTF(Integer.toString(level.getCities().size()));
+        // List<City> entityList = level.getCities();
+        // for (City entity : entityList) {
+        // City city = entity;
+        // String id = Integer.toString(city.getId());
+        // wr.writeUTF(id);
+        // String x = Integer.toString(city.getX());
+        // wr.writeUTF(x);
+        // String y = Integer.toString(city.getY());
+        // wr.writeUTF(y);
+        // String nationality = "N";
+        // if (city.getNationality() == Nationality.Enemy) {
+        // nationality = Character.toString('E');
+        // }
+        // if (city.getNationality() == Nationality.Player) {
+        // nationality = Character.toString('P');
+        // }
+        // if (city.getNationality() == Nationality.Neutral) {
+        // nationality = Character.toString('N');
+        // }
+        // wr.writeUTF(nationality);
+        // }
+        // }
        // }
 
     }

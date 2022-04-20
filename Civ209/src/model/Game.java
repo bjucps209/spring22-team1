@@ -44,7 +44,7 @@ public class Game {
             try {
                 // Removed Civ209
                 // TODO check to make sure this works
-                load("Civ209/Levels/DemoLevel.dat");
+                load(lvlName);
             } catch (IOException xe) {
                 System.out.println("fatalError! " + xe);
                 System.exit(1);
@@ -135,7 +135,9 @@ public class Game {
         turncount++;
         if (turncount % 3 == 0)
             setScore(getScore() - 1);
-        deleteEntityList.stream().forEach(e -> {entityManager.removeEntity(e);});
+        deleteEntityList.stream().forEach(e -> {
+            entityManager.removeEntity(e);
+        });
         for (Entity entity : deleteEntityList) {
             entityList.remove(entity);
         }
@@ -161,7 +163,10 @@ public class Game {
         ArrayList<Troop> troops = selectedCity.sendTroops(percentage, destination,
                 selectedCity.getType(),
                 DestinationType.City);
-        troops.stream().forEach(e -> {e.setDestination(destination); e.setGame(this);});
+        troops.stream().forEach(e -> {
+            e.setDestination(destination);
+            e.setGame(this);
+        });
         return troops;
     }
 
