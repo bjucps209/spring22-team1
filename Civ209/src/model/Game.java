@@ -180,12 +180,16 @@ public class Game {
             double percentage) {
         if (getSelectedCity() != null) {
             if (pointInCircle) {
-                ArrayList<Troop> troops = getSelectedCity().sendTroops(percentage, destination,
-                        getSelectedCity().getType(),
-                        DestinationType.City);
-                troops.stream().forEach(e -> e.setGame(this));
-                getEntityList().addAll(troops);
-                return troops;
+                if (cityCenter == null || cityCenter != getSelectedCity().getLocation()) {
+                    ArrayList<Troop> troops = getSelectedCity().sendTroops(percentage, destination,
+                            getSelectedCity().getType(),
+                            DestinationType.City);
+                    troops.stream().forEach(e -> e.setGame(this));
+                    getEntityList().addAll(troops);
+                    return troops;
+                } else {
+                    return new ArrayList<Troop>();
+                }
             } else {
                 ArrayList<Troop> troops = getSelectedCity().sendTroops(percentage, destination,
                         getSelectedCity().getType(),
