@@ -14,6 +14,8 @@ import model.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class GameWindow implements ComputerObserver {
 
@@ -54,6 +56,7 @@ public class GameWindow implements ComputerObserver {
     @FXML
     public void initialize(String lvlname) {
         game = new Game();
+        game.setEntityManager(this::removeEntity);
         game.getComputer().setObs(this);
         game.initialize(Difficulty.Easy, lvlname);
         for (Entity entity : game.getEntityList()) {
@@ -212,5 +215,16 @@ public class GameWindow implements ComputerObserver {
     @FXML
     public void onLoadClicked(ActionEvent e) throws IOException {
         game.load("Levels/savedGame.dat");
+    }
+
+    public void removeEntity(Entity entity) {
+        for( Node node : pane.getChildren()) {
+            if (node instanceof EntityImage) {
+                if (((EntityImage)node).getUserData() == entity) {
+                    pane.getChildren().remove(node);
+                    return;
+                }
+            }
+        }
     }
 }

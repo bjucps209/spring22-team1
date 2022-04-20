@@ -8,6 +8,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Troop extends MobileEntity {
     private int health;
@@ -110,8 +111,8 @@ public class Troop extends MobileEntity {
             });
             for (Troop troop: troops) {
                 double distToTroop = Math.sqrt(Math.pow(troop.getLocation().getY() - getLocation().getY(), 2) + Math.pow(troop.getLocation().getX() - getLocation().getX(), 2));
-                if (distToTroop < Constants.troopRadius) {
-                    game.deleteTroop(troop); game.deleteTroop(this);
+                if (distToTroop < Constants.troopRadius * 2) {
+                    game.getDeleteEntityList().addAll(List.of(troop, this));
                 }
             }
         }

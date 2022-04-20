@@ -61,8 +61,8 @@ public class Computer {
         } else if (turnCount % 15 == 0) {
             for (City city : computerCities) {
                 ArrayList<Troop> troops = city.sendTroops(1,
-                        new Coordinate(r.nextDouble(50, 100) + city.getLocation().getX(),
-                        r.nextDouble(50, 100)),
+                        new Coordinate(randomNumberGenerator(50, 100) + city.getLocation().getX(),
+                        randomNumberGenerator(50, 100)),
                         city.getType(), DestinationType.Coordinate);
                 obs.renderTroops(troops);
                 game.getEntityList().addAll(troops);
@@ -70,6 +70,8 @@ public class Computer {
             }
         }
 
+    
+ 
         // THIS IS WHAT HAPPENS WHEN WE DON'T ENFORCE MODEL / VIEW MOFFITT
         //
         // else if (turnCount % 39 == 0) {
@@ -83,6 +85,11 @@ public class Computer {
         // }
         // }
 
+    }
+
+    private double randomNumberGenerator(int min, int max) {
+        double randomNumber = Math.random() * (max - min) + min;
+        return randomNumber;
     }
 
     private City calculateAttackCity(ArrayList<City> cities) {

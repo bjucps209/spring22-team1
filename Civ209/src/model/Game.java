@@ -8,13 +8,11 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Game {
     private Timeline timer;
@@ -30,6 +28,7 @@ public class Game {
     private int turncount = 0;
     private ArrayList<Troop> selectedTroops = new ArrayList<>();
     private City selectedCity;
+    private EntityManager entityManager;
 
     /**
      * instantiates game from lvl with a computer of level difficulty
@@ -137,10 +136,11 @@ public class Game {
         turncount++;
         if (turncount % 3 == 0)
             setScore(getScore() - 1);
-
+        deleteEntityList.stream().forEach(e -> {entityManager.removeEntity(e);});
         for (Entity entity : deleteEntityList) {
             entityList.remove(entity);
         }
+
         deleteEntityList.clear();
         for (Entity entity : entityList) {
             entity.update();
@@ -184,12 +184,14 @@ public class Game {
                 ArrayList<Troop> troops = getSelectedCity().sendTroops(percentage, destination,
                         getSelectedCity().getType(),
                         DestinationType.City);
+                troops.stream().forEach(e -> e.setGame(this));
                 getEntityList().addAll(troops);
                 return troops;
             } else {
                 ArrayList<Troop> troops = getSelectedCity().sendTroops(percentage, destination,
                         getSelectedCity().getType(),
                         DestinationType.Coordinate);
+                troops.stream().forEach(e -> e.setGame(this));
                 moveTroopToField(troops, destination);
                 getEntityList().addAll(troops);
                 return troops;
@@ -446,6 +448,10 @@ public class Game {
 
     public void setSelectedCity(City selectedCity) {
         this.selectedCity = selectedCity;
+    }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
 
 }
