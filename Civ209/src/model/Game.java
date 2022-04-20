@@ -37,7 +37,6 @@ public class Game {
      */
     public void initialize(Difficulty difficulty, String lvlName) {
         this.difficulty = difficulty;
-
         try {
             load(lvlName);
         } catch (IOException e) {
