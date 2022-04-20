@@ -5,6 +5,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Computer {
 
@@ -30,6 +31,7 @@ public class Computer {
         ArrayList<City> computerCities = new ArrayList<City>();
         ArrayList<City> otherCities = new ArrayList<City>();
         ArrayList<Troop> computerTroops = new ArrayList<Troop>();
+        Random r = new Random();
 
         turnCount++;
         for (Entity entity : entities) {
@@ -48,27 +50,26 @@ public class Computer {
             }
         }
 
-        if (turnCount % 60 == 0) {
+        if (turnCount % 100 == 0) {
             City cityToAttack = calculateAttackCity(otherCities);
             for (City city : computerCities) {
                 ArrayList<Troop> troops = game.sendTroopsFromCity(city, cityToAttack.getLocation(), 100);
                 game.getEntityList().addAll(troops);
                 obs.renderTroops(troops);
             }
+        } else if (turnCount % 60 == 0) {
+            game.sendTroopsFromGround(computerTroops, calculateAttackCity(otherCities).getLocation());
         } else if (turnCount % 15 == 0) {
             for (City city : computerCities) {
                 ArrayList<Troop> troops = city.sendTroops(1,
-                        new Coordinate(randomNumberGenerator(50, 100) + city.getLocation().getX(),
-                        randomNumberGenerator(50, 100)),
-                        city.getType(), DestinationType.Coordinate);
+                        city.getLocation().figureNewCoordinate(r.nextDouble(0, 360), r.nextDouble(-20, 20)),
+                        CityType.Standard, DestinationType.Coordinate);
                 obs.renderTroops(troops);
                 game.getEntityList().addAll(troops);
 
             }
         }
 
-    
- 
         // THIS IS WHAT HAPPENS WHEN WE DON'T ENFORCE MODEL / VIEW MOFFITT
         //
         // else if (turnCount % 39 == 0) {
