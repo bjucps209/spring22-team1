@@ -9,6 +9,7 @@ import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.util.Duration;
+import javafx.scene.image.ImageView;
 
 import java.io.*;
 import java.util.*;
@@ -25,6 +26,9 @@ public class Game {
     private ArrayList<Entity> deleteEntityList = new ArrayList<>();
     private Difficulty difficulty;
     private int turncount = 0;
+    private ImageView image;
+    Random rand = new Random();
+    private MakeWeather onMakeWeather;
 
     /**
      * instantiates game from lvl with a computer of level difficulty
@@ -175,6 +179,9 @@ public class Game {
         for (Entity entity : entityList) {
             entity.update();
         }
+        if (turncount % 50 == 0) {
+            onMakeWeather.onMakeWeather();;
+        }
     }
 
     /**
@@ -204,6 +211,66 @@ public class Game {
                 entity.serialize(wr);
             }
         }
+    }
+
+    public Weather makeWeather() {
+        int screenSide = rand.nextInt(4);
+        int heading;
+        int coordX = 0;
+        int coordY = 0;
+        // determine which side of the screen the weather starts on
+        if (screenSide == 0) { // bottom
+            heading = rand.nextInt(225, 315);
+            coordY = Constants.windowHeight;
+
+            if (heading >= 270) {
+                coordX = rand.nextInt(0, Constants.windowWidth / 2);
+            } else {
+                coordX = rand.nextInt(Constants.windowWidth / 2, Constants.windowWidth);
+            }
+
+        } else if (screenSide == 1) { // left
+            int check = rand.nextInt(2);
+            coordX = 0;
+            if (check == 0) {
+                heading = rand.nextInt(315, 360);
+                coordY = rand.nextInt(Constants.windowHeight / 2, Constants.windowHeight);
+
+            } else {
+                heading = rand.nextInt(0, 45);
+                coordY = rand.nextInt(0, Constants.windowHeight / 2);
+            }
+
+        } else if (screenSide == 2) { // top
+            heading = rand.nextInt(45, 135);
+            coordY = 0;
+
+            if (heading <= 90) {
+                coordX = rand.nextInt(0, Constants.windowWidth / 2);
+            } else {
+                coordX = rand.nextInt(Constants.windowWidth / 2, Constants.windowWidth);
+            }
+
+        } else { // right
+
+            int check = rand.nextInt(2);
+            coordX = Constants.windowWidth;
+            if (check == 0) {
+                heading = rand.nextInt(180, 225);
+                coordY = rand.nextInt(Constants.windowHeight / 2, Constants.windowHeight);
+
+            } else {
+                heading = rand.nextInt(135, 180);
+                coordY = rand.nextInt(0, Constants.windowHeight / 2);
+            }
+
+        }
+
+        Weather weather = new Weather(new Coordinate(coordX, coordY), turncount, Constants.weatherSpeed, heading, null,
+                WeatherType.Blizzard);
+        getEntityList().add(weather);
+        System.out.println(heading);
+        return weather;
     }
 
     public void setUpComputer(ComputerObserver window) {
@@ -298,6 +365,10 @@ public class Game {
 
     public void setDeleteEntityList(ArrayList<Entity> deleteEntityList) {
         this.deleteEntityList = deleteEntityList;
+    }
+
+    public void setOnMakeWeather(MakeWeather onMakeWeather) {
+        this.onMakeWeather = onMakeWeather;
     }
 
 }

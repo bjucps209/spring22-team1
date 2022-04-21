@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Label;
 import javafx.scene.image.*;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import model.*;
@@ -66,7 +67,24 @@ public class EntityImage extends ImageView implements CityObserver {
             this.layoutXProperty().bind(troopLocation.xProperty().subtract(this.getFitWidth() / 2));
             this.layoutYProperty().bind(troopLocation.yProperty().subtract(this.getFitHeight() / 2));
             pane.getChildren().add(this);
+        } else if (entity instanceof Weather) {
+            Weather weatherEntity = (Weather) entity;
+            this.entity = weatherEntity;
+            Coordinate weatherLocation = weatherEntity.getLocation();
+            WeatherType weatherType = weatherEntity.getType();
+            Image weatherImage = (weatherType == WeatherType.Blizzard)? Constants.blizzardImage : (weatherType == WeatherType.Flood)? Constants.floodImage : Constants.lightningImage;
+            this.setImage(weatherImage);
+            this.setFitWidth(weatherImage.getWidth());
+            this.setFitHeight(weatherImage.getHeight());
+            this.layoutXProperty().bind(weatherLocation.xProperty().subtract(this.getFitWidth() / 2));
+            this.layoutYProperty().bind(weatherLocation.yProperty().subtract(this.getFitHeight() / 2));
+            Circle c = new Circle(weatherLocation.getX(), weatherLocation.getY(), Constants.weatherRadius, Paint.valueOf("transparent"));
+            c.setStroke(Paint.valueOf("grey"));
+            // c.setFill(new ImagePattern(weatherImage));
+            c.layoutXProperty().bind(weatherLocation.xProperty()); c.layoutYProperty().bind(weatherLocation.yProperty());
+            pane.getChildren().addAll(List.of(c, this));
         }
+
         // else if (entity instanceof Projectile) {
         // Projectile projectileEntity = (Projectile) entity;
         // Coordinate projectileLocation = projectileEntity.getLocation();
@@ -109,7 +127,8 @@ public class EntityImage extends ImageView implements CityObserver {
                 this.nationality = city.getNationality();
                 cityCircle.setStroke(Paint.valueOf((city.getNationality() == Nationality.Enemy) ? "red"
                         : (city.getNationality() == Nationality.Player) ? "blue" : "grey"));
-                cityCircle.setOnMouseClicked(e -> parent.onSelected(cityCircle, e, city));            }
+                cityCircle.setOnMouseClicked(e -> parent.onSelected(cityCircle, e, city));
+            }
         }
     }
 

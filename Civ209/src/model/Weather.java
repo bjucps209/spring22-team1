@@ -6,15 +6,22 @@ package model;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Random;
+
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 
 public class Weather extends MobileEntity {
     private WeatherType type;
+    Random rand = new Random();
 
     public Weather(Coordinate location, int turnCount, double speed, double heading,
             Coordinate destination, WeatherType type) {
         super(location, turnCount, speed, heading, destination);
         this.type = type;
     }
+
+    
 
     /**
      * checks for if completed requirements for type and checks to see if troop in
@@ -23,9 +30,12 @@ public class Weather extends MobileEntity {
     @Override
     public void update() {
         /**
-         * check if troops in range, if so do thing
+         * check if troops in range of circle radius, if so, kill a random number
+         * 
          */
         super.update();
+        // if troops in range of circle,
+        // kill random number of troops in list.
     }
 
     /**
