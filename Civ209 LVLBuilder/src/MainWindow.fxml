@@ -19,19 +19,29 @@
             <Label text="Delete" styleClass="castlelabel"/>
         </VBox>
         <Pane fx:id="pane" prefHeight="525" prefWidth="1025" style="-fx-background-color: lightgray" />
-        <HBox spacing="10" styleClass="propview">
-            <VBox spacing="10">
-                <Label text="Id:" />
-                <Label text="Position:" />
-                <Label text="Type:" />
-            </VBox>
-            <VBox spacing="10" minWidth="50">
-                <Label fx:id="lblId" text="" />
-                <Label fx:id="lblLoc" text="" />
-                <Label fx:id="lblType" text="" />
-            </VBox>
-        </HBox>
-    </HBox>
+         <VBox spacing = "100">    
+            <HBox spacing="10" styleClass="propview">
+                <VBox spacing="10">
+                    <Label text="Id:" />
+                    <Label text="Position:" />
+                    <Label text="Type:" />
+                </VBox>
+                <VBox spacing="10" minWidth="50">
+                    <Label fx:id="lblId" text="" />
+                    <Label fx:id="lblLoc" text="" />
+                    <Label fx:id="lblType" text="" />
+                </VBox> 
+            </HBox>
+                <VBox spacing= "10">
+                    <Label text="Special Cities" styleClass="castlelabel"/>
+                    <Button onAction="#onStrongCastleClicked" fx:id="btnStrongCastle" styleClass="leftbutton"></Button>
+                    <Label text="Strong City" styleClass="castlelabel"/>
+                    <Button onAction="#onFastCastleClicked" fx:id="btnFastCastle" styleClass="leftbutton"><graphic><ImageView><image><Image url="@images/castle.png" /></image></ImageView></graphic></Button>
+                    <Label text="Fast City" styleClass="castlelabel"/>
+                </VBox>
+        </VBox>
+
+    </HBox>     
         <HBox spacing="30" > 
             <Button text="Summer" onAction="#onSeasonClicked" />
             <Button text="Fall" onAction="#onSeasonClicked" />

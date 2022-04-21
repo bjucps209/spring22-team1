@@ -36,7 +36,19 @@ public class EntityImage extends ImageView implements CityObserver {
             cityEntity.setObs(this);
             this.nationality = cityEntity.getNationality();
             this.entity = cityEntity;
-            this.setImage(Constants.cityImage);
+            if (cityEntity.getType() == CityType.Strong) {
+                this.setImage(new Image("/images/strongcastle.png"));
+                this.setFitHeight(20);
+                this.setFitWidth(20);
+            } 
+            else if (cityEntity.getType() == CityType.Fast) {
+                this.setImage(new Image("/images/fastcastle.png"));
+                this.setFitHeight(20);
+                this.setFitWidth(20);
+            }
+            else {
+                this.setImage(Constants.cityImage);
+            }
             Coordinate cityLocation = cityEntity.getLocation();
             this.setLayoutX(cityLocation.getX() - Constants.cityImage.getWidth() / 2);
             this.setLayoutY(cityLocation.getY() - Constants.cityImage.getHeight() / 2);
