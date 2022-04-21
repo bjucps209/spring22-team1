@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -14,6 +15,7 @@ import model.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameWindow implements ComputerObserver {
 
@@ -52,6 +54,9 @@ public class GameWindow implements ComputerObserver {
     Slider slider;
 
     @FXML
+    ImageView play = new ImageView(Constants.pauseButton);
+
+    @FXML
     public void initialize(String lvlname) {
         game = new Game();
         game.setEntityManager(this::removeEntity);
@@ -59,13 +64,29 @@ public class GameWindow implements ComputerObserver {
         game.initialize(Difficulty.Easy, lvlname);
         for (Entity entity : game.getEntityList()) {
             new EntityImage(this, pane, entity);
+            if (entity instanceof Troop) {
+                ((Troop) entity).setTroopDelete(this::onTroopDelete);
+            }
         }
         lblSize.textProperty().bind(
                 Bindings.createStringBinding(() -> String.valueOf((int) slider.getValue()), slider.valueProperty()));
         scoreLabel.setLayoutX(15);
         scoreLabel.setLayoutY(15);
         scoreLabel.textProperty().bind(SimpleStringProperty.stringExpression(game.scoreProperty()));
-        pane.getChildren().add(scoreLabel);
+        play.setOnMousePressed(e ->  {
+            if (play.getUserData() == "play") {
+                play.setImage(Constants.pauseButtonPressed);
+            } else {
+                play.setImage(Constants.playButtonPressed);
+            }
+        });
+        play.setOnMouseReleased(e -> onPlayClicked());
+        play.setUserData("play");
+        play.setFitWidth(50);
+        play.setPreserveRatio(true);
+        play.setLayoutX((play.getFitWidth() / 2));
+        play.setLayoutY(-50 + (play.getFitHeight() / 2));
+        pane.getChildren().addAll(List.of(scoreLabel, play));
         pane.setOnMousePressed(me -> {
             if (!game.checkInCity(new Coordinate(me.getX(), me.getY())) && me.getButton() == MouseButton.PRIMARY) {
                 deSelect();
@@ -191,7 +212,7 @@ public class GameWindow implements ComputerObserver {
 
     public void onTroopDelete(Troop troop) {
         for (Node node : pane.getChildren()) {
-            if (node instanceof EntityImage && ((EntityImage)node).getEntity() == troop) {
+            if (node instanceof EntityImage && ((EntityImage) node).getEntity() == troop) {
                 pane.getChildren().remove(node);
                 break;
             }
@@ -204,6 +225,18 @@ public class GameWindow implements ComputerObserver {
             EntityImage circle = new EntityImage(this, pane, troop);
             circle.setUserData(troop);
             troop.setTroopDelete(this::onTroopDelete);
+        }
+    }
+
+    public void onPlayClicked() {
+        if (play.getUserData() == "paused") {
+            play.setUserData("play");
+            game.startTimer();
+            play.setImage(Constants.pauseButton);
+        } else {
+            play.setUserData("paused");
+            game.stopTimer();
+            play.setImage(Constants.playButton);
         }
     }
 

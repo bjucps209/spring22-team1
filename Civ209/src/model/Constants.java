@@ -14,9 +14,15 @@ public class Constants {
     public final static int cityPopulationLimit = 30;
     public final static int troopRingRadius = 10;
     public final static int tickSpeed = 200;
+    public final static int projectileSpeed = 10;
+    public final static int weatherSpeed = 10;
     public static final Image blizzardImage = new Image("https://commons.wikimedia.org/wiki/File:Snowstorm.svg.png");
     public static final Image cityImage = new Image(
             "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/BSicon_Castle.svg/32px-BSicon_Castle.svg.png");
+    public static final Image playButton = new Image("play-button(pressed).png");
+    public static final Image playButtonPressed = new Image("play-button.png");
+    public static final Image pauseButton = new Image("pause(pressed).png");
+    public static final Image pauseButtonPressed = new Image("pause.png");
     public static final Image playerImage = new Image("playerTroop.png");
     public static final Image enemyImage = new Image("enemyTroop.png");
 }
