@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import model.City;
+import model.CityType;
 import model.Constants;
 import model.Entity;
 import model.Level;
@@ -35,11 +36,31 @@ public class MainWindow {
     @FXML ImageView currentImage;  
     @FXML Circle currentCircle; 
     @FXML VBox vbox;
+    @FXML Button btnFastCastle;
+    @FXML Button btnStrongCastle;
+
     int id = 0; 
     Level level = new Level();
     LevelData leveldata = new LevelData(level); 
+    Boolean strongcitybuttonclicked = false; 
+    Boolean fastcitybuttonclicked = false; 
 
 
+    public void initialize() {
+        Image strongcastle = new Image("/images/strongcastle.png"); 
+        ImageView castle1= new ImageView(strongcastle);
+        castle1.setFitHeight(60);
+        castle1.setFitWidth(60);
+        castle1.setPreserveRatio(true);
+        btnStrongCastle.setGraphic(castle1);
+        Image fastcastle  = new Image("/images/fastcastle.png"); 
+        ImageView castle2= new ImageView(fastcastle);
+        castle2.setFitHeight(60);
+        castle2.setFitWidth(60);
+        castle2.setPreserveRatio(true);
+        btnFastCastle.setGraphic(castle2);
+
+    }
     /**
     * creates a player city and displays the city image using its coordinates
     */
@@ -81,7 +102,19 @@ public class MainWindow {
      */ 
     void showCity(City city , String color) {
         this.currentCity = city; 
-        ImageView image = new ImageView("/images/castle.png"); //setImage(Constants.cityImage);
+        ImageView image = new ImageView(); 
+        if (strongcitybuttonclicked) {
+            image = new ImageView("/images/strongcastle.png");
+            currentCity.setType(CityType.Strong); 
+        } 
+        else if (fastcitybuttonclicked) {
+            image = new ImageView("/images/fastcastle.png");
+            currentCity.setType(CityType.Fast); 
+        }
+        else {
+            image = new ImageView("/images/castle.png");
+            currentCity.setType(CityType.Standard);  //setImage(Constants.cityImage);
+        }
         image.setFitWidth(20);
         image.setFitHeight(20);
         Circle cityCircle = new Circle(10 , 10, 35, Paint.valueOf("transparent")); // currentCity.getX() + 10, currentCity.getY() + 10
@@ -91,25 +124,21 @@ public class MainWindow {
         image.setLayoutX(currentCity.getX());
         image.setLayoutY(currentCity.getY());
         image.setId(Integer.toString(currentCity.getId())); 
-        // image.setX(currentCity.getX());
-        // image.setY(currentCity.getY());
-        //cityCircle.layoutXProperty().bind(image.layoutXProperty()); 
-        //cityCircle.layoutYProperty().bind(image.layoutYProperty()); 
-        //image.layoutXProperty().bindBidirectional(city.getX() - image.getFitWidth() / 2);
-        //image.setLayoutY(city.getY()); // - image.getFitHeight() / 2);
-        //image.setLayoutX(city.getX()); //- image.getFitHeight() / 2);
+        final ImageView finalimage =  image; 
         cityCircle.setId(Integer.toString(city.getId())); 
-        cityCircle.setOnMouseClicked((e) -> onCityClicked(e, image)); 
+        cityCircle.setOnMouseClicked((e) -> onCityClicked(e, finalimage)); 
 
 
-        //image.setId(Integer.toString(city.getId())); 
-        //image.setOnMouseClicked(this::onCityClicked); //:)
         pane.getChildren().addAll(image, cityCircle);  
         currentImage = image; 
         currentCircle = cityCircle; 
-        //makeDraggable(image); 
+        btnFastCastle.setDisable(false);
+        btnStrongCastle.setDisable(false);
+        strongcitybuttonclicked = false; 
+        fastcitybuttonclicked = false;  
         makeDraggable(cityCircle);
-        display();  
+        display(); 
+        
     }
 
     /**
@@ -186,23 +215,23 @@ public class MainWindow {
     void onSeasonClicked(ActionEvent e) {
         Button season = (Button) e.getSource(); 
         if (season.getText().equals("Summer")) {
-            showSeason("/images/tentativesummer.png");
+            showSeason("/images/summer.png");
             level.setSeason(SeasonType.Summer);
             seasons.setText("Summer");
 
         }
         if (season.getText().equals("Fall")) {
-            showSeason("/images/tentativefall.png");
+            showSeason("/images/fall.png");
             level.setSeason(SeasonType.Fall);
             seasons.setText("Fall");
         }
         if (season.getText().equals("Winter")) {
-            showSeason("/images/tentativewinter.png");
+            showSeason("/images/winter.png");
             level.setSeason(SeasonType.Winter);
             seasons.setText("Winter");
         }
         if (season.getText().equals("Spring")) {
-            showSeason("/images/tentativespring2.png");
+            showSeason("/images/spring.png");
             level.setSeason(SeasonType.Spring);
             seasons.setText("Spring");
         }
@@ -241,26 +270,40 @@ public class MainWindow {
         if (level.getSeason() != null) {
             SeasonType season = level.getSeason(); 
             if (season == SeasonType.Summer) {
-                showSeason("/images/tentativesummer.png");
+                showSeason("/images/summer.png");
                 seasons.setText("Summer");
     
             }
             if (season == SeasonType.Fall) {
-                showSeason("/images/tentativefall.png");
+                showSeason("/images/fall.png");
                 seasons.setText("Fall");
             }
             if (season == SeasonType.Winter) {
-                showSeason("/images/tentativewinter.png");
+                showSeason("/images/winter.png");
                 seasons.setText("Winter");
             }
             if (season == SeasonType.Spring) {
-                showSeason("/images/tentativespring2.png");
+                showSeason("/images/spring.png");
                 seasons.setText("Spring");
             }
         }
 
         loadbtn.setDisable(true); 
         load = true; 
+    }
+
+    @FXML 
+    public void onFastCastleClicked(ActionEvent e) {
+        fastcitybuttonclicked = true; 
+        btnFastCastle.setDisable(true);
+        btnStrongCastle.setDisable(true);
+    }
+
+    @FXML
+    public void onStrongCastleClicked(ActionEvent e) {
+        strongcitybuttonclicked = true; 
+        btnFastCastle.setDisable(true);
+        btnStrongCastle.setDisable(true);
     }
 
     @FXML

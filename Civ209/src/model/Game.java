@@ -25,6 +25,8 @@ public class Game {
     private ArrayList<Entity> deleteEntityList = new ArrayList<>();
     private Difficulty difficulty;
     private int turncount = 0;
+    Random rand = new Random();
+    private MakeWeather onMakeWeather;
     private ArrayList<Troop> selectedTroops = new ArrayList<>();
     private City selectedCity;
     private EntityManager entityManager;
@@ -36,14 +38,15 @@ public class Game {
      * @param lvlName    id of level played to load in from binary file
      */
     public void initialize(Difficulty difficulty, String lvlName) {
-        this.difficulty = difficulty;
+        // TODO play around with difficulty
+        computer.setDifficulty(Difficulty.Hard);
         try {
             load(lvlName);
         } catch (IOException e) {
             try {
                 // Removed Civ209
                 // TODO check to make sure this works
-                load(lvlName);
+                load("Levels/DemoLevel.dat");
             } catch (IOException xe) {
                 System.out.println("fatalError! " + xe);
                 System.exit(1);
@@ -100,7 +103,7 @@ public class Game {
                 setScore(rd.readInt());
                 char s = rd.readChar();
                 this.season = s == 'W' ? SeasonType.Winter
-                        : s == 'F' ? SeasonType.Fall : s == 'S' ? SeasonType.Summer : SeasonType.Spring;
+                        : s == 'F' ? SeasonType.Fall : s == 'S' ? SeasonType.Summer :s == 's' ? SeasonType.Spring: SeasonType.None;
                 char diff = rd.readChar();
                 this.difficulty = diff == 'E' ? Difficulty.Easy : diff == 'M' ? Difficulty.Medium : Difficulty.Hard;
                 this.numPlayerCitiesLeft = rd.readInt();
@@ -130,7 +133,6 @@ public class Game {
 
     public void update() {
         // Slows score decrementation
-        computer.executeAction(this);
         turncount++;
         if (turncount % 3 == 0)
             setScore(getScore() - 1);
@@ -145,6 +147,11 @@ public class Game {
         for (Entity entity : entityList) {
             entity.update();
         }
+        if (turncount % 50 == 0) {
+            onMakeWeather.onMakeWeather();;
+        computer.executeAction(this);
+        }
+
     }
 
     public void deSelect() {
@@ -255,6 +262,66 @@ public class Game {
                 entity.serialize(wr);
             }
         }
+    }
+
+    public Weather makeWeather() {
+        int screenSide = rand.nextInt(4);
+        int heading;
+        int coordX = 0;
+        int coordY = 0;
+        // determine which side of the screen the weather starts on
+        if (screenSide == 0) { // bottom
+            heading = rand.nextInt(225, 315);
+            coordY = Constants.windowHeight;
+
+            if (heading >= 270) {
+                coordX = rand.nextInt(0, Constants.windowWidth / 2);
+            } else {
+                coordX = rand.nextInt(Constants.windowWidth / 2, Constants.windowWidth);
+            }
+
+        } else if (screenSide == 1) { // left
+            int check = rand.nextInt(2);
+            coordX = 0;
+            if (check == 0) {
+                heading = rand.nextInt(315, 360);
+                coordY = rand.nextInt(Constants.windowHeight / 2, Constants.windowHeight);
+
+            } else {
+                heading = rand.nextInt(0, 45);
+                coordY = rand.nextInt(0, Constants.windowHeight / 2);
+            }
+
+        } else if (screenSide == 2) { // top
+            heading = rand.nextInt(45, 135);
+            coordY = 0;
+
+            if (heading <= 90) {
+                coordX = rand.nextInt(0, Constants.windowWidth / 2);
+            } else {
+                coordX = rand.nextInt(Constants.windowWidth / 2, Constants.windowWidth);
+            }
+
+        } else { // right
+
+            int check = rand.nextInt(2);
+            coordX = Constants.windowWidth;
+            if (check == 0) {
+                heading = rand.nextInt(180, 225);
+                coordY = rand.nextInt(Constants.windowHeight / 2, Constants.windowHeight);
+
+            } else {
+                heading = rand.nextInt(135, 180);
+                coordY = rand.nextInt(0, Constants.windowHeight / 2);
+            }
+
+        }
+
+        Weather weather = new Weather(new Coordinate(coordX, coordY), turncount, Constants.weatherSpeed, heading, null,
+                WeatherType.Blizzard);
+        getEntityList().add(weather);
+        System.out.println(heading);
+        return weather;
     }
 
     public void setUpComputer(ComputerObserver window) {
@@ -439,6 +506,10 @@ public class Game {
 
     public void setDeleteEntityList(ArrayList<Entity> deleteEntityList) {
         this.deleteEntityList = deleteEntityList;
+    }
+
+    public void setOnMakeWeather(MakeWeather onMakeWeather) {
+        this.onMakeWeather = onMakeWeather;
     }
 
     public ArrayList<Troop> getSelectedTroops() {

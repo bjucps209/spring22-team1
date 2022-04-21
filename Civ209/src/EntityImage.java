@@ -3,6 +3,7 @@ import java.util.List;
 import javafx.scene.control.Label;
 import javafx.scene.image.*;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import model.*;
@@ -36,7 +37,19 @@ public class EntityImage extends ImageView implements CityObserver {
             cityEntity.setObs(this);
             this.nationality = cityEntity.getNationality();
             this.entity = cityEntity;
-            this.setImage(Constants.cityImage);
+            if (cityEntity.getType() == CityType.Strong) {
+                this.setImage(new Image("/images/strongcastle.png"));
+                this.setFitHeight(20);
+                this.setFitWidth(20);
+            } 
+            else if (cityEntity.getType() == CityType.Fast) {
+                this.setImage(new Image("/images/fastcastle.png"));
+                this.setFitHeight(20);
+                this.setFitWidth(20);
+            }
+            else {
+                this.setImage(Constants.cityImage);
+            }
             Coordinate cityLocation = cityEntity.getLocation();
             this.setLayoutX(cityLocation.getX() - Constants.cityImage.getWidth() / 2);
             this.setLayoutY(cityLocation.getY() - Constants.cityImage.getHeight() / 2);
@@ -63,7 +76,24 @@ public class EntityImage extends ImageView implements CityObserver {
             this.layoutXProperty().bind(troopLocation.xProperty().subtract(this.getFitWidth() / 2));
             this.layoutYProperty().bind(troopLocation.yProperty().subtract(this.getFitHeight() / 2));
             pane.getChildren().add(this);
+        } else if (entity instanceof Weather) {
+            Weather weatherEntity = (Weather) entity;
+            this.entity = weatherEntity;
+            Coordinate weatherLocation = weatherEntity.getLocation();
+            WeatherType weatherType = weatherEntity.getType();
+            Image weatherImage = (weatherType == WeatherType.Blizzard)? Constants.blizzardImage : (weatherType == WeatherType.Flood)? Constants.floodImage : Constants.lightningImage;
+            this.setImage(weatherImage);
+            this.setFitWidth(weatherImage.getWidth());
+            this.setFitHeight(weatherImage.getHeight());
+            this.layoutXProperty().bind(weatherLocation.xProperty().subtract(this.getFitWidth() / 2));
+            this.layoutYProperty().bind(weatherLocation.yProperty().subtract(this.getFitHeight() / 2));
+            Circle c = new Circle(weatherLocation.getX(), weatherLocation.getY(), Constants.weatherRadius, Paint.valueOf("transparent"));
+            c.setStroke(Paint.valueOf("grey"));
+            // c.setFill(new ImagePattern(weatherImage));
+            c.layoutXProperty().bind(weatherLocation.xProperty()); c.layoutYProperty().bind(weatherLocation.yProperty());
+            pane.getChildren().addAll(List.of(c, this));
         }
+
         // else if (entity instanceof Projectile) {
         // Projectile projectileEntity = (Projectile) entity;
         // Coordinate projectileLocation = projectileEntity.getLocation();

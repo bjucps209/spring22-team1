@@ -4,5 +4,6 @@ public enum SeasonType {
     Spring,
     Summer,
     Fall,
-    Winter
+    Winter,
+    None
 }

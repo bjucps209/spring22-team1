@@ -16,6 +16,7 @@ import model.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GameWindow implements ComputerObserver {
 
@@ -26,6 +27,8 @@ public class GameWindow implements ComputerObserver {
     private VBox dragBox = new VBox();
     private Delta dragDelta = new Delta();
     private boolean inCity = false;
+    Random rand = new Random();
+    // AudioClip castleTaken = new AudioClip("https://www.fesliyanstudios.com/play-mp3/6202");
 
     /**
      * Coordinates used in dragging image.
@@ -62,6 +65,19 @@ public class GameWindow implements ComputerObserver {
         game.setEntityManager(this::removeEntity);
         game.getComputer().setObs(this);
         game.initialize(Difficulty.Easy, lvlname);
+        if (game.getSeason() == SeasonType.Summer) {
+            showSeason("/images/summer.png");
+        }
+        if (game.getSeason() == SeasonType.Fall) {
+            showSeason("/images/fall.png");
+        }
+        if (game.getSeason() == SeasonType.Winter) {
+            showSeason("/images/winter.png");
+        }
+        if (game.getSeason() == SeasonType.Spring) {
+            showSeason("/images/spring.png"); 
+        }
+
         for (Entity entity : game.getEntityList()) {
             new EntityImage(this, pane, entity);
             if (entity instanceof Troop) {
@@ -131,6 +147,7 @@ public class GameWindow implements ComputerObserver {
                 }
             }
         });
+        
         pane.setOnMouseReleased(me -> {
             if (me.getButton() == MouseButton.PRIMARY) {
                 deSelect();
@@ -151,6 +168,11 @@ public class GameWindow implements ComputerObserver {
         // Prevent mouse clicks on img from propagating to the pane and
         // resulting in creation of a new image
         pane.setOnMouseClicked(me -> me.consume());
+    }
+
+    public void onMakeWeather() {
+        Weather weather = game.makeWeather();
+        EntityImage entityImage = new EntityImage(this, pane, weather);
     }
 
     public void deSelect() {
@@ -240,6 +262,14 @@ public class GameWindow implements ComputerObserver {
         }
     }
 
+    public void makeWeather() {
+
+        // random number picked during a tick count. Updates each tick count
+        Weather newWather = game.makeWeather();
+        EntityImage weather = new EntityImage(this, pane, newWather);
+        pane.getChildren().add(weather);
+    }
+
     @FXML
     public void onSaveClicked(ActionEvent e) throws IOException {
         game.save("Levels/savedGame.dat");
@@ -260,4 +290,9 @@ public class GameWindow implements ComputerObserver {
             }
         }
     }
+
+    @FXML 
+    public void showSeason(String url) {
+        pane.setStyle("-fx-background-image:url(" + url + "); -fx-background-repeat: no-repeat; -fx-background-blend-mode: darken; -fx-background-size: cover; -fx-background-position: center;");
+    } 
 }

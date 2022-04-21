@@ -44,11 +44,11 @@ public class LevelData {
             }
         }
 
-        try (DataOutputStream wr = new DataOutputStream(new FileOutputStream("Level1.dat"))) {
+        try (DataOutputStream wr = new DataOutputStream(new FileOutputStream("../Civ209/Levels/Level1.dat"))) {
             wr.writeUTF("Civilization209");
             wr.writeInt(300 + (entityList.size() * 16) * 1);
             wr.writeChar(level.getSeason() == SeasonType.Winter ? 'W'
-                    : level.getSeason() == SeasonType.Fall ? 'F' : level.getSeason() == SeasonType.Summer ? 'S' : 's');
+                    : level.getSeason() == SeasonType.Fall ? 'F' : level.getSeason() == SeasonType.Summer ? 'S' : level.getSeason() == SeasonType.Spring ? 's': 'N');
             // this.difficulty = diff == 'E' ? Difficulty.Easy : diff == 'M' ?
             // Difficulty.Medium : Difficulty.Hard;
             wr.writeChar('E');

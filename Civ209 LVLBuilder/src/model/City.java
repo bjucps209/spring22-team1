@@ -74,8 +74,8 @@ public class City extends Entity {
     public void serialize(DataOutputStream wr) throws IOException {
         // Goes through and writes all of the information necessary for a constructor.
         wr.writeUTF("City");
-        wr.writeDouble(this.getLocation().getX());
-        wr.writeDouble(this.getLocation().getY());
+        wr.writeDouble(this.getX()); //.getLocation
+        wr.writeDouble(this.getY()); //.getLocation
         wr.writeInt(this.getTurnCount());
         wr.writeInt(this.getPopulation());
         wr.writeDouble(incrementRate);
