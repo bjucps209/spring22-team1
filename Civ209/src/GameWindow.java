@@ -57,6 +57,19 @@ public class GameWindow implements ComputerObserver {
         game.setEntityManager(this::removeEntity);
         game.getComputer().setObs(this);
         game.initialize(Difficulty.Easy, lvlname);
+        if (game.getSeason() == SeasonType.Summer) {
+            showSeason("/images/summer.png");
+        }
+        if (game.getSeason() == SeasonType.Fall) {
+            showSeason("/images/fall.png");
+        }
+        if (game.getSeason() == SeasonType.Winter) {
+            showSeason("/images/winter.png");
+        }
+        if (game.getSeason() == SeasonType.Spring) {
+            showSeason("/images/spring.png"); 
+        }
+
         for (Entity entity : game.getEntityList()) {
             new EntityImage(this, pane, entity);
         }
@@ -225,4 +238,9 @@ public class GameWindow implements ComputerObserver {
             }
         }
     }
+
+    @FXML 
+    public void showSeason(String url) {
+        pane.setStyle("-fx-background-image:url(" + url + "); -fx-background-repeat: no-repeat; -fx-background-blend-mode: darken; -fx-background-size: cover; -fx-background-position: center;");
+    } 
 }

@@ -176,23 +176,23 @@ public class MainWindow {
     void onSeasonClicked(ActionEvent e) {
         Button season = (Button) e.getSource(); 
         if (season.getText().equals("Summer")) {
-            showSeason("/images/tentativesummer.png");
+            showSeason("/images/summer.png");
             level.setSeason(SeasonType.Summer);
             seasons.setText("Summer");
 
         }
         if (season.getText().equals("Fall")) {
-            showSeason("/images/tentativefall.png");
+            showSeason("/images/fall.png");
             level.setSeason(SeasonType.Fall);
             seasons.setText("Fall");
         }
         if (season.getText().equals("Winter")) {
-            showSeason("/images/tentativewinter.png");
+            showSeason("/images/winter.png");
             level.setSeason(SeasonType.Winter);
             seasons.setText("Winter");
         }
         if (season.getText().equals("Spring")) {
-            showSeason("/images/tentativespring2.png");
+            showSeason("/images/spring.png");
             level.setSeason(SeasonType.Spring);
             seasons.setText("Spring");
         }
@@ -231,20 +231,20 @@ public class MainWindow {
         if (level.getSeason() != null) {
             SeasonType season = level.getSeason(); 
             if (season == SeasonType.Summer) {
-                showSeason("/images/tentativesummer.png");
+                showSeason("/images/summer.png");
                 seasons.setText("Summer");
     
             }
             if (season == SeasonType.Fall) {
-                showSeason("/images/tentativefall.png");
+                showSeason("/images/fall.png");
                 seasons.setText("Fall");
             }
             if (season == SeasonType.Winter) {
-                showSeason("/images/tentativewinter.png");
+                showSeason("/images/winter.png");
                 seasons.setText("Winter");
             }
             if (season == SeasonType.Spring) {
-                showSeason("/images/tentativespring2.png");
+                showSeason("/images/spring.png");
                 seasons.setText("Spring");
             }
         }

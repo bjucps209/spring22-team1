@@ -101,7 +101,7 @@ public class Game {
                 setScore(rd.readInt());
                 char s = rd.readChar();
                 this.season = s == 'W' ? SeasonType.Winter
-                        : s == 'F' ? SeasonType.Fall : s == 'S' ? SeasonType.Summer : SeasonType.Spring;
+                        : s == 'F' ? SeasonType.Fall : s == 'S' ? SeasonType.Summer :s == 's' ? SeasonType.Spring: SeasonType.None;
                 char diff = rd.readChar();
                 this.difficulty = diff == 'E' ? Difficulty.Easy : diff == 'M' ? Difficulty.Medium : Difficulty.Hard;
                 this.numPlayerCitiesLeft = rd.readInt();
