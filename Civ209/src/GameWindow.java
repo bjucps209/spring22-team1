@@ -128,7 +128,9 @@ public class GameWindow implements ComputerObserver {
                 deSelect();
                 pane.getChildren().remove(dragBox);
                 game.selectTroops(upperLeft, lowerRight, Nationality.Player).stream().forEach(t -> selectedTroops
-                        .add((EntityImage) pane.getChildren().filtered(e -> e.getUserData() == t).toArray()[0]));
+                        .add((EntityImage) pane.getChildren()
+                                .filtered(e -> e instanceof EntityImage && ((EntityImage) e).getEntity() == t)
+                                .toArray()[0]));
                 for (EntityImage image : selectedTroops) {
                     image.getStyleClass().add("selected");
                 }
@@ -202,7 +204,7 @@ public class GameWindow implements ComputerObserver {
 
     public void onTroopDelete(Troop troop) {
         for (Node node : pane.getChildren()) {
-            if (node.getUserData() == troop) {
+            if (node instanceof EntityImage && ((EntityImage)node).getEntity() == troop) {
                 pane.getChildren().remove(node);
                 break;
             }
@@ -229,9 +231,9 @@ public class GameWindow implements ComputerObserver {
     }
 
     public void removeEntity(Entity entity) {
-        for( Node node : pane.getChildren()) {
+        for (Node node : pane.getChildren()) {
             if (node instanceof EntityImage) {
-                if (((EntityImage)node).getUserData() == entity) {
+                if (((EntityImage) node).getUserData() == entity) {
                     pane.getChildren().remove(node);
                     return;
                 }

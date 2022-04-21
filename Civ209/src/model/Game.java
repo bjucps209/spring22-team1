@@ -36,15 +36,15 @@ public class Game {
      * @param lvlName    id of level played to load in from binary file
      */
     public void initialize(Difficulty difficulty, String lvlName) {
-        this.difficulty = difficulty;
-
+        // TODO play around with difficulty
+        computer.setDifficulty(Difficulty.Hard);
         try {
             load(lvlName);
         } catch (IOException e) {
             try {
                 // Removed Civ209
                 // TODO check to make sure this works
-                load(lvlName);
+                load("Levels/DemoLevel.dat");
             } catch (IOException xe) {
                 System.out.println("fatalError! " + xe);
                 System.exit(1);
@@ -131,7 +131,6 @@ public class Game {
 
     public void update() {
         // Slows score decrementation
-        computer.executeAction(this);
         turncount++;
         if (turncount % 3 == 0)
             setScore(getScore() - 1);
@@ -146,6 +145,8 @@ public class Game {
         for (Entity entity : entityList) {
             entity.update();
         }
+        computer.executeAction(this);
+
     }
 
     public void deSelect() {
@@ -354,7 +355,7 @@ public class Game {
 
     public void startTimer() {
         if (timer == null) {
-            timer = new Timeline(new KeyFrame(Duration.millis(200), e -> update()));
+            timer = new Timeline(new KeyFrame(Duration.millis(Constants.tickSpeed), e -> update()));
             timer.setCycleCount(Timeline.INDEFINITE);
             timer.play();
         } else {
