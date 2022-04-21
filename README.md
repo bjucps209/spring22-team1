@@ -37,8 +37,10 @@ You win when you control all of the cities on the map. You lose if all of your c
 
 ## Assets used:
 
-### Castle icon
-https://commons.wikimedia.org/wiki/File:BSicon_Castle.svg
+### Castle icons
+  * Standard: https://commons.wikimedia.org/wiki/File:BSicon_Castle.svg
+  * Fast: https://www.pinclipart.com/downpngs/iomhRJ_silhouette-clipart-castle-black-and-white-castle-clipart/ 
+  * Strong: https://www.pngfind.com/download/xJJxwo_castle-vector-castle-vector-png-transparent-png/ 
 
 ### Seasonal backgrounds
  * Summer background: https://www.goodfon.com/wallpaper/green-grass-summer-gazon-fon-trava-zelenaia.html
