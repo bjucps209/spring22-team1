@@ -44,7 +44,7 @@ public class LevelData {
             }
         }
 
-        try (DataOutputStream wr = new DataOutputStream(new FileOutputStream("C:/Users/emily/spring22-team1/Civ209/Levels/Level1.dat"))) {
+        try (DataOutputStream wr = new DataOutputStream(new FileOutputStream("../Civ209/Levels/Level1.dat"))) {
             wr.writeUTF("Civilization209");
             wr.writeInt(300 + (entityList.size() * 16) * 1);
             wr.writeChar(level.getSeason() == SeasonType.Winter ? 'W'
