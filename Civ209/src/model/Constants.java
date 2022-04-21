@@ -13,6 +13,7 @@ public class Constants {
     public final static int strongTroopHealth = 2;
     public final static int cityPopulationLimit = 30;
     public final static int troopRingRadius = 10;
+    public final static int tickSpeed = 200;
     public static final Image blizzardImage = new Image("https://commons.wikimedia.org/wiki/File:Snowstorm.svg.png");
     public static final Image lightningImage = new Image("https://commons.wikimedia.org/wiki/File:Icons8_flat_flash_on.svg");
     public static final Image floodImage = new Image("https://commons.wikimedia.org/wiki/File:Light_Rain_Cloud_by_Sara.png");

@@ -2,7 +2,6 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -11,21 +10,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-import model.City;
-import model.CityObserver;
-import model.CityType;
-import model.ComputerObserver;
-import model.Constants;
-import model.Coordinate;
-import model.DestinationType;
-import model.Difficulty;
-import model.Entity;
-import model.Game;
-import model.Troop;
-import model.Weather;
-import javafx.scene.media.*;
+import model.*;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -33,7 +19,6 @@ import java.util.Random;
 public class GameWindow implements ComputerObserver {
 
     private Game game;
-    private City selectedCity;
     private ArrayList<EntityImage> selectedTroops = new ArrayList<EntityImage>();
     private Coordinate upperLeft = new Coordinate();
     private Coordinate lowerRight = new Coordinate();
@@ -53,8 +38,10 @@ public class GameWindow implements ComputerObserver {
 
     @FXML
     Pane pane;
+
     @FXML
     VBox vbox;
+
     @FXML
     HBox controls;
 
@@ -70,9 +57,22 @@ public class GameWindow implements ComputerObserver {
     @FXML
     public void initialize(String lvlname) {
         game = new Game();
-        game.setOnMakeWeather(this::onMakeWeather);
-        game.setUpComputer(this);
+        game.setEntityManager(this::removeEntity);
+        game.getComputer().setObs(this);
         game.initialize(Difficulty.Easy, lvlname);
+        if (game.getSeason() == SeasonType.Summer) {
+            showSeason("/images/summer.png");
+        }
+        if (game.getSeason() == SeasonType.Fall) {
+            showSeason("/images/fall.png");
+        }
+        if (game.getSeason() == SeasonType.Winter) {
+            showSeason("/images/winter.png");
+        }
+        if (game.getSeason() == SeasonType.Spring) {
+            showSeason("/images/spring.png"); 
+        }
+
         for (Entity entity : game.getEntityList()) {
             new EntityImage(this, pane, entity);
         }
@@ -83,7 +83,7 @@ public class GameWindow implements ComputerObserver {
         scoreLabel.textProperty().bind(SimpleStringProperty.stringExpression(game.scoreProperty()));
         pane.getChildren().add(scoreLabel);
         pane.setOnMousePressed(me -> {
-            if (!checkInCity(me) && me.getButton() == MouseButton.PRIMARY) {
+            if (!game.checkInCity(new Coordinate(me.getX(), me.getY())) && me.getButton() == MouseButton.PRIMARY) {
                 deSelect();
                 inCity = false;
                 dragDelta.x = me.getX();
@@ -94,7 +94,8 @@ public class GameWindow implements ComputerObserver {
                 pane.getChildren().add(dragBox);
                 upperLeft.setX(me.getX());
                 upperLeft.setY(me.getY());
-            } else if (me.getButton() == MouseButton.PRIMARY && checkInCity(me)) {
+            } else if (me.getButton() == MouseButton.PRIMARY
+                    && game.checkInCity(new Coordinate(me.getX(), me.getY()))) {
                 inCity = true;
             } else {
                 deployTroops(me);
@@ -128,25 +129,14 @@ public class GameWindow implements ComputerObserver {
         
         pane.setOnMouseReleased(me -> {
             if (me.getButton() == MouseButton.PRIMARY) {
+                deSelect();
                 pane.getChildren().remove(dragBox);
-                for (Entity entity : game.getEntityList()) {
-                    if (entity instanceof Troop) {
-                        Troop troop = (Troop) entity;
-                        Coordinate location = troop.getLocation();
-                        if (location.getX() >= upperLeft.getX() && location.getY() >= upperLeft.getY()
-                                && location.getX() <= lowerRight.getX() && location.getY() <= lowerRight.getY()) {
-                            for (Node node : pane.getChildren()) {
-                                if (node instanceof EntityImage) {
-                                    EntityImage entityNode = (EntityImage) node;
-                                    if (entityNode.getEntity() == troop) {
-                                        entityNode.getStyleClass().add("selected");
-                                        selectedTroops.add(entityNode);
-                                        troop.setSelected(true);
-                                    }
-                                }
-                            }
-                        }
-                    }
+                game.selectTroops(upperLeft, lowerRight, Nationality.Player).stream().forEach(t -> selectedTroops
+                        .add((EntityImage) pane.getChildren()
+                                .filtered(e -> e instanceof EntityImage && ((EntityImage) e).getEntity() == t)
+                                .toArray()[0]));
+                for (EntityImage image : selectedTroops) {
+                    image.getStyleClass().add("selected");
                 }
             }
             upperLeft = new Coordinate();
@@ -170,212 +160,72 @@ public class GameWindow implements ComputerObserver {
                 oldNodes.getStyleClass().remove("selected");
             }
         }
-        if (selectedCity != null) {
-            selectedCity.setSelected(false);
-        }
-        selectedCity = null;
-        for (EntityImage node : selectedTroops) {
-            Troop troop = (Troop) node.getEntity();
-            troop.setSelected(false);
-        }
-        selectedTroops = new ArrayList<>();
+        selectedTroops.clear();
+        game.deSelect();
     }
 
     public void onSelected(Circle node, MouseEvent e, City city) {
         // do a left click, check to see if it's a player city.
         if (e.getButton() == MouseButton.PRIMARY && node.getStroke() == Paint.valueOf("blue")) {
             deSelect();
-            selectedCity = city;
+            game.setSelectedCity(city);
             node.getStyleClass().add("selected");
         }
     }
 
-    public City getCityHit(Coordinate coordinate) {
-        City city = null;
-        for (Entity entity : game.getEntityList()) {
-            if (entity instanceof City) {
-                City cityEntity = (City) entity;
-                if (Math.pow(coordinate.getX() - cityEntity.getLocation().getX(), 2) + Math
-                        .pow(coordinate.getY() - cityEntity.getLocation().getY(), 2) <= Math.pow(Constants.cityRadius,
-                                2)) {
-                    city = cityEntity;
-                    break;
-                }
-            }
-        }
-        return city;
-    }
-
-    public boolean checkInCity(MouseEvent e) {
-        boolean pointInCircle = false;
-        for (Entity entity : game.getEntityList()) {
-            if (entity instanceof City) {
-                City cityEntity = (City) entity;
-                if (Math.pow(e.getX() - cityEntity.getLocation().getX(), 2) + Math
-                        .pow(e.getY() - cityEntity.getLocation().getY(), 2) <= Math.pow(Constants.cityRadius, 2)) {
-                    pointInCircle = true;
-                    break;
-                }
-            }
-        }
-        return pointInCircle;
-    }
-
-    public boolean checkInCity(Coordinate e) {
-        boolean pointInCircle = false;
-        for (Entity entity : game.getEntityList()) {
-            if (entity instanceof City) {
-                City cityEntity = (City) entity;
-                if (Math.pow(e.getX() - cityEntity.getLocation().getX(), 2) + Math
-                        .pow(e.getY() - cityEntity.getLocation().getY(), 2) <= Math.pow(Constants.cityRadius, 2)) {
-                    pointInCircle = true;
-                    break;
-                }
-            }
-        }
-        return pointInCircle;
-    }
-
-    public Coordinate checkInCity(MouseEvent e, boolean returnCity) {
-        for (Entity entity : game.getEntityList()) {
-            if (entity instanceof City) {
-                City cityEntity = (City) entity;
-                if (Math.pow(e.getX() - cityEntity.getLocation().getX(), 2) + Math
-                        .pow(e.getY() - cityEntity.getLocation().getY(), 2) <= Math.pow(Constants.cityRadius, 2)) {
-                    return cityEntity.getLocation();
-                }
-            }
-        }
-        return null;
-    }
-
     public void sendTroopsFromCity(City selectedCity, Coordinate destination) {
-        ArrayList<Troop> troops = selectedCity.sendTroops(slider.getValue(), destination,
-                selectedCity.getType(),
-                DestinationType.City);
-        for (Troop troop : troops) {
-            EntityImage circle = new EntityImage(this, pane, troop);
-            circle.setUserData(troop);
-            troop.setDestination(destination);
-            troop.setTroopDelete(this::onTroopDelete);
-        }
+        game.sendTroopsFromCity(selectedCity, destination, slider.getValue()).stream().forEach(t -> {
+            EntityImage circle = new EntityImage(this, pane, t);
+            circle.setUserData(t);
+            t.setTroopDelete(this::onTroopDelete);
+        });
     }
 
-    public void sendTroopsFromGround(ArrayList<Troop> selectedTroops, Coordinate destination) {
-        for (Troop troop : selectedTroops) {
-            troop.setDestination(destination);
-            troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
-                    : Constants.standardTroopSpeed);
-            troop.setHeading(troop.figureHeading(destination));
-            troop.setTroopDelete(this::onTroopDelete);
-            troop.setDestinationType(DestinationType.City);
-        }
+    public void sendTroopsFromGround(ArrayList<Troop> troops, Coordinate destination) {
+        game.sendTroopsFromGround(troops, destination).stream().forEach(t -> t.setTroopDelete(this::onTroopDelete));
+        ;
     }
 
     public void deployTroops(MouseEvent e) {
         Coordinate destination = new Coordinate(e.getX(), e.getY());
-        boolean pointInCircle = checkInCity(e);
-        Coordinate cityCenter = checkInCity(e, true);
+        boolean pointInCircle = game.checkInCity(destination);
+        Coordinate cityCenter = game.checkInCity(destination, true);
         if (e.getButton() == MouseButton.SECONDARY) {
-            if (selectedCity != null) {
+            ArrayList<Troop> troops = game.deployTroops(pointInCircle, cityCenter, destination, slider.getValue());
+            if (game.getSelectedCity() != null) {
                 if (pointInCircle) {
-                    ArrayList<Troop> troops = selectedCity.sendTroops(slider.getValue(), destination,
-                            selectedCity.getType(),
-                            DestinationType.City);
                     for (Troop troop : troops) {
                         EntityImage circle = new EntityImage(this, pane, troop);
                         circle.setUserData(troop);
-                        troop.setDestination(cityCenter);
                         troop.setTroopDelete(this::onTroopDelete);
                     }
-                    game.getEntityList().addAll(troops);
                 } else {
-                    ArrayList<Troop> troops = selectedCity.sendTroops(slider.getValue(), destination,
-                            selectedCity.getType(),
-                            DestinationType.Coordinate);
-                    moveTroopToField(troops, destination);
                     for (Troop troop : troops) {
                         EntityImage circle = new EntityImage(this, pane, troop);
                         circle.setUserData(troop);
                     }
-                    game.getEntityList().addAll(troops);
                 }
-            } else if (selectedTroops.size() != 0) {
-                if (pointInCircle) {
-                    for (EntityImage entity : selectedTroops) {
-                        Troop troop = (Troop) entity.getEntity();
-                        troop.setDestination(cityCenter);
-                        troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
-                                : Constants.standardTroopSpeed);
-                        troop.setHeading(troop.figureHeading(cityCenter));
-                        troop.setTroopDelete(this::onTroopDelete);
-                        troop.setDestinationType(DestinationType.City);
-                    }
-                } else {
-                    ArrayList<Troop> troops = new ArrayList<>();
-                    for (EntityImage entity : selectedTroops) {
-                        troops.add((Troop) entity.getEntity());
-                        moveTroopToField(troops, destination);
-                    }
-                    for (Troop troop : troops) {
-                        troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
-                                : Constants.standardTroopSpeed);
-                    }
-                }
+            } else {
+                troops.stream().forEach(t -> t.setTroopDelete(this::onTroopDelete));
             }
         }
     }
 
     public void onTroopDelete(Troop troop) {
         for (Node node : pane.getChildren()) {
-            if (node.getUserData() == troop) {
+            if (node instanceof EntityImage && ((EntityImage)node).getEntity() == troop) {
                 pane.getChildren().remove(node);
                 break;
             }
         }
-
-        Coordinate location = troop.getLocation();
-
-        if (checkInCity(location)) {
-            City city = getCityHit(location);
-            if (city != null)
-                city.recieveTroops(troop.getHealth(), troop.getNationality());
-        }
-
-        game.getDeleteEntityList().add(troop);
+        game.deleteTroop(troop);
     }
 
-    public void moveTroopToField(ArrayList<Troop> troops, Coordinate destination) {
-        int numTroops = troops.size();
-        int ring = 0;
-        int curTroop = 0;
-        while (numTroops != 0) {
-            for (int i = 0; i < Math.max(ring * 6, 1); i++) {
-                if (numTroops == 0) {
-                    break;
-                } else {
-                    numTroops--;
-                    Troop troop = troops.get(curTroop);
-                    double changeInHeading = (ring * 6) == 0 ? 0 : Math.toRadians((360.0 / (ring * 6.0)) * i);
-                    troop.setDestination(
-                            new Coordinate(
-                                    Math.max(Math.min(
-                                            destination.getX()
-                                                    + (ring * Constants.troopRingRadius) * Math.cos(changeInHeading),
-                                            Constants.windowWidth), 0),
-                                    Math.max(Math.min(
-                                            destination.getY()
-                                                    + (ring * Constants.troopRingRadius) * Math.sin(changeInHeading),
-                                            Constants.windowHeight), 0)));
-                    troop.setHeading(troop.figureHeading(troop.getDestination()));
-                    // troop.setSpeed(troop.getTroopType() == CityType.Fast ?
-                    // Constants.fastTroopSpeed
-                    // : Constants.standardTroopSpeed);
-                    troop.setDestinationType(DestinationType.Coordinate);
-                    curTroop++;
-                }
-            }
-            ring++;
+    public void renderTroops(ArrayList<Troop> troops) {
+        for (Troop troop : troops) {
+            EntityImage circle = new EntityImage(this, pane, troop);
+            circle.setUserData(troop);
+            troop.setTroopDelete(this::onTroopDelete);
         }
     }
 
@@ -396,4 +246,20 @@ public class GameWindow implements ComputerObserver {
     public void onLoadClicked(ActionEvent e) throws IOException {
         game.load("Levels/savedGame.dat");
     }
+
+    public void removeEntity(Entity entity) {
+        for (Node node : pane.getChildren()) {
+            if (node instanceof EntityImage) {
+                if (((EntityImage) node).getUserData() == entity) {
+                    pane.getChildren().remove(node);
+                    return;
+                }
+            }
+        }
+    }
+
+    @FXML 
+    public void showSeason(String url) {
+        pane.setStyle("-fx-background-image:url(" + url + "); -fx-background-repeat: no-repeat; -fx-background-blend-mode: darken; -fx-background-size: cover; -fx-background-position: center;");
+    } 
 }

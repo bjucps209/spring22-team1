@@ -4,8 +4,11 @@
 //-----------------------------------------------------------
 package model;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Troop extends MobileEntity {
     private int health;
@@ -14,6 +17,7 @@ public class Troop extends MobileEntity {
     private onTroopDeleteInterface troopDelete;
     private DestinationType destinationType;
     private CityType troopType;
+    private Game game;
 
     public Troop(Coordinate location, int turnCount, double speed, double heading, Coordinate destination, int health,
             Nationality nationality, boolean selected, DestinationType destinationType, CityType troopType) {
@@ -23,6 +27,29 @@ public class Troop extends MobileEntity {
         this.selected = selected;
         this.destinationType = destinationType;
         this.troopType = troopType;
+    }
+
+    public static Entity load(DataInputStream rd) throws IOException {
+
+        Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
+        int turnCount = rd.readInt();
+        double speed = rd.readDouble();
+        double heading = rd.readDouble();
+        int health = rd.readInt();
+        char nation = rd.readChar();
+        Boolean selected = rd.readBoolean();
+        Nationality nationality = nation == 'P' ? Nationality.Player
+                : nation == 'E' ? Nationality.Enemy : Nationality.Neutral;
+        char dChar = rd.readChar();
+        DestinationType destinationType = dChar == 'i' ? DestinationType.City
+                : DestinationType.Coordinate;
+        char tChar = rd.readChar();
+        CityType troopType = tChar == 'S' ? CityType.Standard
+                : tChar == 'F' ? CityType.Fast : CityType.Strong;
+        Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
+
+        return new Troop(location, turnCount, speed, heading, destination, health, nationality, selected,
+                destinationType, troopType);
     }
 
     /**
@@ -35,6 +62,7 @@ public class Troop extends MobileEntity {
          * check collision
          * check if reached destination
          */
+        collisionDetection();
         if (destinationType == DestinationType.City) {
             double distToDest = Math.sqrt(Math
                     .pow((getDestination().getX()
@@ -72,9 +100,22 @@ public class Troop extends MobileEntity {
      * checks to see if hit another troop
      */
     public void collisionDetection() {
-        /**
-         * check if hit another enemy troop
-         */
+        if (game != null) {
+            ArrayList<Troop> troops = new ArrayList<>();
+            game.getEntityList().stream().forEach(t -> {
+                if (t instanceof Troop
+                        && ((Troop) t).getNationality() == ((getNationality() == Nationality.Player) ? Nationality.Enemy
+                                : Nationality.Player)) {
+                    troops.add((Troop) t);
+                }
+            });
+            for (Troop troop: troops) {
+                double distToTroop = Math.sqrt(Math.pow(troop.getLocation().getY() - getLocation().getY(), 2) + Math.pow(troop.getLocation().getX() - getLocation().getX(), 2));
+                if (distToTroop < Constants.troopRadius * 2) {
+                    game.getDeleteEntityList().addAll(List.of(troop, this));
+                }
+            }
+        }
     }
 
     /**
@@ -95,7 +136,6 @@ public class Troop extends MobileEntity {
         wr.writeChar((troopType == CityType.Fast) ? 'F' : troopType == CityType.Strong ? 'S' : 's');
         wr.writeDouble(this.getDestination().getX());
         wr.writeDouble(this.getDestination().getY());
-
     }
 
     public double figureHeading(Coordinate destination) {
@@ -158,5 +198,13 @@ public class Troop extends MobileEntity {
 
     public void setTroopType(CityType troopType) {
         this.troopType = troopType;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public String __str__() {
+        return "" + getSpeed() + " " + getHeading() + " " + getDestination();
     }
 }

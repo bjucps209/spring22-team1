@@ -1,6 +1,5 @@
 import java.util.List;
 
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.Label;
 import javafx.scene.image.*;
 import javafx.scene.layout.Pane;
@@ -14,7 +13,6 @@ public class EntityImage extends ImageView implements CityObserver {
     private Entity destination = null;
     private Nationality nationality;
     private GameWindow parent;
-    private Pane pane;
     private Circle cityCircle;
     private Label cityPop;
 
@@ -33,14 +31,25 @@ public class EntityImage extends ImageView implements CityObserver {
     public EntityImage(GameWindow parent, Pane pane, Entity entity) {
         this.entity = entity;
         this.parent = parent;
-        this.pane = pane;
 
         if (entity instanceof City) {
             City cityEntity = (City) entity;
             cityEntity.setObs(this);
             this.nationality = cityEntity.getNationality();
             this.entity = cityEntity;
-            this.setImage(Constants.cityImage);
+            if (cityEntity.getType() == CityType.Strong) {
+                this.setImage(new Image("/images/strongcastle.png"));
+                this.setFitHeight(20);
+                this.setFitWidth(20);
+            } 
+            else if (cityEntity.getType() == CityType.Fast) {
+                this.setImage(new Image("/images/fastcastle.png"));
+                this.setFitHeight(20);
+                this.setFitWidth(20);
+            }
+            else {
+                this.setImage(Constants.cityImage);
+            }
             Coordinate cityLocation = cityEntity.getLocation();
             this.setLayoutX(cityLocation.getX() - Constants.cityImage.getWidth() / 2);
             this.setLayoutY(cityLocation.getY() - Constants.cityImage.getHeight() / 2);
@@ -53,7 +62,7 @@ public class EntityImage extends ImageView implements CityObserver {
             cityPop.textProperty().bind(cityEntity.populationProperty().asString());
             cityPop.setLayoutX(cityLocation.getX() - Constants.cityImage.getWidth() / 1.5);
             cityPop.setLayoutY(cityLocation.getY() - Constants.cityImage.getHeight() / 1.5);
-            pane.getChildren().addAll(List.of(this, cityCircle, cityPop));
+            pane.getChildren().addAll(List.of(this,cityPop, cityCircle ));
 
         } else if (entity instanceof Troop) {
             Troop troopEntity = (Troop) entity;

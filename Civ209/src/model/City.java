@@ -6,7 +6,7 @@
 package model;
 
 import java.util.Random;
-
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,6 +48,24 @@ public class City extends Entity {
         this.y = rand.nextInt(450);
     }
 
+    public static Entity load(DataInputStream rd) throws IOException {
+        Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
+        int turnCount = rd.readInt();
+        int population = rd.readInt();
+        IntegerProperty popProperty = new SimpleIntegerProperty(population);
+        double incrementRate = rd.readDouble();
+        char nation = rd.readChar();
+        Nationality nationality = nation == 'P' ? Nationality.Player
+                : nation == 'E' ? Nationality.Enemy : Nationality.Neutral;
+        boolean selected = rd.readBoolean();
+        double fireRate = rd.readDouble();
+        char cityT = rd.readChar();
+        CityType cityType = cityT == 'S' ? CityType.Standard
+                : cityT == 'F' ? CityType.Fast : CityType.Strong;
+        return new City(location, turnCount, popProperty, incrementRate, nationality, selected,
+                fireRate, cityType);
+    }
+
     /**
      * updates the population and image. fires projectile on appropriate ticks.
      */
@@ -85,13 +103,18 @@ public class City extends Entity {
             troops.add(troop);
         }
 
-        Timeline timer = new Timeline(new KeyFrame(Duration.millis(300), e -> {
-            Troop troop = troops.get(0);
-            troops.remove(troop);
-            troop.setSpeed((type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed);
-        }));
-        timer.setCycleCount(troops.size());
-        timer.play();
+
+
+        Thread t = new Thread(() -> {
+            Timeline timer = new Timeline(new KeyFrame(Duration.millis(300), e -> {
+                Troop troop = troops.get(0);
+                troops.remove(troop);
+                troop.setSpeed((type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed);
+            }));
+            timer.setCycleCount(troops.size());
+            timer.play();
+        });
+        t.start();
 
         setPopulation(getPopulation() - numtroops);
         return troops;

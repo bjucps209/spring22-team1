@@ -6,7 +6,7 @@
 package model;
 
 import java.util.Random;
-
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,93 +47,22 @@ public class City extends Entity {
         this.y = rand.nextInt(450);
     }
 
-    /**
-     * updates the population and image. fires projectile on appropriate ticks.
-     */
-    @Override
-    public void update() {
-        turnCount++;
-        if (getPopulation() < 30 && turnCount % 2 == 0) {
-            setPopulation(getPopulation() + 1);
-
-        }
-        super.update();
-    }
-
-    /**
-     * generates percentage of population troops going to destination
-     * 
-     * @param percentage  percentage of city population to send out
-     * @param destination destination of the generated troops
-     * @param type        type of troop to be sending out
-     */
-    public ArrayList<Troop> sendTroops(double percentage, Coordinate destination, CityType type,
-            DestinationType destinationType) {
-        percentage = percentage / 100;
-        int numtroops = (int) (getPopulation() * percentage);
-        if (numtroops < 1)
-            numtroops = 1;
-        ArrayList<Troop> troops = new ArrayList<>();
-        for (int i = 0; i < numtroops; i++) {
-            double heading = figureHeading(destination);
-            Troop troop = new Troop(new Coordinate(getLocation()), getTurnCount(),
-                    0, heading,
-                    destination,
-                    (type == CityType.Strong) ? Constants.strongTroopHealth : Constants.standardTroopHealth,
-                    nationality, false, destinationType, type);
-            troops.add(troop);
-        }
-
-        Timeline timer = new Timeline(new KeyFrame(Duration.millis(300), e -> {
-            Troop troop = troops.get(0);
-            troops.remove(troop);
-            troop.setSpeed((type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed);
-        }));
-        timer.setCycleCount(troops.size());
-        timer.play();
-
-        setPopulation(getPopulation() - numtroops);
-        return troops;
-    }
-
-    public double figureHeading(Coordinate destination) {
-        if (destination.getX() - getLocation().getX() != 0) {
-            if (destination.getX() - getLocation().getX() < 0) {
-                return 180 + (Math.toDegrees(Math.atan(
-                        (getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
-            } else {
-                return (Math.toDegrees(Math.atan(
-                        (getLocation().getY() - destination.getY()) / (getLocation().getX() - destination.getX()))));
-            }
-        } else {
-            return (destination.getY() - getLocation().getY() > 0) ? 90 : 270;
-        }
-    }
-
-    /**
-     * fires a projectile from city at closest enemy if enemy in range and city
-     * population not 0
-     */
-    public void fireProjectile() {
-        /**
-         * check if any enemies in range. If so, fire projectiles
-         */
-    }
-
-    public void recieveTroops(int amount, Nationality attackingType) {
-
-        if (nationality == attackingType) {
-            populationProperty.set(populationProperty.get() + amount);
-        } else {
-            if (populationProperty.get() - amount > -1) {
-                populationProperty.set(populationProperty.get() - amount);
-                System.out.println("Trying to decrement");
-            } else {
-                nationality = attackingType;
-                System.out.println("Trying to switch city type");
-                populationProperty.set(0);
-            }
-        }
+    public static Entity load(DataInputStream rd) throws IOException {
+        Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
+        int turnCount = rd.readInt();
+        int population = rd.readInt();
+        IntegerProperty popProperty = new SimpleIntegerProperty(population);
+        double incrementRate = rd.readDouble();
+        char nation = rd.readChar();
+        Nationality nationality = nation == 'P' ? Nationality.Player
+                : nation == 'E' ? Nationality.Enemy : Nationality.Neutral;
+        boolean selected = rd.readBoolean();
+        double fireRate = rd.readDouble();
+        char cityT = rd.readChar();
+        CityType cityType = cityT == 'S' ? CityType.Standard
+                : cityT == 'F' ? CityType.Fast : CityType.Strong;
+        return new City(location, turnCount, popProperty, incrementRate, nationality, selected,
+                fireRate, cityType);
     }
 
     /**
@@ -145,8 +74,8 @@ public class City extends Entity {
     public void serialize(DataOutputStream wr) throws IOException {
         // Goes through and writes all of the information necessary for a constructor.
         wr.writeUTF("City");
-        wr.writeDouble(this.getLocation().getX());
-        wr.writeDouble(this.getLocation().getY());
+        wr.writeDouble(this.getX()); //.getLocation
+        wr.writeDouble(this.getY()); //.getLocation
         wr.writeInt(this.getTurnCount());
         wr.writeInt(this.getPopulation());
         wr.writeDouble(incrementRate);
@@ -236,6 +165,4 @@ public class City extends Entity {
     public void setType(CityType type) {
         this.type = type;
     }
-
-
 }

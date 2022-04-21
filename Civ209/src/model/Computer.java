@@ -5,7 +5,6 @@
 package model;
 
 import java.util.ArrayList;
-
 import java.util.Random;
 
 public class Computer {
@@ -25,7 +24,6 @@ public class Computer {
      */
     public void executeAction(Game game) {
 
-        Random r = new Random();
         /**
          * Depending on level of difficulty, creates action and executes said action
          */
@@ -50,40 +48,81 @@ public class Computer {
                 }
             }
         }
-        if (turnCount % 45 == 0) {
-            City cityToAttack = calculateAttackCity(otherCities);
-            for (City city : computerCities) {
-                city.sendTroops(45, cityToAttack.getLocation(), city.getType(), DestinationType.City);
-            }
-        } else if (turnCount % 7 == 0) {
-            for (City city : computerCities) {
-                city.sendTroops(1,
-                        new Coordinate(r.nextDouble(40, 90) + city.getLocation().getX(), r.nextDouble(40, 90)),
-                        city.getType(), DestinationType.Coordinate);
-            }
+        City cityToAttack = calculateAttackCity(otherCities);
+
+        switch (difficulty) {
+            case Easy:
+                if (turnCount % 100 == 0) {
+                    ArrayList<Troop> troops = game.sendTroopsFromCity(computerCities.get(0), cityToAttack.getLocation(),
+                            50);
+                    game.getEntityList().addAll(troops);
+                    obs.renderTroops(troops);
+                } else if (turnCount % 301 == 0) {
+                    for (City city : computerCities) {
+                        ArrayList<Troop> troops = game.sendTroopsFromCity(city, cityToAttack.getLocation(), 40);
+                        game.getEntityList().addAll(troops);
+                        obs.renderTroops(troops);
+                    }
+                }
+
+                break;
+
+            case Medium:
+                if (turnCount % 100 == 0) {
+                    for (City city : computerCities) {
+                        ArrayList<Troop> troops = game.sendTroopsFromCity(city, cityToAttack.getLocation(), 100);
+                        game.getEntityList().addAll(troops);
+                        obs.renderTroops(troops);
+                    }
+                } else if (turnCount % 60 == 0) {
+                    game.sendTroopsFromGround(computerTroops, calculateAttackCity(otherCities).getLocation());
+                } else if (turnCount % 15 == 0) {
+                    for (City city : computerCities) {
+                        ArrayList<Troop> troops = city.sendTroops(1,
+                                city.getLocation().figureNewCoordinate(randomNumberGenerator(0, 360),
+                                        randomNumberGenerator(-20, 20)),
+                                CityType.Standard, DestinationType.Coordinate);
+                        obs.renderTroops(troops);
+                        game.getEntityList().addAll(troops);
+                    }
+                }
+                break;
+
+            case Hard:
+                if (computerCities.get(0).getPopulation() >= Constants.cityPopulationLimit) {
+                    for (City city : computerCities) {
+                        int tries = 3;
+                        for (City enemy : otherCities) {
+                            if (tries < 1)
+                                break;
+                            ArrayList<Troop> troops = game.sendTroopsFromCity(city, enemy.getLocation(), 1);
+                            game.getEntityList().addAll(troops);
+                            obs.renderTroops(troops);
+
+                        }
+                        ArrayList<Troop> troops = game.sendTroopsFromCity(city, cityToAttack.getLocation(), 100);
+                        game.getEntityList().addAll(troops);
+                        obs.renderTroops(troops);
+                    }
+                }
+
+                break;
+
         }
+    }
 
-        // THIS IS WHAT HAPPENS WHEN WE DON'T ENFORCE MODEL / VIEW MOFFITT
-        //
-        // else if (turnCount % 39 == 0) {
-        // City cityToAttack = calculateAttackCity(otherCities);
-        // for (Troop troop : computerTroops) {
-        // troop.setDestination(cityToAttack.getLocation());
-        // troop.setSpeed(1);
-        // troop.setHeading(troop.figureHeading(troop.getDestination()));
-        // troop.setTroopDelete();
-
-        // }
-        // }
-
+    private double randomNumberGenerator(int min, int max) {
+        double randomNumber = Math.random() * (max - min) + min;
+        return randomNumber;
     }
 
     private City calculateAttackCity(ArrayList<City> cities) {
         City returnCity = null;
         for (City city : cities) {
-            if (returnCity == null) {
+            if (returnCity == null && city.getNationality() != Nationality.Enemy) {
                 returnCity = city;
-            } else if (city.getPopulation() > returnCity.getPopulation()) {
+            } else if (city.getPopulation() > returnCity.getPopulation()
+                    && city.getNationality() != Nationality.Enemy) {
                 returnCity = city;
             }
 

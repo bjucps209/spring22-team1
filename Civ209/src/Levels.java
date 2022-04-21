@@ -26,7 +26,7 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("Levels/savedGame.dat");
+            gameWindow.initialize("Civ209/Levels/savedGame.dat");
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -47,7 +47,7 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("");
+            gameWindow.initialize("../Civ209/Levels/Level1.dat");
 
         } catch (IOException e) {
             // TODO Auto-generated catch block

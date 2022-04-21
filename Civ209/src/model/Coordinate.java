@@ -35,6 +35,20 @@ public class Coordinate {
         setY(coord.getY());
     }
 
+    public Coordinate figureNewCoordinate(double heading, double distance) {
+
+        if (distance < 0) {
+            distance -= Constants.cityRadius * 2;
+        } else {
+            distance += Constants.cityRadius * 2;
+        }
+
+        double x = (Math.cos(Math.toRadians(heading)) * distance);
+        double y = Math.sin(Math.toRadians(heading)) * distance;
+
+        return new Coordinate(this.getX() + x, this.getY() + y);
+
+    }
 
     public String toString() {
         return "COORDINATE: X is " + getX() + ", and Y is " + getY() + ".";
