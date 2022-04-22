@@ -49,15 +49,9 @@ public class Level {
      * @param id - id of city to destroy
      * @return the destroyed City, or null if no city had the specified id
      */
-    public City delete(int id) {
-        for (Entity entity : cities) {
-            City city = (City) entity;
-            if (city.getId() == id) {
-                cities.remove(city.getId()); 
-                return city;
-            }
-        }
-        return null;
+    public City delete(City city) {
+            cities.remove(city); 
+                return city; 
     }
 
     public List<City> getCities() {

@@ -201,8 +201,7 @@ public class MainWindow {
     */
     @FXML 
     void onDeleteClicked(ActionEvent e) {
-        int id = currentCity.getId(); 
-        level.delete(id - 1); 
+        level.delete(currentCity); 
         this.id -= 1;
         lblId.setText(""); 
         lblLoc.setText("");
