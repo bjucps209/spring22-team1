@@ -282,35 +282,35 @@ public class Game {
         int coordY = 0;
         // determine which side of the screen the weather starts on
         if (screenSide == 0) { // bottom
-            heading = rand.nextInt(225, 315);
+            heading = nextInt(225, 315);
             coordY = Constants.windowHeight;
 
             if (heading >= 270) {
-                coordX = rand.nextInt(0, Constants.windowWidth / 2);
+                coordX = nextInt(0, Constants.windowWidth / 2);
             } else {
-                coordX = rand.nextInt(Constants.windowWidth / 2, Constants.windowWidth);
+                coordX = nextInt(Constants.windowWidth / 2, Constants.windowWidth);
             }
 
         } else if (screenSide == 1) { // left
             int check = rand.nextInt(2);
             coordX = 0;
             if (check == 0) {
-                heading = rand.nextInt(315, 360);
-                coordY = rand.nextInt(Constants.windowHeight / 2, Constants.windowHeight);
+                heading = nextInt(315, 360);
+                coordY = nextInt(Constants.windowHeight / 2, Constants.windowHeight);
 
             } else {
-                heading = rand.nextInt(0, 45);
-                coordY = rand.nextInt(0, Constants.windowHeight / 2);
+                heading = nextInt(0, 45);
+                coordY = nextInt(0, Constants.windowHeight / 2);
             }
 
         } else if (screenSide == 2) { // top
-            heading = rand.nextInt(45, 135);
+            heading = nextInt(45, 135);
             coordY = 0;
 
             if (heading <= 90) {
-                coordX = rand.nextInt(0, Constants.windowWidth / 2);
+                coordX = nextInt(0, Constants.windowWidth / 2);
             } else {
-                coordX = rand.nextInt(Constants.windowWidth / 2, Constants.windowWidth);
+                coordX = nextInt(Constants.windowWidth / 2, Constants.windowWidth);
             }
 
         } else { // right
@@ -318,12 +318,12 @@ public class Game {
             int check = rand.nextInt(2);
             coordX = Constants.windowWidth;
             if (check == 0) {
-                heading = rand.nextInt(180, 225);
-                coordY = rand.nextInt(Constants.windowHeight / 2, Constants.windowHeight);
+                heading = nextInt(180, 225);
+                coordY = nextInt(Constants.windowHeight / 2, Constants.windowHeight);
 
             } else {
-                heading = rand.nextInt(135, 180);
-                coordY = rand.nextInt(0, Constants.windowHeight / 2);
+                heading = nextInt(135, 180);
+                coordY = nextInt(0, Constants.windowHeight / 2);
             }
 
         }
@@ -331,8 +331,11 @@ public class Game {
         Weather weather = new Weather(new Coordinate(coordX, coordY), turncount, Constants.weatherSpeed, heading, null,
                 WeatherType.Blizzard);
         getEntityList().add(weather);
-        System.out.println(heading);
         return weather;
+    }
+
+    public int nextInt(int lowerBound, int upperBound) {
+        return (int) ((Math.random() * (upperBound - lowerBound)) + lowerBound);
     }
 
     public void setUpComputer(ComputerObserver window) {
