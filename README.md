@@ -43,8 +43,8 @@ You win when you control all of the cities on the map. You lose if all of your c
   * Strong: https://www.pngfind.com/download/xJJxwo_castle-vector-castle-vector-png-transparent-png/ 
 
 ### Seasonal backgrounds
- * Summer background: https://www.goodfon.com/wallpaper/green-grass-summer-gazon-fon-trava-zelenaia.html
- * Autumn background: https://phandroid.com/wp-content/uploads/2014/10/Leaves.jpg
+ * Summer background: https://unsplash.com/photos/loAfOVk1eNc
+ * Autumn background: https://www.needpix.com/photo/download/1495531/abstract-autumn-backdrop-background-blur-blurred-bokeh-bright-color
  * Winter background: https://besthqwallpapers.com/textures/snow-background-snow-texture-background-with-snow-winter-background-snowflakes-118035
  * Spring background: https://airwallpaper.com/wp-content/uploads/2016/08/Spring-Flowers-Backgrounds.jpg
 

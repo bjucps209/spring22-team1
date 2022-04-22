@@ -1,6 +1,6 @@
 //-----------------------------------------------------------
 //File:   Game.java
-//Desc:   This program instantiates an image and handles game state
+//Desc:   This program instantiates an image and handles game state.
 //-----------------------------------------------------------
 package model;
 
@@ -84,10 +84,18 @@ public class Game {
     /**
      * checks numCitiesLeft and score to see if game should be over
      */
-    public void gameEnd() {
+    public void gameEnd() throws GameOverException {
         /**
          * checks numCitiesLeft and score to see if game should be over
          */
+
+        if (numPlayerCitiesLeft <= 0 || scoreProperty.get() <= 0) {
+            gameSpeed = 0;
+            stopTimer();
+            entityList.clear();
+            // Your move, Mr. Moffitt
+            throw new GameOverException("The game is over my dudes", scoreProperty.get());
+        }
     }
 
     /**
