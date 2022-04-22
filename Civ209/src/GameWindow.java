@@ -264,9 +264,8 @@ public class GameWindow implements ComputerObserver {
 
     public void makeWeather() {
 
-        // random number picked during a tick count. Updates each tick count
-        Weather newWather = game.makeWeather();
-        EntityImage weather = new EntityImage(this, pane, newWather);
+        Weather newWeather = game.makeWeather();
+        EntityImage weather = new EntityImage(this, pane, newWeather);
         pane.getChildren().add(weather);
     }
 

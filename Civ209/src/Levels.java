@@ -54,4 +54,104 @@ public class Levels {
             e.printStackTrace();
         }
     }
+    @FXML
+    public void onCampaignClicked(ActionEvent event) {
+        // setName(userName.getText().toString()); fix to get the player name to write
+        // to the file
+
+        try {
+            var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
+            Scene scene;
+            scene = new Scene(loader.load());
+            var stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            GameWindow gameWindow = loader.getController();
+            gameWindow.initialize("../Civ209/Levels/Level1.dat"); // replace with link to campaign level
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    public void onSpringClicked(ActionEvent event) {
+        // setName(userName.getText().toString()); fix to get the player name to write
+        // to the file
+
+        try {
+            var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
+            Scene scene;
+            scene = new Scene(loader.load());
+            var stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            GameWindow gameWindow = loader.getController();
+            gameWindow.initialize("../Civ209/Levels/springLevel.dat"); // replace with link to spring level
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    public void onSummerClicked(ActionEvent event) {
+        // setName(userName.getText().toString()); fix to get the player name to write
+        // to the file
+
+        try {
+            var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
+            Scene scene;
+            scene = new Scene(loader.load());
+            var stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            GameWindow gameWindow = loader.getController();
+            gameWindow.initialize("../Civ209/Levels/Level1.dat"); // replace with link to summer level
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    public void onFallClicked(ActionEvent event) {
+        // setName(userName.getText().toString()); fix to get the player name to write
+        // to the file
+
+        try {
+            var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
+            Scene scene;
+            scene = new Scene(loader.load());
+            var stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            GameWindow gameWindow = loader.getController();
+            gameWindow.initialize("../Civ209/Levels/Level1.dat"); // replace with link to fall level
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    public void onWinterClicked(ActionEvent event) {
+        // setName(userName.getText().toString()); fix to get the player name to write
+        // to the file
+
+        try {
+            var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
+            Scene scene;
+            scene = new Scene(loader.load());
+            var stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            GameWindow gameWindow = loader.getController();
+            gameWindow.initialize("../Civ209/Levels/Level1.dat"); // replace with link to winter level
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }

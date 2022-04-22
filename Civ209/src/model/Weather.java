@@ -9,9 +9,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Random;
 
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
-
 public class Weather extends MobileEntity {
     private WeatherType type;
     Random rand = new Random();
@@ -21,8 +18,6 @@ public class Weather extends MobileEntity {
         super(location, turnCount, speed, heading, destination);
         this.type = type;
     }
-
-    
 
     /**
      * checks for if completed requirements for type and checks to see if troop in
@@ -37,6 +32,7 @@ public class Weather extends MobileEntity {
         super.update();
         // if troops in range of circle,
         // kill random number of troops in list.
+        
     }
 
     public static Entity load(DataInputStream rd, String entityType) throws IOException {

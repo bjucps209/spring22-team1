@@ -95,4 +95,24 @@ public class MainWindow {
             e.printStackTrace();
         }
     }
+    @FXML
+    public void onPlayClicked(ActionEvent event) {
+        // setName(userName.getText().toString()); fix to get the player name to write
+        // to the file
+
+        try {
+            var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
+            Scene scene;
+            scene = new Scene(loader.load());
+            var stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            GameWindow gameWindow = loader.getController();
+            gameWindow.initialize("../Civ209/Levels/Level1.dat");
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }
