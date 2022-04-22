@@ -109,7 +109,6 @@ public class MainWindow {
             stage.show();
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/Level1.dat");
-
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
