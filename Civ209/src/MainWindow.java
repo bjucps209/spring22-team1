@@ -94,6 +94,7 @@ public class MainWindow {
             e.printStackTrace();
         }
     }
+
     @FXML
     public void onPlayClicked(ActionEvent event) {
         // setName(userName.getText().toString()); fix to get the player name to write

@@ -63,6 +63,7 @@ public class GameWindow implements ComputerObserver {
     public void initialize(String lvlname) {
         game = new Game();
         game.setEntityManager(this::removeEntity);
+        game.setOnMakeWeather(this::onMakeWeather);
         game.getComputer().setObs(this);
         game.setOnMakeWeather(this::onMakeWeather);
         game.initialize(Difficulty.Easy, lvlname);
