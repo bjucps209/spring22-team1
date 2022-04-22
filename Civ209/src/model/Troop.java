@@ -1,6 +1,6 @@
 //-----------------------------------------------------------
 //File:   Troop.java
-//Desc:   This program creates troop type objects and handels movement
+//Desc:   This program creates troop type objects and handles movement
 //-----------------------------------------------------------
 package model;
 
@@ -109,8 +109,9 @@ public class Troop extends MobileEntity {
                     troops.add((Troop) t);
                 }
             });
-            for (Troop troop: troops) {
-                double distToTroop = Math.sqrt(Math.pow(troop.getLocation().getY() - getLocation().getY(), 2) + Math.pow(troop.getLocation().getX() - getLocation().getX(), 2));
+            for (Troop troop : troops) {
+                double distToTroop = Math.sqrt(Math.pow(troop.getLocation().getY() - getLocation().getY(), 2)
+                        + Math.pow(troop.getLocation().getX() - getLocation().getX(), 2));
                 if (distToTroop < Constants.troopRadius * 2) {
                     game.getDeleteEntityList().addAll(List.of(troop, this));
                 }
