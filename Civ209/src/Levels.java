@@ -163,5 +163,8 @@ public class Levels {
 
     public void onGameClose(GameWindow gameWindow) {
         gameWindow.getGame().stopTimer();
+        gameWindow.getGame().getEntityList().clear();
+        gameWindow.pane.getChildren().clear();
+
     }
 }
