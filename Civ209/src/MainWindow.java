@@ -42,7 +42,6 @@ public class MainWindow {
             var loader = new FXMLLoader(getClass().getResource("Levels.fxml"));
             Scene scene;
             scene = new Scene(loader.load());
-
             var stage = new Stage();
             stage.setScene(scene);
             stage.show();

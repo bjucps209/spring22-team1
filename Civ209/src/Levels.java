@@ -47,7 +47,7 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/DemoLevel.dat");
+            gameWindow.initialize("Civ209/Levels/DemoLevel.dat");
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -68,7 +68,7 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/Level1.dat"); // replace with link to campaign level
+            gameWindow.initialize("Civ209/Levels/Level1.dat"); // replace with link to campaign level
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
@@ -90,7 +90,7 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/Spring.dat"); // replace with link to spring level
+            gameWindow.initialize("Civ209/Levels/Spring.dat"); // replace with link to spring level
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -111,7 +111,7 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/Summer.dat"); // replace with link to summer level
+            gameWindow.initialize("Civ209/Levels/Summer.dat"); // replace with link to summer level
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -132,7 +132,7 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/Fall.dat"); // replace with link to fall level
+            gameWindow.initialize("Civ209/Levels/Fall.dat"); // replace with link to fall level
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -153,7 +153,7 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/Winter.dat"); // replace with link to winter level
+            gameWindow.initialize("Civ209/Levels/Winter.dat"); // replace with link to winter level
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
