@@ -63,6 +63,7 @@ public class GameWindow implements ComputerObserver {
     public void initialize(String lvlname) {
         game = new Game();
         game.setEntityManager(this::removeEntity);
+        game.setOnMakeWeather(this::onMakeWeather);
         game.getComputer().setObs(this);
         game.initialize(Difficulty.Easy, lvlname);
         if (game.getSeason() == SeasonType.Summer) {

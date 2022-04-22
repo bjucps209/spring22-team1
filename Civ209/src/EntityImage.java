@@ -3,7 +3,6 @@ import java.util.List;
 import javafx.scene.control.Label;
 import javafx.scene.image.*;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import model.*;
@@ -37,22 +36,20 @@ public class EntityImage extends ImageView implements CityObserver {
             cityEntity.setObs(this);
             this.nationality = cityEntity.getNationality();
             this.entity = cityEntity;
+            Coordinate cityLocation = cityEntity.getLocation();
             if (cityEntity.getType() == CityType.Strong) {
-                this.setImage(new Image("/images/strongcastle.png"));
+                this.setImage(Constants.strongCity);
                 this.setFitHeight(20);
                 this.setFitWidth(20);
-            } 
-            else if (cityEntity.getType() == CityType.Fast) {
-                this.setImage(new Image("/images/fastcastle.png"));
+            } else if (cityEntity.getType() == CityType.Fast) {
+                this.setImage(Constants.fastCity);
                 this.setFitHeight(20);
                 this.setFitWidth(20);
-            }
-            else {
+            } else {
                 this.setImage(Constants.cityImage);
             }
-            Coordinate cityLocation = cityEntity.getLocation();
-            this.setLayoutX(cityLocation.getX() - Constants.cityImage.getWidth() / 2);
-            this.setLayoutY(cityLocation.getY() - Constants.cityImage.getHeight() / 2);
+            this.setLayoutX(cityLocation.getX() - this.getFitWidth() / 2);
+            this.setLayoutY(cityLocation.getY() - this.getFitHeight() / 2);
             cityCircle = new Circle(cityLocation.getX(), cityLocation.getY(), Constants.cityRadius,
                     Paint.valueOf("transparent"));
             cityCircle.setStroke(Paint.valueOf((cityEntity.getNationality() == Nationality.Enemy) ? "red"
@@ -62,7 +59,7 @@ public class EntityImage extends ImageView implements CityObserver {
             cityPop.textProperty().bind(cityEntity.populationProperty().asString());
             cityPop.setLayoutX(cityLocation.getX() - Constants.cityImage.getWidth() / 1.5);
             cityPop.setLayoutY(cityLocation.getY() - Constants.cityImage.getHeight() / 1.5);
-            pane.getChildren().addAll(List.of(this,cityPop, cityCircle ));
+            pane.getChildren().addAll(List.of(this, cityPop, cityCircle));
 
         } else if (entity instanceof Troop) {
             Troop troopEntity = (Troop) entity;
@@ -81,17 +78,19 @@ public class EntityImage extends ImageView implements CityObserver {
             this.entity = weatherEntity;
             Coordinate weatherLocation = weatherEntity.getLocation();
             WeatherType weatherType = weatherEntity.getType();
-            Image weatherImage = (weatherType == WeatherType.Blizzard)? Constants.blizzardImage : (weatherType == WeatherType.Flood)? Constants.floodImage : Constants.lightningImage;
+            Image weatherImage = (weatherType == WeatherType.Blizzard) ? Constants.blizzardImage
+                    : (weatherType == WeatherType.Flood) ? Constants.floodImage : Constants.lightningImage;
             this.setImage(weatherImage);
-            this.setFitWidth(weatherImage.getWidth());
-            this.setFitHeight(weatherImage.getHeight());
-            this.layoutXProperty().bind(weatherLocation.xProperty().subtract(this.getFitWidth() / 2));
-            this.layoutYProperty().bind(weatherLocation.yProperty().subtract(this.getFitHeight() / 2));
-            Circle c = new Circle(weatherLocation.getX(), weatherLocation.getY(), Constants.weatherRadius, Paint.valueOf("transparent"));
+            this.setFitWidth(50);
+            this.setFitHeight(50);
+            this.xProperty().bind(weatherLocation.xProperty());
+            this.yProperty().bind(weatherLocation.yProperty());
+            Circle c = new Circle(weatherLocation.getX(), weatherLocation.getY(), Constants.weatherRadius,
+                    Paint.valueOf("transparent"));
             c.setStroke(Paint.valueOf("grey"));
-            // c.setFill(new ImagePattern(weatherImage));
-            c.layoutXProperty().bind(weatherLocation.xProperty()); c.layoutYProperty().bind(weatherLocation.yProperty());
-            pane.getChildren().addAll(List.of(c, this));
+            c.centerXProperty().bind(this.xProperty().add(this.getFitWidth() / 2));
+            c.centerYProperty().bind(this.yProperty().add(this.getFitHeight() / 2));
+            pane.getChildren().addAll(List.of(this, c));
         }
 
         // else if (entity instanceof Projectile) {

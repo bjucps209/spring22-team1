@@ -41,7 +41,7 @@ public class Computer {
                 } else {
                     otherCities.add(city);
                 }
-            } else {
+            } else if (entity instanceof Troop) {
                 Troop troop = (Troop) entity;
                 if (troop.getNationality() == Nationality.Enemy) {
                     computerTroops.add(troop);
