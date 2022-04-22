@@ -59,6 +59,7 @@ public class LevelData {
                 entity.serialize(wr);
             }
         }
+    }
         //Following code writes with LevelBuilder Save Pattern:
         
         // try (DataOutputStream wr = new DataOutputStream(new
@@ -103,60 +104,109 @@ public class LevelData {
         // }
        // }
 
-    }
-
     public Level load() throws IOException {
         this.level = new Level();
-        try (DataInputStream rd = new DataInputStream(new FileInputStream("createdLevel.dat"))) {
-            if (rd.readUTF().equals("Level")) {
-
-                String s = rd.readUTF();
-
-                if (s.equals("Winter")) {
+        try (DataInputStream rd = new DataInputStream(new FileInputStream("../Civ209/Levels/Level1.dat"))) {
+            if (rd.readUTF().equals("Civilization209")) {
+                
+                rd.readInt();
+                char s = rd.readChar();
+                if (s == 'W') {
                     level.setSeason(SeasonType.Winter);
                 }
-                if (s.equals("Summer")) {
-                    level.setSeason(SeasonType.Summer);
-                }
-                if (s.equals("Spring")) {
-                    level.setSeason(SeasonType.Spring);
-                }
-                if (s.equals("Fall")) {
+                else if (s == 'F') {
                     level.setSeason(SeasonType.Fall);
                 }
-
-                int size = Integer.parseInt(rd.readUTF());
+                else if (s == 'S') {
+                    level.setSeason(SeasonType.Summer);
+                }
+                else if (s == 's') {
+                    level.setSeason(SeasonType.Spring);
+                }
+                else {
+                    level.setSeason(SeasonType.None); 
+                }
+                rd.readChar();
+                rd.readInt();
+                rd.readDouble();
+                int size = rd.readInt();
                 for (int i = 0; i < size; i++) {
-
-                    Entity entity;
-                    // Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
-                    int id = Integer.parseInt(rd.readUTF());
-                    int x = Integer.parseInt(rd.readUTF());
-                    int y = Integer.parseInt(rd.readUTF());
-                    String nation = rd.readUTF();
-                    Nationality nationality = Nationality.Neutral;
-                    if (nation.equals("P")) {
-                        nationality = Nationality.Player;
-                    }
-                    if (nation.equals("E")) {
-                        nationality = Nationality.Enemy;
-                    }
-                    if (nation.equals("N")) {
-                        nationality = Nationality.Neutral;
-                    }
-
-                    IntegerProperty intprop = new SimpleIntegerProperty(10);
+                    String citytype = rd.readUTF();
+                    double x = rd.readDouble(); 
+                    double y = rd.readDouble(); 
                     Coordinate location = new Coordinate(x, y);
-                    entity = new City(location, 0, intprop, 0, nationality, false,
-                            0.0, CityType.Standard);
-                    City city = (City) entity;
-                    city.setX(x);
-                    city.setY(y);
-                    city.setId(id);
-                    level.add(city);
+                    rd.readInt();
+                    rd.readInt();
+                   IntegerProperty popProperty = new SimpleIntegerProperty();
+                    rd.readDouble();
+                    char nation = rd.readChar();
+                    Nationality getnationality = nation == 'P' ? Nationality.Player
+                            : nation == 'E' ? Nationality.Enemy : Nationality.Neutral;
+                    rd.readBoolean();
+                    rd.readDouble();
+                    char cityT = rd.readChar();
+                    CityType cityType = cityT == 'S' ? CityType.Standard
+                            : cityT == 'F' ? CityType.Fast : CityType.Strong;
+                    City city = new City(location, 0, popProperty, 0, getnationality, false,
+                                         0.0, cityType);
+                    city.setX((int) x);
+                    city.setY((int) y); 
+                    city.setId(i + 1);
+                    level.add(city);  
                 }
             }
         }
+                // return new City(location, turnCount, popProperty, incrementRate, nationality, selected,
+                //         fireRate, cityType);
+            // if (rd.readUTF().equals("Level")) {
+
+            //     String s = rd.readUTF();
+
+            //     if (s.equals("Winter")) {
+            //         level.setSeason(SeasonType.Winter);
+            //     }
+            //     if (s.equals("Summer")) {
+            //         level.setSeason(SeasonType.Summer);
+            //     }
+            //     if (s.equals("Spring")) {
+            //         level.setSeason(SeasonType.Spring);
+            //     }
+            //     if (s.equals("Fall")) {
+            //         level.setSeason(SeasonType.Fall);
+            //     }
+
+        //         int size = Integer.parseInt(rd.readUTF());
+        //         for (int i = 0; i < size; i++) {
+
+        //             Entity entity;
+        //             // Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
+        //             int id = Integer.parseInt(rd.readUTF());
+        //             int x = Integer.parseInt(rd.readUTF());
+        //             int y = Integer.parseInt(rd.readUTF());
+        //             String nation = rd.readUTF();
+        //             Nationality nationality = Nationality.Neutral;
+        //             if (nation.equals("P")) {
+        //                 nationality = Nationality.Player;
+        //             }
+        //             if (nation.equals("E")) {
+        //                 nationality = Nationality.Enemy;
+        //             }
+        //             if (nation.equals("N")) {
+        //                 nationality = Nationality.Neutral;
+        //             }
+
+        //             IntegerProperty intprop = new SimpleIntegerProperty(10);
+        //             Coordinate location = new Coordinate(x, y);
+        //             entity = new City(location, 0, intprop, 0, nationality, false,
+        //                     0.0, CityType.Standard);
+        //             City city = (City) entity;
+        //             city.setX(x);
+        //             city.setY(y);
+        //             city.setId(id);
+        //             level.add(city);
+        //         }
+        //     }
+        // }
         return this.level;
     }
 }
