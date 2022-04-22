@@ -26,6 +26,7 @@ public class Computer {
         /**
          * Depending on level of difficulty, creates action and executes said action
          */
+        System.out.println("Computer is executing action.");
         ArrayList<Entity> entities = game.getEntityList();
         ArrayList<City> computerCities = new ArrayList<City>();
         ArrayList<City> otherCities = new ArrayList<City>();

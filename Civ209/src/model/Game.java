@@ -103,7 +103,8 @@ public class Game {
                 setScore(rd.readInt());
                 char s = rd.readChar();
                 this.season = s == 'W' ? SeasonType.Winter
-                        : s == 'F' ? SeasonType.Fall : s == 'S' ? SeasonType.Summer :s == 's' ? SeasonType.Spring: SeasonType.None;
+                        : s == 'F' ? SeasonType.Fall
+                                : s == 'S' ? SeasonType.Summer : s == 's' ? SeasonType.Spring : SeasonType.None;
                 char diff = rd.readChar();
                 this.difficulty = diff == 'E' ? Difficulty.Easy : diff == 'M' ? Difficulty.Medium : Difficulty.Hard;
                 this.numPlayerCitiesLeft = rd.readInt();
@@ -133,12 +134,14 @@ public class Game {
 
     public void update() {
         // Slows score decrementation
+        computer.executeAction(this);
         turncount++;
         if (turncount % 3 == 0)
             setScore(getScore() - 1);
         deleteEntityList.stream().forEach(e -> {
             entityManager.removeEntity(e);
         });
+
         for (Entity entity : deleteEntityList) {
             entityList.remove(entity);
         }
@@ -148,8 +151,8 @@ public class Game {
             entity.update();
         }
         if (turncount % 50 == 0) {
-            onMakeWeather.onMakeWeather();;
-        computer.executeAction(this);
+            onMakeWeather.onMakeWeather();
+            ;
         }
 
     }
