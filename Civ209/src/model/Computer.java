@@ -26,13 +26,16 @@ public class Computer {
         /**
          * Depending on level of difficulty, creates action and executes said action
          */
-        System.out.println("Computer is executing action.");
         ArrayList<Entity> entities = game.getEntityList();
         ArrayList<City> computerCities = new ArrayList<City>();
         ArrayList<City> otherCities = new ArrayList<City>();
         ArrayList<Troop> computerTroops = new ArrayList<Troop>();
 
         turnCount++;
+
+        if (otherCities.size() < 1)
+            return;
+
         for (Entity entity : entities) {
             if (entity instanceof City) {
                 City city = (City) entity;

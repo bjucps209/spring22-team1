@@ -47,13 +47,14 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/Level1.dat");
+            gameWindow.initialize("../Civ209/Levels/DemoLevel.dat");
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
+
     @FXML
     public void onCampaignClicked(ActionEvent event) {
         // setName(userName.getText().toString()); fix to get the player name to write
@@ -74,6 +75,7 @@ public class Levels {
             e.printStackTrace();
         }
     }
+
     @FXML
     public void onSpringClicked(ActionEvent event) {
         // setName(userName.getText().toString()); fix to get the player name to write
@@ -87,13 +89,14 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/springLevel.dat"); // replace with link to spring level
+            gameWindow.initialize("../Civ209/Levels/Spring.dat"); // replace with link to spring level
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
+
     @FXML
     public void onSummerClicked(ActionEvent event) {
         // setName(userName.getText().toString()); fix to get the player name to write
@@ -107,13 +110,14 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/Level1.dat"); // replace with link to summer level
+            gameWindow.initialize("../Civ209/Levels/Summer.dat"); // replace with link to summer level
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
+
     @FXML
     public void onFallClicked(ActionEvent event) {
         // setName(userName.getText().toString()); fix to get the player name to write
@@ -127,13 +131,14 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/Level1.dat"); // replace with link to fall level
+            gameWindow.initialize("../Civ209/Levels/Fall.dat"); // replace with link to fall level
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
+
     @FXML
     public void onWinterClicked(ActionEvent event) {
         // setName(userName.getText().toString()); fix to get the player name to write
@@ -147,7 +152,7 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/Level1.dat"); // replace with link to winter level
+            gameWindow.initialize("../Civ209/Levels/Winter.dat"); // replace with link to winter level
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
