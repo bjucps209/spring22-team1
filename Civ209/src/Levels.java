@@ -27,7 +27,7 @@ public class Levels {
             stage.show();
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("Civ209/Levels/savedGame.dat");
-
+            stage.setOnCloseRequest(e -> onGameClose(gameWindow));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -69,6 +69,7 @@ public class Levels {
             stage.show();
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/Level1.dat"); // replace with link to campaign level
+            stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -158,5 +159,12 @@ public class Levels {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    public void onGameClose(GameWindow gameWindow) {
+        gameWindow.getGame().stopTimer();
+        gameWindow.getGame().getEntityList().clear();
+        gameWindow.pane.getChildren().clear();
+
     }
 }
