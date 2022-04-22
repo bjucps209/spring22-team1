@@ -60,8 +60,8 @@ public class EntityImage extends ImageView implements CityObserver {
             cityCircle.setOnMouseClicked(e -> parent.onSelected(cityCircle, e, cityEntity));
             cityPop = new Label();
             cityPop.textProperty().bind(cityEntity.populationProperty().asString());
-            cityPop.setLayoutX(cityLocation.getX() - Constants.cityImage.getWidth() / 1.5);
-            cityPop.setLayoutY(cityLocation.getY() - Constants.cityImage.getHeight() / 1.5);
+            cityPop.setLayoutX(cityLocation.getX() - 10 - Constants.cityImage.getWidth() / 1.5);
+            cityPop.setLayoutY(cityLocation.getY() - 10 - Constants.cityImage.getHeight() / 1.5);
             pane.getChildren().addAll(List.of(this,cityPop, cityCircle ));
 
         } else if (entity instanceof Troop) {
