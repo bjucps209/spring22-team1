@@ -27,7 +27,7 @@ public class Game {
     private int turncount = 0;
     Random rand = new Random();
     private MakeWeather onMakeWeather;
-    private FireProjectiles onFireProjectile; 
+    private FireProjectiles onFireProjectile;
     private ArrayList<Troop> selectedTroops = new ArrayList<>();
     private City selectedCity;
     private EntityManager entityManager;
@@ -173,13 +173,11 @@ public class Game {
             entity.update();
             if (entity instanceof City) {
                 City city = (City) entity;
-                city.fireProjectile(this); 
+                city.fireProjectile(this);
             }
         }
         if (turncount % 50 == 0) {
             onMakeWeather.onMakeWeather();
-        } 
-
         }
         // Check to see if troops need to be destroyed by weather
         getEntityList().stream().filter(e -> e instanceof Troop)
@@ -370,6 +368,7 @@ public class Game {
         getEntityList().add(weather);
         return weather;
     }
+
     // public void checkInBounds(Weather w) {
     // if(w.getLocation().getX() > Constants.windowWidth || w.getLocation().getX() <
     // 0 || w.getLocation().getY() > Constants.windowHeight ||
@@ -393,6 +392,7 @@ public class Game {
         }
         return pointInCircle;
     }
+
     // delete the troop if it is inside the weather
     public void deleteTroopWeather(Troop troop) {
         Coordinate location = troop.getLocation();
@@ -536,10 +536,10 @@ public class Game {
         for (Entity ent : entityList) {
             if (ent instanceof City) {
                 City city = (City) ent;
-                return city.fireProjectile(this); 
+                return city.fireProjectile(this);
             }
         }
-        return null; 
+        return null;
     }
 
     public void instantMakeWeather() {
