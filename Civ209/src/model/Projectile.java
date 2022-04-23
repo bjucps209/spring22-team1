@@ -48,6 +48,7 @@ public class Projectile extends MobileEntity {
             for (Troop troop: troops) {
                 if (troop.getLocation() == destination) {
                     game.getDeleteEntityList().addAll(List.of(troop, this));
+                    --damage; 
                 }
             }
         }
