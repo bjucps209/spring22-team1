@@ -65,6 +65,7 @@ public class Levels {
             stage.setResizable(false);
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/Level1.dat");
+            stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -87,6 +88,8 @@ public class Levels {
             stage.setResizable(false);
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/Level1.dat"); // replace with link to campaign level
+            gameWindow.getGame().setScore(600);
+            stage.setOnCloseRequest(e -> onGameClose(gameWindow));
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
@@ -110,6 +113,7 @@ public class Levels {
             stage.setResizable(false);
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/Spring.dat"); // replace with link to spring level
+            stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -132,6 +136,7 @@ public class Levels {
             stage.setResizable(false);
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/Summer.dat"); // replace with link to summer level
+            stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -154,6 +159,7 @@ public class Levels {
             stage.setResizable(false);
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/Fall.dat"); // replace with link to fall level
+            stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -176,6 +182,7 @@ public class Levels {
             stage.setResizable(false);
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/Winter.dat"); // replace with link to winter level
+            stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -187,5 +194,8 @@ public class Levels {
         gameWindow.getGame().stopTimer();
         gameWindow.getGame().getEntityList().clear();
         gameWindow.pane.getChildren().clear();
+        try {
+            gameWindow.music.stop();
+        } catch (Exception e) {}
     }
 }

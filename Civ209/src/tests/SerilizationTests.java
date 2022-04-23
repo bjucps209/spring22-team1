@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import org.junit.*;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.input.GestureEvent;
 
 public class SerilizationTests {
 
