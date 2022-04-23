@@ -30,6 +30,7 @@ public class Computer {
         ArrayList<City> computerCities = new ArrayList<City>();
         ArrayList<City> otherCities = new ArrayList<City>();
         ArrayList<Troop> computerTroops = new ArrayList<Troop>();
+        ArrayList<Troop> otherTroops = new ArrayList<Troop>();
 
         turnCount++;
 
@@ -45,6 +46,8 @@ public class Computer {
                 Troop troop = (Troop) entity;
                 if (troop.getNationality() == Nationality.Enemy) {
                     computerTroops.add(troop);
+                } else {
+                    otherTroops.add(troop);
                 }
             }
         }
@@ -64,6 +67,25 @@ public class Computer {
         switch (difficulty) {
             case Easy:
                 try {
+                    // Crashes program. Will probably delete.
+                    
+                    // if (otherTroops.size() > 0) {
+                    // if (computerTroops.size() > 0) {
+                    // ArrayList<Troop> troops = game.sendTroopsFromGround(computerTroops,
+                    // otherTroops.get(0).getLocation(),
+                    // DestinationType.City);
+                    // game.getEntityList().addAll(troops);
+                    // obs.renderTroops(troops);
+                    // } else {
+                    // for (City city : computerCities) {
+                    // ArrayList<Troop> troops = game.sendTroopsFromCity(city,
+                    // otherTroops.get(0).getLocation(), 20);
+                    // game.getEntityList().addAll(troops);
+                    // obs.renderTroops(troops);
+                    // }
+                    // }
+                    // }
+
                     if (turnCount % 100 == 0) {
                         ArrayList<Troop> troops = game.sendTroopsFromCity(computerCities.get(0),
                                 cityToAttack.getLocation(),
@@ -91,7 +113,8 @@ public class Computer {
                             obs.renderTroops(troops);
                         }
                     } else if (turnCount % 60 == 0) {
-                        game.sendTroopsFromGround(computerTroops, calculateAttackCity(otherCities).getLocation());
+                        game.sendTroopsFromGround(computerTroops, calculateAttackCity(otherCities).getLocation(),
+                                DestinationType.City);
                     } else if (turnCount % 15 == 0) {
                         for (City city : computerCities) {
                             ArrayList<Troop> troops = city.sendTroops(1,

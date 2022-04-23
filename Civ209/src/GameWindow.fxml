@@ -5,7 +5,8 @@
 <?import javafx.scene.layout.*?>
 
 <VBox fx:id="vbox" alignment="CENTER" spacing="10" stylesheets="@MainWindow.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="GameWindow">
-    <Label text="NOT FINAL GUI - TESTING" styleClass="title" />
+    <HBox fx:id="displayBox" alignment="top_left" spacing="10" stylesheets="@MainWindow.css"></HBox>
+
     <HBox spacing="10">
         <VBox spacing="10"></VBox>
         <Pane fx:id="pane" prefHeight="525" prefWidth="1025" style="-fx-background-color: lightgray" />

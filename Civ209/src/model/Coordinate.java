@@ -46,6 +46,15 @@ public class Coordinate {
         double x = (Math.cos(Math.toRadians(heading)) * distance);
         double y = Math.sin(Math.toRadians(heading)) * distance;
 
+        if (x < 1)
+            x = 1;
+        else if (x > Constants.windowWidth - 1)
+            x = Constants.windowWidth - 1;
+        if (y < 1)
+            y = 1;
+        else if (y > Constants.windowHeight - 1)
+            y = Constants.windowHeight - 1;
+
         return new Coordinate(this.getX() + x, this.getY() + y);
 
     }

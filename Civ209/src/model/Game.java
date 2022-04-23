@@ -88,15 +88,19 @@ public class Game {
          * checks numCitiesLeft and score to see if game should be over
          */
         // || scoreProperty.get() <= 0 TODO: Score still negative
-        if (getEntityList().stream().filter(e -> e instanceof City && ((City)e).getNationality() == Nationality.Player).count() == 0) {
+        if (getEntityList().stream().filter(e -> e instanceof City && ((City) e).getNationality() == Nationality.Player)
+                .count() == 0) {
             stopTimer();
             // Your move, Mr. Moffitt
             endGame = true;
             gameOver.recognizeGameOver("You lost!", scoreProperty.get());
+            System.out.println("Game Over");
         } else {
-            if (getEntityList().stream().filter(e -> e instanceof City && ((City)e).getNationality() == Nationality.Enemy).count() == 0) {
+            if (getEntityList().stream()
+                    .filter(e -> e instanceof City && ((City) e).getNationality() == Nationality.Enemy).count() == 0) {
                 stopTimer();
                 endGame = true;
+                System.out.println("Game Over");
                 gameOver.recognizeGameOver("You won!", scoreProperty.get());
             }
         }
@@ -148,6 +152,8 @@ public class Game {
         if (turncount >= 10) {
             gameEnd();
         }
+        if (endGame)
+            return;
         computer.executeAction(this);
         turncount++;
         if (turncount % 3 == 0)
@@ -192,13 +198,14 @@ public class Game {
         return troops;
     }
 
-    public ArrayList<Troop> sendTroopsFromGround(ArrayList<Troop> troops, Coordinate destination) {
+    public ArrayList<Troop> sendTroopsFromGround(ArrayList<Troop> troops, Coordinate destination,
+            DestinationType destType) {
         for (Troop troop : troops) {
             troop.setDestination(destination);
             troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
                     : Constants.standardTroopSpeed);
             troop.setHeading(troop.figureHeading(destination));
-            troop.setDestinationType(DestinationType.City);
+            troop.setDestinationType(destType);
         }
         return troops;
     }

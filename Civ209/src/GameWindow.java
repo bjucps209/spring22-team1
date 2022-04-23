@@ -2,6 +2,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.TextAlignment;
 import model.*;
 
 import java.io.IOException;
@@ -61,14 +63,17 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
     @FXML
     ImageView play = new ImageView(Constants.pauseButton);
 
-    @FXML 
+    @FXML
     Button btnEasy;
 
-    @FXML 
+    @FXML
     Button btnMedium;
 
-    @FXML 
+    @FXML
     Button btnHard;
+
+    @FXML
+    HBox displayBox;
 
     @FXML
     public void initialize(String lvlname) {
@@ -97,15 +102,19 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
             if (entity instanceof Troop) {
                 ((Troop) entity).setTroopDelete(this::onTroopDelete);
             } else if (entity instanceof City) {
-                if (((City)entity).getNationality() == Nationality.Player) {
+                if (((City) entity).getNationality() == Nationality.Player) {
                     game.setNumPlayerCitiesLeft(game.getNumPlayerCitiesLeft() + 1);
                 }
             }
         }
         lblSize.textProperty().bind(
                 Bindings.createStringBinding(() -> String.valueOf((int) slider.getValue()), slider.valueProperty()));
-        scoreLabel.setLayoutX(15);
-        scoreLabel.setLayoutY(15);
+        // https://stackoverflow.com/questions/10548634/javafx-2-0-adding-border-to-label
+        scoreLabel.setStyle("-fx-border-color: black;");
+        scoreLabel.setPrefWidth(50);
+        scoreLabel.setPrefHeight(10);
+        scoreLabel.setTextAlignment(TextAlignment.CENTER);
+
         scoreLabel.textProperty().bind(SimpleStringProperty.stringExpression(game.scoreProperty()));
         btnEasy.setDisable(true);
         play.setOnMousePressed(e -> {
@@ -119,9 +128,9 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
         play.setUserData("play");
         play.setFitWidth(40);
         play.setPreserveRatio(true);
-        play.setLayoutX(-40);
-        play.setLayoutY(-40);
-        pane.getChildren().addAll(List.of(scoreLabel, play));
+        // play.setLayoutX(-40);
+        // play.setLayoutY(-40);
+        displayBox.getChildren().addAll(List.of(scoreLabel, play));
         pane.setOnMousePressed(me -> {
             if (!game.checkInCity(new Coordinate(me.getX(), me.getY())) && me.getButton() == MouseButton.PRIMARY) {
                 deSelect();
@@ -222,7 +231,8 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
     }
 
     public void sendTroopsFromGround(ArrayList<Troop> troops, Coordinate destination) {
-        game.sendTroopsFromGround(troops, destination).stream().forEach(t -> t.setTroopDelete(this::onTroopDelete));
+        game.sendTroopsFromGround(troops, destination, DestinationType.City).stream()
+                .forEach(t -> t.setTroopDelete(this::onTroopDelete));
         ;
     }
 
