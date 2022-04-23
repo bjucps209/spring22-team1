@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class GameWindow implements ComputerObserver {
+public class GameWindow implements ComputerObserver, GameOverObserver {
 
     private Game game;
     private ArrayList<EntityImage> selectedTroops = new ArrayList<EntityImage>();
@@ -28,7 +28,8 @@ public class GameWindow implements ComputerObserver {
     private Delta dragDelta = new Delta();
     private boolean inCity = false;
     Random rand = new Random();
-    // AudioClip castleTaken = new AudioClip("https://www.fesliyanstudios.com/play-mp3/6202");
+    // AudioClip castleTaken = new
+    // AudioClip("https://www.fesliyanstudios.com/play-mp3/6202");
 
     /**
      * Coordinates used in dragging image.
@@ -62,6 +63,7 @@ public class GameWindow implements ComputerObserver {
     @FXML
     public void initialize(String lvlname) {
         game = new Game();
+        game.setGameOverObserver(this);
         game.setEntityManager(this::removeEntity);
         game.setOnMakeWeather(this::onMakeWeather);
         game.getComputer().setObs(this);
@@ -77,7 +79,7 @@ public class GameWindow implements ComputerObserver {
             showSeason("/images/winter.png");
         }
         if (game.getSeason() == SeasonType.Spring) {
-            showSeason("/images/spring.png"); 
+            showSeason("/images/spring.png");
         }
 
         for (Entity entity : game.getEntityList()) {
@@ -91,7 +93,7 @@ public class GameWindow implements ComputerObserver {
         scoreLabel.setLayoutX(15);
         scoreLabel.setLayoutY(15);
         scoreLabel.textProperty().bind(SimpleStringProperty.stringExpression(game.scoreProperty()));
-        play.setOnMousePressed(e ->  {
+        play.setOnMousePressed(e -> {
             if (play.getUserData() == "play") {
                 play.setImage(Constants.pauseButtonPressed);
             } else {
@@ -149,7 +151,7 @@ public class GameWindow implements ComputerObserver {
                 }
             }
         });
-        
+
         pane.setOnMouseReleased(me -> {
             if (me.getButton() == MouseButton.PRIMARY) {
                 deSelect();
@@ -174,7 +176,7 @@ public class GameWindow implements ComputerObserver {
 
     public void onMakeWeather() {
         Weather weather = game.makeWeather();
-        EntityImage entityImage = new EntityImage(this, pane, weather);
+        new EntityImage(this, pane, weather);
     }
 
     public void deSelect() {
@@ -264,6 +266,15 @@ public class GameWindow implements ComputerObserver {
         }
     }
 
+    public void recognizeGameOver(String msg, int score) {
+        // TODO @Izzo, this function recognizes the game over and will give you the
+        // string message containing whether the player won or lost, and gives you the
+        // score. Lmk if you want me to handle it. - Rhys
+
+        System.out.println(msg + " SCORE: " + score);
+        System.exit(0);
+    }
+
     public void makeWeather() {
 
         Weather newWeather = game.makeWeather();
@@ -300,8 +311,24 @@ public class GameWindow implements ComputerObserver {
         this.game = game;
     }
 
-    @FXML 
+    @FXML
+    public void onEasyClicked(ActionEvent e) {
+        game.getComputer().setDifficulty(Difficulty.Easy);
+    }
+
+    @FXML
+    public void onMediumClicked(ActionEvent e) {
+        game.getComputer().setDifficulty(Difficulty.Medium);
+    }
+
+    @FXML
+    public void onHardClicked(ActionEvent e) {
+        game.getComputer().setDifficulty(Difficulty.Hard);
+    }
+
+    @FXML
     public void showSeason(String url) {
-        pane.setStyle("-fx-background-image:url(" + url + "); -fx-background-repeat: no-repeat; -fx-background-blend-mode: darken; -fx-background-size: cover; -fx-background-position: center;");
-    } 
+        pane.setStyle("-fx-background-image:url(" + url
+                + "); -fx-background-repeat: no-repeat; -fx-background-blend-mode: darken; -fx-background-size: cover; -fx-background-position: center;");
+    }
 }

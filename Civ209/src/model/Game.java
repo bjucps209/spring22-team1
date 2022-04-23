@@ -30,6 +30,8 @@ public class Game {
     private ArrayList<Troop> selectedTroops = new ArrayList<>();
     private City selectedCity;
     private EntityManager entityManager;
+    private GameOverObserver gameOver;
+    private boolean endGame = false;
 
     /**
      * instantiates game from lvl with a computer of level difficulty
@@ -84,7 +86,7 @@ public class Game {
     /**
      * checks numCitiesLeft and score to see if game should be over
      */
-    public void gameEnd() throws GameOverException {
+    public void gameEnd() {
         /**
          * checks numCitiesLeft and score to see if game should be over
          */
@@ -92,9 +94,27 @@ public class Game {
         if (numPlayerCitiesLeft <= 0 || scoreProperty.get() <= 0) {
             gameSpeed = 0;
             stopTimer();
-            entityList.clear();
             // Your move, Mr. Moffitt
-            throw new GameOverException("The game is over my dudes", scoreProperty.get());
+            endGame = true;
+            gameOver.recognizeGameOver("You lost!", scoreProperty.get());
+        } else {
+            boolean EnemyLeft = false;
+            for (Entity entity : entityList) {
+                if (entity instanceof City) {
+                    City city = (City) entity;
+                    if (city.getNationality() == Nationality.Enemy) {
+                        EnemyLeft = true;
+                        System.out.println("Test True!");
+                        break;
+                    }
+                }
+            }
+            if (!EnemyLeft) {
+                gameSpeed = 0;
+                stopTimer();
+                endGame = true;
+                gameOver.recognizeGameOver("You won!", scoreProperty.get());
+            }
         }
     }
 
@@ -142,6 +162,8 @@ public class Game {
 
     public void update() {
         // Slows score decrementation
+        if (endGame)
+            return;
         computer.executeAction(this);
         turncount++;
         if (turncount % 3 == 0)
@@ -289,7 +311,7 @@ public class Game {
         } else if (typeNum == 2) {
             type = WeatherType.LightningStorm;
         }
-        
+
         // determine which side of the screen the weather starts on
         if (screenSide == 0) { // bottom
             heading = nextInt(225, 315);
@@ -550,6 +572,10 @@ public class Game {
 
     public void setSelectedCity(City selectedCity) {
         this.selectedCity = selectedCity;
+    }
+
+    public void setGameOverObserver(GameOverObserver obs) {
+        gameOver = obs;
     }
 
     public void setEntityManager(EntityManager entityManager) {

@@ -48,12 +48,16 @@ public class Computer {
                 }
             }
         }
-        
+
         City cityToAttack;
         try {
             cityToAttack = calculateAttackCity(otherCities);
         } catch (Exception e) {
             cityToAttack = null;
+            return;
+        }
+
+        if (computerCities.size() < 1) {
             return;
         }
 

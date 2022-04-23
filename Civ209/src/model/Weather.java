@@ -32,7 +32,7 @@ public class Weather extends MobileEntity {
         super.update();
         // if troops in range of circle,
         // kill random number of troops in list.
-        
+
     }
 
     public static Entity load(DataInputStream rd, String entityType) throws IOException {
@@ -43,9 +43,8 @@ public class Weather extends MobileEntity {
         WeatherType weatherType = entityType == "L" ? WeatherType.LightningStorm
                 : entityType == "B" ? WeatherType.Blizzard
                         : entityType == "F" ? WeatherType.Flood : WeatherType.Drought;
-        Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
 
-        return new Weather(location, turnCount, speed, heading, destination, weatherType);
+        return new Weather(location, turnCount, speed, heading, null, weatherType);
     }
 
     /**
@@ -53,6 +52,7 @@ public class Weather extends MobileEntity {
      */
     @Override
     public void serialize(DataOutputStream wr) throws IOException {
+
         wr.writeUTF(type == WeatherType.LightningStorm ? "L"
                 : type == WeatherType.Blizzard ? "B" : type == WeatherType.Drought ? "D" : "F");
         wr.writeDouble(this.getLocation().getX());
@@ -60,8 +60,6 @@ public class Weather extends MobileEntity {
         wr.writeInt(this.getTurnCount());
         wr.writeDouble(this.getSpeed());
         wr.writeDouble(this.getHeading());
-        wr.writeDouble(this.getDestination().getX());
-        wr.writeDouble(this.getDestination().getY());
     }
 
     public WeatherType getType() {
