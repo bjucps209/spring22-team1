@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import org.junit.*;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.input.GestureEvent;
 
 public class SerilizationTests {
 
@@ -22,15 +23,17 @@ public class SerilizationTests {
                 1.0, CityType.Standard));
         entityList.add(new Troop(new Coordinate(), 0, 2, 180, new Coordinate(), 1, Nationality.Player, false,
                 DestinationType.Coordinate, CityType.Standard));
+        // Weather destinations are always null as per design
+        entityList.add(new Weather(new Coordinate(390, 123), 7, 8, 9, null, WeatherType.Blizzard));
 
         game.setEntityList(entityList);
-        assertEquals(2, entityList.size());
+        assertEquals(3, entityList.size());
         game.save("TESTsavedGame.dat");
 
         Game loadedGame = new Game();
         loadedGame.load("TESTsavedGame.dat");
 
-        assertEquals(2, entityList.size());
+        assertEquals(3, entityList.size());
 
         City chicago = (City) loadedGame.getEntityList().get(0);
         assertEquals(39, chicago.getLocation().getX(), 0);
@@ -43,6 +46,14 @@ public class SerilizationTests {
         assertEquals(2, rambo.getSpeed(), 0);
         assertEquals(1, rambo.getHealth());
         assertEquals(Nationality.Player, rambo.getNationality());
+
+        Weather chilly = (Weather) loadedGame.getEntityList().get(2);
+        assertEquals(390, chilly.getLocation().getX(), 0);
+        assertEquals(9, chilly.getHeading(), 0);
+        assertEquals(8, chilly.getSpeed(), 0);
+        assertEquals(null, chilly.getDestination());
+        assertEquals(WeatherType.Blizzard, chilly.getType());
+
 
         // Didn't add serialization tests for projectiles and Weather yet, as they are
         // buggy and not yet implemented in the model.

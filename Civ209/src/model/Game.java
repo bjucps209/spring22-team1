@@ -13,6 +13,8 @@ import javafx.util.Duration;
 import java.io.*;
 import java.util.*;
 
+import javax.print.attribute.standard.MediaSize.NA;
+
 public class Game {
     private Timeline timer;
     private ArrayList<Entity> entityList = new ArrayList<>();
@@ -463,6 +465,33 @@ public class Game {
         } else {
             timer.play();
         }
+    }
+
+    public void instantGameOver(boolean playerWin) {
+        for (Entity ent : entityList) {
+            if (ent instanceof City) {
+                City city = (City) ent;
+                if (city.getNationality() == (playerWin ? Nationality.Enemy : Nationality.Player)) {
+                    city.setNationality(playerWin ? Nationality.Player : Nationality.Enemy);
+                }
+            }
+        }
+    }
+
+    public void instantAddTroops() {
+        for (Entity ent : entityList) {
+            if (ent instanceof City) {
+                City city = (City) ent;
+                if (city.getNationality() == (Nationality.Player)) {
+                    for (int i = 0; i < 15; i++)
+                        city.update();
+                }
+            }
+        }
+    }
+
+    public void instantMakeWeather() {
+        // TODO Izzo can you make this so it just adds another weather instance?
     }
 
     public void stopTimer() {

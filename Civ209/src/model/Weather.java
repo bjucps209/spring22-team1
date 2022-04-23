@@ -40,9 +40,9 @@ public class Weather extends MobileEntity {
         int turnCount = rd.readInt();
         double speed = rd.readDouble();
         double heading = rd.readDouble();
-        WeatherType weatherType = entityType == "L" ? WeatherType.LightningStorm
-                : entityType == "B" ? WeatherType.Blizzard
-                        : entityType == "F" ? WeatherType.Flood : WeatherType.Drought;
+        WeatherType weatherType = entityType.equals("L") ? WeatherType.LightningStorm
+                : entityType.equals("B") ? WeatherType.Blizzard
+                        : entityType.equals("F") ? WeatherType.Flood : WeatherType.Drought;
 
         return new Weather(location, turnCount, speed, heading, null, weatherType);
     }
