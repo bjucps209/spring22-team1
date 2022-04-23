@@ -13,8 +13,6 @@ import javafx.util.Duration;
 import java.io.*;
 import java.util.*;
 
-import javax.print.attribute.standard.MediaSize.NA;
-
 public class Game {
     private Timeline timer;
     private ArrayList<Entity> entityList = new ArrayList<>();
