@@ -1,15 +1,21 @@
 //-----------------------------------------------------------
 //File:   Projetile.java
-//Desc:   This program creates projectile objects ment to kill troops
+//Desc:   This program creates projectile objects meant to kill troops
 //-----------------------------------------------------------
 package model;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Projectile extends MobileEntity {
     private int damage;
+    private Coordinate location; 
+    private Coordinate destination; 
+    //private onTroopDeleteInterface troopDelete;
+    private Game game;
 
     public Projectile(Coordinate location, int turnCount, double speed, double heading,
             Coordinate destination, int damage) {
@@ -32,20 +38,50 @@ public class Projectile extends MobileEntity {
      */
     @Override
     public void update() {
+        ArrayList<Troop> troops = new ArrayList<>();
+        if (damage > 0) {
+            game.getEntityList().stream().forEach(t -> {
+            if (t instanceof Troop) {
+                troops.add((Troop) t);
+            }
+        });
+            for (Troop troop: troops) {
+                if (troop.getLocation() == destination) {
+                    game.getDeleteEntityList().addAll(List.of(troop, this));
+                }
+            }
+        }
+        // sends the projectile to the destination
+        //
         /**
-         * check collision detection
+         * check collision detection()
          */
-        super.update();
-    }
+        // if hit, delete enemy troop and projectile 
+        //update damage
+    } 
 
     /**
      * checks if hit enemy
      */
-    public void collisionDetection() {
-        /**
-         * if hit enemy unit, kill unit
-         */
-    }
+    // public void collisionDetection() {
+    //     ArrayList<Troop> troops = new ArrayList<>();
+    //     game.getEntityList().stream().forEach(t -> {
+    //         if (t instanceof Troop) {
+    //             troops.add((Troop) t);
+    //         }
+    //     });
+    //     for (Troop troop: troops) {
+    //         double distToTroop = Math.sqrt(Math.pow(troop.getLocation().getY() - getLocation().getY(), 2) + Math.pow(troop.getLocation().getX() - getLocation().getX(), 2));
+    //         if (distToTroop < Constants.troopRadius * 2) {
+    //             game.getDeleteEntityList().addAll(List.of(troop, this));
+    //         }
+    //     }
+        // if (this.getLocation().getX() == this.getDestination().getX() &&
+        //     this.getLocation().getY() == this.getDestination().getY()){
+        //     return true;
+        // } 
+        // return false; 
+    //}
 
     /**
      * packages the object and writes it in file according to serialization pattern
@@ -69,5 +105,23 @@ public class Projectile extends MobileEntity {
     public void setDamage(int damage) {
         this.damage = damage;
     }
+
+    public Coordinate getLocation() {
+        return location;
+    }
+
+    public void setLocation(Coordinate location) {
+        this.location = location;
+    }
+
+    public Coordinate getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Coordinate destination) {
+        this.destination = destination;
+    }
+
+    
 
 }

@@ -5,6 +5,7 @@ import javafx.scene.image.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import model.*;
 
 public class EntityImage extends ImageView implements CityObserver {
@@ -93,8 +94,12 @@ public class EntityImage extends ImageView implements CityObserver {
             pane.getChildren().addAll(List.of(this, c));
         }
 
-        // else if (entity instanceof Projectile) {
-        // Projectile projectileEntity = (Projectile) entity;
+        else if (entity instanceof Projectile) {
+            Projectile projectileEntity = (Projectile) entity;
+            Line line = new Line(projectileEntity.getLocation().getX(), projectileEntity.getLocation().getY(),
+            projectileEntity.getDestination().getX(), projectileEntity.getDestination().getY()); 
+            pane.getChildren().addAll(List.of(this, line));
+        }
         // Coordinate projectileLocation = projectileEntity.getLocation();
         // SimpleDoubleProperty projectileX = new SimpleDoubleProperty();
         // SimpleDoubleProperty projectileY = new SimpleDoubleProperty();
