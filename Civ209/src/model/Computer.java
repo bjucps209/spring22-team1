@@ -33,9 +33,6 @@ public class Computer {
 
         turnCount++;
 
-        if (otherCities.size() < 1)
-            return;
-
         for (Entity entity : entities) {
             if (entity instanceof City) {
                 City city = (City) entity;
@@ -44,14 +41,21 @@ public class Computer {
                 } else {
                     otherCities.add(city);
                 }
-            } else {
+            } else if (entity instanceof Troop) {
                 Troop troop = (Troop) entity;
                 if (troop.getNationality() == Nationality.Enemy) {
                     computerTroops.add(troop);
                 }
             }
         }
-        City cityToAttack = calculateAttackCity(otherCities);
+        
+        City cityToAttack;
+        try {
+            cityToAttack = calculateAttackCity(otherCities);
+        } catch (Exception e) {
+            cityToAttack = null;
+            return;
+        }
 
         switch (difficulty) {
             case Easy:

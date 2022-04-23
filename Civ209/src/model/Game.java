@@ -1,6 +1,6 @@
 //-----------------------------------------------------------
 //File:   Game.java
-//Desc:   This program instantiates an image and handles game state
+//Desc:   This program instantiates an image and handles game state.
 //-----------------------------------------------------------
 package model;
 
@@ -84,10 +84,18 @@ public class Game {
     /**
      * checks numCitiesLeft and score to see if game should be over
      */
-    public void gameEnd() {
+    public void gameEnd() throws GameOverException {
         /**
          * checks numCitiesLeft and score to see if game should be over
          */
+
+        if (numPlayerCitiesLeft <= 0 || scoreProperty.get() <= 0) {
+            gameSpeed = 0;
+            stopTimer();
+            entityList.clear();
+            // Your move, Mr. Moffitt
+            throw new GameOverException("The game is over my dudes", scoreProperty.get());
+        }
     }
 
     /**
@@ -152,7 +160,6 @@ public class Game {
         }
         if (turncount % 50 == 0) {
             onMakeWeather.onMakeWeather();
-            ;
         }
 
     }
@@ -272,6 +279,17 @@ public class Game {
         int heading;
         int coordX = 0;
         int coordY = 0;
+        WeatherType type = WeatherType.Blizzard;
+        int typeNum = rand.nextInt(2);
+        // determine the weather type
+        if (typeNum == 0) {
+            type = WeatherType.Blizzard;
+        } else if (typeNum == 1) {
+            type = WeatherType.Flood;
+        } else if (typeNum == 2) {
+            type = WeatherType.LightningStorm;
+        }
+        
         // determine which side of the screen the weather starts on
         if (screenSide == 0) { // bottom
             heading = rand.nextInt(225, 315);
@@ -321,9 +339,8 @@ public class Game {
         }
 
         Weather weather = new Weather(new Coordinate(coordX, coordY), turncount, Constants.weatherSpeed, heading, null,
-                WeatherType.Blizzard);
+                type);
         getEntityList().add(weather);
-        System.out.println(heading);
         return weather;
     }
 
