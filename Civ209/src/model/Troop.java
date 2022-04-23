@@ -18,6 +18,7 @@ public class Troop extends MobileEntity {
     private DestinationType destinationType;
     private CityType troopType;
     private Game game;
+    private boolean dead = false;
 
     public Troop(Coordinate location, int turnCount, double speed, double heading, Coordinate destination, int health,
             Nationality nationality, boolean selected, DestinationType destinationType, CityType troopType) {
@@ -75,21 +76,16 @@ public class Troop extends MobileEntity {
                 troopDelete.onTroopDelete(this);
             }
         } else {
-            double dist = Math.sqrt(Math
-                    .pow((getLocation().getX()
-                            - (getLocation().getX() + getSpeed() * Math.cos(getHeading() * Math.PI / 180))), 2.0)
-                    + Math.pow(
-                            (getLocation().getY()
-                                    - (getLocation().getY() + getSpeed() * Math.sin(getHeading() * Math.PI / 180))),
-                            2.0));
-            double distToDest = Math.sqrt(Math
+            double newDistToDest = Math.sqrt(Math
                     .pow((getDestination().getX()
                             - (getLocation().getX() + getSpeed() * Math.cos(getHeading() * Math.PI / 180))), 2.0)
                     + Math.pow(
                             (getDestination().getY()
                                     - (getLocation().getY() + getSpeed() * Math.sin(getHeading() * Math.PI / 180))),
                             2.0));
-            if (dist > distToDest) {
+            double distToDest = Math.sqrt(Math.pow((getDestination().getX() - (getLocation().getX())), 2.0)
+                    + Math.pow((getDestination().getY() - (getLocation().getY())), 2.0));
+            if (newDistToDest > distToDest) {
                 setSpeed(0);
             }
         }
@@ -100,7 +96,7 @@ public class Troop extends MobileEntity {
      * checks to see if hit another troop
      */
     public void collisionDetection() {
-        if (game != null) {
+        if (game != null && isDead() == false) {
             ArrayList<Troop> troops = new ArrayList<>();
             game.getEntityList().stream().forEach(t -> {
                 if (t instanceof Troop
@@ -112,8 +108,10 @@ public class Troop extends MobileEntity {
             for (Troop troop : troops) {
                 double distToTroop = Math.sqrt(Math.pow(troop.getLocation().getY() - getLocation().getY(), 2)
                         + Math.pow(troop.getLocation().getX() - getLocation().getX(), 2));
-                if (distToTroop < Constants.troopRadius * 2) {
+                if (distToTroop < Constants.troopRadius * 2 && troop.isDead() == false) {
                     game.getDeleteEntityList().addAll(List.of(troop, this));
+                    troop.setDead(true);
+                    setDead(true);
                 }
             }
         }
@@ -203,6 +201,14 @@ public class Troop extends MobileEntity {
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
     }
 
     public String __str__() {
