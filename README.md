@@ -46,8 +46,7 @@ You win when you control all of the cities on the map. You lose if all of your c
  * Summer background: https://unsplash.com/photos/loAfOVk1eNc
  * Autumn background: https://www.needpix.com/photo/download/1495531/abstract-autumn-backdrop-background-blur-blurred-bokeh-bright-color
  * Winter background: https://besthqwallpapers.com/textures/snow-background-snow-texture-background-with-snow-winter-background-snowflakes-118035
- * Spring background: https://airwallpaper.com/wp-content/uploads/2016/08/Spring-Flowers-Backgrounds.jpg
-
+ * Spring background: https://wallpaperaccess.com/pastel-spring-computer#google_vignette
 
 ### Background Music - Vivaldi's Four Seasons
  * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/1.+Spring+1(allegro).mp3
