@@ -174,6 +174,12 @@ public class Game {
         if (turncount % 50 == 0) {
             onMakeWeather.onMakeWeather();
         }
+        // Check to see if troops need to be destroyed by weather
+        getEntityList().stream().filter(e -> e instanceof Troop)
+                .filter(e -> checkInWeather(((Troop) e).getLocation())).forEach(e -> deleteTroopWeather((Troop) e));
+        // check if the weather is in bounds of the pane
+        // getEntityList().stream().filter(e -> e instanceof Weather).forEach(e ->
+        // checkInBounds(Weather) e));
 
     }
 
@@ -356,6 +362,36 @@ public class Game {
                 type);
         getEntityList().add(weather);
         return weather;
+    }
+    // public void checkInBounds(Weather w) {
+    // if(w.getLocation().getX() > Constants.windowWidth || w.getLocation().getX() <
+    // 0 || w.getLocation().getY() > Constants.windowHeight ||
+    // w.getLocation().getY() < 0) {
+    // deleteTroop((Troop) w);
+    // }
+    // }
+    // returns true if the entity is in the weather, false otherwise
+    public boolean checkInWeather(Coordinate e) {
+        boolean pointInCircle = false;
+        for (Entity entity : getEntityList()) {
+            if (entity instanceof Weather) {
+                Weather weatherEntity = (Weather) entity;
+                if (Math.pow(e.getX() - weatherEntity.getLocation().getX(), 2) + Math
+                        .pow(e.getY() - weatherEntity.getLocation().getY(), 2) <= Math.pow(Constants.weatherRadius,
+                                2)) {
+                    pointInCircle = true;
+                    break;
+                }
+            }
+        }
+        return pointInCircle;
+    }
+    // delete the troop if it is inside the weather
+    public void deleteTroopWeather(Troop troop) {
+        Coordinate location = troop.getLocation();
+        if (checkInWeather(location)) {
+            getDeleteEntityList().add(troop);
+        }
     }
 
     public int nextInt(int lowerBound, int upperBound) {
