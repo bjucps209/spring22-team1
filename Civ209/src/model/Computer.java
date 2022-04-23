@@ -30,6 +30,7 @@ public class Computer {
         ArrayList<City> computerCities = new ArrayList<City>();
         ArrayList<City> otherCities = new ArrayList<City>();
         ArrayList<Troop> computerTroops = new ArrayList<Troop>();
+        ArrayList<Troop> otherTroops = new ArrayList<Troop>();
 
         turnCount++;
 
@@ -45,10 +46,12 @@ public class Computer {
                 Troop troop = (Troop) entity;
                 if (troop.getNationality() == Nationality.Enemy) {
                     computerTroops.add(troop);
+                } else {
+                    otherTroops.add(troop);
                 }
             }
         }
-        
+
         City cityToAttack;
         try {
             cityToAttack = calculateAttackCity(otherCities);
@@ -57,60 +60,95 @@ public class Computer {
             return;
         }
 
+        if (computerCities.size() < 1) {
+            return;
+        }
+
         switch (difficulty) {
             case Easy:
-                if (turnCount % 100 == 0) {
-                    ArrayList<Troop> troops = game.sendTroopsFromCity(computerCities.get(0), cityToAttack.getLocation(),
-                            50);
-                    game.getEntityList().addAll(troops);
-                    obs.renderTroops(troops);
-                } else if (turnCount % 301 == 0) {
-                    for (City city : computerCities) {
-                        ArrayList<Troop> troops = game.sendTroopsFromCity(city, cityToAttack.getLocation(), 40);
+                try {
+                    // Crashes program. Will probably delete.
+                    
+                    // if (otherTroops.size() > 0) {
+                    // if (computerTroops.size() > 0) {
+                    // ArrayList<Troop> troops = game.sendTroopsFromGround(computerTroops,
+                    // otherTroops.get(0).getLocation(),
+                    // DestinationType.City);
+                    // game.getEntityList().addAll(troops);
+                    // obs.renderTroops(troops);
+                    // } else {
+                    // for (City city : computerCities) {
+                    // ArrayList<Troop> troops = game.sendTroopsFromCity(city,
+                    // otherTroops.get(0).getLocation(), 20);
+                    // game.getEntityList().addAll(troops);
+                    // obs.renderTroops(troops);
+                    // }
+                    // }
+                    // }
+
+                    if (turnCount % 100 == 0) {
+                        ArrayList<Troop> troops = game.sendTroopsFromCity(computerCities.get(0),
+                                cityToAttack.getLocation(),
+                                50);
                         game.getEntityList().addAll(troops);
                         obs.renderTroops(troops);
+                    } else if (turnCount % 301 == 0) {
+                        for (City city : computerCities) {
+                            ArrayList<Troop> troops = game.sendTroopsFromCity(city, cityToAttack.getLocation(), 40);
+                            game.getEntityList().addAll(troops);
+                            obs.renderTroops(troops);
+                        }
                     }
+                } catch (IndexOutOfBoundsException e) {
                 }
 
                 break;
 
             case Medium:
-                if (turnCount % 100 == 0) {
-                    for (City city : computerCities) {
-                        ArrayList<Troop> troops = game.sendTroopsFromCity(city, cityToAttack.getLocation(), 100);
-                        game.getEntityList().addAll(troops);
-                        obs.renderTroops(troops);
+                try {
+                    if (turnCount % 100 == 0) {
+                        for (City city : computerCities) {
+                            ArrayList<Troop> troops = game.sendTroopsFromCity(city, cityToAttack.getLocation(), 100);
+                            game.getEntityList().addAll(troops);
+                            obs.renderTroops(troops);
+                        }
+                    } else if (turnCount % 60 == 0) {
+                        game.sendTroopsFromGround(computerTroops, calculateAttackCity(otherCities).getLocation(),
+                                DestinationType.City);
+                    } else if (turnCount % 15 == 0) {
+                        for (City city : computerCities) {
+                            ArrayList<Troop> troops = city.sendTroops(1,
+                                    city.getLocation().figureNewCoordinate(randomNumberGenerator(0, 360),
+                                            randomNumberGenerator(-20, 20)),
+                                    CityType.Standard, DestinationType.Coordinate);
+                            obs.renderTroops(troops);
+                            game.getEntityList().addAll(troops);
+                        }
                     }
-                } else if (turnCount % 60 == 0) {
-                    game.sendTroopsFromGround(computerTroops, calculateAttackCity(otherCities).getLocation());
-                } else if (turnCount % 15 == 0) {
-                    for (City city : computerCities) {
-                        ArrayList<Troop> troops = city.sendTroops(1,
-                                city.getLocation().figureNewCoordinate(randomNumberGenerator(0, 360),
-                                        randomNumberGenerator(-20, 20)),
-                                CityType.Standard, DestinationType.Coordinate);
-                        obs.renderTroops(troops);
-                        game.getEntityList().addAll(troops);
-                    }
+                } catch (IndexOutOfBoundsException e) {
                 }
                 break;
 
             case Hard:
-                if (computerCities.get(0).getPopulation() >= Constants.cityPopulationLimit) {
-                    for (City city : computerCities) {
-                        int tries = 3;
-                        for (City enemy : otherCities) {
-                            if (tries < 1)
-                                break;
-                            ArrayList<Troop> troops = game.sendTroopsFromCity(city, enemy.getLocation(), 1);
+                try {
+
+                    if (computerCities.get(0).getPopulation() >= Constants.cityPopulationLimit) {
+                        for (City city : computerCities) {
+                            int tries = 3;
+                            for (City enemy : otherCities) {
+                                if (tries < 1)
+                                    break;
+                                ArrayList<Troop> troops = game.sendTroopsFromCity(city, enemy.getLocation(), 1);
+                                game.getEntityList().addAll(troops);
+                                obs.renderTroops(troops);
+
+                            }
+                            ArrayList<Troop> troops = game.sendTroopsFromCity(city, cityToAttack.getLocation(), 100);
                             game.getEntityList().addAll(troops);
                             obs.renderTroops(troops);
-
                         }
-                        ArrayList<Troop> troops = game.sendTroopsFromCity(city, cityToAttack.getLocation(), 100);
-                        game.getEntityList().addAll(troops);
-                        obs.renderTroops(troops);
                     }
+                } catch (IndexOutOfBoundsException e) {
                 }
 
                 break;

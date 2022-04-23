@@ -30,6 +30,8 @@ public class Game {
     private ArrayList<Troop> selectedTroops = new ArrayList<>();
     private City selectedCity;
     private EntityManager entityManager;
+    private GameOverObserver gameOver;
+    private boolean endGame = false;
 
     /**
      * instantiates game from lvl with a computer of level difficulty
@@ -38,15 +40,12 @@ public class Game {
      * @param lvlName    id of level played to load in from binary file
      */
     public void initialize(Difficulty difficulty, String lvlName) {
-        // TODO play around with difficulty
-        computer.setDifficulty(Difficulty.Hard);
+        computer.setDifficulty(Difficulty.Easy);
         try {
             load(lvlName);
         } catch (IOException e) {
             try {
-                // Removed Civ209
-                // TODO check to make sure this works
-                load("Civ209/Levels/DemoLevel.dat");
+                load("Levels/DemoLevel.dat");
             } catch (IOException xe) {
                 System.out.println("fatalError! " + xe);
                 System.exit(1);
@@ -84,17 +83,26 @@ public class Game {
     /**
      * checks numCitiesLeft and score to see if game should be over
      */
-    public void gameEnd() throws GameOverException {
+    public void gameEnd() {
         /**
          * checks numCitiesLeft and score to see if game should be over
          */
-
-        if (numPlayerCitiesLeft <= 0 || scoreProperty.get() <= 0) {
-            gameSpeed = 0;
+        // || scoreProperty.get() <= 0 TODO: Score still negative
+        if (getEntityList().stream().filter(e -> e instanceof City && ((City) e).getNationality() == Nationality.Player)
+                .count() == 0) {
             stopTimer();
-            entityList.clear();
             // Your move, Mr. Moffitt
-            throw new GameOverException("The game is over my dudes", scoreProperty.get());
+            endGame = true;
+            gameOver.recognizeGameOver("You lost!", scoreProperty.get());
+            System.out.println("Game Over");
+        } else {
+            if (getEntityList().stream()
+                    .filter(e -> e instanceof City && ((City) e).getNationality() == Nationality.Enemy).count() == 0) {
+                stopTimer();
+                endGame = true;
+                System.out.println("Game Over");
+                gameOver.recognizeGameOver("You won!", scoreProperty.get());
+            }
         }
     }
 
@@ -141,7 +149,11 @@ public class Game {
     }
 
     public void update() {
-        // Slows score decrementation
+        if (turncount >= 10) {
+            gameEnd();
+        }
+        if (endGame)
+            return;
         computer.executeAction(this);
         turncount++;
         if (turncount % 3 == 0)
@@ -186,13 +198,14 @@ public class Game {
         return troops;
     }
 
-    public ArrayList<Troop> sendTroopsFromGround(ArrayList<Troop> troops, Coordinate destination) {
+    public ArrayList<Troop> sendTroopsFromGround(ArrayList<Troop> troops, Coordinate destination,
+            DestinationType destType) {
         for (Troop troop : troops) {
             troop.setDestination(destination);
             troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed
                     : Constants.standardTroopSpeed);
             troop.setHeading(troop.figureHeading(destination));
-            troop.setDestinationType(DestinationType.City);
+            troop.setDestinationType(destType);
         }
         return troops;
     }
@@ -289,38 +302,38 @@ public class Game {
         } else if (typeNum == 2) {
             type = WeatherType.LightningStorm;
         }
-        
+
         // determine which side of the screen the weather starts on
         if (screenSide == 0) { // bottom
-            heading = rand.nextInt(225, 315);
+            heading = nextInt(225, 315);
             coordY = Constants.windowHeight;
 
             if (heading >= 270) {
-                coordX = rand.nextInt(0, Constants.windowWidth / 2);
+                coordX = nextInt(0, Constants.windowWidth / 2);
             } else {
-                coordX = rand.nextInt(Constants.windowWidth / 2, Constants.windowWidth);
+                coordX = nextInt(Constants.windowWidth / 2, Constants.windowWidth);
             }
 
         } else if (screenSide == 1) { // left
             int check = rand.nextInt(2);
             coordX = 0;
             if (check == 0) {
-                heading = rand.nextInt(315, 360);
-                coordY = rand.nextInt(Constants.windowHeight / 2, Constants.windowHeight);
+                heading = nextInt(315, 360);
+                coordY = nextInt(Constants.windowHeight / 2, Constants.windowHeight);
 
             } else {
-                heading = rand.nextInt(0, 45);
-                coordY = rand.nextInt(0, Constants.windowHeight / 2);
+                heading = nextInt(0, 45);
+                coordY = nextInt(0, Constants.windowHeight / 2);
             }
 
         } else if (screenSide == 2) { // top
-            heading = rand.nextInt(45, 135);
+            heading = nextInt(45, 135);
             coordY = 0;
 
             if (heading <= 90) {
-                coordX = rand.nextInt(0, Constants.windowWidth / 2);
+                coordX = nextInt(0, Constants.windowWidth / 2);
             } else {
-                coordX = rand.nextInt(Constants.windowWidth / 2, Constants.windowWidth);
+                coordX = nextInt(Constants.windowWidth / 2, Constants.windowWidth);
             }
 
         } else { // right
@@ -328,12 +341,12 @@ public class Game {
             int check = rand.nextInt(2);
             coordX = Constants.windowWidth;
             if (check == 0) {
-                heading = rand.nextInt(180, 225);
-                coordY = rand.nextInt(Constants.windowHeight / 2, Constants.windowHeight);
+                heading = nextInt(180, 225);
+                coordY = nextInt(Constants.windowHeight / 2, Constants.windowHeight);
 
             } else {
-                heading = rand.nextInt(135, 180);
-                coordY = rand.nextInt(0, Constants.windowHeight / 2);
+                heading = nextInt(135, 180);
+                coordY = nextInt(0, Constants.windowHeight / 2);
             }
 
         }
@@ -342,6 +355,10 @@ public class Game {
                 type);
         getEntityList().add(weather);
         return weather;
+    }
+
+    public int nextInt(int lowerBound, int upperBound) {
+        return (int) ((Math.random() * (upperBound - lowerBound)) + lowerBound);
     }
 
     public void setUpComputer(ComputerObserver window) {
@@ -546,6 +563,10 @@ public class Game {
 
     public void setSelectedCity(City selectedCity) {
         this.selectedCity = selectedCity;
+    }
+
+    public void setGameOverObserver(GameOverObserver obs) {
+        gameOver = obs;
     }
 
     public void setEntityManager(EntityManager entityManager) {

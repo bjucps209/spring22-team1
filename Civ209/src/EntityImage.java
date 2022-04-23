@@ -128,10 +128,10 @@ public class EntityImage extends ImageView implements CityObserver {
     public void update() {
         if (entity instanceof City) {
             City city = (City) entity;
-            System.out.println("Trying to show change in city");
-            System.out.println("Current nationality: " + nationality + "    cityObjectNat: " + city.getNationality());
+            // System.out.println("Trying to show change in city");
+            // System.out.println("Current nationality: " + nationality + "    cityObjectNat: " + city.getNationality());
             if (city.getNationality() != nationality) {
-                System.out.println("Nationality test works");
+                // System.out.println("Nationality test works");
                 this.nationality = city.getNationality();
                 cityCircle.setStroke(Paint.valueOf((city.getNationality() == Nationality.Enemy) ? "red"
                         : (city.getNationality() == Nationality.Player) ? "blue" : "grey"));

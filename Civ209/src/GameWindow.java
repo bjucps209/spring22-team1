@@ -2,15 +2,19 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.TextAlignment;
 import model.*;
 
 import java.io.IOException;
@@ -18,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class GameWindow implements ComputerObserver {
+public class GameWindow implements ComputerObserver, GameOverObserver {
 
     private Game game;
     private ArrayList<EntityImage> selectedTroops = new ArrayList<EntityImage>();
@@ -28,7 +32,9 @@ public class GameWindow implements ComputerObserver {
     private Delta dragDelta = new Delta();
     private boolean inCity = false;
     Random rand = new Random();
-    // AudioClip castleTaken = new AudioClip("https://www.fesliyanstudios.com/play-mp3/6202");
+    AudioClip music;
+    // AudioClip castleTaken = new
+    // AudioClip("https://www.fesliyanstudios.com/play-mp3/6202");
 
     /**
      * Coordinates used in dragging image.
@@ -60,37 +66,93 @@ public class GameWindow implements ComputerObserver {
     ImageView play = new ImageView(Constants.pauseButton);
 
     @FXML
+    Button btnEasy;
+
+    @FXML
+    Button btnMedium;
+
+    @FXML
+    Button btnHard;
+
+    @FXML
+    HBox displayBox;
+
+    @FXML
     public void initialize(String lvlname) {
         game = new Game();
+        game.setGameOverObserver(this);
         game.setEntityManager(this::removeEntity);
         game.setOnMakeWeather(this::onMakeWeather);
         game.getComputer().setObs(this);
+        game.setOnMakeWeather(this::onMakeWeather);
         game.initialize(Difficulty.Easy, lvlname);
+
         if (game.getSeason() == SeasonType.Summer) {
             showSeason("/images/summer.png");
+            try {
+                music = new AudioClip(
+                        getClass().getResource("/Assets/summer1.mp3").toString());
+            } catch (NullPointerException e) {
+                System.out.println(
+                        "Music isn't working because you're not running the program from the Civ209 folder :(");
+            }
         }
         if (game.getSeason() == SeasonType.Fall) {
             showSeason("/images/fall.png");
+            try {
+                music = new AudioClip(
+                        getClass().getResource("/Assets/autumn1.mp3").toString());
+            } catch (NullPointerException e) {
+                System.out.println(
+                        "Music isn't working because you're not running the program from the Civ209 folder :(");
+            }
+
         }
         if (game.getSeason() == SeasonType.Winter) {
             showSeason("/images/winter.png");
+            try {
+                music = new AudioClip(
+                        getClass().getResource("/Assets/winter1.mp3").toString());
+            } catch (NullPointerException e) {
+                System.out.println(
+                        "Music isn't working because you're not running the program from the Civ209 folder :(");
+            }
+
         }
         if (game.getSeason() == SeasonType.Spring) {
-            showSeason("/images/spring.png"); 
+            showSeason("/images/spring.png");
+            try {
+                music = new AudioClip(getClass().getResource("/Assets/spring1.mp3").toExternalForm());
+            } catch (NullPointerException e) {
+                System.out.println(
+                        "Music isn't working because you're not running the program from the Civ209 folder :(");
+            }
         }
+        music.play();
+        music.setVolume(1);
+        music.setCycleCount(AudioClip.INDEFINITE);
 
         for (Entity entity : game.getEntityList()) {
             new EntityImage(this, pane, entity);
             if (entity instanceof Troop) {
                 ((Troop) entity).setTroopDelete(this::onTroopDelete);
+            } else if (entity instanceof City) {
+                if (((City) entity).getNationality() == Nationality.Player) {
+                    game.setNumPlayerCitiesLeft(game.getNumPlayerCitiesLeft() + 1);
+                }
             }
         }
         lblSize.textProperty().bind(
                 Bindings.createStringBinding(() -> String.valueOf((int) slider.getValue()), slider.valueProperty()));
-        scoreLabel.setLayoutX(15);
-        scoreLabel.setLayoutY(15);
+        // https://stackoverflow.com/questions/10548634/javafx-2-0-adding-border-to-label
+        scoreLabel.setStyle("-fx-border-color: black;");
+        scoreLabel.setPrefWidth(50);
+        scoreLabel.setPrefHeight(10);
+        scoreLabel.setTextAlignment(TextAlignment.CENTER);
+
         scoreLabel.textProperty().bind(SimpleStringProperty.stringExpression(game.scoreProperty()));
-        play.setOnMousePressed(e ->  {
+        btnEasy.setDisable(true);
+        play.setOnMousePressed(e -> {
             if (play.getUserData() == "play") {
                 play.setImage(Constants.pauseButtonPressed);
             } else {
@@ -99,11 +161,11 @@ public class GameWindow implements ComputerObserver {
         });
         play.setOnMouseReleased(e -> onPlayClicked());
         play.setUserData("play");
-        play.setFitWidth(50);
+        play.setFitWidth(40);
         play.setPreserveRatio(true);
-        play.setLayoutX((play.getFitWidth() / 2));
-        play.setLayoutY(-50 + (play.getFitHeight() / 2));
-        pane.getChildren().addAll(List.of(scoreLabel, play));
+        // play.setLayoutX(-40);
+        // play.setLayoutY(-40);
+        displayBox.getChildren().addAll(List.of(scoreLabel, play));
         pane.setOnMousePressed(me -> {
             if (!game.checkInCity(new Coordinate(me.getX(), me.getY())) && me.getButton() == MouseButton.PRIMARY) {
                 deSelect();
@@ -148,7 +210,7 @@ public class GameWindow implements ComputerObserver {
                 }
             }
         });
-        
+
         pane.setOnMouseReleased(me -> {
             if (me.getButton() == MouseButton.PRIMARY) {
                 deSelect();
@@ -173,7 +235,7 @@ public class GameWindow implements ComputerObserver {
 
     public void onMakeWeather() {
         Weather weather = game.makeWeather();
-        EntityImage entityImage = new EntityImage(this, pane, weather);
+        new EntityImage(this, pane, weather);
     }
 
     public void deSelect() {
@@ -204,7 +266,8 @@ public class GameWindow implements ComputerObserver {
     }
 
     public void sendTroopsFromGround(ArrayList<Troop> troops, Coordinate destination) {
-        game.sendTroopsFromGround(troops, destination).stream().forEach(t -> t.setTroopDelete(this::onTroopDelete));
+        game.sendTroopsFromGround(troops, destination, DestinationType.City).stream()
+                .forEach(t -> t.setTroopDelete(this::onTroopDelete));
         ;
     }
 
@@ -263,6 +326,17 @@ public class GameWindow implements ComputerObserver {
         }
     }
 
+    public void recognizeGameOver(String msg, int score) {
+        // TODO @Izzo, this function recognizes the game over and will give you the
+        // string message containing whether the player won or lost, and gives you the
+        // score. Lmk if you want me to handle it. - Rhys
+
+        music.stop();
+
+        System.out.println(msg + " SCORE: " + score);
+        System.exit(0);
+    }
+
     public void makeWeather() {
 
         Weather newWeather = game.makeWeather();
@@ -299,8 +373,34 @@ public class GameWindow implements ComputerObserver {
         this.game = game;
     }
 
-    @FXML 
+    @FXML
+    public void onEasyClicked(ActionEvent e) {
+        game.getComputer().setDifficulty(Difficulty.Easy);
+        btnEasy.setDisable(true);
+        btnMedium.setDisable(false);
+        btnHard.setDisable(false);
+
+    }
+
+    @FXML
+    public void onMediumClicked(ActionEvent e) {
+        game.getComputer().setDifficulty(Difficulty.Medium);
+        btnEasy.setDisable(false);
+        btnMedium.setDisable(true);
+        btnHard.setDisable(false);
+    }
+
+    @FXML
+    public void onHardClicked(ActionEvent e) {
+        game.getComputer().setDifficulty(Difficulty.Hard);
+        btnEasy.setDisable(false);
+        btnMedium.setDisable(false);
+        btnHard.setDisable(true);
+    }
+
+    @FXML
     public void showSeason(String url) {
-        pane.setStyle("-fx-background-image:url(" + url + "); -fx-background-repeat: no-repeat; -fx-background-blend-mode: darken; -fx-background-size: cover; -fx-background-position: center;");
-    } 
+        pane.setStyle("-fx-background-image:url(" + url
+                + "); -fx-background-repeat: no-repeat; -fx-background-blend-mode: darken; -fx-background-size: cover; -fx-background-position: center;");
+    }
 }
