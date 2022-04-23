@@ -8,8 +8,8 @@ public class Constants {
     public final static int standardTroopSpeed = 5;
     public final static int fastTroopSpeed = 8;
     public final static int standardTroopHealth = 1;
-    public final static int windowHeight = 250;
-    public final static int windowWidth = 500;
+    public final static int windowHeight = 525;
+    public final static int windowWidth = 1025;
     public final static int strongTroopHealth = 2;
     public final static int cityPopulationLimit = 30;
     public final static int troopRingRadius = 10;
