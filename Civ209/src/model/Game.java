@@ -30,7 +30,8 @@ public class Game {
     private ArrayList<Troop> selectedTroops = new ArrayList<>();
     private City selectedCity;
     private EntityManager entityManager;
-    private OnGameEnd onGameEnd;
+    private GameOverObserver gameOver;
+    private boolean endGame = false;
 
     /**
      * instantiates game from lvl with a computer of level difficulty
@@ -38,16 +39,12 @@ public class Game {
      * @param difficulty difficulty of computer
      * @param lvlName    id of level played to load in from binary file
      */
-    public void initialize(Difficulty difficulty, String lvlName, OnGameEnd onGameEnd) {
-        // TODO play around with difficulty
-        computer.setDifficulty(Difficulty.Hard);
-        this.onGameEnd = onGameEnd;
+    public void initialize(Difficulty difficulty, String lvlName) {
+        computer.setDifficulty(Difficulty.Easy);
         try {
             load(lvlName);
         } catch (IOException e) {
             try {
-                // Removed Civ209
-                // TODO check to make sure this works
                 load("Levels/DemoLevel.dat");
             } catch (IOException xe) {
                 System.out.println("fatalError! " + xe);
@@ -87,21 +84,21 @@ public class Game {
      * checks numCitiesLeft and score to see if game should be over
      */
     public void gameEnd() {
-        if (0 == getEntityList().stream().filter(e -> e instanceof City && ((City)e).getNationality() == Nationality.Player).count()) {
-            gameSpeed = 0;
+        /**
+         * checks numCitiesLeft and score to see if game should be over
+         */
+        // || scoreProperty.get() <= 0 TODO: Score still negative
+        if (getEntityList().stream().filter(e -> e instanceof City && ((City)e).getNationality() == Nationality.Player).count() == 0) {
             stopTimer();
-            entityList.clear();
-            onGameEnd.OnGameEnd("lose:conquest", scoreProperty.get());
-        // } else if (getScore() <= 0) {
-        //     gameSpeed = 0;
-        //     stopTimer();
-        //     entityList.clear();
-        //     onGameEnd.OnGameEnd("lose:timeexceeded", scoreProperty.get());
-        } else if (0 == getEntityList().stream().filter(e -> e instanceof City && ((City)e).getNationality() == Nationality.Enemy).count()) {
-            gameSpeed = 0;
-            stopTimer();
-            entityList.clear();
-            onGameEnd.OnGameEnd("win:conquest", scoreProperty.get());
+            // Your move, Mr. Moffitt
+            endGame = true;
+            gameOver.recognizeGameOver("You lost!", scoreProperty.get());
+        } else {
+            if (getEntityList().stream().filter(e -> e instanceof City && ((City)e).getNationality() == Nationality.Enemy).count() == 0) {
+                stopTimer();
+                endGame = true;
+                gameOver.recognizeGameOver("You won!", scoreProperty.get());
+            }
         }
     }
 
@@ -298,7 +295,7 @@ public class Game {
         } else if (typeNum == 2) {
             type = WeatherType.LightningStorm;
         }
-        
+
         // determine which side of the screen the weather starts on
         if (screenSide == 0) { // bottom
             heading = nextInt(225, 315);
@@ -559,6 +556,10 @@ public class Game {
 
     public void setSelectedCity(City selectedCity) {
         this.selectedCity = selectedCity;
+    }
+
+    public void setGameOverObserver(GameOverObserver obs) {
+        gameOver = obs;
     }
 
     public void setEntityManager(EntityManager entityManager) {

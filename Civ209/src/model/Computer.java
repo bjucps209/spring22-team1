@@ -57,6 +57,10 @@ public class Computer {
             return;
         }
 
+        if (computerCities.size() < 1) {
+            return;
+        }
+
         switch (difficulty) {
             case Easy:
                 try {

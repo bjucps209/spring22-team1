@@ -1,4 +1,5 @@
 package model;
+
 public interface OnGameEnd {
-    void OnGameEnd(String msg,int score);
+    void onGameEnd(String msg, int score);
 }
