@@ -88,36 +88,37 @@ public class City extends Entity {
      */
     public ArrayList<Troop> sendTroops(double percentage, Coordinate destination, CityType type,
             DestinationType destinationType) {
-        percentage = percentage / 100;
-        int numtroops = (int) (getPopulation() * percentage);
-        if (numtroops < 1)
-            numtroops = 1;
-        ArrayList<Troop> troops = new ArrayList<>();
-        for (int i = 0; i < numtroops; i++) {
-            double heading = figureHeading(destination);
-            Troop troop = new Troop(new Coordinate(getLocation()), getTurnCount(),
-                    0, heading,
-                    destination,
-                    (type == CityType.Strong) ? Constants.strongTroopHealth : Constants.standardTroopHealth,
-                    nationality, false, destinationType, type);
-            troops.add(troop);
+        if (getPopulation() > 0) {
+            percentage = percentage / 100;
+            int numtroops = (int) (getPopulation() * percentage);
+            if (numtroops < 1)
+                numtroops = 1;
+            ArrayList<Troop> troops = new ArrayList<>();
+            for (int i = 0; i < numtroops; i++) {
+                double heading = figureHeading(destination);
+                Troop troop = new Troop(new Coordinate(getLocation()), getTurnCount(),
+                        0, heading,
+                        destination,
+                        (type == CityType.Strong) ? Constants.strongTroopHealth : Constants.standardTroopHealth,
+                        nationality, false, destinationType, type);
+                troops.add(troop);
+            }
+
+            Thread t = new Thread(() -> {
+                Timeline timer = new Timeline(new KeyFrame(Duration.millis(300), e -> {
+                    Troop troop = troops.get(0);
+                    troops.remove(troop);
+                    troop.setSpeed((type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed);
+                }));
+                timer.setCycleCount(troops.size());
+                timer.play();
+            });
+            t.start();
+
+            setPopulation(getPopulation() - numtroops);
+            return troops;
         }
-
-
-
-        Thread t = new Thread(() -> {
-            Timeline timer = new Timeline(new KeyFrame(Duration.millis(300), e -> {
-                Troop troop = troops.get(0);
-                troops.remove(troop);
-                troop.setSpeed((type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed);
-            }));
-            timer.setCycleCount(troops.size());
-            timer.play();
-        });
-        t.start();
-
-        setPopulation(getPopulation() - numtroops);
-        return troops;
+        return new ArrayList<Troop>();
     }
 
     public double figureHeading(Coordinate destination) {
@@ -132,6 +133,7 @@ public class City extends Entity {
         } else {
             return (destination.getY() - getLocation().getY() > 0) ? 90 : 270;
         }
+
     }
 
     /**

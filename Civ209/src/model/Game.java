@@ -30,6 +30,7 @@ public class Game {
     private ArrayList<Troop> selectedTroops = new ArrayList<>();
     private City selectedCity;
     private EntityManager entityManager;
+    private OnGameEnd onGameEnd;
 
     /**
      * instantiates game from lvl with a computer of level difficulty
@@ -37,9 +38,10 @@ public class Game {
      * @param difficulty difficulty of computer
      * @param lvlName    id of level played to load in from binary file
      */
-    public void initialize(Difficulty difficulty, String lvlName) {
+    public void initialize(Difficulty difficulty, String lvlName, OnGameEnd onGameEnd) {
         // TODO play around with difficulty
         computer.setDifficulty(Difficulty.Hard);
+        this.onGameEnd = onGameEnd;
         try {
             load(lvlName);
         } catch (IOException e) {
@@ -84,17 +86,22 @@ public class Game {
     /**
      * checks numCitiesLeft and score to see if game should be over
      */
-    public void gameEnd() throws GameOverException {
-        /**
-         * checks numCitiesLeft and score to see if game should be over
-         */
-
-        if (numPlayerCitiesLeft <= 0 || scoreProperty.get() <= 0) {
+    public void gameEnd() {
+        if (0 == getEntityList().stream().filter(e -> e instanceof City && ((City)e).getNationality() == Nationality.Player).count()) {
             gameSpeed = 0;
             stopTimer();
             entityList.clear();
-            // Your move, Mr. Moffitt
-            throw new GameOverException("The game is over my dudes", scoreProperty.get());
+            onGameEnd.OnGameEnd("lose:conquest", scoreProperty.get());
+        // } else if (getScore() <= 0) {
+        //     gameSpeed = 0;
+        //     stopTimer();
+        //     entityList.clear();
+        //     onGameEnd.OnGameEnd("lose:timeexceeded", scoreProperty.get());
+        } else if (0 == getEntityList().stream().filter(e -> e instanceof City && ((City)e).getNationality() == Nationality.Enemy).count()) {
+            gameSpeed = 0;
+            stopTimer();
+            entityList.clear();
+            onGameEnd.OnGameEnd("win:conquest", scoreProperty.get());
         }
     }
 
@@ -141,7 +148,9 @@ public class Game {
     }
 
     public void update() {
-        // Slows score decrementation
+        if (turncount >= 10) {
+            gameEnd();
+        }
         computer.executeAction(this);
         turncount++;
         if (turncount % 3 == 0)

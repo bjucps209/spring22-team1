@@ -60,13 +60,13 @@ public class GameWindow implements ComputerObserver {
     ImageView play = new ImageView(Constants.pauseButton);
 
     @FXML
-    public void initialize(String lvlname) {
+    public void initialize(String lvlname, OnGameEnd onGameEnd) {
         game = new Game();
         game.setEntityManager(this::removeEntity);
         game.setOnMakeWeather(this::onMakeWeather);
         game.getComputer().setObs(this);
         game.setOnMakeWeather(this::onMakeWeather);
-        game.initialize(Difficulty.Easy, lvlname);
+        game.initialize(Difficulty.Easy, lvlname, onGameEnd);
         if (game.getSeason() == SeasonType.Summer) {
             showSeason("/images/summer.png");
         }
@@ -84,6 +84,10 @@ public class GameWindow implements ComputerObserver {
             new EntityImage(this, pane, entity);
             if (entity instanceof Troop) {
                 ((Troop) entity).setTroopDelete(this::onTroopDelete);
+            } else if (entity instanceof City) {
+                if (((City)entity).getNationality() == Nationality.Player) {
+                    game.setNumPlayerCitiesLeft(game.getNumPlayerCitiesLeft() + 1);
+                }
             }
         }
         lblSize.textProperty().bind(
@@ -100,10 +104,10 @@ public class GameWindow implements ComputerObserver {
         });
         play.setOnMouseReleased(e -> onPlayClicked());
         play.setUserData("play");
-        play.setFitWidth(50);
+        play.setFitWidth(40);
         play.setPreserveRatio(true);
-        play.setLayoutX((play.getFitWidth() / 2));
-        play.setLayoutY(-50 + (play.getFitHeight() / 2));
+        play.setLayoutX(-40);
+        play.setLayoutY(-40);
         pane.getChildren().addAll(List.of(scoreLabel, play));
         pane.setOnMousePressed(me -> {
             if (!game.checkInCity(new Coordinate(me.getX(), me.getY())) && me.getButton() == MouseButton.PRIMARY) {

@@ -25,7 +25,7 @@
     </HBox>
 
     <HBox spacing="20">
-        <Button onAction="#onPlayClicked" text="Play" />
+        <!-- <Button onAction="#onPlayClicked" text="Play" /> -->
         <Button onAction="#onLevelsClicked" text="Select Level"></Button>
     </HBox>
 
