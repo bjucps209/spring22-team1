@@ -158,7 +158,7 @@ public class Game {
             return;
         computer.executeAction(this);
         turncount++;
-        if (turncount % 3 == 0)
+        if (turncount % 5 == 0)
             setScore(getScore() - 1);
         deleteEntityList.stream().forEach(e -> {
             entityManager.removeEntity(e);

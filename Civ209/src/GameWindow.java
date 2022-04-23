@@ -215,21 +215,24 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
         });
 
         pane.setOnMouseReleased(me -> {
-            if (me.getButton() == MouseButton.PRIMARY) {
-                deSelect();
-                pane.getChildren().remove(dragBox);
-                game.selectTroops(upperLeft, lowerRight, Nationality.Player).stream().forEach(t -> selectedTroops
-                        .add((EntityImage) pane.getChildren()
-                                .filtered(e -> e instanceof EntityImage && ((EntityImage) e).getEntity() == t)
-                                .toArray()[0]));
-                for (EntityImage image : selectedTroops) {
-                    image.getStyleClass().add("selected");
+            try {
+                if (me.getButton() == MouseButton.PRIMARY) {
+                    deSelect();
+                    pane.getChildren().remove(dragBox);
+                    game.selectTroops(upperLeft, lowerRight, Nationality.Player).stream().forEach(t -> selectedTroops
+                            .add((EntityImage) pane.getChildren()
+                                    .filtered(e -> e instanceof EntityImage && ((EntityImage) e).getEntity() == t)
+                                    .toArray()[0]));
+                    for (EntityImage image : selectedTroops) {
+                        image.getStyleClass().add("selected");
+                    }
                 }
-            }
-            upperLeft = new Coordinate();
-            lowerRight = new Coordinate();
-            dragBox = new VBox();
-            dragDelta = new Delta();
+                upperLeft = new Coordinate();
+                lowerRight = new Coordinate();
+                dragBox = new VBox();
+                dragDelta = new Delta();
+            } catch (IndexOutOfBoundsException e) {}
+            
         });
         // Prevent mouse clicks on img from propagating to the pane and
         // resulting in creation of a new image
@@ -335,7 +338,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
         // score. Lmk if you want me to handle it. - Rhys
 
         music.stop();
-
         System.out.println(msg + " SCORE: " + score);
         System.exit(0);
     }

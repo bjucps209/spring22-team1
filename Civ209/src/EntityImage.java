@@ -40,14 +40,16 @@ public class EntityImage extends ImageView implements CityObserver {
             Coordinate cityLocation = cityEntity.getLocation();
             if (cityEntity.getType() == CityType.Strong) {
                 this.setImage(Constants.strongCity);
-                this.setFitHeight(20);
-                this.setFitWidth(20);
+                this.setFitHeight(40);
+                this.setFitWidth(40);
             } else if (cityEntity.getType() == CityType.Fast) {
                 this.setImage(Constants.fastCity);
-                this.setFitHeight(20);
-                this.setFitWidth(20);
+                this.setFitHeight(40);
+                this.setFitWidth(40);
             } else {
                 this.setImage(Constants.cityImage);
+                this.setFitHeight(40);
+                this.setFitWidth(40);
             }
             this.setLayoutX(cityLocation.getX() - this.getFitWidth() / 2);
             this.setLayoutY(cityLocation.getY() - this.getFitHeight() / 2);
@@ -58,16 +60,32 @@ public class EntityImage extends ImageView implements CityObserver {
             cityCircle.setOnMouseClicked(e -> parent.onSelected(cityCircle, e, cityEntity));
             cityPop = new Label();
             cityPop.textProperty().bind(cityEntity.populationProperty().asString());
-            cityPop.setLayoutX(cityLocation.getX() - 10 - Constants.cityImage.getWidth() / 1.5);
-            cityPop.setLayoutY(cityLocation.getY() - 10 - Constants.cityImage.getHeight() / 1.5);
+            cityPop.setLayoutX(cityLocation.getX() - 5 - Constants.cityImage.getWidth() / 1.5);
+            cityPop.setLayoutY(cityLocation.getY() - 5 - Constants.cityImage.getHeight() / 1.5);
             pane.getChildren().addAll(List.of(this,cityPop, cityCircle ));
 
         } else if (entity instanceof Troop) {
             Troop troopEntity = (Troop) entity;
             this.entity = troopEntity;
             Coordinate troopLocation = troopEntity.getLocation();
-            Image troopImage = troopEntity.getNationality() == Nationality.Enemy ? Constants.enemyImage
-                    : Constants.playerImage;
+            Image troopImage;
+            if (troopEntity.getNationality() == Nationality.Enemy) {
+                if (troopEntity.getTroopType() == CityType.Fast) {
+                    troopImage = Constants.enemyFast;
+                } else if (troopEntity.getTroopType() == CityType.Strong) {
+                    troopImage = Constants.enemyStrong;
+                } else {
+                    troopImage = Constants.enemyImage;
+                }
+            } else {
+                if (troopEntity.getTroopType() == CityType.Fast) {
+                    troopImage = Constants.playerFast;
+                } else if (troopEntity.getTroopType() == CityType.Strong) {
+                    troopImage = Constants.playerStrong;
+                } else {
+                    troopImage = Constants.playerImage;
+                }
+            }
             this.setImage(troopImage);
             this.setFitWidth(Constants.troopRadius * 2);
             this.setFitHeight(Constants.troopRadius * 2);

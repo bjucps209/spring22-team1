@@ -25,6 +25,10 @@ public class Constants {
     public static final Image pauseButtonPressed = new Image("pause.png");
     public static final Image playerImage = new Image("playerTroop.png");
     public static final Image enemyImage = new Image("enemyTroop.png");
+    public static final Image enemyStrong = new Image("enemyStrong.png");
+    public static final Image playerStrong = new Image("playerStrong.png");
+    public static final Image enemyFast = new Image("enemyFast.png");
+    public static final Image playerFast = new Image("playerFast.png");
     public static final Image fastCity = new Image("/images/fastcastle.png");
     public static final Image strongCity = new Image("/images/strongcastle.png");
     public final static int weatherRadius = 40;
