@@ -29,6 +29,7 @@ public class Game {
     private int turncount = 0;
     Random rand = new Random();
     private MakeWeather onMakeWeather;
+    private FireProjectiles onFireProjectile; 
     private ArrayList<Troop> selectedTroops = new ArrayList<>();
     private City selectedCity;
     private EntityManager entityManager;
@@ -171,10 +172,15 @@ public class Game {
         deleteEntityList.clear();
         for (Entity entity : entityList) {
             entity.update();
+            if (entity instanceof City) {
+                City city = (City) entity;
+                city.fireProjectile(this); 
+            }
         }
         if (turncount % 50 == 0) {
             onMakeWeather.onMakeWeather();
-        }
+        } 
+
 
     }
 
@@ -490,7 +496,21 @@ public class Game {
         }
     }
 
+    public Projectile fireProjectile() {
+        for (Entity ent : entityList) {
+            if (ent instanceof City) {
+                City city = (City) ent;
+                return city.fireProjectile(this); 
+            }
+        }
+        return null; 
+    }
+
     public void instantMakeWeather() {
+        // TODO Izzo can you make this so it just adds another weather instance?
+    }
+
+    public void instantFireProjectiles() {
         // TODO Izzo can you make this so it just adds another weather instance?
     }
 
@@ -576,6 +596,10 @@ public class Game {
 
     public void setOnMakeWeather(MakeWeather onMakeWeather) {
         this.onMakeWeather = onMakeWeather;
+    }
+
+    public void setOnFireProjectiles(FireProjectiles onFireProjectile) {
+        this.onFireProjectile = onFireProjectile;
     }
 
     public ArrayList<Troop> getSelectedTroops() {

@@ -86,6 +86,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
         game.setGameOverObserver(this);
         game.setEntityManager(this::removeEntity);
         game.setOnMakeWeather(this::onMakeWeather);
+        game.setOnFireProjectiles(this::onFireProjectiles); 
         game.getComputer().setObs(this);
         game.setOnMakeWeather(this::onMakeWeather);
         game.initialize(Difficulty.Easy, lvlname);
@@ -241,6 +242,12 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
         new EntityImage(this, pane, weather);
     }
 
+    
+    public void onFireProjectiles() {
+        Projectile projectile = game.fireProjectile(); 
+        new EntityImage(this, pane, projectile);
+    }
+
     public void deSelect() {
         for (Node oldNodes : pane.getChildren()) {
             if (oldNodes.getStyleClass().contains("selected")) {
@@ -347,6 +354,13 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
         pane.getChildren().add(weather);
     }
 
+    public void fireProjectiles() {
+
+        Projectile fireprojectile = game.fireProjectile(); 
+        EntityImage projectile = new EntityImage(this, pane, fireprojectile);
+        pane.getChildren().add(projectile);
+    }
+
     @FXML
     public void onSaveClicked(ActionEvent e) throws IOException {
         game.save("Levels/savedGame.dat");
@@ -388,6 +402,11 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
     }
 
     @FXML
+    public void onFireProjectilesClicked(ActionEvent e) {
+        game.instantFireProjectiles();
+    }
+
+    @FXML
     public void onMoreTroopsClicked(ActionEvent e) {
         game.instantAddTroops();
     }
@@ -406,6 +425,8 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
             troopsBtn.setOnAction(this::onMoreTroopsClicked);
             Button wthrBtn = new Button("Make Weather");
             troopsBtn.setOnAction(this::onMakeWeatherClicked);
+            Button smrbutton = new Button("Fire Projectiles");
+            smrbutton.setOnAction(this::onFireProjectilesClicked);
             cheatControls.getChildren().addAll(List.of(winBtn, loseBtn, troopsBtn, wthrBtn));
 
         } else {

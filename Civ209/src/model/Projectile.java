@@ -16,6 +16,7 @@ public class Projectile extends MobileEntity {
     private Coordinate destination; 
     //private onTroopDeleteInterface troopDelete;
     private Game game;
+    private static int fireProjectile; 
 
     public Projectile(Coordinate location, int turnCount, double speed, double heading,
             Coordinate destination, int damage) {
@@ -52,6 +53,7 @@ public class Projectile extends MobileEntity {
                 }
             }
         }
+        System.out.println("everything is fine");
         // sends the projectile to the destination
         //
         /**
@@ -123,6 +125,8 @@ public class Projectile extends MobileEntity {
         this.destination = destination;
     }
 
-    
+    public void setGame(Game game) {
+        this.game = game;
+    }
 
 }

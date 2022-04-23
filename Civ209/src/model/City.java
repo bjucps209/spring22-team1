@@ -35,6 +35,7 @@ public class City extends Entity {
     private Coordinate location; 
 
     private static int nextId;
+    private static int fireprojectile; 
 
     public City(Coordinate location, int turnCount, IntegerProperty population, double incrementRate,
             Nationality nationality,
@@ -145,8 +146,8 @@ public class City extends Entity {
      * fires a projectile from city at closest enemy if enemy in range and city
      * population not 0
      */
-    public void fireProjectile() {
-
+    public Projectile fireProjectile(Game game) {
+        this.setGame(game); 
         //Projectile projectile; 
         if (getPopulation() != 0) { 
             ArrayList<Troop> troops = new ArrayList<>();
@@ -156,18 +157,17 @@ public class City extends Entity {
                 }
             });
             for (Troop troop: troops) {
-
                 if (troop.getNationality() != nationality && troop.getLocation().getX() - location.getX() <= 50 &&
                     troop.getLocation().getY() - location.getY() <= 50) {
                     Projectile projectile = new Projectile(location, turnCount, 0, 0,
                     troop.getLocation(), 5); 
+                    projectile.setGame(game); 
                     projectile.update(); 
+                    return projectile; 
                 } 
-            }             
+            }         
         }
-        /**
-         * check if any enemies in range. If so, fire projectiles
-         */
+        return null; 
     }
 
     public void recieveTroops(int amount, Nationality attackingType) {
