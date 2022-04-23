@@ -22,6 +22,7 @@ public class City extends Entity {
     private IntegerProperty populationProperty = new SimpleIntegerProperty();
     private double incrementRate;
     private Nationality nationality;
+
     private boolean selected = false;
     private double fireRate;
     private CityType type;
@@ -30,6 +31,8 @@ public class City extends Entity {
     private int y;
     private CityObserver obs;
     private int turnCount = 0;
+    private Game game; 
+    private Coordinate location; 
 
     private static int nextId;
 
@@ -44,6 +47,7 @@ public class City extends Entity {
         this.fireRate = fireRate;
         this.type = type;
         this.id = ++nextId;
+        this.location = location; 
         var rand = new Random();
         this.x = rand.nextInt(750);
         this.y = rand.nextInt(450);
@@ -142,6 +146,25 @@ public class City extends Entity {
      * population not 0
      */
     public void fireProjectile() {
+
+        //Projectile projectile; 
+        if (getPopulation() != 0) { 
+            ArrayList<Troop> troops = new ArrayList<>();
+            game.getEntityList().stream().forEach(t -> {
+                if (t instanceof Troop) {
+                    troops.add((Troop) t);
+                }
+            });
+            for (Troop troop: troops) {
+
+                if (troop.getNationality() != nationality && troop.getLocation().getX() - location.getX() <= 50 &&
+                    troop.getLocation().getY() - location.getY() <= 50) {
+                    Projectile projectile = new Projectile(location, turnCount, 0, 0,
+                    troop.getLocation(), 5); 
+                    projectile.update(); 
+                } 
+            }             
+        }
         /**
          * check if any enemies in range. If so, fire projectiles
          */
@@ -265,5 +288,9 @@ public class City extends Entity {
 
     public void setObs(CityObserver obs) {
         this.obs = obs;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 }
