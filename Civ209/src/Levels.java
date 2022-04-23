@@ -88,6 +88,7 @@ public class Levels {
             stage.setResizable(false);
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/Level1.dat"); // replace with link to campaign level
+            gameWindow.getGame().setScore(600);
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
