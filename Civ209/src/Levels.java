@@ -1,19 +1,34 @@
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import java.nio.file.Paths;
 
 public class Levels {
     @FXML
     Label lblLevelTitle;
 
+    @FXML
+    Button btnBuilt;
+
     public void initialize() {
         lblLevelTitle.setFont(Font.font("Impact", 30));
+
+        // https://howtodoinjava.com/java/io/how-to-check-if-file-exists-in-java/#1-using-filesexists-and-filesnotexists
+        Path path = Paths.get("../Civ209/Levels/Level1.dat");
+
+        if (!Files.exists(path)) {
+            btnBuilt.setDisable(true);
+        }
+
     }
 
     @FXML
@@ -49,7 +64,7 @@ public class Levels {
             stage.show();
             stage.setResizable(false);
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/DemoLevel.dat");
+            gameWindow.initialize("../Civ209/Levels/Level1.dat");
 
         } catch (IOException e) {
             // TODO Auto-generated catch block

@@ -5,15 +5,15 @@
 <VBox fx:controller="Levels" xmlns:fx="http://javafx.com/fxml" stylesheets="@HighScores.css" spacing="20" prefHeight="500" prefWidth="500">
     <Label fx:id="lblLevelTitle" text="Select A Level" />
     <Label text="LEVELS"></Label>
-    <Button onAction = "#onCampaignClicked" text = "Campaign Level"></Button>
-    <Label text = "Season Levels"></Label>
-    <HBox spacing = "20">
-        <Button onAction = "#onSpringClicked" text = "Spring"></Button>
-        <Button onAction = "#onSummerClicked" text = "Summer"></Button>
-        <Button onAction = "#onFallClicked" text = "Fall"></Button>
-        <Button onAction = "#onWinterClicked" text = "Winter"></Button>
+    <Button onAction="#onCampaignClicked" text="Campaign Level"></Button>
+    <Label text="Season Levels"></Label>
+    <HBox spacing="20">
+        <Button onAction="#onSpringClicked" text="Spring"></Button>
+        <Button onAction="#onSummerClicked" text="Summer"></Button>
+        <Button onAction="#onFallClicked" text="Fall"></Button>
+        <Button onAction="#onWinterClicked" text="Winter"></Button>
     </HBox>
     <Button onAction="#onLoadClicked" text="Load Saved Game" />
-    <Button onAction="#onPlayClicked" text="Play" />
+    <Button fx:id="btnBuilt" onAction="#onPlayClicked" text="Play Built Game" />
 
 </VBox>
