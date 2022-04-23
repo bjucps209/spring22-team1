@@ -89,21 +89,22 @@ public class Game {
         /**
          * checks numCitiesLeft and score to see if game should be over
          */
-        // || scoreProperty.get() <= 0 TODO: Score still negative
+        if (getScore() <= 0) {
+            endGame = true;
+            gameOver.recognizeGameOver("Time limit exceeded", getScore());
+        }
         if (getEntityList().stream().filter(e -> e instanceof City && ((City) e).getNationality() == Nationality.Player)
                 .count() == 0) {
             stopTimer();
             // Your move, Mr. Moffitt
             endGame = true;
-            gameOver.recognizeGameOver("You lost!", scoreProperty.get());
-            System.out.println("Game Over");
+            gameOver.recognizeGameOver("Enemy conquest", scoreProperty.get());
         } else {
             if (getEntityList().stream()
                     .filter(e -> e instanceof City && ((City) e).getNationality() == Nationality.Enemy).count() == 0) {
                 stopTimer();
                 endGame = true;
-                System.out.println("Game Over");
-                gameOver.recognizeGameOver("You won!", scoreProperty.get());
+                gameOver.recognizeGameOver("Player conquest", scoreProperty.get());
             }
         }
     }
