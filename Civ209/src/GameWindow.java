@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
@@ -31,6 +32,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
     private Delta dragDelta = new Delta();
     private boolean inCity = false;
     Random rand = new Random();
+    AudioClip music;
     // AudioClip castleTaken = new
     // AudioClip("https://www.fesliyanstudios.com/play-mp3/6202");
 
@@ -84,18 +86,51 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
         game.getComputer().setObs(this);
         game.setOnMakeWeather(this::onMakeWeather);
         game.initialize(Difficulty.Easy, lvlname);
+
         if (game.getSeason() == SeasonType.Summer) {
             showSeason("/images/summer.png");
+            try {
+                music = new AudioClip(
+                        getClass().getResource("/Assets/summer1.mp3").toString());
+            } catch (NullPointerException e) {
+                System.out.println(
+                        "Music isn't working because you're not running the program from the Civ209 folder :(");
+            }
         }
         if (game.getSeason() == SeasonType.Fall) {
             showSeason("/images/fall.png");
+            try {
+                music = new AudioClip(
+                        getClass().getResource("/Assets/autumn1.mp3").toString());
+            } catch (NullPointerException e) {
+                System.out.println(
+                        "Music isn't working because you're not running the program from the Civ209 folder :(");
+            }
+
         }
         if (game.getSeason() == SeasonType.Winter) {
             showSeason("/images/winter.png");
+            try {
+                music = new AudioClip(
+                        getClass().getResource("/Assets/winter1.mp3").toString());
+            } catch (NullPointerException e) {
+                System.out.println(
+                        "Music isn't working because you're not running the program from the Civ209 folder :(");
+            }
+
         }
         if (game.getSeason() == SeasonType.Spring) {
             showSeason("/images/spring.png");
+            try {
+                music = new AudioClip(getClass().getResource("/Assets/spring1.mp3").toExternalForm());
+            } catch (NullPointerException e) {
+                System.out.println(
+                        "Music isn't working because you're not running the program from the Civ209 folder :(");
+            }
         }
+        music.play();
+        music.setVolume(1);
+        music.setCycleCount(AudioClip.INDEFINITE);
 
         for (Entity entity : game.getEntityList()) {
             new EntityImage(this, pane, entity);
@@ -295,6 +330,8 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
         // TODO @Izzo, this function recognizes the game over and will give you the
         // string message containing whether the player won or lost, and gives you the
         // score. Lmk if you want me to handle it. - Rhys
+
+        music.stop();
 
         System.out.println(msg + " SCORE: " + score);
         System.exit(0);
