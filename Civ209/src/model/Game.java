@@ -169,12 +169,16 @@ public class Game {
         }
 
         deleteEntityList.clear();
+        // TODO work on Projectile
         for (Entity entity : entityList) {
             entity.update();
-            if (entity instanceof City) {
-                City city = (City) entity;
-                city.fireProjectile(this);
-            }
+            // if (entity instanceof City) {
+            // City city = (City) entity;
+            // Projectile proj = city.fireProjectile(this);
+            // if (proj != null) {
+            // renderProjectile(proj);
+            // }
+            // }
         }
         if (turncount % 50 == 0) {
             onMakeWeather.onMakeWeather();
@@ -375,7 +379,8 @@ public class Game {
             if (entity instanceof Weather) {
                 Weather weatherEntity = (Weather) entity;
                 if (Math.sqrt(Math.pow(weatherEntity.getLocation().getX() - e.getX(), 2) + Math
-                        .pow(weatherEntity.getLocation().getY() - e.getY(), 2)) <= Constants.weatherRadius + Constants.troopRadius) {
+                        .pow(weatherEntity.getLocation().getY() - e.getY(), 2)) <= Constants.weatherRadius
+                                + Constants.troopRadius) {
                     pointInCircle = true;
                     break;
                 }
@@ -521,6 +526,11 @@ public class Game {
                 }
             }
         }
+    }
+
+    public void renderProjectile(Projectile proj) {
+        getEntityList().add(proj);
+        onFireProjectile.onFireProjectiles(proj);
     }
 
     public Projectile fireProjectile() {

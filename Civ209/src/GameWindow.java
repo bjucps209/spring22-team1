@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class GameWindow implements ComputerObserver, GameOverObserver {
+public class GameWindow implements ComputerObserver, GameOverObserver, FireProjectiles {
 
     private Game game;
     private ArrayList<EntityImage> selectedTroops = new ArrayList<EntityImage>();
@@ -85,7 +85,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
         game.setGameOverObserver(this);
         game.setEntityManager(this::removeEntity);
         game.setOnMakeWeather(this::onMakeWeather);
-        game.setOnFireProjectiles(this::onFireProjectiles); 
+        game.setOnFireProjectiles(this::onFireProjectiles);
         game.getComputer().setObs(this);
         game.setOnMakeWeather(this::onMakeWeather);
         game.initialize(Difficulty.Easy, lvlname);
@@ -231,8 +231,9 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
                 lowerRight = new Coordinate();
                 dragBox = new VBox();
                 dragDelta = new Delta();
-            } catch (IndexOutOfBoundsException e) {}
-            
+            } catch (IndexOutOfBoundsException e) {
+            }
+
         });
         // Prevent mouse clicks on img from propagating to the pane and
         // resulting in creation of a new image
@@ -244,10 +245,8 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
         new EntityImage(this, pane, weather);
     }
 
-    
-    public void onFireProjectiles() {
-        Projectile projectile = game.fireProjectile(); 
-        new EntityImage(this, pane, projectile);
+    public void onFireProjectiles(Projectile proj) {
+        new EntityImage(this, pane, proj);
     }
 
     public void deSelect() {
@@ -357,7 +356,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
 
     public void fireProjectiles() {
 
-        Projectile fireprojectile = game.fireProjectile(); 
+        Projectile fireprojectile = game.fireProjectile();
         EntityImage projectile = new EntityImage(this, pane, fireprojectile);
         pane.getChildren().add(projectile);
     }

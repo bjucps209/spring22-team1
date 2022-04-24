@@ -148,7 +148,6 @@ public class City extends Entity {
      */
     public Projectile fireProjectile(Game game) {
         this.setGame(game);
-        ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
         Projectile projectile = null;
         if (getPopulation() != 0) {
             ArrayList<Troop> troops = new ArrayList<>();
@@ -158,11 +157,13 @@ public class City extends Entity {
                 }
             });
             for (Troop troop : troops) {
-                if (troop.getNationality() != nationality) {
-                    projectile = new Projectile(location, turnCount, 2, 0,
+                if (troop.getNationality() != nationality && location.isNearThis(troop.getLocation())) {
+                    projectile = new Projectile(this.location, turnCount, 2, 0,
                             troop.getLocation(), 5);
+                    projectile.setHeading(figureHeading(troop.getLocation()));
                     projectile.setGame(game);
                     projectile.update();
+                    System.out.println("I'm FIRING I'M TRYING IM TIRED PLEASE :SOB:");
                 }
             }
             return projectile;
