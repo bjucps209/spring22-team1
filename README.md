@@ -17,7 +17,7 @@ You win when you control all of the cities on the map. You lose if all of your c
   The save function creates a save file at the given filename. It saves the current score, state of the game, and all of the cities and troops on the map, along with their destinations, speeds, headings, population counts, and type, as relevant. When the load function is called, it loads all of the game in the exact state that it was saved in. Cities are at their populations, and troops are not only where they were when the game was saved, but heading in the same direction at the same speed, and are actively moving when the game is loaded. Code passes all unit tests.
   Save Function now saves Weather Entities.
 * Level Builder: 
-  The program allows the user to place the enemy, neutral, and player cities wherever wanted on the map, and decide on the playing season. The user can save the level, close the window, and load the level later, or they can save the level and continue to change it, decide they want to go back to what they saved, and load the level from the same window. 
+  The program allows the user to place the enemy, neutral, and player cities wherever wanted on the map, and decide on the playing season. The user can also choose a type of city (strong and fast) to use. The user can save the level, close the window, and load the level later, or they can save the level and continue to change it, decide they want to go back to what they saved, and load the level from the same window. 
   As of Beta, levels built in Level Builder are automatically sent to the main game files, where they can be launched in the levels menu via the "Play Built Game" button.
 * Auxilary Screens:
   The program begins with the main menu screen. Clicking the high scores button displays the list of stored player names and high scores, sorted from highest to lowest. The basic main menu setup allows the user to click to select a level which takes them to the levels window with options to play a campaign level, load a saved game, or pick a season level. When the game ends, a dialog box pops up for the user to enter their name. It is then written to the high score file.
@@ -30,7 +30,7 @@ You win when you control all of the cities on the map. You lose if all of your c
 | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- |
 | Isabelle Overton | iover106 | High Scores Design | 27 hours 50 minutes | 22 hours 10 minutes | [Isabelle's Journal](https://github.com/bjucps209/spring22-team1/wiki/OvertonJournal) |
 | Rhys Fuller | RFuller25 | Serialization | 27 hours 44 minutes | 22 hours 16 minutes | [Rhys's Journal](https://github.com/bjucps209/spring22-team1/wiki/Fuller-Journal) |
-| Emily Bronkema | embronk | Level Builder | 20 hours 22 minutes | 29 hours 38 minutes | [Emily's Journal](https://github.com/bjucps209/spring22-team1/wiki/Bronkema-Journal) | 
+| Emily Bronkema | embronk | Level Builder | 23 hours 52 minutes | 26 hours 8 minutes | [Emily's Journal](https://github.com/bjucps209/spring22-team1/wiki/Bronkema-Journal) | 
 | Ryan Moffitt | Sintfoap | Basic Game Play | 22 hours 30 minutes | 27 hours 30 minutes | [Ryan's Journal](https://github.com/bjucps209/spring22-team1/wiki/MoffittJournal) | 
 
 
