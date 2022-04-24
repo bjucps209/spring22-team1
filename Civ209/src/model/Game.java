@@ -369,22 +369,13 @@ public class Game {
         return weather;
     }
 
-    // public void checkInBounds(Weather w) {
-    // if(w.getLocation().getX() > Constants.windowWidth || w.getLocation().getX() <
-    // 0 || w.getLocation().getY() > Constants.windowHeight ||
-    // w.getLocation().getY() < 0) {
-    // deleteTroop((Troop) w);
-    // }
-    // }
-    // returns true if the entity is in the weather, false otherwise
     public boolean checkInWeather(Coordinate e) {
         boolean pointInCircle = false;
         for (Entity entity : getEntityList()) {
             if (entity instanceof Weather) {
                 Weather weatherEntity = (Weather) entity;
-                if (Math.pow(e.getX() - weatherEntity.getLocation().getX(), 2) + Math
-                        .pow(e.getY() - weatherEntity.getLocation().getY(), 2) <= Math.pow(Constants.weatherRadius,
-                                2)) {
+                if (Math.sqrt(Math.pow(weatherEntity.getLocation().getX() - e.getX(), 2) + Math
+                        .pow(weatherEntity.getLocation().getY() - e.getY(), 2)) <= Constants.weatherRadius + Constants.troopRadius) {
                     pointInCircle = true;
                     break;
                 }
