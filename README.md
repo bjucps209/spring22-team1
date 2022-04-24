@@ -18,6 +18,7 @@ You win when you control all of the cities on the map. You lose if all of your c
   Save Function now saves Weather Entities.
 * Level Builder: 
   The program allows the user to place the enemy, neutral, and player cities wherever wanted on the map, and decide on the playing season. The user can save the level, close the window, and load the level later, or they can save the level and continue to change it, decide they want to go back to what they saved, and load the level from the same window. 
+  As of Beta, levels built in Level Builder are automatically sent to the main game files, where they can be launched in the levels menu via the "Play Built Game" button.
 * Auxilary Screens:
   The program begins with the main menu screen. The basic main menu setup allows the user to click play, load a saved game, and click the "high scores" button. Clicking "play" immediately starts a normal game. Clicking "load saved game" loads a game that was saved from the normal game screen and continues it right at the point it was saved. Clicking the high scores button displays the list of stored player names and high scores, sorted from highest to lowest. 
 
