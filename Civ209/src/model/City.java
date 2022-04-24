@@ -31,10 +31,11 @@ public class City extends Entity {
     private int y;
     private CityObserver obs;
     private int turnCount = 0;
-    private Game game; 
-    private Coordinate location; 
+    private Game game;
+    private Coordinate location;
 
     private static int nextId;
+    private static int fireprojectile;
 
     public City(Coordinate location, int turnCount, IntegerProperty population, double incrementRate,
             Nationality nationality,
@@ -47,7 +48,7 @@ public class City extends Entity {
         this.fireRate = fireRate;
         this.type = type;
         this.id = ++nextId;
-        this.location = location; 
+        this.location = location;
         var rand = new Random();
         this.x = rand.nextInt(750);
         this.y = rand.nextInt(450);
@@ -145,29 +146,29 @@ public class City extends Entity {
      * fires a projectile from city at closest enemy if enemy in range and city
      * population not 0
      */
-    public void fireProjectile() {
-
-        //Projectile projectile; 
-        if (getPopulation() != 0) { 
+    public Projectile fireProjectile(Game game) {
+        this.setGame(game);
+        Projectile projectile = null;
+        if (getPopulation() != 0) {
             ArrayList<Troop> troops = new ArrayList<>();
             game.getEntityList().stream().forEach(t -> {
                 if (t instanceof Troop) {
                     troops.add((Troop) t);
                 }
             });
-            for (Troop troop: troops) {
-
-                if (troop.getNationality() != nationality && troop.getLocation().getX() - location.getX() <= 50 &&
-                    troop.getLocation().getY() - location.getY() <= 50) {
-                    Projectile projectile = new Projectile(location, turnCount, 0, 0,
-                    troop.getLocation(), 5); 
-                    projectile.update(); 
-                } 
-            }             
+            for (Troop troop : troops) {
+                if (troop.getNationality() != nationality && location.isNearThis(troop.getLocation())) {
+                    projectile = new Projectile(this.location, turnCount, 2, 0,
+                            troop.getLocation(), 5);
+                    projectile.setHeading(figureHeading(troop.getLocation()));
+                    projectile.setGame(game);
+                    projectile.update();
+                    System.out.println("I'm FIRING I'M TRYING IM TIRED PLEASE :SOB:");
+                }
+            }
+            return projectile;
         }
-        /**
-         * check if any enemies in range. If so, fire projectiles
-         */
+        return null;
     }
 
     public void recieveTroops(int amount, Nationality attackingType) {
