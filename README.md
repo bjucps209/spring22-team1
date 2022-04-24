@@ -1,7 +1,7 @@
 # spring22-team1
 CPS 209 Spring Team 1 Project
 
-## Alpha
+## Beta
 
 ### Instructions 
   When the game begins, you will see three types of cities. The enemy cities (red) and will try to attack you, the neutral cities (grey) will not attack you, and using your cities (blue), you will be able to send troops to attack the other cities. The population of all of the cities will rise over time until they hit the max population limit. 
@@ -49,13 +49,9 @@ You win when you control all of the cities on the map. You lose if all of your c
 
 ### Background Music - Vivaldi's Four Seasons
  * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/1.+Spring+1(allegro).mp3
- * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/1.+Spring+3+(allegro).mp3
  * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/2.+Summer+1+(presto).mp3
- * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/2.+Summer+2+(allegro).mp3
  * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/3.+Autumn+1+(allegro).mp3
- * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/3.+Autumn+3+(allegro).mp3
  * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/4.+Winter+1+(allegro+non+molto).mp3
- * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/4.+Winter+3+(allegro).mp3
 
 ### Sound Effects
  * Snow Storm: https://assets.mixkit.co/sfx/download/mixkit-winter-wind-loop-1175.wav
