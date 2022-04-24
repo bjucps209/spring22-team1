@@ -49,13 +49,11 @@ public class Projectile extends MobileEntity {
             for (Troop troop: troops) {
                 if (troop.getLocation() == destination) {
                     game.getDeleteEntityList().addAll(List.of(troop, this));
-                    --damage; 
+                    --damage;
                 }
             }
         }
-        System.out.println("everything is fine");
         // sends the projectile to the destination
-        //
         /**
          * check collision detection()
          */
