@@ -62,7 +62,7 @@ public class EntityImage extends ImageView implements CityObserver {
             cityPop.textProperty().bind(cityEntity.populationProperty().asString());
             cityPop.setLayoutX(cityLocation.getX() - 5 - Constants.cityImage.getWidth() / 1.5);
             cityPop.setLayoutY(cityLocation.getY() - 5 - Constants.cityImage.getHeight() / 1.5);
-            pane.getChildren().addAll(List.of(this,cityPop, cityCircle ));
+            pane.getChildren().addAll(List.of(this, cityPop, cityCircle));
 
         } else if (entity instanceof Troop) {
             Troop troopEntity = (Troop) entity;
@@ -92,6 +92,7 @@ public class EntityImage extends ImageView implements CityObserver {
             this.layoutXProperty().bind(troopLocation.xProperty().subtract(this.getFitWidth() / 2));
             this.layoutYProperty().bind(troopLocation.yProperty().subtract(this.getFitHeight() / 2));
             pane.getChildren().add(this);
+
         } else if (entity instanceof Weather) {
             Weather weatherEntity = (Weather) entity;
             this.entity = weatherEntity;
@@ -115,34 +116,10 @@ public class EntityImage extends ImageView implements CityObserver {
         else if (entity instanceof Projectile) {
             Projectile projectileEntity = (Projectile) entity;
             Line line = new Line(projectileEntity.getLocation().getX(), projectileEntity.getLocation().getY(),
-            projectileEntity.getDestination().getX(), projectileEntity.getDestination().getY()); 
+                    projectileEntity.getDestination().getX(), projectileEntity.getDestination().getY());
             pane.getChildren().addAll(List.of(this, line));
         }
-        // Coordinate projectileLocation = projectileEntity.getLocation();
-        // SimpleDoubleProperty projectileX = new SimpleDoubleProperty();
-        // SimpleDoubleProperty projectileY = new SimpleDoubleProperty();
-        // projectileX.bind(projectileLocation.xProperty());
-        // projectileY.bind(projectileLocation.yProperty());
-        // this.setImage(projectileImage);
-        // this.setLayoutX(projectileX.get() - projectileImage.getWidth() / 2);
-        // this.setLayoutY(projectileY.get() - projectileImage.getHeight() / 2);
-        // pane.getChildren().add(this);
-        // } else {
-        // Weather weatherEntity = (Weather) entity;
-        // Coordinate weatherLocation = weatherEntity.getLocation();
-        // SimpleDoubleProperty weatherX = new SimpleDoubleProperty();
-        // SimpleDoubleProperty weatherY = new SimpleDoubleProperty();
-        // weatherX.bind(weatherLocation.xProperty());
-        // weatherY.bind(weatherLocation.yProperty());
-        // WeatherType type = weatherEntity.getType();
-        // Image weatherImage = type == WeatherType.Blizzard ? blizzardImage
-        // : type == WeatherType.Drought ? droughtImage
-        // : type == WeatherType.Flood ? floodImage : lightningImage;
-        // this.setImage(weatherImage);
-        // this.setLayoutX(weatherX.get() - weatherImage.getWidth() / 2);
-        // this.setLayoutY(weatherY.get() - weatherImage.getHeight() / 2);
-        // pane.getChildren().add(this);
-        // }
+
     }
 
     /**
@@ -152,7 +129,8 @@ public class EntityImage extends ImageView implements CityObserver {
         if (entity instanceof City) {
             City city = (City) entity;
             // System.out.println("Trying to show change in city");
-            // System.out.println("Current nationality: " + nationality + "    cityObjectNat: " + city.getNationality());
+            // System.out.println("Current nationality: " + nationality + " cityObjectNat: "
+            // + city.getNationality());
             if (city.getNationality() != nationality) {
                 // System.out.println("Nationality test works");
                 this.nationality = city.getNationality();

@@ -31,11 +31,11 @@ public class City extends Entity {
     private int y;
     private CityObserver obs;
     private int turnCount = 0;
-    private Game game; 
-    private Coordinate location; 
+    private Game game;
+    private Coordinate location;
 
     private static int nextId;
-    private static int fireprojectile; 
+    private static int fireprojectile;
 
     public City(Coordinate location, int turnCount, IntegerProperty population, double incrementRate,
             Nationality nationality,
@@ -48,7 +48,7 @@ public class City extends Entity {
         this.fireRate = fireRate;
         this.type = type;
         this.id = ++nextId;
-        this.location = location; 
+        this.location = location;
         var rand = new Random();
         this.x = rand.nextInt(750);
         this.y = rand.nextInt(450);
@@ -147,27 +147,27 @@ public class City extends Entity {
      * population not 0
      */
     public Projectile fireProjectile(Game game) {
-        this.setGame(game); 
-        //Projectile projectile; 
-        if (getPopulation() != 0) { 
+        this.setGame(game);
+        ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+        Projectile projectile = null;
+        if (getPopulation() != 0) {
             ArrayList<Troop> troops = new ArrayList<>();
             game.getEntityList().stream().forEach(t -> {
                 if (t instanceof Troop) {
                     troops.add((Troop) t);
                 }
             });
-            for (Troop troop: troops) {
-                if (troop.getNationality() != nationality && troop.getLocation().getX() - location.getX() <= 50 &&
-                    troop.getLocation().getY() - location.getY() <= 50) {
-                    Projectile projectile = new Projectile(location, turnCount, 0, 0,
-                    troop.getLocation(), 5); 
-                    projectile.setGame(game); 
-                    projectile.update(); 
-                    return projectile; 
-                } 
-            }         
+            for (Troop troop : troops) {
+                if (troop.getNationality() != nationality) {
+                    projectile = new Projectile(location, turnCount, 2, 0,
+                            troop.getLocation(), 5);
+                    projectile.setGame(game);
+                    projectile.update();
+                }
+            }
+            return projectile;
         }
-        return null; 
+        return null;
     }
 
     public void recieveTroops(int amount, Nationality attackingType) {
