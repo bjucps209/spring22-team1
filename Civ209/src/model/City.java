@@ -162,7 +162,7 @@ public class City extends Entity {
                             troop.getLocation(), 2);
                     projectile.setHeading(figureHeading(troop.getLocation()));
                     projectile.setGame(game);
-                    if (turnCount%15 == 0) {
+                    if (turnCount%20 == 0) {
                         projectile.update();
                     }
                     else {
