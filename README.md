@@ -15,14 +15,12 @@ You win when you control all of the cities on the map. You lose if all of your c
   The game initializes the list of entities supplied by the load function and starts the game loop. The game handles clicks by the user on cities, for selecting troops, and moving troops. There is a slider that allows the user to specify the percent of population to move out of a city at a given time. The game handles a drag box which allows the user to select troops and group them together for group movement or attacks. Cities send troops in a staggered timeline, and when sent to coordinates on the screen troops spread out in a circle formation so they don't all clump together. When troop are sent to enemy cities they decrement population on arrival. When enemy cities hit -1 troops they switch over to player troops.
 * Serialization: 
   The save function creates a save file at the given filename. It saves the current score, state of the game, and all of the cities and troops on the map, along with their destinations, speeds, headings, population counts, and type, as relevant. When the load function is called, it loads all of the game in the exact state that it was saved in. Cities are at their populations, and troops are not only where they were when the game was saved, but heading in the same direction at the same speed, and are actively moving when the game is loaded. Code passes all unit tests.
+  Save Function now saves Weather Entities.
 * Level Builder: 
   The program allows the user to place the enemy, neutral, and player cities wherever wanted on the map, and decide on the playing season. The user can save the level, close the window, and load the level later, or they can save the level and continue to change it, decide they want to go back to what they saved, and load the level from the same window. 
 * Auxilary Screens:
   The program begins with the main menu screen. The basic main menu setup allows the user to click play, load a saved game, and click the "high scores" button. Clicking "play" immediately starts a normal game. Clicking "load saved game" loads a game that was saved from the normal game screen and continues it right at the point it was saved. Clicking the high scores button displays the list of stored player names and high scores, sorted from highest to lowest. 
 
-### Known Issues
-
-* Model-view violations
 
 ### [Recording](https://youtu.be/fqHC75AZ9QE)
 
