@@ -173,16 +173,26 @@ public class Game {
         }
 
         deleteEntityList.clear();
+        ArrayList<Projectile> projectiles = new ArrayList<Projectile>(); 
+                // troops.stream().forEach(e -> e.setGame(this));
+                // moveTroopToField(troops, destination);
+                // getEntityList().addAll(troops);
+                // return troops;
         // TODO work on Projectile
         for (Entity entity : entityList) {
             entity.update();
-            // if (entity instanceof City) {
-            // City city = (City) entity;
-            // Projectile proj = city.fireProjectile(this);
-            // if (proj != null) {
-            // renderProjectile(proj);
-            // }
-            // }
+            if (entity instanceof City) {
+            City city = (City) entity;
+            Projectile proj = city.fireProjectile(this);
+            projectiles.add(proj); 
+            //System.out.println("everything is fine"); 
+            }
+        }
+
+        for (Projectile proj : projectiles) {
+            if (proj != null) {
+                renderProjectile(proj);
+            }
         }
         if (turncount % 50 == 0) {
             onMakeWeather.onMakeWeather();

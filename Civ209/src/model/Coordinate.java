@@ -62,9 +62,9 @@ public class Coordinate {
     public boolean isNearThis(Coordinate comp) {
         double xDiff = getX() - comp.getX();
         double yDiff = getY() - comp.getY();
-        return ((xDiff <= 80 && xDiff > Constants.cityRadius) || (xDiff >= -80 && xDiff <= (Constants.cityRadius * -1)))
-                && ((yDiff <= 80 && yDiff > Constants.cityRadius)
-                        || (yDiff >= -80 && yDiff <= (Constants.cityRadius * -1)));
+        return ((xDiff <= 50 && xDiff > Constants.cityRadius) || (xDiff >= -50 && xDiff <= (Constants.cityRadius * -1)))
+                && ((yDiff <= 50 && yDiff > Constants.cityRadius)
+                        || (yDiff >= -50 && yDiff <= (Constants.cityRadius * -1)));
     }
 
     public String toString() {

@@ -1,3 +1,5 @@
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -18,6 +20,7 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 import model.*;
 
 import java.io.IOException;
@@ -253,7 +256,13 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     }
 
     public void onFireProjectiles(Projectile proj) {
-        new EntityImage(this, pane, proj);
+        EntityImage firedprojectile = new EntityImage(this, pane, proj);
+        var keyFrame = new KeyFrame(Duration.millis(1000), e -> { 
+            //removeEntity(proj);
+            pane.getChildren().remove(firedprojectile.getProjectileLine()); 
+        });
+        var timer = new Timeline(keyFrame);
+        timer.play();
     }
 
     public void deSelect() {
@@ -370,12 +379,17 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         EntityImage weather = new EntityImage(this, pane, newWeather);
         pane.getChildren().add(weather);
     }
-
     public void fireProjectiles() {
-
         Projectile fireprojectile = game.fireProjectile();
         EntityImage projectile = new EntityImage(this, pane, fireprojectile);
         pane.getChildren().add(projectile);
+        var keyFrame = new KeyFrame(Duration.millis(2000), e -> { 
+            removeEntity(fireprojectile);
+            pane.getChildren().remove(projectile);
+            System.out.println("projectile removed");
+        });
+        var timer = new Timeline(keyFrame);
+        timer.play();
     }
 
     @FXML

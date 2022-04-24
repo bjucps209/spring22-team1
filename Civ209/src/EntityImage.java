@@ -15,6 +15,7 @@ public class EntityImage extends ImageView implements CityObserver {
     private GameWindow parent;
     private Circle cityCircle;
     private Label cityPop;
+    private Line projectileLine; 
 
     // private static final Image projectileImage = null;
 
@@ -115,9 +116,9 @@ public class EntityImage extends ImageView implements CityObserver {
 
         else if (entity instanceof Projectile) {
             Projectile projectileEntity = (Projectile) entity;
-            Line line = new Line(projectileEntity.getLocation().getX(), projectileEntity.getLocation().getY(),
+            projectileLine = new Line(projectileEntity.getLocation().getX(), projectileEntity.getLocation().getY(),
                     projectileEntity.getDestination().getX(), projectileEntity.getDestination().getY());
-            pane.getChildren().addAll(List.of(this, line));
+            pane.getChildren().addAll(List.of(this, projectileLine));
         }
 
     }
@@ -156,4 +157,8 @@ public class EntityImage extends ImageView implements CityObserver {
     public void setEntity(Entity entity) {
         this.entity = entity;
     }
+
+    public Line getProjectileLine() {
+        return projectileLine;
+    }   
 }

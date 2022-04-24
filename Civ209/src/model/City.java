@@ -34,8 +34,7 @@ public class City extends Entity {
     private Game game;
     private Coordinate location;
 
-    private static int nextId;
-    private static int fireprojectile;
+    private static int nextId; 
 
     public City(Coordinate location, int turnCount, IntegerProperty population, double incrementRate,
             Nationality nationality,
@@ -157,13 +156,18 @@ public class City extends Entity {
                 }
             });
             for (Troop troop : troops) {
+                //troop.getNationality() != nationality && 
                 if (troop.getNationality() != nationality && location.isNearThis(troop.getLocation())) {
                     projectile = new Projectile(this.location, turnCount, 2, 0,
-                            troop.getLocation(), 5);
+                            troop.getLocation(), 2);
                     projectile.setHeading(figureHeading(troop.getLocation()));
                     projectile.setGame(game);
-                    projectile.update();
-                    System.out.println("I'm FIRING I'M TRYING IM TIRED PLEASE :SOB:");
+                    if (turnCount%15 == 0) {
+                        projectile.update();
+                    }
+                    else {
+                        return null; 
+                    }
                 }
             }
             return projectile;

@@ -16,12 +16,13 @@ public class Projectile extends MobileEntity {
     private Coordinate destination; 
     //private onTroopDeleteInterface troopDelete;
     private Game game;
-    private static int fireProjectile; 
 
     public Projectile(Coordinate location, int turnCount, double speed, double heading,
             Coordinate destination, int damage) {
         super(location, turnCount, speed, heading, destination);
         this.damage = damage;
+        this.location = location; 
+        this.destination = destination; 
     }
 
     public static Entity load(DataInputStream rd) throws IOException {
@@ -39,20 +40,23 @@ public class Projectile extends MobileEntity {
      */
     @Override
     public void update() {
-        ArrayList<Troop> troops = new ArrayList<>();
-        if (damage > 0) {
-            game.getEntityList().stream().forEach(t -> {
-            if (t instanceof Troop) {
-                troops.add((Troop) t);
-            }
-        });
-            for (Troop troop: troops) {
-                if (troop.getLocation() == destination) {
-                    game.getDeleteEntityList().addAll(List.of(troop, this));
-                    --damage;
+        //if (turncount%15 == 0) {
+                ArrayList<Troop> troops = new ArrayList<>();
+                if (damage > 0) {
+                    game.getEntityList().stream().forEach(t -> {
+                    if (t instanceof Troop) {
+                        troops.add((Troop) t);
+                    }
+                });
+                    for (Troop troop: troops) {
+                        if (troop.getLocation() == destination) {
+                            game.getDeleteEntityList().addAll(List.of(troop, this));
+                            --damage;
+                        }
+                    }
                 }
-            }
-        }
+           // }
+        //++fireProjectile; 
         // sends the projectile to the destination
         /**
          * check collision detection()
