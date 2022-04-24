@@ -85,7 +85,7 @@ public class HighScores {
      */
     public void save(ArrayList<ScoreEntry> scoreList) {
         try {
-            FileWriter myWriter = new FileWriter("src/sampleScores.txt");
+            FileWriter myWriter = new FileWriter("Civ209/src/sampleScores.txt");
             for (int i = 0; i < scoreList.size(); i++) {
                 myWriter.write(scoreList.get(i).getPlayerName() + "," +
                         scoreList.get(i).getPlayerScore() + "\n");
@@ -107,7 +107,7 @@ public class HighScores {
         // throw new RuntimeException("Method not implemented");
 
         try {
-            FileReader reader = new FileReader("src/sampleScores.txt");
+            FileReader reader = new FileReader("Civ209/src/sampleScores.txt");
             BufferedReader bufferedReader = new BufferedReader(reader);
 
             String line;

@@ -3,9 +3,13 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -21,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 public class GameWindow implements ComputerObserver, GameOverObserver {
 
     private Game game;
@@ -34,6 +40,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
     AudioClip music;
     // AudioClip castleTaken = new
     // AudioClip("https://www.fesliyanstudios.com/play-mp3/6202");
+    HighScores h = new HighScores();
 
     /**
      * Coordinates used in dragging image.
@@ -230,8 +237,9 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
                 lowerRight = new Coordinate();
                 dragBox = new VBox();
                 dragDelta = new Delta();
-            } catch (IndexOutOfBoundsException e) {}
-            
+            } catch (IndexOutOfBoundsException e) {
+            }
+
         });
         // Prevent mouse clicks on img from propagating to the pane and
         // resulting in creation of a new image
@@ -333,12 +341,22 @@ public class GameWindow implements ComputerObserver, GameOverObserver {
 
     public void recognizeGameOver(String msg, int score) {
         // TODO @Izzo, this function recognizes the game over and will give you the
-        // string message containing whether the player won or lost, and gives you the
-        // score. Lmk if you want me to handle it. - Rhys
+        // string msg and score
+        // create a tile pane
 
+        //https://stackoverflow.com/questions/20132239/getting-text-from-a-dialog-box
+        JOptionPane td = new JOptionPane("Game Over: Enter Your Name");
+
+        // td.setHeaderText("Game Over: Enter Your Name");
+        // td.show();
+        h.load();
+        String name = JOptionPane.showInputDialog("Game Over: Enter Your Name","");
+
+        h.addScoreList(new ScoreEntry(name, score));
+        h.sortScores(h.getScoreList());
+        h.save(h.getScoreList());
         music.stop();
-        System.out.println(msg + " SCORE: " + score);
-        System.exit(0);
+
     }
 
     public void makeWeather() {

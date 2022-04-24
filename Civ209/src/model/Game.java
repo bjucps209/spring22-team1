@@ -8,6 +8,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.util.Duration;
 
 import java.io.*;
@@ -45,7 +47,7 @@ public class Game {
             load(lvlName);
         } catch (IOException e) {
             try {
-                load("Levels/DemoLevel.dat");
+                load("Civ209/Levels/DemoLevel.dat");
             } catch (IOException xe) {
                 System.out.println("fatalError! " + xe);
                 System.exit(1);
@@ -88,14 +90,16 @@ public class Game {
          * checks numCitiesLeft and score to see if game should be over
          */
         if (getScore() <= 0) {
+            stopTimer();
             endGame = true;
+
             gameOver.recognizeGameOver("Time limit exceeded", getScore());
         }
         if (getEntityList().stream().filter(e -> e instanceof City && ((City) e).getNationality() == Nationality.Player)
                 .count() == 0) {
             stopTimer();
+
             // Your move, Mr. Moffitt
-            endGame = true;
             gameOver.recognizeGameOver("Enemy conquest", scoreProperty.get());
         } else {
             if (getEntityList().stream()
@@ -150,7 +154,7 @@ public class Game {
     }
 
     public void update() {
-        if (turncount >= 10) {
+        if (turncount >= 10 && !endGame) {
             gameEnd();
         }
         if (endGame)
@@ -363,6 +367,7 @@ public class Game {
         getEntityList().add(weather);
         return weather;
     }
+
     // public void checkInBounds(Weather w) {
     // if(w.getLocation().getX() > Constants.windowWidth || w.getLocation().getX() <
     // 0 || w.getLocation().getY() > Constants.windowHeight ||
@@ -386,6 +391,7 @@ public class Game {
         }
         return pointInCircle;
     }
+
     // delete the troop if it is inside the weather
     public void deleteTroopWeather(Troop troop) {
         Coordinate location = troop.getLocation();

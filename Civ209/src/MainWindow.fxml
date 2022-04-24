@@ -18,10 +18,10 @@
         <Button onAction="#onScoresClicked" text="High Scores" />
     </HBox>
     <HBox>
-        <VBox spacing="8">
+        <!-- <VBox spacing="8">
             <Label text="Enter your username: "></Label>
             <TextField fx:id="userName"></TextField>
-        </VBox>
+        </VBox> -->
     </HBox>
 
     <HBox spacing="20">
