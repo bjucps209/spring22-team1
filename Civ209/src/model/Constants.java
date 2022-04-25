@@ -3,10 +3,11 @@ package model;
 import javafx.scene.image.Image;
 
 public class Constants {
-    public final static int troopRadius = 4;
+    public static int troopRadius = 4;
     public final static int cityRadius = 35;
     public final static int standardTroopSpeed = 5;
-    public final static int fastTroopSpeed = 8;
+    public final static int fastTroopSpeed = 9;
+    public final static int blizzardTroopspeed = 2;
     public final static int standardTroopHealth = 1;
     public final static int windowHeight = 525;
     public final static int windowWidth = 1025;
@@ -44,12 +45,16 @@ public class Constants {
         floodImage = new Image("/Images/Flood.png");
         cityImage = new Image("/Images/NormalCity.png");
         fastCity = new Image("/Images/FastCity.png");
+        strongCity = new Image("/Images/StrongCity.png");
         playerImage = new Image("/Images/PlayerNormal.png");
         playerFast = new Image("/Images/PlayerFast.png");
         playerStrong = new Image("/Images/PlayerStrong.png");
         enemyFast = new Image("/Images/EnemyFast.png");
         enemyStrong = new Image("/Images/EnemyStrong.png");
         enemyImage = new Image("/Images/EnemyNormal.png");
+        //MAYBE DELETE
+        //TODO test
+        troopRadius = 8;
     }
 
 }
