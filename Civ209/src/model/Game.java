@@ -173,19 +173,19 @@ public class Game {
         }
 
         deleteEntityList.clear();
-        ArrayList<Projectile> projectiles = new ArrayList<Projectile>(); 
-                // troops.stream().forEach(e -> e.setGame(this));
-                // moveTroopToField(troops, destination);
-                // getEntityList().addAll(troops);
-                // return troops;
+        ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+        // troops.stream().forEach(e -> e.setGame(this));
+        // moveTroopToField(troops, destination);
+        // getEntityList().addAll(troops);
+        // return troops;
         // TODO work on Projectile
         for (Entity entity : entityList) {
             entity.update();
             if (entity instanceof City) {
-            City city = (City) entity;
-            Projectile proj = city.fireProjectile(this);
-            projectiles.add(proj); 
-            //System.out.println("everything is fine"); 
+                City city = (City) entity;
+                Projectile proj = city.fireProjectile(this);
+                projectiles.add(proj);
+                // System.out.println("everything is fine");
             }
         }
 
@@ -201,8 +201,7 @@ public class Game {
         getEntityList().stream().filter(e -> e instanceof Troop)
                 .filter(e -> checkInWeather(((Troop) e).getLocation())).forEach(e -> deleteTroopWeather((Troop) e));
         // check if the weather is in bounds of the pane
-        // getEntityList().stream().filter(e -> e instanceof Weather).forEach(e ->
-        // checkInBounds(Weather) e));
+        getEntityList().stream().filter(e -> e instanceof Weather).forEach(e -> checkInBounds((Weather)e));
 
     }
 
@@ -387,13 +386,16 @@ public class Game {
         return weather;
     }
 
-    // public void checkInBounds(Weather w) {
-    // if(w.getLocation().getX() > Constants.windowWidth || w.getLocation().getX() <
-    // 0 || w.getLocation().getY() > Constants.windowHeight ||
-    // w.getLocation().getY() < 0) {
-    // deleteTroop((Troop) w);
-    // }
-    // }
+    public void checkInBounds(Weather w) {
+        if (w.getLocation().getX() > Constants.windowWidth || w.getLocation().getX() < 0
+                || w.getLocation().getY() > Constants.windowHeight ||
+                w.getLocation().getY() < 0) {
+            deleteEntityList.add(w);
+            
+        }
+
+    }
+
     // returns true if the entity is in the weather, false otherwise
     public boolean checkInWeather(Coordinate e) {
         boolean pointInCircle = false;

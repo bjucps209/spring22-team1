@@ -13,3 +13,9 @@
 .selected {
     -fx-effect: dropshadow(three-pass-box, rgba(255,0,0,0.8), 10, 0, 0, 0);
  }
+VBox {
+    /* replace this with cool background images -fx-background-image: url("/Images/winter.png"); */
+    /* -fx-background-size: 400 400;  */
+    -fx-background-color: lightgray;
+
+}

@@ -16,6 +16,10 @@
 
  VBox {
     -fx-alignment: center;
+    -fx-background-image: url("/Images/spring.png");
+    -fx-background-size: 500 500; 
+    -fx-spacing: 10;
+    /* -fx-background-color: lightgray; */
 }
 HBox {
     -fx-alignment: center;
