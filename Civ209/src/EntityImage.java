@@ -16,6 +16,7 @@ public class EntityImage extends ImageView implements CityObserver {
     private Circle cityCircle;
     private Label cityPop;
     private Line projectileLine; 
+    private Circle c = new Circle();
 
     // private static final Image projectileImage = null;
 
@@ -111,6 +112,7 @@ public class EntityImage extends ImageView implements CityObserver {
             c.setStroke(Paint.valueOf("grey"));
             c.centerXProperty().bind(this.xProperty().add(this.getFitWidth()/2));
             c.centerYProperty().bind(this.yProperty().add(this.getFitHeight()/2));
+            setC(c);
             pane.getChildren().addAll(List.of(this, c));
         }
 
@@ -160,5 +162,13 @@ public class EntityImage extends ImageView implements CityObserver {
 
     public Line getProjectileLine() {
         return projectileLine;
+    }
+
+    public Circle getC() {
+        return c;
+    }
+
+    public void setC(Circle c) {
+        this.c = c;
     }   
 }

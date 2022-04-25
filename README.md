@@ -60,6 +60,7 @@ You win when you control all of the cities on the map. You lose if all of your c
  * Castle Taken: https://www.fesliyanstudios.com/play-mp3/6202
 
 ### Extra images
- * Snow storm icon: https://commons.wikimedia.org/wiki/File:Snowstorm.svg
- * Flood icon: https://commons.wikimedia.org/wiki/File:Light_Rain_Cloud_by_Sara.png
- * Lightning icon: https://commons.wikimedia.org/wiki/File:Icons8_flat_flash_on.svg
+ * Blizzard icon: https://upload.wikimedia.org/wikipedia/commons/d/db/Weather-Snow.png
+ * Flood icon: https://upload.wikimedia.org/wikipedia/commons/8/82/Light_Rain_Cloud_by_Sara.png
+ * Lightning icon: https://upload.wikimedia.org/wikipedia/commons/f/f1/Bitcoin_lightning_logo.png
+ * Brick background for menu screen: https://www.pexels.com/photo/wall-bricks-220182/

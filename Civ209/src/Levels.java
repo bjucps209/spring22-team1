@@ -40,6 +40,7 @@ public class Levels {
             var stage = new Stage();
             stage.setScene(scene);
             stage.show();
+            stage.setFullScreen(true);
             stage.setResizable(false);
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/savedGame.dat");
@@ -63,12 +64,13 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             stage.setResizable(false);
+            stage.setFullScreen(true);
+
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/Level1.dat");
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -87,7 +89,6 @@ public class Levels {
     public void openNextLevel(int level) {
         if (level < 5) {
             try {
-                //TODO make this not open all 4 levels at the same time
                 var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
                 Scene scene;
                 scene = new Scene(loader.load());
@@ -95,6 +96,8 @@ public class Levels {
                 stage.setScene(scene);
                 stage.show();
                 stage.setResizable(false);
+                stage.setFullScreen(true);
+
                 GameWindow gameWindow = loader.getController();
                 gameWindow.initialize("../Civ209/Levels/CampaignLevel" + level + ".dat");
                 ++campaignlevel; 
@@ -135,6 +138,8 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             stage.setResizable(false);
+            stage.setFullScreen(true);
+
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/Spring.dat"); // replace with link to spring level
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
@@ -159,6 +164,8 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             stage.setResizable(false);
+            stage.setFullScreen(true);
+
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/Summer.dat"); // replace with link to summer level
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
@@ -182,6 +189,8 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             stage.setResizable(false);
+            stage.setFullScreen(true);
+
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/Fall.dat"); // replace with link to fall level
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
@@ -205,6 +214,8 @@ public class Levels {
             stage.setScene(scene);
             stage.show();
             stage.setResizable(false);
+            stage.setFullScreen(true);
+
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/Winter.dat"); // replace with link to winter level
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));

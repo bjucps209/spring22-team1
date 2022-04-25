@@ -202,8 +202,7 @@ public class Game {
         getEntityList().stream().filter(e -> e instanceof Troop)
                 .filter(e -> checkInWeather(((Troop) e).getLocation())).forEach(e -> deleteTroopWeather((Troop) e));
         // check if the weather is in bounds of the pane
-        // getEntityList().stream().filter(e -> e instanceof Weather).forEach(e ->
-        // checkInBounds(Weather) e));
+        getEntityList().stream().filter(e -> e instanceof Weather).forEach(e -> checkInBounds((Weather) e));
 
     }
 
@@ -318,13 +317,18 @@ public class Game {
         }
     }
 
+    /**
+     * Generate weather
+     * 
+     * @return
+     */
     public Weather makeWeather() {
         int screenSide = rand.nextInt(4);
         int heading;
-        int coordX = 0;
-        int coordY = 0;
+        int coordX = 30;
+        int coordY = 30;
         WeatherType type = WeatherType.Blizzard;
-        int typeNum = rand.nextInt(2);
+        int typeNum = rand.nextInt(0, 3);
         // determine the weather type
         if (typeNum == 0) {
             type = WeatherType.Blizzard;
@@ -337,47 +341,47 @@ public class Game {
         // determine which side of the screen the weather starts on
         if (screenSide == 0) { // bottom
             heading = nextInt(225, 315);
-            coordY = Constants.windowHeight;
+            coordY = Constants.windowHeight - 39;
 
             if (heading >= 270) {
-                coordX = nextInt(0, Constants.windowWidth / 2);
+                coordX = nextInt(39, Constants.windowWidth / 2);
             } else {
-                coordX = nextInt(Constants.windowWidth / 2, Constants.windowWidth);
+                coordX = nextInt((Constants.windowWidth) / 2, Constants.windowWidth - 39);
             }
 
         } else if (screenSide == 1) { // left
             int check = rand.nextInt(2);
-            coordX = 0;
+            coordX = 39;
             if (check == 0) {
                 heading = nextInt(315, 360);
-                coordY = nextInt(Constants.windowHeight / 2, Constants.windowHeight);
+                coordY = nextInt((Constants.windowHeight) / 2, Constants.windowHeight - 39);
 
             } else {
                 heading = nextInt(0, 45);
-                coordY = nextInt(0, Constants.windowHeight / 2);
+                coordY = nextInt(39, (Constants.windowHeight) / 2);
             }
 
         } else if (screenSide == 2) { // top
             heading = nextInt(45, 135);
-            coordY = 0;
+            coordY = 39;
 
             if (heading <= 90) {
-                coordX = nextInt(0, Constants.windowWidth / 2);
+                coordX = nextInt(39, (Constants.windowWidth - 39) / 2);
             } else {
-                coordX = nextInt(Constants.windowWidth / 2, Constants.windowWidth);
+                coordX = nextInt((Constants.windowWidth) / 2, (Constants.windowWidth - 39));
             }
 
         } else { // right
 
             int check = rand.nextInt(2);
-            coordX = Constants.windowWidth;
+            coordX = Constants.windowWidth - 39;
             if (check == 0) {
                 heading = nextInt(180, 225);
-                coordY = nextInt(Constants.windowHeight / 2, Constants.windowHeight);
+                coordY = nextInt((Constants.windowHeight) / 2, (Constants.windowHeight - 39));
 
             } else {
                 heading = nextInt(135, 180);
-                coordY = nextInt(0, Constants.windowHeight / 2);
+                coordY = nextInt(39, (Constants.windowHeight) / 2);
             }
 
         }
@@ -388,13 +392,19 @@ public class Game {
         return weather;
     }
 
-    // public void checkInBounds(Weather w) {
-    // if(w.getLocation().getX() > Constants.windowWidth || w.getLocation().getX() <
-    // 0 || w.getLocation().getY() > Constants.windowHeight ||
-    // w.getLocation().getY() < 0) {
-    // deleteTroop((Troop) w);
-    // }
-    // }
+    /**
+     * Checks if the weather is in the bounds of the screen. If it isn't, delete the
+     * weather
+     */
+    public void checkInBounds(Weather w) {
+        if (w.getLocation().getX() > Constants.windowWidth - 39 || w.getLocation().getX() < 39
+                || w.getLocation().getY() > Constants.windowHeight - 39 ||
+                w.getLocation().getY() < 39) {
+            deleteEntityList.add(w);
+        }
+
+    }
+
     // returns true if the entity is in the weather, false otherwise
     public boolean checkInWeather(Coordinate e) {
         boolean pointInCircle = false;

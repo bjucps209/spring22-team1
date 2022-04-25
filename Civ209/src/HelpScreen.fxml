@@ -16,6 +16,7 @@
         <Label text = " * Troops will be produced in each city once per second until the max count is reached."></Label>
         <Label text = " * When you defeat a neutral or enemy city, the city will become yours."></Label>
         <Label text = " * You lose if all of your cities are taken over, or if your score reaches zero."></Label>
+        <Label text = " * Watch out for the weather."></Label>
     </VBox>
 
 </VBox>
