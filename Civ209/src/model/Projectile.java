@@ -14,6 +14,7 @@ public class Projectile extends MobileEntity {
     private int damage;
     private Coordinate location; 
     private Coordinate destination; 
+    private int turnCount; 
     //private onTroopDeleteInterface troopDelete;
     private Game game;
 
@@ -23,6 +24,7 @@ public class Projectile extends MobileEntity {
         this.damage = damage;
         this.location = location; 
         this.destination = destination; 
+        this.turnCount = turnCount; 
     }
 
     public static Entity load(DataInputStream rd) throws IOException {
@@ -40,22 +42,66 @@ public class Projectile extends MobileEntity {
      */
     @Override
     public void update() {
-                ArrayList<Troop> troops = new ArrayList<>();
-                if (damage > 0) {
-                    game.getEntityList().stream().forEach(t -> {
-                    if (t instanceof Troop) {
-                        troops.add((Troop) t);
-                    }
-                });
-                    for (Troop troop: troops) {
-                        if (troop.getLocation() == destination) {
-                            game.getDeleteEntityList().addAll(List.of(troop, this));
-                            --damage;
-                        }
+        //if (turncount%15 == 0) {
+            super.update(); 
+           // }
+        //++fireProjectile; 
+        // sends the projectile to the destination
+        /**
+         * check collision detection()
+         */
+        // if hit, delete enemy troop and projectile 
+        //update damage
+    } 
+
+    public Projectile fireProjectile(City city){ 
+        setHeading(city.figureHeading(destination));
+            ArrayList<Troop> troops = new ArrayList<>();
+            if (damage > 0) {
+                game.getEntityList().stream().forEach(t -> {
+                if (t instanceof Troop) {
+                    troops.add((Troop) t);
+                }
+            });
+                for (Troop troop: troops) {
+                    if (troop.getLocation() == destination) {
+                        game.getDeleteEntityList().addAll(List.of(troop, this));
+                        --damage;
                     }
                 }
-            super.update(); 
+            }
+            update();
+        return this; 
     }
+
+    public boolean fireable() {
+        if (turnCount%10 == 0) {
+            return true;
+        }
+        return false; 
+    } 
+    /**
+     * checks if hit enemy
+     */
+    // public void collisionDetection() {
+    //     ArrayList<Troop> troops = new ArrayList<>();
+    //     game.getEntityList().stream().forEach(t -> {
+    //         if (t instanceof Troop) {
+    //             troops.add((Troop) t);
+    //         }
+    //     });
+    //     for (Troop troop: troops) {
+    //         double distToTroop = Math.sqrt(Math.pow(troop.getLocation().getY() - getLocation().getY(), 2) + Math.pow(troop.getLocation().getX() - getLocation().getX(), 2));
+    //         if (distToTroop < Constants.troopRadius * 2) {
+    //             game.getDeleteEntityList().addAll(List.of(troop, this));
+    //         }
+    //     }
+        // if (this.getLocation().getX() == this.getDestination().getX() &&
+        //     this.getLocation().getY() == this.getDestination().getY()){
+        //     return true;
+        // } 
+        // return false; 
+    //}
 
     /**
      * packages the object and writes it in file according to serialization pattern

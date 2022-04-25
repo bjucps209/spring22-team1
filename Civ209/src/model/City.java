@@ -11,6 +11,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -158,11 +159,11 @@ public class City extends Entity {
             for (Troop troop : troops) {
                 if (troop.getNationality() != nationality && location.isNearThis(troop.getLocation())) {
                     if (turnCount%10 == 0) {
+                        Troop targettroop = troop; 
                         projectile = new Projectile(this.location, turnCount, 2, 0,
-                            troop.getLocation(), 2);
-                        projectile.setHeading(figureHeading(troop.getLocation()));
+                            targettroop.getLocation(), 2);
                         projectile.setGame(game);
-                        projectile.update();
+                        projectile.fireProjectile(this); 
                     }
                     else {
                         return null; 

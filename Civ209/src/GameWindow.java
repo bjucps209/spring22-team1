@@ -375,7 +375,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         
         // If there is no name given, choose one of ours :)
         if (name == null || name.equals("Enter your name") || name.equals("")) {
-            int text = rand.nextInt(0,4);
+            int text = rand.nextInt(4); //0, 4
             if (text == 0) {
                 name = "Rhys";
             } else if (text == 1) {
@@ -412,10 +412,9 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         Projectile fireprojectile = game.fireProjectile();
         EntityImage projectile = new EntityImage(this, pane, fireprojectile);
         pane.getChildren().add(projectile);
-        var keyFrame = new KeyFrame(Duration.millis(2000), e -> {
+        var keyFrame = new KeyFrame(Duration.millis(500), e -> {
             removeEntity(fireprojectile);
             pane.getChildren().remove(projectile);
-            System.out.println("projectile removed");
         });
         var timer = new Timeline(keyFrame);
         timer.play();
