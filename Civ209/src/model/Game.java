@@ -179,21 +179,22 @@ public class Game {
         // getEntityList().addAll(troops);
         // return troops;
         // TODO work on Projectile
+        // Ik it looks bad, but I promise it's the way it is for a reason 
         for (Entity entity : entityList) {
             entity.update();
-            // if (entity instanceof City) {
-            // City city = (City) entity;
-            // Projectile proj = city.fireProjectile(this);
-            // projectiles.add(proj);
-            // //System.out.println("everything is fine");
-            // }
+            if (entity instanceof City) {
+                City city = (City) entity;
+                Projectile proj = city.fireProjectile(this);
+                projectiles.add(proj);
+            //System.out.println("everything is fine");
+            }
         }
 
-        // for (Projectile proj : projectiles) {
-        // if (proj != null) {
-        // renderProjectile(proj);
-        // }
-        // }
+        for (Projectile proj : projectiles) {
+            if (proj != null) {
+                renderProjectile(proj);
+            }
+        }
         if (turncount % 50 == 0) {
             onMakeWeather.onMakeWeather();
         }
