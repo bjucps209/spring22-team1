@@ -8,8 +8,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.util.Duration;
 
 import java.io.*;
@@ -155,13 +153,13 @@ public class Game {
     }
 
     public void update() {
+        turncount++;
         if (turncount >= 10 && !endGame) {
             gameEnd();
         }
         if (endGame)
             return;
         computer.executeAction(this);
-        turncount++;
         if (turncount % 5 == 0)
             setScore(getScore() - 1);
         deleteEntityList.stream().forEach(e -> {
@@ -171,7 +169,6 @@ public class Game {
         for (Entity entity : deleteEntityList) {
             entityList.remove(entity);
         }
-
         deleteEntityList.clear();
         ArrayList<Projectile> projectiles = new ArrayList<Projectile>(); 
                 // troops.stream().forEach(e -> e.setGame(this));
