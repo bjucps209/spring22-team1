@@ -36,7 +36,7 @@ public class Constants {
     public static Image fastCity = new Image("/images/fastcastle.png");
     public static Image strongCity = new Image("/images/strongcastle.png");
     public final static int weatherRadius = 40;
-    public final static double weatherSpeed = 5;
+    public final static double weatherSpeed = 4;
 
     public static void switchImages() {
         blizzardImage = new Image("/Images/Blizzard.png");
