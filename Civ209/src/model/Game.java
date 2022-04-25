@@ -324,8 +324,8 @@ public class Game {
     public Weather makeWeather() {
         int screenSide = rand.nextInt(4);
         int heading;
-        int coordX = 0;
-        int coordY = 0;
+        int coordX = 10;
+        int coordY = 10;
         WeatherType type = WeatherType.Blizzard;
         int typeNum = rand.nextInt(0, 3);
         // determine the weather type
@@ -343,21 +343,21 @@ public class Game {
             coordY = Constants.windowHeight - 10;
 
             if (heading >= 270) {
-                coordX = nextInt(0, Constants.windowWidth / 2);
+                coordX = nextInt(10, Constants.windowWidth / 2);
             } else {
-                coordX = nextInt((Constants.windowWidth - 10) / 2, Constants.windowWidth - 10);
+                coordX = nextInt((Constants.windowWidth) / 2, Constants.windowWidth - 10);
             }
 
         } else if (screenSide == 1) { // left
             int check = rand.nextInt(2);
-            coordX = 0;
+            coordX = 10;
             if (check == 0) {
                 heading = nextInt(315, 360);
-                coordY = nextInt((Constants.windowHeight - 10) / 2, Constants.windowHeight - 10);
+                coordY = nextInt((Constants.windowHeight) / 2, Constants.windowHeight - 10);
 
             } else {
                 heading = nextInt(0, 45);
-                coordY = nextInt(10, (Constants.windowHeight - 10) / 2);
+                coordY = nextInt(10, (Constants.windowHeight) / 2);
             }
 
         } else if (screenSide == 2) { // top
@@ -367,7 +367,7 @@ public class Game {
             if (heading <= 90) {
                 coordX = nextInt(10, (Constants.windowWidth - 10) / 2);
             } else {
-                coordX = nextInt((Constants.windowWidth - 10) / 2, (Constants.windowWidth - 10));
+                coordX = nextInt((Constants.windowWidth) / 2, (Constants.windowWidth - 10));
             }
 
         } else { // right
@@ -376,11 +376,11 @@ public class Game {
             coordX = Constants.windowWidth - 10;
             if (check == 0) {
                 heading = nextInt(180, 225);
-                coordY = nextInt((Constants.windowHeight - 10) / 2, (Constants.windowHeight - 10));
+                coordY = nextInt((Constants.windowHeight) / 2, (Constants.windowHeight - 10));
 
             } else {
                 heading = nextInt(135, 180);
-                coordY = nextInt(10, (Constants.windowHeight - 10) / 2);
+                coordY = nextInt(10, (Constants.windowHeight) / 2);
             }
 
         }

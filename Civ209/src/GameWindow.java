@@ -368,17 +368,31 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
 
         // https://stackoverflow.com/questions/20132239/getting-text-from-a-dialog-box
         JOptionPane td = new JOptionPane("Game Over: Enter Your Name");
-
+        Stage stage = (Stage) btnEasy.getScene().getWindow();
+        stage.setFullScreen(false);
         h.load();
         String name = JOptionPane.showInputDialog("GAME OVER - Score: " + score, "Enter your name");
+        
+        // If there is no name given, choose one of ours :)
+        if (name == null || name.equals("Enter your name") || name.equals("")) {
+            int text = rand.nextInt(0,4);
+            if (text == 0) {
+                name = "Rhys";
+            } else if (text == 1) {
+                name = "Izzo";
+            } else if (text == 2) {
+                name = "Ryan";
+            } else {
+                name = "Emily";
+            }
+        }
 
         h.addScoreList(new ScoreEntry(name, score));
         h.sortScores(h.getScoreList());
         h.save(h.getScoreList());
         music.stop();
-        System.exit(0);
+        stage.close();
 
-        Stage stage = (Stage) btnEasy.getScene().getWindow();
         stage.close();
 
         if (isCampaign) {
