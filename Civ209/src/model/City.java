@@ -156,13 +156,12 @@ public class City extends Entity {
                 }
             });
             for (Troop troop : troops) {
-                //troop.getNationality() != nationality && 
                 if (troop.getNationality() != nationality && location.isNearThis(troop.getLocation())) {
-                    projectile = new Projectile(this.location, turnCount, 2, 0,
+                    if (turnCount%10 == 0) {
+                        projectile = new Projectile(this.location, turnCount, 2, 0,
                             troop.getLocation(), 2);
-                    projectile.setHeading(figureHeading(troop.getLocation()));
-                    projectile.setGame(game);
-                    if (turnCount%20 == 0) {
+                        projectile.setHeading(figureHeading(troop.getLocation()));
+                        projectile.setGame(game);
                         projectile.update();
                     }
                     else {
