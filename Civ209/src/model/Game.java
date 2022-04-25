@@ -181,21 +181,12 @@ public class Game {
         // TODO work on Projectile
         for (Entity entity : entityList) {
             entity.update();
-<<<<<<< HEAD
-            if (entity instanceof City) {
-                City city = (City) entity;
-                Projectile proj = city.fireProjectile(this);
-                projectiles.add(proj);
-                // System.out.println("everything is fine");
-            }
-=======
             // if (entity instanceof City) {
             // City city = (City) entity;
             // Projectile proj = city.fireProjectile(this);
             // projectiles.add(proj);
             // //System.out.println("everything is fine");
             // }
->>>>>>> d4d9968e7d9e1f2831ec3af87d5379fb783ed09a
         }
 
         // for (Projectile proj : projectiles) {
