@@ -55,6 +55,7 @@ public class Projectile extends MobileEntity {
                         }
                     }
                 }
+            super.update(); 
            // }
         //++fireProjectile; 
         // sends the projectile to the destination

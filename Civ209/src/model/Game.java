@@ -181,19 +181,28 @@ public class Game {
         // TODO work on Projectile
         for (Entity entity : entityList) {
             entity.update();
+<<<<<<< HEAD
             if (entity instanceof City) {
                 City city = (City) entity;
                 Projectile proj = city.fireProjectile(this);
                 projectiles.add(proj);
                 // System.out.println("everything is fine");
             }
+=======
+            // if (entity instanceof City) {
+            // City city = (City) entity;
+            // Projectile proj = city.fireProjectile(this);
+            // projectiles.add(proj);
+            // //System.out.println("everything is fine");
+            // }
+>>>>>>> d4d9968e7d9e1f2831ec3af87d5379fb783ed09a
         }
 
-        for (Projectile proj : projectiles) {
-            if (proj != null) {
-                renderProjectile(proj);
-            }
-        }
+        // for (Projectile proj : projectiles) {
+        // if (proj != null) {
+        // renderProjectile(proj);
+        // }
+        // }
         if (turncount % 50 == 0) {
             onMakeWeather.onMakeWeather();
         }
@@ -544,9 +553,8 @@ public class Game {
         for (Entity ent : entityList) {
             if (ent instanceof City) {
                 City city = (City) ent;
-                if (city.getNationality() == (Nationality.Player)) {
-                    for (int i = 0; i < 15; i++)
-                        city.update();
+                if (city.getNationality() == Nationality.Player) {
+                    city.setPopulation(city.getPopulation() + Constants.cityPopulationLimit);
                 }
             }
         }
@@ -568,11 +576,7 @@ public class Game {
     }
 
     public void instantMakeWeather() {
-        // TODO Izzo can you make this so it just adds another weather instance?
-    }
-
-    public void instantFireProjectiles() {
-        // TODO Izzo can you make this so it just adds another weather instance?
+        onMakeWeather.onMakeWeather();
     }
 
     public void stopTimer() {
