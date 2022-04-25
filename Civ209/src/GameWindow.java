@@ -372,7 +372,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         stage.setFullScreen(false);
         h.load();
         String name = JOptionPane.showInputDialog("GAME OVER - Score: " + score, "Enter your name");
-        
+
         // If there is no name given, choose one of ours :)
         if (name == null || name.equals("Enter your name") || name.equals("")) {
             int text = rand.nextInt(4); //0, 4
@@ -385,6 +385,12 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
             } else {
                 name = "Emily";
             }
+
+            // Johnika is not allowed - Fuller
+            if (name == "Johnika") {
+                name = "That's a bad name.";
+            }
+
         }
 
         h.addScoreList(new ScoreEntry(name, score));

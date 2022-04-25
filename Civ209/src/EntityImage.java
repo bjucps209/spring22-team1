@@ -18,18 +18,6 @@ public class EntityImage extends ImageView implements CityObserver {
     private Line projectileLine; 
     private Circle c = new Circle();
 
-    // private static final Image projectileImage = null;
-
-    // private static final Image droughtImage = null;
-
-    // private static final Image floodImage = null;
-
-    // private static final Image stormImage = new Image(
-    // "https://commons.wikimedia.org/wiki/File:Light_Rain_Cloud_by_Sara.png");
-
-    // private static final Image lightningImage = new Image(
-    // "https://commons.wikimedia.org/wiki/File:Icons8_flat_flash_on.svg");
-
     public EntityImage(GameWindow parent, Pane pane, Entity entity) {
         this.entity = entity;
         this.parent = parent;
@@ -62,8 +50,8 @@ public class EntityImage extends ImageView implements CityObserver {
             cityCircle.setOnMouseClicked(e -> parent.onSelected(cityCircle, e, cityEntity));
             cityPop = new Label();
             cityPop.textProperty().bind(cityEntity.populationProperty().asString());
-            cityPop.setLayoutX(cityLocation.getX() - 5 - Constants.cityImage.getWidth() / 1.5);
-            cityPop.setLayoutY(cityLocation.getY() - 5 - Constants.cityImage.getHeight() / 1.5);
+            cityPop.setLayoutX(cityLocation.getX() - 5 - 35 / 1.5);
+            cityPop.setLayoutY(cityLocation.getY() - 5 - 33 / 1.5);
             pane.getChildren().addAll(List.of(this, cityPop, cityCircle));
 
         } else if (entity instanceof Troop) {
@@ -131,11 +119,7 @@ public class EntityImage extends ImageView implements CityObserver {
     public void update() {
         if (entity instanceof City) {
             City city = (City) entity;
-            // System.out.println("Trying to show change in city");
-            // System.out.println("Current nationality: " + nationality + " cityObjectNat: "
-            // + city.getNationality());
             if (city.getNationality() != nationality) {
-                // System.out.println("Nationality test works");
                 this.nationality = city.getNationality();
                 cityCircle.setStroke(Paint.valueOf((city.getNationality() == Nationality.Enemy) ? "red"
                         : (city.getNationality() == Nationality.Player) ? "blue" : "grey"));
