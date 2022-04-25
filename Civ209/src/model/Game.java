@@ -181,21 +181,12 @@ public class Game {
         // TODO work on Projectile
         for (Entity entity : entityList) {
             entity.update();
-<<<<<<< HEAD
-            if (entity instanceof City) {
-                City city = (City) entity;
-                Projectile proj = city.fireProjectile(this);
-                projectiles.add(proj);
-                // System.out.println("everything is fine");
-            }
-=======
             // if (entity instanceof City) {
             // City city = (City) entity;
             // Projectile proj = city.fireProjectile(this);
             // projectiles.add(proj);
             // //System.out.println("everything is fine");
             // }
->>>>>>> d4d9968e7d9e1f2831ec3af87d5379fb783ed09a
         }
 
         // for (Projectile proj : projectiles) {
@@ -210,7 +201,7 @@ public class Game {
         getEntityList().stream().filter(e -> e instanceof Troop)
                 .filter(e -> checkInWeather(((Troop) e).getLocation())).forEach(e -> deleteTroopWeather((Troop) e));
         // check if the weather is in bounds of the pane
-        getEntityList().stream().filter(e -> e instanceof Weather).forEach(e -> checkInBounds((Weather)e));
+        getEntityList().stream().filter(e -> e instanceof Weather).forEach(e -> checkInBounds((Weather) e));
 
     }
 
@@ -325,13 +316,18 @@ public class Game {
         }
     }
 
+    /**
+     * Generate weather
+     * 
+     * @return
+     */
     public Weather makeWeather() {
         int screenSide = rand.nextInt(4);
         int heading;
         int coordX = 0;
         int coordY = 0;
         WeatherType type = WeatherType.Blizzard;
-        int typeNum = rand.nextInt(2);
+        int typeNum = rand.nextInt(0, 3);
         // determine the weather type
         if (typeNum == 0) {
             type = WeatherType.Blizzard;
@@ -344,12 +340,12 @@ public class Game {
         // determine which side of the screen the weather starts on
         if (screenSide == 0) { // bottom
             heading = nextInt(225, 315);
-            coordY = Constants.windowHeight;
+            coordY = Constants.windowHeight - 10;
 
             if (heading >= 270) {
                 coordX = nextInt(0, Constants.windowWidth / 2);
             } else {
-                coordX = nextInt(Constants.windowWidth / 2, Constants.windowWidth);
+                coordX = nextInt((Constants.windowWidth - 10) / 2, Constants.windowWidth - 10);
             }
 
         } else if (screenSide == 1) { // left
@@ -357,34 +353,34 @@ public class Game {
             coordX = 0;
             if (check == 0) {
                 heading = nextInt(315, 360);
-                coordY = nextInt(Constants.windowHeight / 2, Constants.windowHeight);
+                coordY = nextInt((Constants.windowHeight - 10) / 2, Constants.windowHeight - 10);
 
             } else {
                 heading = nextInt(0, 45);
-                coordY = nextInt(0, Constants.windowHeight / 2);
+                coordY = nextInt(10, (Constants.windowHeight - 10) / 2);
             }
 
         } else if (screenSide == 2) { // top
             heading = nextInt(45, 135);
-            coordY = 0;
+            coordY = 10;
 
             if (heading <= 90) {
-                coordX = nextInt(0, Constants.windowWidth / 2);
+                coordX = nextInt(10, (Constants.windowWidth - 10) / 2);
             } else {
-                coordX = nextInt(Constants.windowWidth / 2, Constants.windowWidth);
+                coordX = nextInt((Constants.windowWidth - 10) / 2, (Constants.windowWidth - 10));
             }
 
         } else { // right
 
             int check = rand.nextInt(2);
-            coordX = Constants.windowWidth;
+            coordX = Constants.windowWidth - 10;
             if (check == 0) {
                 heading = nextInt(180, 225);
-                coordY = nextInt(Constants.windowHeight / 2, Constants.windowHeight);
+                coordY = nextInt((Constants.windowHeight - 10) / 2, (Constants.windowHeight - 10));
 
             } else {
                 heading = nextInt(135, 180);
-                coordY = nextInt(0, Constants.windowHeight / 2);
+                coordY = nextInt(10, (Constants.windowHeight - 10) / 2);
             }
 
         }
@@ -395,12 +391,15 @@ public class Game {
         return weather;
     }
 
+    /**
+     * Checks if the weather is in the bounds of the screen. If it isn't, delete the
+     * weather
+     */
     public void checkInBounds(Weather w) {
-        if (w.getLocation().getX() > Constants.windowWidth || w.getLocation().getX() < 0
-                || w.getLocation().getY() > Constants.windowHeight ||
-                w.getLocation().getY() < 0) {
+        if (w.getLocation().getX() > Constants.windowWidth - 3 || w.getLocation().getX() < 3
+                || w.getLocation().getY() > Constants.windowHeight - 3 ||
+                w.getLocation().getY() < 3) {
             deleteEntityList.add(w);
-            
         }
 
     }

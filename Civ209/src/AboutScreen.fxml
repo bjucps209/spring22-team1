@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:controller="AboutScreen" xmlns:fx="http://javafx.com/fxml" stylesheets="@HighScores.css" spacing="20" prefHeight="500" prefWidth="500">
+<VBox fx:controller="AboutScreen" xmlns:fx="http://javafx.com/fxml" stylesheets="@HighScores.css" spacing="20" prefHeight="700" prefWidth="900">
     <Label fx:id = "lblAboutTitle" text = "About"/>
     <HBox spacing = "20">
         <Label fx:id = "lblCoders" text = "CODERS"></Label>
