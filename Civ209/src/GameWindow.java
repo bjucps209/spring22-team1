@@ -370,7 +370,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         JOptionPane td = new JOptionPane("Game Over: Enter Your Name");
 
         h.load();
-        String name = JOptionPane.showInputDialog("GAME OVER" + score, "Enter your name");
+        String name = JOptionPane.showInputDialog("GAME OVER - Score: " + score, "Enter your name");
 
         h.addScoreList(new ScoreEntry(name, score));
         h.sortScores(h.getScoreList());
@@ -421,8 +421,8 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         for (Node node : pane.getChildren()) {
             if (node instanceof EntityImage) {
                 if (((EntityImage) node).getEntity() == entity) {
-                    if (((EntityImage)node).getEntity() instanceof Weather) {
-                        pane.getChildren().remove(((EntityImage)node).getC());
+                    if (((EntityImage) node).getEntity() instanceof Weather) {
+                        pane.getChildren().remove(((EntityImage) node).getC());
                     }
                     pane.getChildren().remove(node);
                     return;
@@ -449,7 +449,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     public void onMakeWeatherClicked(ActionEvent e) {
         game.instantMakeWeather();
     }
-
 
     @FXML
     public void onMoreTroopsClicked(ActionEvent e) {
