@@ -14,7 +14,7 @@ public class Troop extends MobileEntity {
     private int health;
     private Nationality nationality;
     private boolean selected;
-    private onTroopDeleteInterface troopDelete;
+    private TroopDelete troopDelete;
     private DestinationType destinationType;
     private CityType troopType;
     private Game game;
@@ -72,9 +72,12 @@ public class Troop extends MobileEntity {
                             (getDestination().getY()
                                     - (getLocation().getY() + getSpeed() * Math.sin(getHeading() * Math.PI / 180))),
                             2.0));
-            if (Math.abs(distToDest) < Constants.cityRadius - 10 + Constants.troopRadius) {
+
+            if (Math.abs(distToDest) < Constants.cityRadius - 12 + Constants.troopRadius) {
                 troopDelete.onTroopDelete(this);
+                game.deleteTroop(this);
             }
+
         } else {
             double newDistToDest = Math.sqrt(Math
                     .pow((getDestination().getX()
@@ -183,11 +186,11 @@ public class Troop extends MobileEntity {
         this.nationality = nationality;
     }
 
-    public onTroopDeleteInterface getTroopDelete() {
+    public TroopDelete getTroopDelete() {
         return troopDelete;
     }
 
-    public void setTroopDelete(onTroopDeleteInterface troopDelete) {
+    public void setTroopDelete(TroopDelete troopDelete) {
         this.troopDelete = troopDelete;
     }
 

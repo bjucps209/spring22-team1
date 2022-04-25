@@ -52,8 +52,6 @@ public class Constants {
         enemyFast = new Image("/Images/EnemyFast.png");
         enemyStrong = new Image("/Images/EnemyStrong.png");
         enemyImage = new Image("/Images/EnemyNormal.png");
-        //MAYBE DELETE
-        //TODO test
         troopRadius = 8;
     }
 

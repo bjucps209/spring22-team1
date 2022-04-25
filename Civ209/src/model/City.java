@@ -77,7 +77,7 @@ public class City extends Entity {
     @Override
     public void update() {
         turnCount++;
-        if (getPopulation() < Constants.cityPopulationLimit && turnCount % 2 == 0) {
+        if (getPopulation() < Constants.cityPopulationLimit && turnCount % 3 == 0) {
             setPopulation(getPopulation() + 1);
 
         }
@@ -179,7 +179,7 @@ public class City extends Entity {
         if (nationality == attackingType) {
             populationProperty.set(populationProperty.get() + amount);
         } else {
-            if (populationProperty.get() - amount > -1) {
+            if (populationProperty.get() - amount > 0) {
                 populationProperty.set(populationProperty.get() - amount);
             } else {
                 nationality = attackingType;

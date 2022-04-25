@@ -25,7 +25,8 @@ public class MainWindow {
         lblGameTitle.setFont(Font.font("Impact", 40)); // https://www.codegrepper.com/code-examples/java/how+to+change+font+in+javafx
         lblGameTitle.setOnMouseClicked(e -> {
             Constants.switchImages();
-            VBoxMain.getChildren().add(new Label("Easter Egg Activated."));
+            if (VBoxMain.getChildren().size() < 5)
+                VBoxMain.getChildren().add(new Label("Easter Egg Activated."));
         });
     }
 

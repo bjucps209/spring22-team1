@@ -179,14 +179,14 @@ public class Game {
         // getEntityList().addAll(troops);
         // return troops;
         // TODO work on Projectile
-        // Ik it looks bad, but I promise it's the way it is for a reason 
+        // Ik it looks bad, but I promise it's the way it is for a reason
         for (Entity entity : entityList) {
             entity.update();
             if (entity instanceof City) {
                 City city = (City) entity;
                 Projectile proj = city.fireProjectile(this);
                 projectiles.add(proj);
-            //System.out.println("everything is fine");
+                // System.out.println("everything is fine");
             }
         }
 
@@ -517,7 +517,8 @@ public class Game {
     }
 
     public void deleteTroop(Troop troop) {
-        Coordinate location = troop.getLocation();
+        // Switched from Location to destination. Because I #can
+        Coordinate location = troop.getDestination();
 
         if (checkInCity(location)) {
             City city = getCityHit(location);

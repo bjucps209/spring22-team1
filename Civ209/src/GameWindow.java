@@ -340,7 +340,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
                 break;
             }
         }
-        game.deleteTroop(troop);
     }
 
     public void renderTroops(ArrayList<Troop> troops) {
