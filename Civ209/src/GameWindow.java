@@ -381,11 +381,12 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         h.save(h.getScoreList());
         music.stop();
 
+        Stage stage = (Stage) btnEasy.getScene().getWindow();
+        stage.close();
+
         if (isCampaign) {
             level.onGameClose(this); 
             level.openNextLevel(level.getCampaignLevel());
-            Stage stage = (Stage) btnEasy.getScene().getWindow();
-            stage.close();
         }
     }
 
