@@ -73,39 +73,50 @@ public class Levels {
         }
     }
 
-    static int campaignlevel = 0; 
+    static int campaignlevel = 1; 
 
     @FXML
     public void onCampaignClicked(ActionEvent event) {
         // setName(userName.getText().toString()); fix to get the player name to write
         // to the file
+        openNextLevel(1); 
+    }
 
-        try {
-            //TODO make this not open all 4 levels at the same time
-            for (int l = 1; l < 5; ++l) {
+    private Stage stage = null; 
+
+    public void openNextLevel(int level) {
+        if (level < 5) {
+            try {
+                //TODO make this not open all 4 levels at the same time
                 var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
                 Scene scene;
                 scene = new Scene(loader.load());
-                var stage = new Stage();
+                stage = new Stage();
                 stage.setScene(scene);
                 stage.show();
                 stage.setResizable(false);
                 GameWindow gameWindow = loader.getController();
-                gameWindow.initialize("../Civ209/Levels/CampaignLevel" + l + ".dat");
+                gameWindow.initialize("../Civ209/Levels/CampaignLevel" + level + ".dat");
                 ++campaignlevel; 
                 gameWindow.getGame().setScore(600);
-                stage.setOnCloseRequest(e -> onGameClose(gameWindow));
-                stage.setOnCloseRequest(e -> onGameClose(gameWindow));
+                if (level == 4) {
+                    stage.setOnCloseRequest(e -> onGameClose(gameWindow));
+                }
+                else {
+                    stage.setOnCloseRequest(e -> onGameClose(gameWindow));
+                    //stage.setOnCloseRequest(e -> onGameClose(gameWindow));
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+
         }
     }
 
-    public void incrementCampaignLevel() {
-        ++campaignlevel;
-    }
+    // public void incrementCampaignLevel() {
+    //     ++campaignlevel;
+    // }
 
     public int getCampaignLevel() {
         return campaignlevel; 

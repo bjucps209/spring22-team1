@@ -20,6 +20,7 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.*;
 
@@ -44,6 +45,8 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     // AudioClip castleTaken = new
     // AudioClip("https://www.fesliyanstudios.com/play-mp3/6202");
     HighScores h = new HighScores();
+    Levels level = new Levels(); 
+    private boolean isCampaign = false; 
 
     /**
      * Coordinates used in dragging image.
@@ -248,6 +251,13 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         // Prevent mouse clicks on img from propagating to the pane and
         // resulting in creation of a new image
         pane.setOnMouseClicked(me -> me.consume());
+
+        if (lvlname.equals("../Civ209/Levels/CampaignLevel1.dat") ||
+        lvlname.equals("../Civ209/Levels/CampaignLevel2.dat")  ||
+        lvlname.equals("../Civ209/Levels/CampaignLevel3.dat")  ||
+        lvlname.equals("../Civ209/Levels/CampaignLevel4.dat")) {
+            isCampaign = true; 
+        }
     }
 
     public void onMakeWeather() {
@@ -371,6 +381,12 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         h.save(h.getScoreList());
         music.stop();
 
+        if (isCampaign) {
+            level.onGameClose(this); 
+            level.openNextLevel(level.getCampaignLevel());
+            Stage stage = (Stage) btnEasy.getScene().getWindow();
+            stage.close();
+        }
     }
 
     public void makeWeather() {
