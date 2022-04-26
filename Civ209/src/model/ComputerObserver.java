@@ -1,3 +1,9 @@
+//-----------------------------------------------------------
+//File:   ComputerObserver.java
+//Desc:   File holds the observer to allow computer to render
+//troops on screen.
+//-----------------------------------------------------------
+
 package model;
 
 import java.util.ArrayList;

@@ -2,6 +2,7 @@
 //File:   Troop.java
 //Desc:   This program creates troop type objects and handles movement
 //-----------------------------------------------------------
+
 package model;
 
 import java.io.DataInputStream;
@@ -21,16 +22,17 @@ public class Troop extends MobileEntity {
     private boolean dead = false;
 
     public Troop(Coordinate location, int turnCount, double speed, double heading, Coordinate destination, int health,
-            Nationality nationality, boolean selected, DestinationType destinationType, CityType troopType) {
+            Nationality nationality, boolean selected, DestinationType destinationType, CityType troopType, Game game) {
         super(location, turnCount, speed, heading, destination);
         this.health = health;
         this.nationality = nationality;
         this.selected = selected;
         this.destinationType = destinationType;
         this.troopType = troopType;
+        this.game = game;
     }
 
-    public static Entity load(DataInputStream rd) throws IOException {
+    public static Entity load(DataInputStream rd, Game game) throws IOException {
 
         Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
         int turnCount = rd.readInt();
@@ -50,7 +52,7 @@ public class Troop extends MobileEntity {
         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
 
         return new Troop(location, turnCount, speed, heading, destination, health, nationality, selected,
-                destinationType, troopType);
+                destinationType, troopType, game);
     }
 
     /**
@@ -200,10 +202,6 @@ public class Troop extends MobileEntity {
 
     public void setTroopType(CityType troopType) {
         this.troopType = troopType;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
     }
 
     public boolean isDead() {

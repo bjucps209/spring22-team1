@@ -8,12 +8,13 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class Level {
-    private List<City> cities = new ArrayList<City>(); 
-    private SeasonType season; 
+    private List<City> cities = new ArrayList<City>();
+    private SeasonType season;
 
     /**
      * Creates a subclass of City and adds it to the list of cities
-      * @param nationality - the nationality of the city to create
+     * 
+     * @param nationality - the nationality of the city to create
      * @return the created city
      */
     public City create(Nationality nationality) {
@@ -21,22 +22,23 @@ public class Level {
         int x = rand.nextInt(750);
         int y = rand.nextInt(450);
         Coordinate location = new Coordinate(x, y);
-        IntegerProperty intprop = new SimpleIntegerProperty(10); 
+        IntegerProperty intprop = new SimpleIntegerProperty(10);
         intprop.setValue(0);
-        City city = new City(location, 0, intprop , 0.0, nationality,
-        false, 0.0, CityType.Standard);  
+        City city = new City(location, 0, intprop, nationality,
+                false, CityType.Standard, null);
         cities.add(city);
         return city;
     }
 
     /**
      * Finds a City in the list of cities
+     * 
      * @param id - id of the city to find
      * @return City with the specified id, or null if no such city is in the list
      */
     public City find(int id) {
         for (Entity entity : cities) {
-            City city = (City) entity; 
+            City city = (City) entity;
             if (city.getId() == id) {
                 return city;
             }
@@ -46,12 +48,13 @@ public class Level {
 
     /**
      * deletes the city with the specified id from the list of cities
+     * 
      * @param id - id of city to destroy
      * @return the destroyed City, or null if no city had the specified id
      */
     public City delete(City city) {
-            cities.remove(city); 
-                return city; 
+        cities.remove(city);
+        return city;
     }
 
     public List<City> getCities() {
@@ -71,7 +74,7 @@ public class Level {
     }
 
     // public void move(City entity) {
-    //     entity.updatePosition(); 
+    // entity.updatePosition();
     // }
-    
+
 }

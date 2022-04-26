@@ -3,6 +3,7 @@
 //Desc:   This program creates a coordinate object that symbolizes 
 //        a point in the fourth quadrant of the cartesian plane
 //-----------------------------------------------------------
+
 package model;
 
 import java.math.BigDecimal;

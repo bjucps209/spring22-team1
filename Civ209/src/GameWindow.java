@@ -1,3 +1,9 @@
+//-----------------------------------------------------------
+//File:   GameWindow.java
+//Desc:   File holds the logic for the game screen: input from
+// Player and showing model on screen.
+//-----------------------------------------------------------
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
@@ -5,14 +11,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -366,7 +367,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         // recognizes the game over
 
         // https://stackoverflow.com/questions/20132239/getting-text-from-a-dialog-box
-        JOptionPane td = new JOptionPane("Game Over: Enter Your Name");
+
         Stage stage = (Stage) btnEasy.getScene().getWindow();
         stage.setFullScreen(false);
         h.load();
@@ -374,7 +375,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
 
         // If there is no name given, choose one of ours :)
         if (name == null || name.equals("Enter your name") || name.equals("")) {
-            int text = rand.nextInt(4); //0, 4
+            int text = rand.nextInt(4); // 0, 4
             if (text == 0) {
                 name = "Rhys";
             } else if (text == 1) {
@@ -385,11 +386,12 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
                 name = "Emily";
             }
 
-            // Johnika is not allowed - Fuller
-            if (name == "Johnika") {
-                name = "That's a bad name.";
-            }
+        }
 
+        // Johnika is not allowed - Fuller
+
+        if (name == "Johnika") {
+            name = "That's a bad name.";
         }
 
         h.addScoreList(new ScoreEntry(name, score));
@@ -403,6 +405,8 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         if (isCampaign) {
             level.onGameClose(this);
             level.openNextLevel(level.getCampaignLevel());
+            Stage XStage = (Stage) btnEasy.getScene().getWindow();
+            XStage.close();
         }
     }
 
@@ -479,19 +483,14 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         Button cheatBtn = (Button) e.getSource();
         if (cheatBtn.getText().equals("Enable Cheat Mode")) {
             cheatBtn.setText("Disable Cheat Mode");
-
             Button winBtn = new Button("Instant Win");
             winBtn.setOnAction(this::onInstantGameOverClicked);
-
             Button loseBtn = new Button("Instant Loss");
             loseBtn.setOnAction(this::onInstantGameOverClicked);
-
             Button troopsBtn = new Button("More Player Troops");
             troopsBtn.setOnAction(this::onMoreTroopsClicked);
-
             Button wthrBtn = new Button("Make Weather");
-            wthrBtn.setOnAction(this::onMakeWeatherClicked);
-
+            troopsBtn.setOnAction(this::onMakeWeatherClicked);
             cheatControls.getChildren().addAll(List.of(winBtn, loseBtn, troopsBtn, wthrBtn));
 
         } else {

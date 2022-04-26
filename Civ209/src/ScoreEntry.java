@@ -1,3 +1,7 @@
+//-----------------------------------------------------------
+//File:   ScoreEntry.java
+//Desc:   File holds basic unit for high scores.
+//-----------------------------------------------------------
 
 public class ScoreEntry {
     private String playerName; // the player's name
