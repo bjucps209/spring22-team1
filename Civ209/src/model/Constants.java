@@ -45,8 +45,6 @@ public class Constants {
                         "https://upload.wikimedia.org/wikipedia/commons/f/f1/Bitcoin_lightning_logo.png");
         public static Image floodImage = new Image(
                         "https://upload.wikimedia.org/wikipedia/commons/8/82/Light_Rain_Cloud_by_Sara.png");
-        public static Image cityImage = new Image(
-                        "/NormalImages/Castle.png");
 
         public static final Image playButton = new Image("/NormalImages/play-button(pressed).png");
         public static final Image playButtonPressed = new Image("/NormalImages/play-button.png");
@@ -59,7 +57,9 @@ public class Constants {
         public static Image enemyFast = new Image("/NormalImages/enemyFast.png");
         public static Image playerFast = new Image("/NormalImages/playerFast.png");
         public static Image fastCity = new Image("/images/fastcastle.png");
-        public static Image strongCity = new Image("/NormalImages/Castle.png");
+        public static Image strongCity = new Image("/images/strongcastle.png");
+        public static Image cityImage = new Image(
+                        "/NormalImages/Castle.png");
 
         // Method switches the images to enable "Easter Egg"
         public static void switchImages() {

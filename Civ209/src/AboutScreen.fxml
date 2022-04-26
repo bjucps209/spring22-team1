@@ -4,15 +4,44 @@
 <?import javafx.scene.layout.*?>
 
 <VBox fx:controller="AboutScreen" xmlns:fx="http://javafx.com/fxml" stylesheets="@HighScores.css" spacing="20" prefHeight="700" prefWidth="900">
-    <Label fx:id = "lblAboutTitle" text = "About"/>
-    <HBox spacing = "20">
-        <Label fx:id = "lblCoders" text = "CODERS"></Label>
+    <Label fx:id="lblAboutTitle" text="About" />
+    <HBox spacing="20">
+        <Label fx:id="lblCoders" text="CODERS"></Label>
     </HBox>
-    <VBox fx:id = "VBoxScores" spacing = "20">
-        <Label text = "Emily Bronkema"></Label>
-        <Label text = "Rhys Fuller"></Label>
-        <Label text = "Ryan Moffitt"></Label>
-        <Label text = "Isabelle Overton"></Label>
+    <HBox fx:id="VBoxScores" spacing="20">
+        <Label text="Emily Bronkema"></Label>
+        <Label text="Rhys Fuller"></Label>
+        <Label text="Ryan Moffitt"></Label>
+        <Label text="Isabelle Overton"></Label>
+    </HBox>
+    <VBox fx:id = "VBoxAbout">
+        <VBox>
+            <Label text="ASSETS USED: Castle icons"></Label>
+            <Label text="Standard: https://commons.wikimedia.org/wiki/File:BSicon_Castle.svg"></Label>
+            <Label text="Fast: https://www.pinclipart.com/downpngs/iomhRJ_silhouette-clipart-castle-black-and-white-castle-clipart/"></Label>
+            <Label text="Strong: https://www.pngfind.com/download/xJJxwo_castle-vector-castle-vector-png-transparent-png/"></Label>
+            <Label text="Seasonal backgrounds: Summer background: https://unsplash.com/photos/loAfOVk1eNc"></Label>
+            <Label text="Autumn background: https://www.needpix.com/photo/download/1495531/abstract-autumn-backdrop-background-blur-blurred-bokeh-bright-color"></Label>
+            <Label text="Winter background: https://besthqwallpapers.com/textures/snow-background-snow-texture-background-with-snow-winter-background-snowflakes-118035"></Label>
+            <Label text="Spring background: https://wallpaperaccess.com/pastel-spring-computer#google_vignette"></Label>
+        </VBox>
+
+        <VBox>
+            <Label text="BACKGROUND MUSIC - Vivaldi's Four Seasons"></Label>
+            <Label text="https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/1.+Spring+1(allegro).mp3"></Label>
+            <Label text="https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/2.+Summer+1+(presto).mp3"></Label>
+            <Label text="https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/3.+Autumn+1+(allegro).mp3"></Label>
+            <Label text="https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/4.+Winter+1+(allegro+non+molto).mp3"></Label>
+            <Label text="SOUND EFFECTS: "></Label>
+            <Label text= "Snow Storm: https://assets.mixkit.co/sfx/download/mixkit-winter-wind-loop-1175.wav"></Label>
+            <Label text="Flood: https://assets.mixkit.co/sfx/download/mixkit-forest-and-waterfall-1229.wav"></Label>
+            <Label text="Storm: https://assets.mixkit.co/sfx/download/mixkit-cinematic-thunder-hit-1280.wav"></Label>
+            <Label text="Castle Taken: https://www.fesliyanstudios.com/play-mp3/6202 "></Label>
+            <Label text="EXTRA IMAGES: "></Label> 
+            <Label text= "Snow storm icon: https://commons.wikimedia.org/wiki/File:Snowstorm.svg"></Label>
+            <Label text="Flood icon: https://commons.wikimedia.org/wiki/File:Light_Rain_Cloud_by_Sara.png"></Label>
+            <Label text="Lightning icon: https://commons.wikimedia.org/wiki/File:Icons8_flat_flash_on.svg"></Label>
+        </VBox>
     </VBox>
 
 </VBox>
