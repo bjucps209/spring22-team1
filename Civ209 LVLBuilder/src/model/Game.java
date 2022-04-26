@@ -140,7 +140,7 @@ public class Game {
                     String entityType = rd.readUTF();
 
                     if (entityType.equals("City"))
-                        entity = City.load(rd);
+                        entity = City.load(rd, null);
                     else if (entityType.equals("Troop"))
                         entity = Troop.load(rd);
                     else if (entityType.equals("Projectile"))

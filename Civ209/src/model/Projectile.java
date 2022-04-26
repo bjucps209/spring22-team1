@@ -12,19 +12,35 @@ import java.util.List;
 
 public class Projectile extends MobileEntity {
     private int damage;
-    private Coordinate location; 
-    private Coordinate destination; 
-    private int turnCount; 
-    //private onTroopDeleteInterface troopDelete;
+    private Coordinate location;
+    private Coordinate destination;
+    private int turnCount;
+    // private onTroopDeleteInterface troopDelete;
     private Game game;
 
     public Projectile(Coordinate location, int turnCount, double speed, double heading,
             Coordinate destination, int damage) {
         super(location, turnCount, speed, heading, destination);
         this.damage = damage;
-        this.location = location; 
-        this.destination = destination; 
-        this.turnCount = turnCount; 
+        this.location = location;
+        this.destination = destination;
+        this.turnCount = turnCount;
+    }
+
+    /**
+     * packages the object and writes it in file according to serialization pattern
+     */
+    @Override
+    public void serialize(DataOutputStream wr) throws IOException {
+        wr.writeUTF("Projectile");
+        wr.writeDouble(this.getLocation().getX());
+        wr.writeDouble(this.getLocation().getY());
+        wr.writeInt(turnCount);
+        wr.writeDouble(this.getSpeed());
+        wr.writeDouble(this.getHeading());
+        wr.writeDouble(this.getDestination().getX());
+        wr.writeDouble(this.getDestination().getY());
+        wr.writeInt(damage);
     }
 
     public static Entity load(DataInputStream rd) throws IOException {
@@ -42,81 +58,69 @@ public class Projectile extends MobileEntity {
      */
     @Override
     public void update() {
-        //if (turncount%15 == 0) {
-            super.update(); 
-           // }
-        //++fireProjectile; 
+        // if (turncount%15 == 0) {
+        super.update();
+        // }
+        // ++fireProjectile;
         // sends the projectile to the destination
         /**
          * check collision detection()
          */
-        // if hit, delete enemy troop and projectile 
-        //update damage
-    } 
+        // if hit, delete enemy troop and projectile
+        // update damage
+    }
 
-    public Projectile fireProjectile(City city){ 
+    public Projectile fireProjectile(City city) {
         setHeading(city.figureHeading(destination));
-            ArrayList<Troop> troops = new ArrayList<>();
-            if (damage > 0) {
-                game.getEntityList().stream().forEach(t -> {
+        ArrayList<Troop> troops = new ArrayList<>();
+        if (damage > 0) {
+            game.getEntityList().stream().forEach(t -> {
                 if (t instanceof Troop) {
                     troops.add((Troop) t);
                 }
             });
-                for (Troop troop: troops) {
-                    if (troop.getLocation() == destination) {
-                        game.getDeleteEntityList().addAll(List.of(troop, this));
-                        --damage;
-                    }
+            for (Troop troop : troops) {
+                if (troop.getLocation() == destination) {
+                    game.getDeleteEntityList().addAll(List.of(troop, this));
+                    --damage;
                 }
             }
-            update();
-        return this; 
+        }
+        update();
+        return this;
     }
 
     public boolean fireable() {
-        if (turnCount%10 == 0) {
+        if (turnCount % 10 == 0) {
             return true;
         }
-        return false; 
-    } 
+        return false;
+    }
+
     /**
      * checks if hit enemy
      */
     // public void collisionDetection() {
-    //     ArrayList<Troop> troops = new ArrayList<>();
-    //     game.getEntityList().stream().forEach(t -> {
-    //         if (t instanceof Troop) {
-    //             troops.add((Troop) t);
-    //         }
-    //     });
-    //     for (Troop troop: troops) {
-    //         double distToTroop = Math.sqrt(Math.pow(troop.getLocation().getY() - getLocation().getY(), 2) + Math.pow(troop.getLocation().getX() - getLocation().getX(), 2));
-    //         if (distToTroop < Constants.troopRadius * 2) {
-    //             game.getDeleteEntityList().addAll(List.of(troop, this));
-    //         }
-    //     }
-        // if (this.getLocation().getX() == this.getDestination().getX() &&
-        //     this.getLocation().getY() == this.getDestination().getY()){
-        //     return true;
-        // } 
-        // return false; 
-    //}
-
-    /**
-     * packages the object and writes it in file according to serialization pattern
-     */
-    @Override
-    public void serialize(DataOutputStream wr) throws IOException {
-        wr.writeUTF("Projectile");
-        wr.writeDouble(this.getLocation().getX());
-        wr.writeDouble(this.getLocation().getY());
-        wr.writeDouble(this.getSpeed());
-        wr.writeDouble(this.getHeading());
-        wr.writeDouble(this.getDestination().getX());
-        wr.writeDouble(this.getDestination().getY());
-        wr.writeInt(damage);
-    }
+    // ArrayList<Troop> troops = new ArrayList<>();
+    // game.getEntityList().stream().forEach(t -> {
+    // if (t instanceof Troop) {
+    // troops.add((Troop) t);
+    // }
+    // });
+    // for (Troop troop: troops) {
+    // double distToTroop = Math.sqrt(Math.pow(troop.getLocation().getY() -
+    // getLocation().getY(), 2) + Math.pow(troop.getLocation().getX() -
+    // getLocation().getX(), 2));
+    // if (distToTroop < Constants.troopRadius * 2) {
+    // game.getDeleteEntityList().addAll(List.of(troop, this));
+    // }
+    // }
+    // if (this.getLocation().getX() == this.getDestination().getX() &&
+    // this.getLocation().getY() == this.getDestination().getY()){
+    // return true;
+    // }
+    // return false;
+    // }
 
     public int getDamage() {
         return damage;
