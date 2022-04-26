@@ -1,3 +1,10 @@
+//-----------------------------------------------------------
+//File:   Levels.java
+//Desc:   File holds the logic for the levels screen.
+// Can launch multiple versions of game window, holds logic
+// for campaign series.
+//-----------------------------------------------------------
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -46,7 +53,6 @@ public class Levels {
             gameWindow.initialize("../Civ209/Levels/savedGame.dat");
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -65,31 +71,31 @@ public class Levels {
             stage.show();
             stage.setFullScreen(true);
             stage.setResizable(false);
+            stage.setFullScreen(true);
+
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/Level1.dat");
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    static int campaignlevel = 1; 
+    static int campaignlevel = 1;
 
     @FXML
     public void onCampaignClicked(ActionEvent event) {
         // setName(userName.getText().toString()); fix to get the player name to write
         // to the file
-        openNextLevel(1); 
+        openNextLevel(1);
     }
 
-    private Stage stage = null; 
+    private Stage stage = null;
 
     public void openNextLevel(int level) {
         if (level < 5) {
             try {
-                //TODO make this not open all 4 levels at the same time
                 var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
                 Scene scene;
                 scene = new Scene(loader.load());
@@ -98,31 +104,29 @@ public class Levels {
                 stage.show();
                 stage.setFullScreen(true);
                 stage.setResizable(false);
+                stage.setFullScreen(true);
+
                 GameWindow gameWindow = loader.getController();
                 gameWindow.initialize("../Civ209/Levels/CampaignLevel" + level + ".dat");
-                ++campaignlevel; 
+                ++campaignlevel;
                 gameWindow.getGame().setScore(600);
+
+                // TODO Bronkema this looks like it does the same thing...?
                 if (level == 4) {
                     stage.setOnCloseRequest(e -> onGameClose(gameWindow));
-                }
-                else {
+                } else {
                     stage.setOnCloseRequest(e -> onGameClose(gameWindow));
-                    //stage.setOnCloseRequest(e -> onGameClose(gameWindow));
+                    // stage.setOnCloseRequest(e -> onGameClose(gameWindow));
                 }
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
         }
     }
 
-    // public void incrementCampaignLevel() {
-    //     ++campaignlevel;
-    // }
-
     public int getCampaignLevel() {
-        return campaignlevel; 
+        return campaignlevel;
     }
 
     @FXML
@@ -139,10 +143,11 @@ public class Levels {
             stage.show();
             stage.setFullScreen(true);
             stage.setResizable(false);
-            GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/Spring.dat"); // replace with link to spring level
-            stage.setOnCloseRequest(e -> onGameClose(gameWindow));
+            stage.setFullScreen(true);
 
+            GameWindow gameWindow = loader.getController();
+            gameWindow.initialize("../Civ209/Levels/Spring.dat");
+            stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -164,12 +169,13 @@ public class Levels {
             stage.show();
             stage.setFullScreen(true);
             stage.setResizable(false);
+            stage.setFullScreen(true);
+
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/Summer.dat"); // replace with link to summer level
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -188,6 +194,8 @@ public class Levels {
             stage.show();
             stage.setFullScreen(true);
             stage.setResizable(false);
+            stage.setFullScreen(true);
+
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/Fall.dat"); // replace with link to fall level
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
@@ -212,6 +220,8 @@ public class Levels {
             stage.show();
             stage.setFullScreen(true);
             stage.setResizable(false);
+            stage.setFullScreen(true);
+
             GameWindow gameWindow = loader.getController();
             gameWindow.initialize("../Civ209/Levels/Winter.dat"); // replace with link to winter level
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
@@ -228,6 +238,7 @@ public class Levels {
         gameWindow.pane.getChildren().clear();
         try {
             gameWindow.music.stop();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 }

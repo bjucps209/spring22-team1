@@ -1,10 +1,4 @@
-sam,-2
-Rhys,394
-Izzo,442
-<<<<<<< HEAD
-null,587
-sintfoap,573
-=======
 The bestest :sunglasses:,138
 Rhys,337
->>>>>>> d4d9968e7d9e1f2831ec3af87d5379fb783ed09a
+Eric,702
+Caleb,540

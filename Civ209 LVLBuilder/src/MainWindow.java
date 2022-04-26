@@ -121,8 +121,8 @@ public class MainWindow {
         cityCircle.setStroke(Paint.valueOf(color)); 
         image.layoutXProperty().bindBidirectional(cityCircle.layoutXProperty()); 
         image.layoutYProperty().bindBidirectional(cityCircle.layoutYProperty()); 
-        image.setLayoutX(currentCity.getX());
-        image.setLayoutY(currentCity.getY());
+        image.setLayoutX(currentCity.getLocation().getX());
+        image.setLayoutY(currentCity.getLocation().getY());
         image.setId(Integer.toString(currentCity.getId())); 
         final ImageView finalimage =  image; 
         cityCircle.setId(Integer.toString(city.getId())); 
@@ -183,8 +183,8 @@ public class MainWindow {
             node.getScene().setCursor(Cursor.HAND);
 
             currentCity = level.find(Integer.parseInt(node.getId())); 
-            currentCity.setX((int) node.getLayoutX()); 
-            currentCity.setY((int) node.getLayoutY());
+            currentCity.getLocation().setX((int) node.getLayoutX()); 
+            currentCity.getLocation().setY((int) node.getLayoutY());
             cityMoved((int) node.getLayoutX(), (int) node.getLayoutY()); 
             display(); 
 
@@ -313,8 +313,8 @@ public class MainWindow {
 
     public void cityMoved( int x,int  y) {
         lblLoc.setText("(" + x + ","+ y + ")");
-        currentCity.setX(x);
-        currentCity.setY(y); 
+        currentCity.getLocation().setX(x);
+        currentCity.getLocation().setY(y); 
     }
 
 
@@ -323,7 +323,7 @@ public class MainWindow {
     */
     public void display() {
         if (currentCity != null) {
-            cityMoved(currentCity.getX(), currentCity.getY());
+            cityMoved((int)currentCity.getLocation().getX(), (int)currentCity.getLocation().getY());
             lblType.setText("" + currentCity.getNationality());
             lblId.setText("" + currentCity.getId());
         }

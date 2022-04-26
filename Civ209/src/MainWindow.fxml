@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="VBoxMain" fx:controller="MainWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="@MainWindow.css" spacing="20" prefHeight="400" prefWidth="400">
+<VBox fx:id="VBoxMain" fx:controller="MainWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="@MainWindow.css" spacing="20" prefHeight="500" prefWidth="500">
 
     <HBox>
         <Label fx:id="lblGameTitle" text="Civilization 209"></Label>
@@ -16,12 +16,6 @@
 
     <HBox>
         <Button onAction="#onScoresClicked" text="High Scores" />
-    </HBox>
-    <HBox>
-        <!-- <VBox spacing="8">
-            <Label text="Enter your username: "></Label>
-            <TextField fx:id="userName"></TextField>
-        </VBox> -->
     </HBox>
 
     <HBox spacing="20">

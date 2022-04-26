@@ -2,6 +2,7 @@
 //File:   Troop.java
 //Desc:   This program creates troop type objects and handles movement
 //-----------------------------------------------------------
+
 package model;
 
 import java.io.DataInputStream;
@@ -14,23 +15,24 @@ public class Troop extends MobileEntity {
     private int health;
     private Nationality nationality;
     private boolean selected;
-    private onTroopDeleteInterface troopDelete;
+    private TroopDelete troopDelete;
     private DestinationType destinationType;
     private CityType troopType;
     private Game game;
     private boolean dead = false;
 
     public Troop(Coordinate location, int turnCount, double speed, double heading, Coordinate destination, int health,
-            Nationality nationality, boolean selected, DestinationType destinationType, CityType troopType) {
+            Nationality nationality, boolean selected, DestinationType destinationType, CityType troopType, Game game) {
         super(location, turnCount, speed, heading, destination);
         this.health = health;
         this.nationality = nationality;
         this.selected = selected;
         this.destinationType = destinationType;
         this.troopType = troopType;
+        this.game = game;
     }
 
-    public static Entity load(DataInputStream rd) throws IOException {
+    public static Entity load(DataInputStream rd, Game game) throws IOException {
 
         Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
         int turnCount = rd.readInt();
@@ -50,7 +52,7 @@ public class Troop extends MobileEntity {
         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
 
         return new Troop(location, turnCount, speed, heading, destination, health, nationality, selected,
-                destinationType, troopType);
+                destinationType, troopType, game);
     }
 
     /**
@@ -72,9 +74,12 @@ public class Troop extends MobileEntity {
                             (getDestination().getY()
                                     - (getLocation().getY() + getSpeed() * Math.sin(getHeading() * Math.PI / 180))),
                             2.0));
-            if (Math.abs(distToDest) < Constants.cityRadius - 10 + Constants.troopRadius) {
+
+            if (Math.abs(distToDest) < Constants.cityRadius - 12 + Constants.troopRadius) {
                 troopDelete.onTroopDelete(this);
+                game.deleteTroop(this);
             }
+
         } else {
             double newDistToDest = Math.sqrt(Math
                     .pow((getDestination().getX()
@@ -183,11 +188,11 @@ public class Troop extends MobileEntity {
         this.nationality = nationality;
     }
 
-    public onTroopDeleteInterface getTroopDelete() {
+    public TroopDelete getTroopDelete() {
         return troopDelete;
     }
 
-    public void setTroopDelete(onTroopDeleteInterface troopDelete) {
+    public void setTroopDelete(TroopDelete troopDelete) {
         this.troopDelete = troopDelete;
     }
 
@@ -197,10 +202,6 @@ public class Troop extends MobileEntity {
 
     public void setTroopType(CityType troopType) {
         this.troopType = troopType;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
     }
 
     public boolean isDead() {

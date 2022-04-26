@@ -14,12 +14,14 @@ public class Entity {
     /**
      * updates image of object. worked by all objects that inherit from entity
      */
-    public void update() {}
+    public void update() {
+
+    }
 
     /**
-     *  packages an object and writes it in file according to serialization pattern
+    * packages an object and writes it in file according to serialization pattern
+     * 
      * @param wr data writer used to write object to binary file
-     * @throws IOException
      */
     public void serialize(DataOutputStream wr) throws IOException {
         /**

@@ -2,6 +2,7 @@
 //File:   Computer.java
 //Desc:   This program creates standered computer object
 //-----------------------------------------------------------
+
 package model;
 
 import java.util.ArrayList;
@@ -67,25 +68,6 @@ public class Computer {
         switch (difficulty) {
             case Easy:
                 try {
-                    // Crashes program. Will probably delete.
-                    
-                    // if (otherTroops.size() > 0) {
-                    // if (computerTroops.size() > 0) {
-                    // ArrayList<Troop> troops = game.sendTroopsFromGround(computerTroops,
-                    // otherTroops.get(0).getLocation(),
-                    // DestinationType.City);
-                    // game.getEntityList().addAll(troops);
-                    // obs.renderTroops(troops);
-                    // } else {
-                    // for (City city : computerCities) {
-                    // ArrayList<Troop> troops = game.sendTroopsFromCity(city,
-                    // otherTroops.get(0).getLocation(), 20);
-                    // game.getEntityList().addAll(troops);
-                    // obs.renderTroops(troops);
-                    // }
-                    // }
-                    // }
-
                     if (turnCount % 100 == 0) {
                         ArrayList<Troop> troops = game.sendTroopsFromCity(computerCities.get(0),
                                 cityToAttack.getLocation(),
@@ -120,7 +102,7 @@ public class Computer {
                             ArrayList<Troop> troops = city.sendTroops(1,
                                     city.getLocation().figureNewCoordinate(randomNumberGenerator(0, 360),
                                             randomNumberGenerator(-20, 20)),
-                                    CityType.Standard, DestinationType.Coordinate);
+                                    city.getType(), DestinationType.Coordinate);
                             obs.renderTroops(troops);
                             game.getEntityList().addAll(troops);
                         }

@@ -4,6 +4,10 @@
 //-----------------------------------------------------------
 package model;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+
 public class MobileEntity extends Entity {
     private double speed;
     private double heading;
@@ -23,11 +27,16 @@ public class MobileEntity extends Entity {
      */
     @Override
     public void update() {
-        getLocation().setX(getLocation().getX() + speed * Math.cos(heading * Math.PI / 180));
-        getLocation().setY(getLocation().getY() + speed * Math.sin(heading * Math.PI / 180));
+        Timeline timer = new Timeline(new KeyFrame(Duration.millis(Constants.tickSpeed / 10), e -> move()));
+            timer.setCycleCount(Constants.tickSpeed / 10);
+            timer.play();
         super.update();
     }
 
+    public void move() {
+        getLocation().setX(getLocation().getX() + (speed/(Constants.tickSpeed / 10)) * Math.cos(heading * Math.PI / 180));
+        getLocation().setY(getLocation().getY() + (speed/(Constants.tickSpeed / 10)) * Math.sin(heading * Math.PI / 180));
+    }
     public double getSpeed() {
         return speed;
     }

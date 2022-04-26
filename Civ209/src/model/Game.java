@@ -2,6 +2,7 @@
 //File:   Game.java
 //Desc:   This program instantiates an image and handles game state.
 //-----------------------------------------------------------
+
 package model;
 
 import javafx.animation.KeyFrame;
@@ -46,7 +47,7 @@ public class Game {
             load(lvlName);
         } catch (IOException e) {
             try {
-                load("Civ209/Levels/DemoLevel.dat");
+                load("../Civ209/Levels/DemoLevel.dat");
             } catch (IOException xe) {
                 System.out.println("fatalError! " + xe);
                 System.exit(1);
@@ -97,8 +98,7 @@ public class Game {
         if (getEntityList().stream().filter(e -> e instanceof City && ((City) e).getNationality() == Nationality.Player)
                 .count() == 0) {
             stopTimer();
-
-            // Your move, Mr. Moffitt
+            
             gameOver.recognizeGameOver("Enemy conquest", scoreProperty.get());
         } else {
             if (getEntityList().stream()
@@ -138,9 +138,9 @@ public class Game {
                     String entityType = rd.readUTF();
 
                     if (entityType.equals("City"))
-                        entity = City.load(rd);
+                        entity = City.load(rd, this);
                     else if (entityType.equals("Troop"))
-                        entity = Troop.load(rd);
+                        entity = Troop.load(rd, this);
                     else if (entityType.equals("Projectile"))
                         entity = Projectile.load(rd);
                     else
@@ -170,6 +170,7 @@ public class Game {
             entityList.remove(entity);
         }
         deleteEntityList.clear();
+<<<<<<< HEAD
         ArrayList<Projectile> projectiles = new ArrayList<Projectile>(); 
                 // troops.stream().forEach(e -> e.setGame(this));
                 // moveTroopToField(troops, destination);
@@ -183,6 +184,16 @@ public class Game {
             Projectile proj = city.fireProjectile(this);
             projectiles.add(proj); 
             //System.out.println("everything is fine"); 
+=======
+        ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+        // Ik it looks bad, but I promise it's the way it is for a reason
+        for (Entity entity : entityList) {
+            entity.update();
+            if (entity instanceof City) {
+                City city = (City) entity;
+                Projectile proj = city.fireProjectile(this);
+                projectiles.add(proj);
+>>>>>>> ae9168703d7823458f9ff90809a052376382308f
             }
         }
 
@@ -198,8 +209,7 @@ public class Game {
         getEntityList().stream().filter(e -> e instanceof Troop)
                 .filter(e -> checkInWeather(((Troop) e).getLocation())).forEach(e -> deleteTroopWeather((Troop) e));
         // check if the weather is in bounds of the pane
-        // getEntityList().stream().filter(e -> e instanceof Weather).forEach(e ->
-        // checkInBounds(Weather) e));
+        getEntityList().stream().filter(e -> e instanceof Weather).forEach(e -> checkInBounds((Weather) e));
 
     }
 
@@ -220,7 +230,6 @@ public class Game {
                 DestinationType.City);
         troops.stream().forEach(e -> {
             e.setDestination(destination);
-            e.setGame(this);
         });
         return troops;
     }
@@ -245,7 +254,6 @@ public class Game {
                     ArrayList<Troop> troops = getSelectedCity().sendTroops(percentage, destination,
                             getSelectedCity().getType(),
                             DestinationType.City);
-                    troops.stream().forEach(e -> e.setGame(this));
                     getEntityList().addAll(troops);
                     return troops;
                 } else {
@@ -255,7 +263,6 @@ public class Game {
                 ArrayList<Troop> troops = getSelectedCity().sendTroops(percentage, destination,
                         getSelectedCity().getType(),
                         DestinationType.Coordinate);
-                troops.stream().forEach(e -> e.setGame(this));
                 moveTroopToField(troops, destination);
                 getEntityList().addAll(troops);
                 return troops;
@@ -301,8 +308,6 @@ public class Game {
             wr.writeInt(getScore());
             wr.writeChar(this.season == SeasonType.Winter ? 'W'
                     : this.season == SeasonType.Fall ? 'F' : this.season == SeasonType.Summer ? 'S' : 's');
-            // this.difficulty = diff == 'E' ? Difficulty.Easy : diff == 'M' ?
-            // Difficulty.Medium : Difficulty.Hard;
             wr.writeChar(this.difficulty == Difficulty.Easy ? 'E' : this.difficulty == Difficulty.Medium ? 'M' : 'H');
             wr.writeInt(numPlayerCitiesLeft);
             wr.writeDouble(gameSpeed);
@@ -314,13 +319,18 @@ public class Game {
         }
     }
 
+    /**
+     * Generate weather
+     * 
+     * @return
+     */
     public Weather makeWeather() {
         int screenSide = rand.nextInt(4);
         int heading;
-        int coordX = 0;
-        int coordY = 0;
-        WeatherType type = WeatherType.Blizzard;
-        int typeNum = rand.nextInt(2);
+        int coordX = 30;
+        int coordY = 30;
+        WeatherType type = null;
+        int typeNum = rand.nextInt(3); // 0, 3
         // determine the weather type
         if (typeNum == 0) {
             type = WeatherType.Blizzard;
@@ -333,47 +343,47 @@ public class Game {
         // determine which side of the screen the weather starts on
         if (screenSide == 0) { // bottom
             heading = nextInt(225, 315);
-            coordY = Constants.windowHeight;
+            coordY = Constants.windowHeight - 39;
 
             if (heading >= 270) {
-                coordX = nextInt(0, Constants.windowWidth / 2);
+                coordX = nextInt(39, Constants.windowWidth / 2);
             } else {
-                coordX = nextInt(Constants.windowWidth / 2, Constants.windowWidth);
+                coordX = nextInt((Constants.windowWidth) / 2, Constants.windowWidth - 39);
             }
 
         } else if (screenSide == 1) { // left
             int check = rand.nextInt(2);
-            coordX = 0;
+            coordX = 39;
             if (check == 0) {
                 heading = nextInt(315, 360);
-                coordY = nextInt(Constants.windowHeight / 2, Constants.windowHeight);
+                coordY = nextInt((Constants.windowHeight) / 2, Constants.windowHeight - 39);
 
             } else {
                 heading = nextInt(0, 45);
-                coordY = nextInt(0, Constants.windowHeight / 2);
+                coordY = nextInt(39, (Constants.windowHeight) / 2);
             }
 
         } else if (screenSide == 2) { // top
             heading = nextInt(45, 135);
-            coordY = 0;
+            coordY = 39;
 
             if (heading <= 90) {
-                coordX = nextInt(0, Constants.windowWidth / 2);
+                coordX = nextInt(39, (Constants.windowWidth - 39) / 2);
             } else {
-                coordX = nextInt(Constants.windowWidth / 2, Constants.windowWidth);
+                coordX = nextInt((Constants.windowWidth) / 2, (Constants.windowWidth - 39));
             }
 
         } else { // right
 
             int check = rand.nextInt(2);
-            coordX = Constants.windowWidth;
+            coordX = Constants.windowWidth - 39;
             if (check == 0) {
                 heading = nextInt(180, 225);
-                coordY = nextInt(Constants.windowHeight / 2, Constants.windowHeight);
+                coordY = nextInt((Constants.windowHeight) / 2, (Constants.windowHeight - 39));
 
             } else {
                 heading = nextInt(135, 180);
-                coordY = nextInt(0, Constants.windowHeight / 2);
+                coordY = nextInt(39, (Constants.windowHeight) / 2);
             }
 
         }
@@ -384,13 +394,19 @@ public class Game {
         return weather;
     }
 
-    // public void checkInBounds(Weather w) {
-    // if(w.getLocation().getX() > Constants.windowWidth || w.getLocation().getX() <
-    // 0 || w.getLocation().getY() > Constants.windowHeight ||
-    // w.getLocation().getY() < 0) {
-    // deleteTroop((Troop) w);
-    // }
-    // }
+    /**
+     * Checks if the weather is in the bounds of the screen. If it isn't, delete the
+     * weather
+     */
+    public void checkInBounds(Weather w) {
+        if (w.getLocation().getX() > Constants.windowWidth - 39 || w.getLocation().getX() < 39
+                || w.getLocation().getY() > Constants.windowHeight - 39 ||
+                w.getLocation().getY() < 39) {
+            deleteEntityList.add(w);
+        }
+
+    }
+
     // returns true if the entity is in the weather, false otherwise
     public boolean checkInWeather(Coordinate e) {
         boolean pointInCircle = false;
@@ -503,7 +519,8 @@ public class Game {
     }
 
     public void deleteTroop(Troop troop) {
-        Coordinate location = troop.getLocation();
+        // Switched from Location to destination. Because I #can
+        Coordinate location = troop.getDestination();
 
         if (checkInCity(location)) {
             City city = getCityHit(location);

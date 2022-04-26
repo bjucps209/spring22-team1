@@ -1,3 +1,9 @@
+//-----------------------------------------------------------
+//File:   GameWindow.java
+//Desc:   File holds the logic for the game screen: input from
+// Player and showing model on screen.
+//-----------------------------------------------------------
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
@@ -26,7 +32,6 @@ import java.util.List;
 import java.util.Random;
 import javax.swing.JOptionPane;
 
-
 public class GameWindow implements ComputerObserver, GameOverObserver, FireProjectiles {
 
     private Game game;
@@ -41,8 +46,8 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     // AudioClip castleTaken = new
     // AudioClip("https://www.fesliyanstudios.com/play-mp3/6202");
     HighScores h = new HighScores();
-    Levels level = new Levels(); 
-    private boolean isCampaign = false; 
+    Levels level = new Levels();
+    private boolean isCampaign = false;
 
     /**
      * Coordinates used in dragging image.
@@ -249,10 +254,10 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         pane.setOnMouseClicked(me -> me.consume());
 
         if (lvlname.equals("../Civ209/Levels/CampaignLevel1.dat") ||
-        lvlname.equals("../Civ209/Levels/CampaignLevel2.dat")  ||
-        lvlname.equals("../Civ209/Levels/CampaignLevel3.dat")  ||
-        lvlname.equals("../Civ209/Levels/CampaignLevel4.dat")) {
-            isCampaign = true; 
+                lvlname.equals("../Civ209/Levels/CampaignLevel2.dat") ||
+                lvlname.equals("../Civ209/Levels/CampaignLevel3.dat") ||
+                lvlname.equals("../Civ209/Levels/CampaignLevel4.dat")) {
+            isCampaign = true;
         }
     }
 
@@ -263,9 +268,9 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
 
     public void onFireProjectiles(Projectile proj) {
         EntityImage firedprojectile = new EntityImage(this, pane, proj);
-        var keyFrame = new KeyFrame(Duration.millis(1000), e -> { 
-            //removeEntity(proj);
-            pane.getChildren().remove(firedprojectile.getProjectileLine()); 
+        var keyFrame = new KeyFrame(Duration.millis(1000), e -> {
+            // removeEntity(proj);
+            pane.getChildren().remove(firedprojectile.getProjectileLine());
         });
         var timer = new Timeline(keyFrame);
         timer.play();
@@ -336,7 +341,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
                 break;
             }
         }
-        game.deleteTroop(troop);
     }
 
     public void renderTroops(ArrayList<Troop> troops) {
@@ -360,25 +364,46 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     }
 
     public void recognizeGameOver(String msg, int score) {
-        // TODO @Izzo, this function recognizes the game over and will give you the
-        // string msg and score
-        // create a tile pane
+        // recognizes the game over
 
-        //https://stackoverflow.com/questions/20132239/getting-text-from-a-dialog-box
-        JOptionPane td = new JOptionPane("Game Over: Enter Your Name");
+        // https://stackoverflow.com/questions/20132239/getting-text-from-a-dialog-box
 
-        // td.setHeaderText("Game Over: Enter Your Name");
-        // td.show();
+        Stage stage = (Stage) btnEasy.getScene().getWindow();
+        stage.setFullScreen(false);
         h.load();
-        String name = JOptionPane.showInputDialog("Game Over: Enter Your Name","");
+        String name = JOptionPane.showInputDialog("GAME OVER - Score: " + score, "Enter your name");
+
+        // If there is no name given, choose one of ours :)
+        if (name == null || name.equals("Enter your name") || name.equals("")) {
+            int text = rand.nextInt(4); // 0, 4
+            if (text == 0) {
+                name = "Rhys";
+            } else if (text == 1) {
+                name = "Izzo";
+            } else if (text == 2) {
+                name = "Ryan";
+            } else {
+                name = "Emily";
+            }
+
+        }
+
+        // Johnika is not allowed - Fuller
+
+        if (name == "Johnika") {
+            name = "That's a bad name.";
+        }
 
         h.addScoreList(new ScoreEntry(name, score));
         h.sortScores(h.getScoreList());
         h.save(h.getScoreList());
         music.stop();
+        stage.close();
+
+        stage.close();
 
         if (isCampaign) {
-            level.onGameClose(this); 
+            level.onGameClose(this);
             level.openNextLevel(level.getCampaignLevel());
             Stage stage = (Stage) btnEasy.getScene().getWindow();
             stage.close();
@@ -391,14 +416,14 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         EntityImage weather = new EntityImage(this, pane, newWeather);
         pane.getChildren().add(weather);
     }
+
     public void fireProjectiles() {
         Projectile fireprojectile = game.fireProjectile();
         EntityImage projectile = new EntityImage(this, pane, fireprojectile);
         pane.getChildren().add(projectile);
-        var keyFrame = new KeyFrame(Duration.millis(2000), e -> { 
+        var keyFrame = new KeyFrame(Duration.millis(500), e -> {
             removeEntity(fireprojectile);
             pane.getChildren().remove(projectile);
-            System.out.println("projectile removed");
         });
         var timer = new Timeline(keyFrame);
         timer.play();
@@ -417,7 +442,10 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     public void removeEntity(Entity entity) {
         for (Node node : pane.getChildren()) {
             if (node instanceof EntityImage) {
-                if (((EntityImage) node).getUserData() == entity) {
+                if (((EntityImage) node).getEntity() == entity) {
+                    if (((EntityImage) node).getEntity() instanceof Weather) {
+                        pane.getChildren().remove(((EntityImage) node).getC());
+                    }
                     pane.getChildren().remove(node);
                     return;
                 }
@@ -442,11 +470,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     @FXML
     public void onMakeWeatherClicked(ActionEvent e) {
         game.instantMakeWeather();
-    }
-
-    @FXML
-    public void onFireProjectilesClicked(ActionEvent e) {
-        game.instantFireProjectiles();
     }
 
     @FXML

@@ -1,3 +1,8 @@
+//-----------------------------------------------------------
+//File:   MainWindow.java
+//Desc:   File holds logic for main window.
+//-----------------------------------------------------------
+
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
@@ -9,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import model.Constants;
 
 public class MainWindow {
     public static final Image cityImage = new Image(
@@ -18,23 +24,15 @@ public class MainWindow {
     Label lblGameTitle;
     @FXML
     VBox VBoxMain;
-    // @FXML
-    // TextField userName;
-    // private String name;
-
-    // public String getName() {
-    //     return name;
-    // }
-
-    // public void setName(String name) {
-    //     System.out.println(name);
-    //     this.name = name;
-    // }
 
     @FXML
     public void initialize() throws IOException {
-
         lblGameTitle.setFont(Font.font("Impact", 40)); // https://www.codegrepper.com/code-examples/java/how+to+change+font+in+javafx
+        lblGameTitle.setOnMouseClicked(e -> {
+            Constants.switchImages();
+            if (VBoxMain.getChildren().size() < 5)
+                VBoxMain.getChildren().add(new Label("Easter Egg Activated."));
+        });
     }
 
     @FXML

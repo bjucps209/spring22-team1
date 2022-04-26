@@ -1,22 +1,28 @@
 .root {
-    -fx-padding: 25; /* Add a small padding around the window */
+    -fx-padding: 25;
+    /* Add a small padding around the window */
     -fx-font-family: 'Helvetica', Arial, sans-serif;
     -fx-font-size: 15;
 
 }
 
 /* for Macs */
-.dialog-pane  {
+.dialog-pane {
     -fx-font-family: 'Helvetica', Arial, sans-serif;
 }
 
 .selected {
-    -fx-effect: dropshadow(three-pass-box, rgba(255,0,0,0.8), 10, 0, 0, 0);
- }
-
- VBox {
-    -fx-alignment: center;
+    -fx-effect: dropshadow(three-pass-box, rgba(255, 0, 0, 0.8), 10, 0, 0, 0);
 }
+
+VBox {
+    -fx-alignment: center;
+    /* image source: https://www.pexels.com/photo/wall-bricks-220182/ */
+    -fx-background-image: url("/Images/brickwall.png");
+    -fx-background-size: 700 900;
+    -fx-spacing: 10;
+}
+
 HBox {
     -fx-alignment: center;
 }
