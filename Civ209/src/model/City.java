@@ -148,6 +148,8 @@ public class City extends Entity {
     /**
      * fires a projectile from city at closest enemy if enemy in range and city
      * population not 0
+     * @param game parent game 
+     * @return projectile to render
      */
     public Projectile fireProjectile(Game game) {
         this.setGame(game);

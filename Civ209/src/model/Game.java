@@ -565,11 +565,18 @@ public class Game {
         }
     }
 
+     /**
+     * @param proj to render
+     * adds the projectile to the game and fires it
+     */
     public void renderProjectile(Projectile proj) {
         getEntityList().add(proj);
         onFireProjectile.onFireProjectiles(proj);
     }
 
+    /**
+     * fire's a projectile for every city in the game 
+     */
     public Projectile fireProjectile() {
         for (Entity ent : entityList) {
             if (ent instanceof City) {
@@ -581,10 +588,6 @@ public class Game {
     }
 
     public void instantMakeWeather() {
-        // TODO Izzo can you make this so it just adds another weather instance?
-    }
-
-    public void instantFireProjectiles() {
         // TODO Izzo can you make this so it just adds another weather instance?
     }
 

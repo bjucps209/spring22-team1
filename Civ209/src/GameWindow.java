@@ -265,6 +265,9 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         new EntityImage(this, pane, weather);
     }
 
+      /**
+     * Makes projectiles visible for .5 seconds
+     */
     public void onFireProjectiles(Projectile proj) {
         EntityImage firedprojectile = new EntityImage(this, pane, proj);
         var keyFrame = new KeyFrame(Duration.millis(500), e -> {
@@ -414,18 +417,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         Weather newWeather = game.makeWeather();
         EntityImage weather = new EntityImage(this, pane, newWeather);
         pane.getChildren().add(weather);
-    }
-
-    public void fireProjectiles() {
-        Projectile fireprojectile = game.fireProjectile();
-        EntityImage projectile = new EntityImage(this, pane, fireprojectile);
-        pane.getChildren().add(projectile);
-        var keyFrame = new KeyFrame(Duration.millis(500), e -> {
-            removeEntity(fireprojectile);
-            pane.getChildren().remove(projectile);
-        });
-        var timer = new Timeline(keyFrame);
-        timer.play();
     }
 
     @FXML
