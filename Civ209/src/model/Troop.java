@@ -32,6 +32,13 @@ public class Troop extends MobileEntity {
         this.game = game;
     }
 
+    /**
+     * Method loads the game
+     * @param rd
+     * @param game
+     * @return
+     * @throws IOException
+     */
     public static Entity load(DataInputStream rd, Game game) throws IOException {
 
         Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
@@ -47,7 +54,7 @@ public class Troop extends MobileEntity {
         DestinationType destinationType = dChar == 'i' ? DestinationType.City
                 : DestinationType.Coordinate;
         char tChar = rd.readChar();
-        CityType troopType = tChar == 'S' ? CityType.Standard
+        CityType troopType = tChar == 's' ? CityType.Standard
                 : tChar == 'F' ? CityType.Fast : CityType.Strong;
         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
 
