@@ -15,12 +15,14 @@ public class Projectile extends MobileEntity {
     private int damage;
     private Coordinate destination;
     private int turnCount;
+    private Coordinate location; 
     // private onTroopDeleteInterface troopDelete;
     private Game game;
 
     public Projectile(Coordinate location, int turnCount, double speed, double heading,
             Coordinate destination, int damage) {
         super(location, turnCount, speed, heading, destination);
+        this.location = location; 
         this.damage = damage;
         this.destination = destination;
         this.turnCount = turnCount;
@@ -141,4 +143,13 @@ public class Projectile extends MobileEntity {
         this.game = game;
     }
 
+    public Coordinate getLocation() {
+        return location;
+    }
+
+    public void setLocation(Coordinate location) {
+        this.location = location;
+    }
+
+    
 }
