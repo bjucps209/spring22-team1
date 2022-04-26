@@ -264,7 +264,8 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
 
     public void onFireProjectiles(Projectile proj) {
         EntityImage firedprojectile = new EntityImage(this, pane, proj);
-        var keyFrame = new KeyFrame(Duration.millis(1000), e -> {
+        var keyFrame = new KeyFrame(Duration.millis(500), e -> {
+            // removeEntity(proj);
             pane.getChildren().remove(firedprojectile.getProjectileLine());
         });
         var timer = new Timeline(keyFrame);

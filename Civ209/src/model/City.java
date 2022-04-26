@@ -33,6 +33,7 @@ public class City extends Entity {
             Nationality nationality,
             boolean selected, CityType type, Game game) {
         super(location, turnCount);
+        this.location = location; 
         this.populationProperty = population;
         this.nationality = nationality;
         this.selected = selected;

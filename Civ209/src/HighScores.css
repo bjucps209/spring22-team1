@@ -26,3 +26,6 @@ VBox {
 HBox {
     -fx-alignment: center;
 }
+#VBoxAbout {
+    -fx-font-size: 9;
+}

@@ -383,10 +383,13 @@ public class Game {
      * weather
      */
     public void checkInBounds(Weather w) {
-        if (w.getLocation().getX() > Constants.windowWidth - 39 || w.getLocation().getX() < 39
-                || w.getLocation().getY() > Constants.windowHeight - 39 ||
-                w.getLocation().getY() < 39) {
-            deleteEntityList.add(w);
+        int randNum = nextInt(0, 5);
+        if (randNum == 3) {
+            if (w.getLocation().getX() > Constants.windowWidth - 39 || w.getLocation().getX() < 39
+                    || w.getLocation().getY() > Constants.windowHeight - 39 ||
+                    w.getLocation().getY() < 39) {
+                deleteEntityList.add(w);
+            }
         }
 
     }
