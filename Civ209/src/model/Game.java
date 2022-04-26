@@ -189,9 +189,14 @@ public class Game {
         if (turncount % 50 == 0) {
             onMakeWeather.onMakeWeather();
         }
+        // different calls to see if the weather is different types?
+        // getEntityList().stream().filter(e -> e instanceof Weather).filter(e ->
+        // WeatherType == WeatherType.LightningStorm).forEach(e -);
+
         // Check to see if troops need to be destroyed by weather
         getEntityList().stream().filter(e -> e instanceof Troop)
-                .filter(e -> checkInWeather(((Troop) e).getLocation())).forEach(e -> deleteTroopWeather((Troop) e));
+                .filter(e -> (checkInWeather(((Troop) e).getLocation()) != null))
+                .forEach(e -> deleteTroopWeather((Troop) e));
         // check if the weather is in bounds of the pane
         getEntityList().stream().filter(e -> e instanceof Weather).forEach(e -> checkInBounds((Weather) e));
 
@@ -335,7 +340,7 @@ public class Game {
                 coordX = nextInt((Constants.windowWidth) / 2, Constants.windowWidth - 39);
             }
 
-        } else if (screenSide == 1) { // left
+        } else if (screenSide == 1) { // left side of screen
             int check = rand.nextInt(2);
             coordX = 39;
             if (check == 0) {
@@ -347,7 +352,7 @@ public class Game {
                 coordY = nextInt(39, (Constants.windowHeight) / 2);
             }
 
-        } else if (screenSide == 2) { // top
+        } else if (screenSide == 2) { // top side of screen
             heading = nextInt(45, 135);
             coordY = 39;
 
@@ -357,7 +362,7 @@ public class Game {
                 coordX = nextInt((Constants.windowWidth) / 2, (Constants.windowWidth - 39));
             }
 
-        } else { // right
+        } else { // right side of screen
 
             int check = rand.nextInt(2);
             coordX = Constants.windowWidth - 39;
@@ -383,40 +388,50 @@ public class Game {
      * weather
      */
     public void checkInBounds(Weather w) {
-        int randNum = nextInt(0, 5);
-        if (randNum == 3) {
-            if (w.getLocation().getX() > Constants.windowWidth - 39 || w.getLocation().getX() < 39
-                    || w.getLocation().getY() > Constants.windowHeight - 39 ||
-                    w.getLocation().getY() < 39) {
-                deleteEntityList.add(w);
-            }
+
+        if (w.getLocation().getX() > Constants.windowWidth - 39 || w.getLocation().getX() < 39
+                || w.getLocation().getY() > Constants.windowHeight - 39 ||
+                w.getLocation().getY() < 39) {
+            deleteEntityList.add(w);
         }
 
     }
 
-    // returns true if the entity is in the weather, false otherwise
-    public boolean checkInWeather(Coordinate e) {
-        boolean pointInCircle = false;
+    // returns the weather type if the entity is in the weather, null otherwise
+    public WeatherType checkInWeather(Coordinate e) {
         for (Entity entity : getEntityList()) {
             if (entity instanceof Weather) {
                 Weather weatherEntity = (Weather) entity;
                 if (Math.sqrt(Math.pow(weatherEntity.getLocation().getX() - e.getX(), 2) + Math
                         .pow(weatherEntity.getLocation().getY() - e.getY(), 2)) <= Constants.weatherRadius
                                 + Constants.troopRadius) {
-                    pointInCircle = true;
-                    break;
+                    WeatherType wType = weatherEntity.getType();
+                    return wType;
                 }
             }
         }
-        return pointInCircle;
+        return null;
     }
 
-    // delete the troop if it is inside the weather
     public void deleteTroopWeather(Troop troop) {
+        int randNum = nextInt(0, 50); // Generates a random number between 0 and 49
         Coordinate location = troop.getLocation();
-        if (checkInWeather(location)) {
+        WeatherType wType = checkInWeather(location);
+        // if the weather type is lightning, it wipes out a random troop
+        if ((wType != null) && randNum == 5 && wType.equals(WeatherType.LightningStorm)) {
             getDeleteEntityList().add(troop);
         }
+        // if the weather type is equal to flood, wipe out all troops
+        else if (wType != null && wType.equals(WeatherType.Flood)) {
+            getDeleteEntityList().add(troop);
+        }
+        // if the weather type is blizzard, slow the troop that passes through down by 0.75
+        else if (wType != null && wType.equals(WeatherType.Blizzard)) {
+            // permanently
+            troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed - .75
+                    : Constants.standardTroopSpeed - .75);
+        }
+
     }
 
     public int nextInt(int lowerBound, int upperBound) {

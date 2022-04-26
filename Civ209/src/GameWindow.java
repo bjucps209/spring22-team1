@@ -43,8 +43,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     private boolean inCity = false;
     Random rand = new Random();
     AudioClip music;
-    // AudioClip castleTaken = new
-    // AudioClip("https://www.fesliyanstudios.com/play-mp3/6202");
     HighScores h = new HighScores();
     Levels level = new Levels();
     private boolean isCampaign = false;
@@ -261,6 +259,9 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         }
     }
 
+    /**
+     * Makes weather visible to the pane
+     */
     public void onMakeWeather() {
         Weather weather = game.makeWeather();
         new EntityImage(this, pane, weather);
@@ -363,14 +364,15 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         }
     }
 
+    /**
+     * When the game is over, this is called to get the player name
+     */
     public void recognizeGameOver(String msg, int score) {
-        // recognizes the game over
-
-        // https://stackoverflow.com/questions/20132239/getting-text-from-a-dialog-box
 
         Stage stage = (Stage) btnEasy.getScene().getWindow();
         stage.setFullScreen(false);
         h.load();
+        // https://stackoverflow.com/questions/20132239/getting-text-from-a-dialog-box
         String name = JOptionPane.showInputDialog("GAME OVER - Score: " + score, "Enter your name");
 
         // If there is no name given, choose one of ours :)
@@ -389,7 +391,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         }
 
         // Johnika is not allowed - Fuller
-
         if (name == "Johnika") {
             name = "That's a bad name.";
         }
