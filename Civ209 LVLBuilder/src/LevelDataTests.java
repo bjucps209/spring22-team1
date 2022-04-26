@@ -20,16 +20,16 @@ public class LevelDataTests {
         l.setSeason(SeasonType.Winter);
         City city1 = l.create(Nationality.Enemy);
         city1.setId(1);
-        city1.setX(32);
-        city1.setY(20);
+        city1.getLocation().setX(32);
+        city1.getLocation().setY(20);
         City city2 = l.create(Nationality.Player);
         city2.setId(2);
-        city2.setX(15);
-        city2.setY(90);
+        city2.getLocation().setX(15);
+        city2.getLocation().setY(90);
         City city3 = l.create(Nationality.Neutral);
         city3.setId(3);
-        city3.setX(740);
-        city3.setY(680);
+        city3.getLocation().setX(740);
+        city3.getLocation().setY(680);
         
         LevelData d = new LevelData(l);
         try { d.save();
@@ -40,19 +40,19 @@ public class LevelDataTests {
         Level loadeddata = w.getLevel(); 
         City loadedcity1 = (City) loadeddata.getCities().get(0); 
         assertEquals(1, loadedcity1.getId());
-        assertEquals(32, loadedcity1.getX(), 0);
-        assertEquals(20, loadedcity1.getY(), 0);
+        assertEquals(32, loadedcity1.getLocation().getX(), 0);
+        assertEquals(20, loadedcity1.getLocation().getY(), 0);
         assertEquals(Nationality.Enemy, loadedcity1.getNationality());
         assertEquals(SeasonType.Winter, loadeddata.getSeason()); 
         City loadedcity2 = (City) loadeddata.getCities().get(1); 
         assertEquals(2, loadedcity2.getId());
-        assertEquals(15, loadedcity2.getX(), 0);
-        assertEquals(90, loadedcity2.getY(), 0);
+        assertEquals(15, loadedcity2.getLocation().getX(), 0);
+        assertEquals(90, loadedcity2.getLocation().getY(), 0);
         assertEquals(Nationality.Player, loadedcity2.getNationality());
         City loadedcity3 = (City) loadeddata.getCities().get(2); 
         assertEquals(3, loadedcity3.getId());
-        assertEquals(740, loadedcity3.getX(), 0);
-        assertEquals(680, loadedcity3.getY(), 0);
+        assertEquals(740, loadedcity3.getLocation().getX(), 0);
+        assertEquals(680, loadedcity3.getLocation().getY(), 0);
         assertEquals(Nationality.Neutral, loadedcity3.getNationality());
         
     }

@@ -49,8 +49,12 @@ public class City extends Entity {
         this.type = type;
         this.id = ++nextId;
         var rand = new Random();
-        this.x = rand.nextInt(750);
-        this.y = rand.nextInt(450);
+        if (location.getX() == 0 && location.getY() == 0) {
+            location.setX(rand.nextInt(750));
+            location.setY(rand.nextInt(450));
+        }
+        // this.x = rand.nextInt(750);
+        // this.y = rand.nextInt(450);
     }
 
     @Override
@@ -238,21 +242,21 @@ public class City extends Entity {
         this.nationality = nationality;
     }
 
-    public int getX() {
-        return x;
-    }
+    // public int getX() {
+    //     return x;
+    // }
 
-    public void setX(int x) {
-        this.x = x;
-    }
+    // public void setX(int x) {
+    //     this.x = x;
+    // }
 
-    public int getY() {
-        return y;
-    }
+    // public int getY() {
+    //     return y;
+    // }
 
-    public void setY(int y) {
-        this.y = y;
-    }
+    // public void setY(int y) {
+    //     this.y = y;
+    // }
 
     public Object[] getInformation() {
         Object[] items = { id, x, y, nationality };

@@ -46,7 +46,7 @@ public class Game {
             load(lvlName);
         } catch (IOException e) {
             try {
-                load("Civ209/Levels/DemoLevel.dat");
+                load("../Civ209/Levels/DemoLevel.dat");
             } catch (IOException xe) {
                 System.out.println("fatalError! " + xe);
                 System.exit(1);
