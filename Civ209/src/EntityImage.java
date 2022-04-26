@@ -21,7 +21,7 @@ public class EntityImage extends ImageView implements CityObserver {
     private GameWindow parent;
     private Circle cityCircle;
     private Label cityPop;
-    private Line projectileLine; 
+    private Line projectileLine;
     private Circle c = new Circle();
 
     public EntityImage(GameWindow parent, Pane pane, Entity entity) {
@@ -99,13 +99,13 @@ public class EntityImage extends ImageView implements CityObserver {
             this.setImage(weatherImage);
             this.setFitWidth(50);
             this.setFitHeight(50);
-            this.xProperty().bind(weatherLocation.xProperty().subtract(this.getFitWidth()/2));
-            this.yProperty().bind(weatherLocation.yProperty().subtract(this.getFitHeight()/2));
+            this.xProperty().bind(weatherLocation.xProperty().subtract(this.getFitWidth() / 2));
+            this.yProperty().bind(weatherLocation.yProperty().subtract(this.getFitHeight() / 2));
             Circle c = new Circle(weatherLocation.getX(), weatherLocation.getY(), Constants.weatherRadius,
                     Paint.valueOf("transparent"));
             c.setStroke(Paint.valueOf("grey"));
-            c.centerXProperty().bind(this.xProperty().add(this.getFitWidth()/2));
-            c.centerYProperty().bind(this.yProperty().add(this.getFitHeight()/2));
+            c.centerXProperty().bind(this.xProperty().add(this.getFitWidth() / 2));
+            c.centerYProperty().bind(this.yProperty().add(this.getFitHeight() / 2));
             setC(c);
             pane.getChildren().addAll(List.of(this, c));
         }
@@ -160,5 +160,5 @@ public class EntityImage extends ImageView implements CityObserver {
 
     public void setC(Circle c) {
         this.c = c;
-    }   
+    }
 }
