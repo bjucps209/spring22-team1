@@ -1,3 +1,8 @@
+//-----------------------------------------------------------
+//File:   EntityImage.java
+//Desc:   
+//-----------------------------------------------------------
+
 import java.util.List;
 
 import javafx.scene.control.Label;
@@ -6,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+
 import model.*;
 
 public class EntityImage extends ImageView implements CityObserver {

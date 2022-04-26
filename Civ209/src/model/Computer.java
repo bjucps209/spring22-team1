@@ -2,6 +2,7 @@
 //File:   Computer.java
 //Desc:   This program creates standered computer object
 //-----------------------------------------------------------
+
 package model;
 
 import java.util.ArrayList;

@@ -1,3 +1,8 @@
+//-----------------------------------------------------------
+//File:   App.java
+//Desc:   Main program file.
+//-----------------------------------------------------------
+
 import javafx.application.Application;
 
 public class App {

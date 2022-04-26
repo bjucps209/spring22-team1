@@ -2,6 +2,7 @@
 //File:   Game.java
 //Desc:   This program instantiates an image and handles game state.
 //-----------------------------------------------------------
+
 package model;
 
 import javafx.animation.KeyFrame;

@@ -2,6 +2,7 @@
 //File:   Troop.java
 //Desc:   This program creates troop type objects and handles movement
 //-----------------------------------------------------------
+
 package model;
 
 import java.io.DataInputStream;

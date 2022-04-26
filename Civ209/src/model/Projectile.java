@@ -1,7 +1,8 @@
 //-----------------------------------------------------------
-//File:   Projetile.java
+//File:   Projectile.java
 //Desc:   This program creates projectile objects meant to kill troops
 //-----------------------------------------------------------
+
 package model;
 
 import java.io.DataInputStream;

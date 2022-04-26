@@ -1,3 +1,8 @@
+//-----------------------------------------------------------
+//File:   HighScores.java
+//Desc:   File reads in high scores and contains logic to 
+// display high score screen.
+//-----------------------------------------------------------
 
 import java.io.BufferedReader;
 import java.io.FileReader;

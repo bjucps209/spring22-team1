@@ -1,3 +1,9 @@
+//-----------------------------------------------------------
+//File:   GameWindow.java
+//Desc:   File holds the logic for the game screen: input from
+// Player and showing model on screen.
+//-----------------------------------------------------------
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;

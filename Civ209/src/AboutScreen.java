@@ -1,3 +1,8 @@
+//-----------------------------------------------------------
+//File:   AboutScreen.java
+//Desc:   Logic for about screen.
+//-----------------------------------------------------------
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
