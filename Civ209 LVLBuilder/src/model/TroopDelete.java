@@ -1,5 +1,5 @@
 package model;
 
-public interface onTroopDeleteInterface {
+public interface TroopDelete {
     void onTroopDelete(Troop troop);
 }
