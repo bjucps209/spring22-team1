@@ -148,6 +148,8 @@ public class City extends Entity {
     /**
      * fires a projectile from city at closest enemy if enemy in range and city
      * population not 0
+     * @param game parent game 
+     * @return projectile to render
      */
     public Projectile fireProjectile(Game game) {
         this.setGame(game);
@@ -161,7 +163,7 @@ public class City extends Entity {
             });
             for (Troop troop : troops) {
                 if (troop.getNationality() != nationality && getLocation().isNearThis(troop.getLocation())) {
-                    if (turnCount % 10 == 0) {
+                    if (turnCount % 15 == 0) {
                         Troop targettroop = troop;
                         projectile = new Projectile(this.location, turnCount, 2, 0,
                                 targettroop.getLocation(), 2);
