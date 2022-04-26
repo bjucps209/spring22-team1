@@ -2,6 +2,7 @@
 //File:   Troop.java
 //Desc:   This program creates troop type objects and handles movement
 //-----------------------------------------------------------
+
 package model;
 
 import java.io.DataInputStream;
@@ -31,6 +32,34 @@ public class Troop extends MobileEntity {
         this.game = game;
     }
 
+    /**
+     * packages the object and writes it in file according to serialization pattern
+     */
+    @Override
+    public void serialize(DataOutputStream wr) throws IOException {
+        wr.writeUTF("Troop");
+        wr.writeDouble(this.getLocation().getX());
+        wr.writeDouble(this.getLocation().getY());
+        wr.writeInt(this.getTurnCount());
+        wr.writeDouble(this.getSpeed());
+        wr.writeDouble(this.getHeading());
+        wr.writeInt(health);
+        wr.writeChar((nationality == Nationality.Player) ? 'P' : nationality == Nationality.Enemy ? 'E' : 'N');
+        wr.writeBoolean(selected);
+        wr.writeChar((destinationType == DestinationType.City ? 'i' : 'o'));
+        wr.writeChar((troopType == CityType.Fast) ? 'F' : troopType == CityType.Strong ? 'S' : 's');
+        wr.writeDouble(this.getDestination().getX());
+        wr.writeDouble(this.getDestination().getY());
+    }
+
+    /**
+     * Method loads the game
+     * 
+     * @param rd
+     * @param game
+     * @return
+     * @throws IOException
+     */
     public static Entity load(DataInputStream rd, Game game) throws IOException {
 
         Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
@@ -46,7 +75,7 @@ public class Troop extends MobileEntity {
         DestinationType destinationType = dChar == 'i' ? DestinationType.City
                 : DestinationType.Coordinate;
         char tChar = rd.readChar();
-        CityType troopType = tChar == 'S' ? CityType.Standard
+        CityType troopType = tChar == 's' ? CityType.Standard
                 : tChar == 'F' ? CityType.Fast : CityType.Strong;
         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
 
@@ -119,26 +148,6 @@ public class Troop extends MobileEntity {
                 }
             }
         }
-    }
-
-    /**
-     * packages the object and writes it in file according to serialization pattern
-     */
-    @Override
-    public void serialize(DataOutputStream wr) throws IOException {
-        wr.writeUTF("Troop");
-        wr.writeDouble(this.getLocation().getX());
-        wr.writeDouble(this.getLocation().getY());
-        wr.writeInt(this.getTurnCount());
-        wr.writeDouble(this.getSpeed());
-        wr.writeDouble(this.getHeading());
-        wr.writeInt(health);
-        wr.writeChar((nationality == Nationality.Player) ? 'P' : nationality == Nationality.Enemy ? 'E' : 'N');
-        wr.writeBoolean(selected);
-        wr.writeChar((destinationType == DestinationType.City ? 'i' : 'o'));
-        wr.writeChar((troopType == CityType.Fast) ? 'F' : troopType == CityType.Strong ? 'S' : 's');
-        wr.writeDouble(this.getDestination().getX());
-        wr.writeDouble(this.getDestination().getY());
     }
 
     public double figureHeading(Coordinate destination) {

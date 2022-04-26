@@ -1,3 +1,10 @@
+//-----------------------------------------------------------
+//File:   Levels.java
+//Desc:   File holds the logic for the levels screen.
+// Can launch multiple versions of game window, holds logic
+// for campaign series.
+//-----------------------------------------------------------
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -62,6 +69,7 @@ public class Levels {
             var stage = new Stage();
             stage.setScene(scene);
             stage.show();
+            stage.setFullScreen(true);
             stage.setResizable(false);
             stage.setFullScreen(true);
 
@@ -94,6 +102,7 @@ public class Levels {
                 stage = new Stage();
                 stage.setScene(scene);
                 stage.show();
+                stage.setFullScreen(true);
                 stage.setResizable(false);
                 stage.setFullScreen(true);
 
@@ -132,6 +141,7 @@ public class Levels {
             var stage = new Stage();
             stage.setScene(scene);
             stage.show();
+            stage.setFullScreen(true);
             stage.setResizable(false);
             stage.setFullScreen(true);
 
@@ -157,6 +167,7 @@ public class Levels {
             var stage = new Stage();
             stage.setScene(scene);
             stage.show();
+            stage.setFullScreen(true);
             stage.setResizable(false);
             stage.setFullScreen(true);
 
@@ -181,6 +192,7 @@ public class Levels {
             var stage = new Stage();
             stage.setScene(scene);
             stage.show();
+            stage.setFullScreen(true);
             stage.setResizable(false);
             stage.setFullScreen(true);
 
@@ -206,6 +218,7 @@ public class Levels {
             var stage = new Stage();
             stage.setScene(scene);
             stage.show();
+            stage.setFullScreen(true);
             stage.setResizable(false);
             stage.setFullScreen(true);
 

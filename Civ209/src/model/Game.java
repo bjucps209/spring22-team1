@@ -2,6 +2,7 @@
 //File:   Game.java
 //Desc:   This program instantiates an image and handles game state.
 //-----------------------------------------------------------
+
 package model;
 
 import javafx.animation.KeyFrame;
@@ -46,7 +47,7 @@ public class Game {
             load(lvlName);
         } catch (IOException e) {
             try {
-                load("Civ209/Levels/DemoLevel.dat");
+                load("../Civ209/Levels/DemoLevel.dat");
             } catch (IOException xe) {
                 System.out.println("fatalError! " + xe);
                 System.exit(1);
@@ -152,13 +153,13 @@ public class Game {
     }
 
     public void update() {
+        turncount++;
         if (turncount >= 10 && !endGame) {
             gameEnd();
         }
         if (endGame)
             return;
         computer.executeAction(this);
-        turncount++;
         if (turncount % 5 == 0)
             setScore(getScore() - 1);
         deleteEntityList.stream().forEach(e -> {
@@ -168,7 +169,6 @@ public class Game {
         for (Entity entity : deleteEntityList) {
             entityList.remove(entity);
         }
-
         deleteEntityList.clear();
         ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
         // Ik it looks bad, but I promise it's the way it is for a reason
@@ -543,8 +543,9 @@ public class Game {
         for (Entity ent : entityList) {
             if (ent instanceof City) {
                 City city = (City) ent;
-                if (city.getNationality() == Nationality.Player) {
-                    city.setPopulation(city.getPopulation() + Constants.cityPopulationLimit);
+                if (city.getNationality() == (Nationality.Player)) {
+                    for (int i = 0; i < 15; i++)
+                        city.update();
                 }
             }
         }
@@ -566,7 +567,11 @@ public class Game {
     }
 
     public void instantMakeWeather() {
-        onMakeWeather.onMakeWeather();
+        // TODO Izzo can you make this so it just adds another weather instance?
+    }
+
+    public void instantFireProjectiles() {
+        // TODO Izzo can you make this so it just adds another weather instance?
     }
 
     public void stopTimer() {

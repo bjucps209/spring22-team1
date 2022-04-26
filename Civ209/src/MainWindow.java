@@ -1,3 +1,8 @@
+//-----------------------------------------------------------
+//File:   MainWindow.java
+//Desc:   File holds logic for main window.
+//-----------------------------------------------------------
+
 import java.io.IOException;
 
 import javafx.event.ActionEvent;

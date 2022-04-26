@@ -1,3 +1,9 @@
+//-----------------------------------------------------------
+//File:   GameWindow.java
+//Desc:   File holds the logic for the game screen: input from
+// Player and showing model on screen.
+//-----------------------------------------------------------
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
@@ -362,8 +368,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
 
         // https://stackoverflow.com/questions/20132239/getting-text-from-a-dialog-box
 
-        // TODO - Izzo, is td necessary? I'm not sure how it works
-        JOptionPane td = new JOptionPane("Game Over: Enter Your Name");
         Stage stage = (Stage) btnEasy.getScene().getWindow();
         stage.setFullScreen(false);
         h.load();
@@ -401,6 +405,8 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         if (isCampaign) {
             level.onGameClose(this);
             level.openNextLevel(level.getCampaignLevel());
+            Stage XStage = (Stage) btnEasy.getScene().getWindow();
+            XStage.close();
         }
     }
 
@@ -477,19 +483,14 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         Button cheatBtn = (Button) e.getSource();
         if (cheatBtn.getText().equals("Enable Cheat Mode")) {
             cheatBtn.setText("Disable Cheat Mode");
-
             Button winBtn = new Button("Instant Win");
             winBtn.setOnAction(this::onInstantGameOverClicked);
-
             Button loseBtn = new Button("Instant Loss");
             loseBtn.setOnAction(this::onInstantGameOverClicked);
-
             Button troopsBtn = new Button("More Player Troops");
             troopsBtn.setOnAction(this::onMoreTroopsClicked);
-
             Button wthrBtn = new Button("Make Weather");
-            wthrBtn.setOnAction(this::onMakeWeatherClicked);
-
+            troopsBtn.setOnAction(this::onMakeWeatherClicked);
             cheatControls.getChildren().addAll(List.of(winBtn, loseBtn, troopsBtn, wthrBtn));
 
         } else {

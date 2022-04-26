@@ -1,11 +1,13 @@
-
+//-----------------------------------------------------------
+//File:   HighScoresTest.java
+//Desc:   Contains logic to test high scores.
+//-----------------------------------------------------------
 
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.ArrayList;
-
 
 public class HighScoresTest {
 
