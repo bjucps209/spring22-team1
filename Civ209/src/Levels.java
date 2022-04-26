@@ -20,6 +20,10 @@ import javafx.stage.Stage;
 import java.nio.file.Paths;
 
 public class Levels {
+
+    private Stage stage = null;
+    static int campaignlevel = 1;
+
     @FXML
     Label lblLevelTitle;
 
@@ -82,8 +86,9 @@ public class Levels {
         }
     }
 
-    static int campaignlevel = 1;
-
+    /**
+     * Starts the first campaign level
+     */
     @FXML
     public void onCampaignClicked(ActionEvent event) {
         // setName(userName.getText().toString()); fix to get the player name to write
@@ -91,8 +96,9 @@ public class Levels {
         openNextLevel(1);
     }
 
-    private Stage stage = null;
-
+    /**
+     * Opens the next campaign level
+     */
     public void openNextLevel(int level) {
         if (level < 5) {
             try {
@@ -110,14 +116,7 @@ public class Levels {
                 gameWindow.initialize("../Civ209/Levels/CampaignLevel" + level + ".dat");
                 ++campaignlevel;
                 gameWindow.getGame().setScore(600);
-
-                // TODO Bronkema this looks like it does the same thing...?
-                if (level == 4) {
-                    stage.setOnCloseRequest(e -> onGameClose(gameWindow));
-                } else {
-                    stage.setOnCloseRequest(e -> onGameClose(gameWindow));
-                    // stage.setOnCloseRequest(e -> onGameClose(gameWindow));
-                }
+                stage.setOnCloseRequest(e -> onGameClose(gameWindow));
             } catch (IOException e) {
                 e.printStackTrace();
             }

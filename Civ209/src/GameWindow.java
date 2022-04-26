@@ -43,8 +43,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     private boolean inCity = false;
     Random rand = new Random();
     AudioClip music;
-    // AudioClip castleTaken = new
-    // AudioClip("https://www.fesliyanstudios.com/play-mp3/6202");
     HighScores h = new HighScores();
     Levels level = new Levels();
     private boolean isCampaign = false;
@@ -108,7 +106,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
             showSeason("/images/summer.png");
             try {
                 music = new AudioClip(
-                        getClass().getResource("/Assets/summer1.mp3").toString());
+                        getClass().getResource(Constants.summerMusic).toString());
             } catch (NullPointerException e) {
                 System.out.println(
                         "Music isn't working because you're not running the program from the Civ209 folder :(");
@@ -118,7 +116,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
             showSeason("/images/fall.png");
             try {
                 music = new AudioClip(
-                        getClass().getResource("/Assets/autumn1.mp3").toString());
+                        getClass().getResource(Constants.fallMusic).toString());
             } catch (NullPointerException e) {
                 System.out.println(
                         "Music isn't working because you're not running the program from the Civ209 folder :(");
@@ -129,7 +127,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
             showSeason("/images/winter.png");
             try {
                 music = new AudioClip(
-                        getClass().getResource("/Assets/winter1.mp3").toString());
+                        getClass().getResource(Constants.winterMusic).toString());
             } catch (NullPointerException e) {
                 System.out.println(
                         "Music isn't working because you're not running the program from the Civ209 folder :(");
@@ -139,7 +137,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         if (game.getSeason() == SeasonType.Spring) {
             showSeason("/images/spring.png");
             try {
-                music = new AudioClip(getClass().getResource("/Assets/spring1.mp3").toExternalForm());
+                music = new AudioClip(getClass().getResource(Constants.springMusic).toExternalForm());
             } catch (NullPointerException e) {
                 System.out.println(
                         "Music isn't working because you're not running the program from the Civ209 folder :(");
@@ -180,8 +178,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         play.setUserData("play");
         play.setFitWidth(40);
         play.setPreserveRatio(true);
-        // play.setLayoutX(-40);
-        // play.setLayoutY(-40);
         displayBox.getChildren().addAll(List.of(scoreLabel, play));
         pane.setOnMousePressed(me -> {
             if (!game.checkInCity(new Coordinate(me.getX(), me.getY())) && me.getButton() == MouseButton.PRIMARY) {
@@ -261,14 +257,20 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         }
     }
 
+    /**
+     * Makes weather visible to the pane
+     */
     public void onMakeWeather() {
         Weather weather = game.makeWeather();
         new EntityImage(this, pane, weather);
     }
 
+      /**
+     * Makes projectiles visible for .5 seconds
+     */
     public void onFireProjectiles(Projectile proj) {
         EntityImage firedprojectile = new EntityImage(this, pane, proj);
-        var keyFrame = new KeyFrame(Duration.millis(1000), e -> {
+        var keyFrame = new KeyFrame(Duration.millis(500), e -> {
             // removeEntity(proj);
             pane.getChildren().remove(firedprojectile.getProjectileLine());
         });
@@ -363,14 +365,15 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         }
     }
 
+    /**
+     * When the game is over, this is called to get the player name
+     */
     public void recognizeGameOver(String msg, int score) {
-        // recognizes the game over
-
-        // https://stackoverflow.com/questions/20132239/getting-text-from-a-dialog-box
 
         Stage stage = (Stage) btnEasy.getScene().getWindow();
         stage.setFullScreen(false);
         h.load();
+        // https://stackoverflow.com/questions/20132239/getting-text-from-a-dialog-box
         String name = JOptionPane.showInputDialog("GAME OVER - Score: " + score, "Enter your name");
 
         // If there is no name given, choose one of ours :)
@@ -389,7 +392,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         }
 
         // Johnika is not allowed - Fuller
-
         if (name == "Johnika") {
             name = "That's a bad name.";
         }
@@ -415,18 +417,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         Weather newWeather = game.makeWeather();
         EntityImage weather = new EntityImage(this, pane, newWeather);
         pane.getChildren().add(weather);
-    }
-
-    public void fireProjectiles() {
-        Projectile fireprojectile = game.fireProjectile();
-        EntityImage projectile = new EntityImage(this, pane, fireprojectile);
-        pane.getChildren().add(projectile);
-        var keyFrame = new KeyFrame(Duration.millis(500), e -> {
-            removeEntity(fireprojectile);
-            pane.getChildren().remove(projectile);
-        });
-        var timer = new Timeline(keyFrame);
-        timer.play();
     }
 
     @FXML
@@ -482,15 +472,20 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         System.out.println("You cheater :(");
         Button cheatBtn = (Button) e.getSource();
         if (cheatBtn.getText().equals("Enable Cheat Mode")) {
+
             cheatBtn.setText("Disable Cheat Mode");
             Button winBtn = new Button("Instant Win");
+
             winBtn.setOnAction(this::onInstantGameOverClicked);
             Button loseBtn = new Button("Instant Loss");
             loseBtn.setOnAction(this::onInstantGameOverClicked);
+
             Button troopsBtn = new Button("More Player Troops");
             troopsBtn.setOnAction(this::onMoreTroopsClicked);
+
             Button wthrBtn = new Button("Make Weather");
-            troopsBtn.setOnAction(this::onMakeWeatherClicked);
+            wthrBtn.setOnAction(this::onMakeWeatherClicked);
+
             cheatControls.getChildren().addAll(List.of(winBtn, loseBtn, troopsBtn, wthrBtn));
 
         } else {
