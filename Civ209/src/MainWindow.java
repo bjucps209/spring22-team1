@@ -21,6 +21,7 @@ public class MainWindow {
     VBox VBoxMain;
 
     @FXML
+    // Initialize the main screen
     public void initialize() throws IOException {
         lblGameTitle.setFont(Font.font("Impact", 40)); // https://www.codegrepper.com/code-examples/java/how+to+change+font+in+javafx
         lblGameTitle.setOnMouseClicked(e -> {
@@ -31,6 +32,7 @@ public class MainWindow {
     }
 
     @FXML
+    // Open up the Levels screen
     public void onLevelsClicked(ActionEvent event) {
         try {
             var loader = new FXMLLoader(getClass().getResource("Levels.fxml"));
