@@ -8,8 +8,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.util.Duration;
 
 import java.io.*;
@@ -99,8 +97,7 @@ public class Game {
         if (getEntityList().stream().filter(e -> e instanceof City && ((City) e).getNationality() == Nationality.Player)
                 .count() == 0) {
             stopTimer();
-
-            // Your move, Mr. Moffitt
+            
             gameOver.recognizeGameOver("Enemy conquest", scoreProperty.get());
         } else {
             if (getEntityList().stream()
@@ -140,9 +137,9 @@ public class Game {
                     String entityType = rd.readUTF();
 
                     if (entityType.equals("City"))
-                        entity = City.load(rd);
+                        entity = City.load(rd, this);
                     else if (entityType.equals("Troop"))
-                        entity = Troop.load(rd);
+                        entity = Troop.load(rd, this);
                     else if (entityType.equals("Projectile"))
                         entity = Projectile.load(rd);
                     else
@@ -174,11 +171,6 @@ public class Game {
 
         deleteEntityList.clear();
         ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
-        // troops.stream().forEach(e -> e.setGame(this));
-        // moveTroopToField(troops, destination);
-        // getEntityList().addAll(troops);
-        // return troops;
-        // TODO work on Projectile
         // Ik it looks bad, but I promise it's the way it is for a reason
         for (Entity entity : entityList) {
             entity.update();
@@ -186,7 +178,6 @@ public class Game {
                 City city = (City) entity;
                 Projectile proj = city.fireProjectile(this);
                 projectiles.add(proj);
-                // System.out.println("everything is fine");
             }
         }
 
@@ -223,7 +214,6 @@ public class Game {
                 DestinationType.City);
         troops.stream().forEach(e -> {
             e.setDestination(destination);
-            e.setGame(this);
         });
         return troops;
     }
@@ -248,7 +238,6 @@ public class Game {
                     ArrayList<Troop> troops = getSelectedCity().sendTroops(percentage, destination,
                             getSelectedCity().getType(),
                             DestinationType.City);
-                    troops.stream().forEach(e -> e.setGame(this));
                     getEntityList().addAll(troops);
                     return troops;
                 } else {
@@ -258,7 +247,6 @@ public class Game {
                 ArrayList<Troop> troops = getSelectedCity().sendTroops(percentage, destination,
                         getSelectedCity().getType(),
                         DestinationType.Coordinate);
-                troops.stream().forEach(e -> e.setGame(this));
                 moveTroopToField(troops, destination);
                 getEntityList().addAll(troops);
                 return troops;
@@ -304,8 +292,6 @@ public class Game {
             wr.writeInt(getScore());
             wr.writeChar(this.season == SeasonType.Winter ? 'W'
                     : this.season == SeasonType.Fall ? 'F' : this.season == SeasonType.Summer ? 'S' : 's');
-            // this.difficulty = diff == 'E' ? Difficulty.Easy : diff == 'M' ?
-            // Difficulty.Medium : Difficulty.Hard;
             wr.writeChar(this.difficulty == Difficulty.Easy ? 'E' : this.difficulty == Difficulty.Medium ? 'M' : 'H');
             wr.writeInt(numPlayerCitiesLeft);
             wr.writeDouble(gameSpeed);

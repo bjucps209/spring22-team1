@@ -46,7 +46,6 @@ public class Levels {
             gameWindow.initialize("../Civ209/Levels/savedGame.dat");
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -75,16 +74,16 @@ public class Levels {
         }
     }
 
-    static int campaignlevel = 1; 
+    static int campaignlevel = 1;
 
     @FXML
     public void onCampaignClicked(ActionEvent event) {
         // setName(userName.getText().toString()); fix to get the player name to write
         // to the file
-        openNextLevel(1); 
+        openNextLevel(1);
     }
 
-    private Stage stage = null; 
+    private Stage stage = null;
 
     public void openNextLevel(int level) {
         if (level < 5) {
@@ -100,29 +99,25 @@ public class Levels {
 
                 GameWindow gameWindow = loader.getController();
                 gameWindow.initialize("../Civ209/Levels/CampaignLevel" + level + ".dat");
-                ++campaignlevel; 
+                ++campaignlevel;
                 gameWindow.getGame().setScore(600);
+
+                // TODO Bronkema this looks like it does the same thing...?
                 if (level == 4) {
                     stage.setOnCloseRequest(e -> onGameClose(gameWindow));
-                }
-                else {
+                } else {
                     stage.setOnCloseRequest(e -> onGameClose(gameWindow));
-                    //stage.setOnCloseRequest(e -> onGameClose(gameWindow));
+                    // stage.setOnCloseRequest(e -> onGameClose(gameWindow));
                 }
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
         }
     }
 
-    // public void incrementCampaignLevel() {
-    //     ++campaignlevel;
-    // }
-
     public int getCampaignLevel() {
-        return campaignlevel; 
+        return campaignlevel;
     }
 
     @FXML
@@ -141,9 +136,8 @@ public class Levels {
             stage.setFullScreen(true);
 
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/Spring.dat"); // replace with link to spring level
+            gameWindow.initialize("../Civ209/Levels/Spring.dat");
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
-
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -171,7 +165,6 @@ public class Levels {
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -232,6 +225,7 @@ public class Levels {
         gameWindow.pane.getChildren().clear();
         try {
             gameWindow.music.stop();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
     }
 }

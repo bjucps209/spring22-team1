@@ -5,14 +5,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextInputDialog;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -366,6 +361,8 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         // recognizes the game over
 
         // https://stackoverflow.com/questions/20132239/getting-text-from-a-dialog-box
+
+        // TODO - Izzo, is td necessary? I'm not sure how it works
         JOptionPane td = new JOptionPane("Game Over: Enter Your Name");
         Stage stage = (Stage) btnEasy.getScene().getWindow();
         stage.setFullScreen(false);
@@ -374,7 +371,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
 
         // If there is no name given, choose one of ours :)
         if (name == null || name.equals("Enter your name") || name.equals("")) {
-            int text = rand.nextInt(4); //0, 4
+            int text = rand.nextInt(4); // 0, 4
             if (text == 0) {
                 name = "Rhys";
             } else if (text == 1) {
@@ -385,11 +382,12 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
                 name = "Emily";
             }
 
-            // Johnika is not allowed - Fuller
-            if (name == "Johnika") {
-                name = "That's a bad name.";
-            }
+        }
 
+        // Johnika is not allowed - Fuller
+
+        if (name == "Johnika") {
+            name = "That's a bad name.";
         }
 
         h.addScoreList(new ScoreEntry(name, score));

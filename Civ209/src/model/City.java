@@ -11,8 +11,6 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
@@ -35,11 +33,11 @@ public class City extends Entity {
     private Game game;
     private Coordinate location;
 
-    private static int nextId; 
+    private static int nextId;
 
     public City(Coordinate location, int turnCount, IntegerProperty population, double incrementRate,
             Nationality nationality,
-            boolean selected, double fireRate, CityType type) {
+            boolean selected, double fireRate, CityType type, Game game) {
         super(location, turnCount);
         this.populationProperty = population;
         this.incrementRate = incrementRate;
@@ -54,7 +52,7 @@ public class City extends Entity {
         this.y = rand.nextInt(450);
     }
 
-    public static Entity load(DataInputStream rd) throws IOException {
+    public static Entity load(DataInputStream rd, Game game) throws IOException {
         Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
         int turnCount = rd.readInt();
         int population = rd.readInt();
@@ -69,7 +67,7 @@ public class City extends Entity {
         CityType cityType = cityT == 'S' ? CityType.Standard
                 : cityT == 'F' ? CityType.Fast : CityType.Strong;
         return new City(location, turnCount, popProperty, incrementRate, nationality, selected,
-                fireRate, cityType);
+                fireRate, cityType, game);
     }
 
     /**
@@ -106,7 +104,7 @@ public class City extends Entity {
                         0, heading,
                         destination,
                         (type == CityType.Strong) ? Constants.strongTroopHealth : Constants.standardTroopHealth,
-                        nationality, false, destinationType, type);
+                        nationality, false, destinationType, type, game);
                 troops.add(troop);
             }
 
@@ -158,15 +156,14 @@ public class City extends Entity {
             });
             for (Troop troop : troops) {
                 if (troop.getNationality() != nationality && location.isNearThis(troop.getLocation())) {
-                    if (turnCount%10 == 0) {
-                        Troop targettroop = troop; 
+                    if (turnCount % 10 == 0) {
+                        Troop targettroop = troop;
                         projectile = new Projectile(this.location, turnCount, 2, 0,
-                            targettroop.getLocation(), 2);
+                                targettroop.getLocation(), 2);
                         projectile.setGame(game);
-                        projectile.fireProjectile(this); 
-                    }
-                    else {
-                        return null; 
+                        projectile.fireProjectile(this);
+                    } else {
+                        return null;
                     }
                 }
             }

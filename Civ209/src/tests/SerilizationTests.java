@@ -19,9 +19,9 @@ public class SerilizationTests {
         Game game = new Game();
         ArrayList<Entity> entityList = new ArrayList<Entity>();
         entityList.add(new City(new Coordinate(39, 42), 0, new SimpleIntegerProperty(3), 3.4, Nationality.Enemy, false,
-                1.0, CityType.Standard));
+                1.0, CityType.Standard, game));
         entityList.add(new Troop(new Coordinate(), 0, 2, 180, new Coordinate(), 1, Nationality.Player, false,
-                DestinationType.Coordinate, CityType.Standard));
+                DestinationType.Coordinate, CityType.Standard, game));
         // Weather destinations are always null as per design
         entityList.add(new Weather(new Coordinate(390, 123), 7, 8, 9, null, WeatherType.Blizzard));
 

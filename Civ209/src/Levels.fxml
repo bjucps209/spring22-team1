@@ -5,7 +5,7 @@
 <VBox fx:controller="Levels" xmlns:fx="http://javafx.com/fxml" stylesheets="@HighScores.css" spacing="20" prefHeight="500" prefWidth="500">
     <Label fx:id="lblLevelTitle" text="Select A Level" />
     <Label text="LEVELS"></Label>
-    <Button onAction="#onCampaignClicked" text="Campaign Level"></Button>
+    <Button onAction="#onCampaignClicked" text="Journey through the Four Seasons"></Button>
     <Label text="Season Levels"></Label>
     <HBox spacing="20">
         <Button onAction="#onSpringClicked" text="Spring"></Button>
