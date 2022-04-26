@@ -69,6 +69,7 @@ public class Levels {
             var stage = new Stage();
             stage.setScene(scene);
             stage.show();
+            stage.setFullScreen(true);
             stage.setResizable(false);
             stage.setFullScreen(true);
 
@@ -101,6 +102,7 @@ public class Levels {
                 stage = new Stage();
                 stage.setScene(scene);
                 stage.show();
+                stage.setFullScreen(true);
                 stage.setResizable(false);
                 stage.setFullScreen(true);
 
@@ -139,6 +141,7 @@ public class Levels {
             var stage = new Stage();
             stage.setScene(scene);
             stage.show();
+            stage.setFullScreen(true);
             stage.setResizable(false);
             stage.setFullScreen(true);
 
@@ -164,6 +167,7 @@ public class Levels {
             var stage = new Stage();
             stage.setScene(scene);
             stage.show();
+            stage.setFullScreen(true);
             stage.setResizable(false);
             stage.setFullScreen(true);
 
@@ -188,6 +192,7 @@ public class Levels {
             var stage = new Stage();
             stage.setScene(scene);
             stage.show();
+            stage.setFullScreen(true);
             stage.setResizable(false);
             stage.setFullScreen(true);
 
@@ -213,6 +218,7 @@ public class Levels {
             var stage = new Stage();
             stage.setScene(scene);
             stage.show();
+            stage.setFullScreen(true);
             stage.setResizable(false);
             stage.setFullScreen(true);
 

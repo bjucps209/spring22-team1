@@ -153,13 +153,13 @@ public class Game {
     }
 
     public void update() {
+        turncount++;
         if (turncount >= 10 && !endGame) {
             gameEnd();
         }
         if (endGame)
             return;
         computer.executeAction(this);
-        turncount++;
         if (turncount % 5 == 0)
             setScore(getScore() - 1);
         deleteEntityList.stream().forEach(e -> {
@@ -169,8 +169,22 @@ public class Game {
         for (Entity entity : deleteEntityList) {
             entityList.remove(entity);
         }
-
         deleteEntityList.clear();
+<<<<<<< HEAD
+        ArrayList<Projectile> projectiles = new ArrayList<Projectile>(); 
+                // troops.stream().forEach(e -> e.setGame(this));
+                // moveTroopToField(troops, destination);
+                // getEntityList().addAll(troops);
+                // return troops;
+        // TODO work on Projectile
+        for (Entity entity : entityList) {
+            entity.update();
+            if (entity instanceof City) {
+            City city = (City) entity;
+            Projectile proj = city.fireProjectile(this);
+            projectiles.add(proj); 
+            //System.out.println("everything is fine"); 
+=======
         ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
         // Ik it looks bad, but I promise it's the way it is for a reason
         for (Entity entity : entityList) {
@@ -179,6 +193,7 @@ public class Game {
                 City city = (City) entity;
                 Projectile proj = city.fireProjectile(this);
                 projectiles.add(proj);
+>>>>>>> ae9168703d7823458f9ff90809a052376382308f
             }
         }
 
@@ -541,8 +556,9 @@ public class Game {
         for (Entity ent : entityList) {
             if (ent instanceof City) {
                 City city = (City) ent;
-                if (city.getNationality() == Nationality.Player) {
-                    city.setPopulation(city.getPopulation() + Constants.cityPopulationLimit);
+                if (city.getNationality() == (Nationality.Player)) {
+                    for (int i = 0; i < 15; i++)
+                        city.update();
                 }
             }
         }
@@ -564,7 +580,11 @@ public class Game {
     }
 
     public void instantMakeWeather() {
-        onMakeWeather.onMakeWeather();
+        // TODO Izzo can you make this so it just adds another weather instance?
+    }
+
+    public void instantFireProjectiles() {
+        // TODO Izzo can you make this so it just adds another weather instance?
     }
 
     public void stopTimer() {

@@ -405,6 +405,8 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         if (isCampaign) {
             level.onGameClose(this);
             level.openNextLevel(level.getCampaignLevel());
+            Stage stage = (Stage) btnEasy.getScene().getWindow();
+            stage.close();
         }
     }
 
@@ -481,19 +483,16 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         Button cheatBtn = (Button) e.getSource();
         if (cheatBtn.getText().equals("Enable Cheat Mode")) {
             cheatBtn.setText("Disable Cheat Mode");
-
             Button winBtn = new Button("Instant Win");
             winBtn.setOnAction(this::onInstantGameOverClicked);
-
             Button loseBtn = new Button("Instant Loss");
             loseBtn.setOnAction(this::onInstantGameOverClicked);
-
             Button troopsBtn = new Button("More Player Troops");
             troopsBtn.setOnAction(this::onMoreTroopsClicked);
-
             Button wthrBtn = new Button("Make Weather");
-            wthrBtn.setOnAction(this::onMakeWeatherClicked);
-
+            troopsBtn.setOnAction(this::onMakeWeatherClicked);
+            Button smrbutton = new Button("Fire Projectiles");
+            smrbutton.setOnAction(this::onFireProjectilesClicked);
             cheatControls.getChildren().addAll(List.of(winBtn, loseBtn, troopsBtn, wthrBtn));
 
         } else {
