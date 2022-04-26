@@ -544,8 +544,7 @@ public class Game {
             if (ent instanceof City) {
                 City city = (City) ent;
                 if (city.getNationality() == (Nationality.Player)) {
-                    for (int i = 0; i < 15; i++)
-                        city.update();
+                    city.setPopulation(city.getPopulation() + Constants.cityPopulationLimit);
                 }
             }
         }
