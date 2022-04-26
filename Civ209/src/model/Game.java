@@ -170,21 +170,6 @@ public class Game {
             entityList.remove(entity);
         }
         deleteEntityList.clear();
-<<<<<<< HEAD
-        ArrayList<Projectile> projectiles = new ArrayList<Projectile>(); 
-                // troops.stream().forEach(e -> e.setGame(this));
-                // moveTroopToField(troops, destination);
-                // getEntityList().addAll(troops);
-                // return troops;
-        // TODO work on Projectile
-        for (Entity entity : entityList) {
-            entity.update();
-            if (entity instanceof City) {
-            City city = (City) entity;
-            Projectile proj = city.fireProjectile(this);
-            projectiles.add(proj); 
-            //System.out.println("everything is fine"); 
-=======
         ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
         // Ik it looks bad, but I promise it's the way it is for a reason
         for (Entity entity : entityList) {
@@ -193,7 +178,6 @@ public class Game {
                 City city = (City) entity;
                 Projectile proj = city.fireProjectile(this);
                 projectiles.add(proj);
->>>>>>> ae9168703d7823458f9ff90809a052376382308f
             }
         }
 
