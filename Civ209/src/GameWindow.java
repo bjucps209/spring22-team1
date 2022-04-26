@@ -43,8 +43,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     private boolean inCity = false;
     Random rand = new Random();
     AudioClip music;
-    // AudioClip castleTaken = new
-    // AudioClip("https://www.fesliyanstudios.com/play-mp3/6202");
     HighScores h = new HighScores();
     Levels level = new Levels();
     private boolean isCampaign = false;
@@ -180,8 +178,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         play.setUserData("play");
         play.setFitWidth(40);
         play.setPreserveRatio(true);
-        // play.setLayoutX(-40);
-        // play.setLayoutY(-40);
         displayBox.getChildren().addAll(List.of(scoreLabel, play));
         pane.setOnMousePressed(me -> {
             if (!game.checkInCity(new Coordinate(me.getX(), me.getY())) && me.getButton() == MouseButton.PRIMARY) {
@@ -269,7 +265,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     public void onFireProjectiles(Projectile proj) {
         EntityImage firedprojectile = new EntityImage(this, pane, proj);
         var keyFrame = new KeyFrame(Duration.millis(1000), e -> {
-            // removeEntity(proj);
             pane.getChildren().remove(firedprojectile.getProjectileLine());
         });
         var timer = new Timeline(keyFrame);
@@ -482,15 +477,20 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         System.out.println("You cheater :(");
         Button cheatBtn = (Button) e.getSource();
         if (cheatBtn.getText().equals("Enable Cheat Mode")) {
+
             cheatBtn.setText("Disable Cheat Mode");
             Button winBtn = new Button("Instant Win");
+
             winBtn.setOnAction(this::onInstantGameOverClicked);
             Button loseBtn = new Button("Instant Loss");
             loseBtn.setOnAction(this::onInstantGameOverClicked);
+
             Button troopsBtn = new Button("More Player Troops");
             troopsBtn.setOnAction(this::onMoreTroopsClicked);
+
             Button wthrBtn = new Button("Make Weather");
-            troopsBtn.setOnAction(this::onMakeWeatherClicked);
+            wthrBtn.setOnAction(this::onMakeWeatherClicked);
+
             cheatControls.getChildren().addAll(List.of(winBtn, loseBtn, troopsBtn, wthrBtn));
 
         } else {

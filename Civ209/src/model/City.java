@@ -191,6 +191,9 @@ public class City extends Entity {
         }
     }
 
+    /*************************************************************************/
+    // Getters and setters
+
     public int getPopulation() {
         return populationProperty.get();
     }

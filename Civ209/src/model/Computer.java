@@ -23,10 +23,6 @@ public class Computer {
      * @param game the game state
      */
     public void executeAction(Game game) {
-
-        /**
-         * Depending on level of difficulty, creates action and executes said action
-         */
         ArrayList<Entity> entities = game.getEntityList();
         ArrayList<City> computerCities = new ArrayList<City>();
         ArrayList<City> otherCities = new ArrayList<City>();
@@ -34,7 +30,7 @@ public class Computer {
         ArrayList<Troop> otherTroops = new ArrayList<Troop>();
 
         turnCount++;
-
+        // Initialize array lists for calculations
         for (Entity entity : entities) {
             if (entity instanceof City) {
                 City city = (City) entity;
@@ -56,9 +52,12 @@ public class Computer {
         City cityToAttack;
         try {
             cityToAttack = calculateAttackCity(otherCities);
+            if (cityToAttack == null)
+                return;
         } catch (Exception e) {
             cityToAttack = null;
             return;
+            // If there is no city to attack, end process.
         }
 
         if (computerCities.size() < 1) {
@@ -67,6 +66,10 @@ public class Computer {
 
         switch (difficulty) {
             case Easy:
+                /**
+                 * In easy mode the computer sends a half of it's troops from one city every 100
+                 * turns, and every 301st turn attacks one city with 40% of all cities
+                 */
                 try {
                     if (turnCount % 100 == 0) {
                         ArrayList<Troop> troops = game.sendTroopsFromCity(computerCities.get(0),
@@ -138,11 +141,26 @@ public class Computer {
         }
     }
 
+    /**
+     * Generates a random number between min and max.
+     * 
+     * @param min
+     * @param max
+     * @return - random number
+     */
     private double randomNumberGenerator(int min, int max) {
         double randomNumber = Math.random() * (max - min) + min;
         return randomNumber;
     }
 
+    /**
+     * Calculates the city that should be attacked. First finds a non-computer
+     * controlled city, then searches through non-computer controlled cities for the
+     * city with the lowest population, which would be optimum to attack.
+     * 
+     * @param cities - List of all cities in game.
+     * @return - City to attack
+     */
     private City calculateAttackCity(ArrayList<City> cities) {
         City returnCity = null;
         for (City city : cities) {
@@ -156,6 +174,9 @@ public class Computer {
         }
         return returnCity;
     }
+
+    /* \***********************************************************************\ */
+    // Getters and setters
 
     public Difficulty getDifficulty() {
         return difficulty;

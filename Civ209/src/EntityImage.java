@@ -120,7 +120,8 @@ public class EntityImage extends ImageView implements CityObserver {
     }
 
     /**
-     * Method updates the location of the Entity based off of the model.
+     * Method updates the nationality of the Entity based off of the
+     * model.
      */
     public void update() {
         if (entity instanceof City) {
@@ -134,6 +135,8 @@ public class EntityImage extends ImageView implements CityObserver {
         }
     }
 
+    /*************************************************************************/
+    // Getters and setters
     public Entity getDestination() {
         return destination;
     }

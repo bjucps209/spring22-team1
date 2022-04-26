@@ -98,7 +98,7 @@ public class Game {
         if (getEntityList().stream().filter(e -> e instanceof City && ((City) e).getNationality() == Nationality.Player)
                 .count() == 0) {
             stopTimer();
-            
+
             gameOver.recognizeGameOver("Enemy conquest", scoreProperty.get());
         } else {
             if (getEntityList().stream()
@@ -541,8 +541,7 @@ public class Game {
             if (ent instanceof City) {
                 City city = (City) ent;
                 if (city.getNationality() == (Nationality.Player)) {
-                    for (int i = 0; i < 15; i++)
-                        city.update();
+                    city.setPopulation(city.getPopulation() + Constants.cityPopulationLimit);
                 }
             }
         }

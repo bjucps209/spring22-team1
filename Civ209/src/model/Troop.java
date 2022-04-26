@@ -12,13 +12,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Troop extends MobileEntity {
+
+    // Health of the troop, counts against city population.
     private int health;
+
+    // Nationality of troop, Player or Enemy
     private Nationality nationality;
+
+    // true if selected, for serialization purposes.
     private boolean selected;
+
+    // Event handler to remove troop from entity list when appropriate
     private TroopDelete troopDelete;
+
+    // Either City or Coordinate, for movement calculation purposes.
     private DestinationType destinationType;
+
+    // Type of troop, Standard, Strong, or Fast.
     private CityType troopType;
+
+    // Holds reference to the game it is played on for deletion purposes and
+    // optimization purposes.
     private Game game;
+
+    // Keeps track of if troop has been killed or not.
     private boolean dead = false;
 
     public Troop(Coordinate location, int turnCount, double speed, double heading, Coordinate destination, int health,
@@ -150,6 +167,13 @@ public class Troop extends MobileEntity {
         }
     }
 
+    /**
+     * Figures what degree the heading should be to get to the desired coordinate
+     * from current location.
+     * 
+     * @param destination
+     * @return - heading in degrees (0-359)
+     */
     public double figureHeading(Coordinate destination) {
         if (destination.getX() - getLocation().getX() != 0) {
             if (destination.getX() - getLocation().getX() < 0) {
@@ -164,6 +188,8 @@ public class Troop extends MobileEntity {
         }
     }
 
+    /*************************************************************************/
+    // Getters and setters
     public boolean isSelected() {
         return selected;
     }
@@ -220,6 +246,7 @@ public class Troop extends MobileEntity {
         this.dead = dead;
     }
 
+    //String method for debugging purposes.
     public String __str__() {
         return "" + getSpeed() + " " + getHeading() + " " + getDestination();
     }
