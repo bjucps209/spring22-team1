@@ -78,7 +78,7 @@ public class City extends Entity {
     @Override
     public void update() {
         turnCount++;
-        if (getPopulation() < Constants.cityPopulationLimit && turnCount % 3 == 0) {
+        if (getPopulation() < Constants.cityPopulationLimit && turnCount % Constants.cityPopulationUpdateSpeed == 0) {
             setPopulation(getPopulation() + 1);
 
         }

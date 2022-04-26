@@ -5,16 +5,18 @@ import javafx.scene.image.Image;
 public class Constants {
     public static int troopRadius = 4;
     public final static int cityRadius = 35;
-    public final static int standardTroopSpeed = 5;
-    public final static int fastTroopSpeed = 9;
-    public final static int blizzardTroopspeed = 2;
+    public final static int standardTroopSpeed = 3;
+    public final static int fastTroopSpeed = 5;
+    public final static int blizzardTroopspeed = 1;
     public final static int standardTroopHealth = 1;
     public final static int windowHeight = 525;
     public final static int windowWidth = 1025;
     public final static int strongTroopHealth = 2;
     public final static int cityPopulationLimit = 30;
+    public final static int cityPopulationUpdateSpeed = 6;
+
     public final static int troopRingRadius = 10;
-    public final static int tickSpeed = 200;
+    public final static int tickSpeed = 100;
     public final static int projectileSpeed = 10;
     public static Image blizzardImage = new Image(
             "https://upload.wikimedia.org/wikipedia/commons/d/db/Weather-Snow.png");
@@ -37,7 +39,7 @@ public class Constants {
     public static Image fastCity = new Image("/images/fastcastle.png");
     public static Image strongCity = new Image("/images/strongcastle.png");
     public final static int weatherRadius = 40;
-    public final static double weatherSpeed = 4;
+    public final static double weatherSpeed = 2;
 
     public static void switchImages() {
         blizzardImage = new Image("/Images/Blizzard.png");

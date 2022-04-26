@@ -327,7 +327,7 @@ public class Game {
         int heading;
         int coordX = 30;
         int coordY = 30;
-        WeatherType type = WeatherType.Blizzard;
+        WeatherType type = null;
         int typeNum = rand.nextInt(3); // 0, 3
         // determine the weather type
         if (typeNum == 0) {
