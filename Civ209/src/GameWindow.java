@@ -362,8 +362,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
 
         // https://stackoverflow.com/questions/20132239/getting-text-from-a-dialog-box
 
-        // TODO - Izzo, is td necessary? I'm not sure how it works
-        JOptionPane td = new JOptionPane("Game Over: Enter Your Name");
         Stage stage = (Stage) btnEasy.getScene().getWindow();
         stage.setFullScreen(false);
         h.load();
