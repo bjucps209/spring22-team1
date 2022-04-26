@@ -13,7 +13,6 @@ import java.util.List;
 
 public class Projectile extends MobileEntity {
     private int damage;
-    private Coordinate location;
     private Coordinate destination;
     private int turnCount;
     // private onTroopDeleteInterface troopDelete;
@@ -23,7 +22,6 @@ public class Projectile extends MobileEntity {
             Coordinate destination, int damage) {
         super(location, turnCount, speed, heading, destination);
         this.damage = damage;
-        this.location = location;
         this.destination = destination;
         this.turnCount = turnCount;
     }
@@ -129,14 +127,6 @@ public class Projectile extends MobileEntity {
 
     public void setDamage(int damage) {
         this.damage = damage;
-    }
-
-    public Coordinate getLocation() {
-        return location;
-    }
-
-    public void setLocation(Coordinate location) {
-        this.location = location;
     }
 
     public Coordinate getDestination() {

@@ -405,8 +405,8 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         if (isCampaign) {
             level.onGameClose(this);
             level.openNextLevel(level.getCampaignLevel());
-            Stage newStage = (Stage) btnEasy.getScene().getWindow();
-            newStage.close();
+            Stage XStage = (Stage) btnEasy.getScene().getWindow();
+            XStage.close();
         }
     }
 

@@ -159,7 +159,7 @@ public class City extends Entity {
                 }
             });
             for (Troop troop : troops) {
-                if (troop.getNationality() != nationality && location.isNearThis(troop.getLocation())) {
+                if (troop.getNationality() != nationality && getLocation().isNearThis(troop.getLocation())) {
                     if (turnCount % 10 == 0) {
                         Troop targettroop = troop;
                         projectile = new Projectile(this.location, turnCount, 2, 0,
