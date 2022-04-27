@@ -52,11 +52,11 @@ You win when you control all of the cities on the map. You lose if all of your c
  * Spring background: https://wallpaperaccess.com/pastel-spring-computer#google_vignette
 
 ### Background Music - Vivaldi's Four Seasons
- * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/1.+Spring+1(allegro).mp3
- * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/2.+Summer+1+(presto).mp3
- * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/3.+Autumn+1+(allegro).mp3
- * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/4.+Winter+1+(allegro+non+molto).mp3
- * https://www.facebook.com/watch/?v=267519517759544
+ * Spring: https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/1.+Spring+1(allegro).mp3
+ * Summer: https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/2.+Summer+1+(presto).mp3
+ * Autumn: https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/3.+Autumn+1+(allegro).mp3
+ * Winter: https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/4.+Winter+1+(allegro+non+molto).mp3
+ * Organ: https://www.facebook.com/watch/?v=267519517759544
 
 ### Extra images
  * Blizzard icon: https://upload.wikimedia.org/wikipedia/commons/d/db/Weather-Snow.png
