@@ -265,7 +265,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         new EntityImage(this, pane, weather);
     }
 
-      /**
+    /**
      * Makes projectiles visible for .5 seconds
      */
     public void onFireProjectiles(Projectile proj) {

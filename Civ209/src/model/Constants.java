@@ -7,8 +7,6 @@
 package model;
 
 import javafx.scene.image.Image;
-import javafx.scene.media.AudioClip;
-import javafx.stage.Window;
 
 public class Constants {
 
@@ -86,10 +84,10 @@ public class Constants {
                 enemyImage = new Image("/Images/EnemyNormal.png");
 
                 // Switch Music
-                springMusic = "/Assets/schauborgan.mp3";
-                summerMusic = "/Assets/schauborgan.mp3";
-                fallMusic = "/Assets/schauborgan.mp3";
-                winterMusic = "/Assets/schauborgan.mp3";
+                // springMusic = "/Assets/schauborgan.mp3";
+                // summerMusic = "/Assets/schauborgan.mp3";
+                // fallMusic = "/Assets/schauborgan.mp3";
+                // winterMusic = "/Assets/schauborgan.mp3";
 
                 // Update troop radius so you can see everyone's beautiful faces.
                 troopRadius = 10;
