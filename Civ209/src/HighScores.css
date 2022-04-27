@@ -54,4 +54,13 @@ HBox {
     -fx-font-weight: bold;
     -fx-text-fill: white;
     -fx-effect: dropshadow( three-pass-box , rgba(255,255,255,0.2) , 1, 0.0 , 0 , 1);
+    
+}
+.coders {
+    -fx-font-family: 'Georgia', 'Helvetica', Arial;
+    -fx-font-size: 19;
+}
+.objective {
+    -fx-font-family: 'Georgia', 'Helvetica', Arial;
+    -fx-font-size: 19;
 }

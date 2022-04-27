@@ -66,7 +66,7 @@ public class Weather extends MobileEntity {
     }
 
     /**
-     * packages the object and writes it in file according to serialization pattern
+     * Packages the object and writes it in file according to serialization pattern
      */
     @Override
     public void serialize(DataOutputStream wr) throws IOException {

@@ -4,19 +4,20 @@
 <?import javafx.scene.layout.*?>
 
 <VBox fx:controller="HelpScreen" xmlns:fx="http://javafx.com/fxml" stylesheets="@HighScores.css" spacing="10" prefHeight="700" prefWidth="900">
-    <Label fx:id = "lblHelpTitle" text = "Help"/>
-    <HBox spacing = "30">
-        <Label styleClass = "heading" text = "How To Play"></Label>
+    <Label fx:id="lblHelpTitle" text="Help" />
+    <HBox spacing="30">
+        <Label styleClass="heading" text="How To Play"></Label>
     </HBox>
-    <VBox fx:id = "VBoxScores" spacing = "10">
-        <Label text = "Your objective is to capture all the cities by clicking on the blue cities"></Label>
-        <Label text = "and sending troops to the (red) enemy and (gray) neutral cities by clicking on them."></Label>
-<Label text = "Controls" styleClass = "heading"></Label>
-        <Label text = " * Drag the slider to choose how many troops you want to send from that city."></Label>
-        <Label text = " * Troops will be produced in each city once per second until the max count is reached."></Label>
-        <Label text = " * When you defeat a neutral or enemy city, the city will become yours."></Label>
-        <Label text = " * You lose if all of your cities are taken over, or if your score reaches zero."></Label>
-        <Label text = " * Watch out for the weather!"></Label>
+    <VBox fx:id="VBoxScores" spacing="10">
+        <Label styleClass = "objective" text="Your objective is to capture all the cities by clicking on the blue cities"></Label>
+        <Label styleClass = "objective" text="and sending troops to the (red) enemy and (gray) neutral cities by clicking on them."></Label>
+        <Label></Label>
+        <Label text="Controls" styleClass="heading"></Label>
+        <Label styleClass = "objective" text=" * Drag the slider to choose how many troops you want to send from that city."></Label>
+        <Label styleClass = "objective" text=" * Troops will be produced in each city once per second until the max count is reached."></Label>
+        <Label styleClass = "objective" text=" * When you defeat a neutral or enemy city, the city will become yours."></Label>
+        <Label styleClass = "objective" text=" * You lose if all of your cities are taken over, or if your score reaches zero."></Label>
+        <Label styleClass = "objective" text=" * Watch out for the weather!"></Label>
     </VBox>
 
 </VBox>

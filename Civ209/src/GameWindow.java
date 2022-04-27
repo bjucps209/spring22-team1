@@ -527,7 +527,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     }
 
     /**
-     * ends the game
+     * Ends the game
      */
     @FXML
     public void onInstantGameOverClicked(ActionEvent e) {
@@ -536,7 +536,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     }
 
     /**
-     * makes weather
+     * Makes weather
      */
     @FXML
     public void onMakeWeatherClicked(ActionEvent e) {
@@ -544,7 +544,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     }
 
     /**
-     * makes more troops
+     * Makes more troops
      */
     @FXML
     public void onMoreTroopsClicked(ActionEvent e) {
@@ -552,7 +552,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     }
 
     /**
-     * shows the cheat options
+     * Shows the cheat options
      */
     @FXML
     public void onCheatClicked(ActionEvent e) {
@@ -583,7 +583,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     }
 
     /**
-     * displays the season
+     * Displays the season
      * 
      * @param url of the season image
      */

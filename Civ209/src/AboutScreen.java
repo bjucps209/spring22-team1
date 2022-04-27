@@ -12,7 +12,7 @@ public class AboutScreen {
     @FXML Label lblAboutTitle;
 
     /**
-     * initializes the about screen
+     * Initializes the about screen
      */
     public void initialize(){
         lblCoders.setFont(Font.font("Times New Roman", 25));

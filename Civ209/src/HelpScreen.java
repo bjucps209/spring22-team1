@@ -15,6 +15,6 @@ public class HelpScreen {
      *  initializes the health screen 
      */
     public void initialize() {
-        lblHelpTitle.setFont(Font.font("Impact", 30));
+        lblHelpTitle.setFont(Font.font("Impact", 50));
     }
 }
