@@ -1,7 +1,7 @@
 //-----------------------------------------------------------
 //File:   GameWindow.java
 //Desc:   File holds the logic for the game screen: input from
-// Player and showing model on screen.
+//        Player and showing model on screen.
 //-----------------------------------------------------------
 
 import javafx.animation.KeyFrame;
@@ -25,7 +25,6 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.*;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -258,14 +257,14 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     }
 
     /**
-     * Makes weather visible to the pane
+     * Makes a weather entity image
      */
     public void onMakeWeather() {
         Weather weather = game.makeWeather();
         new EntityImage(this, pane, weather);
     }
 
-      /**
+    /**
      * Makes projectiles visible for .5 seconds
      */
     public void onFireProjectiles(Projectile proj) {
@@ -412,6 +411,9 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         }
     }
 
+    /**
+     * Makes an instance of weather and adds it to the pane
+     */
     public void makeWeather() {
 
         Weather newWeather = game.makeWeather();

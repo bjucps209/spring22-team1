@@ -1,7 +1,7 @@
 //-----------------------------------------------------------
 //File:   HighScores.java
 //Desc:   File reads in high scores and contains logic to 
-// display high score screen.
+//        display the high score screen.
 //-----------------------------------------------------------
 
 import java.io.BufferedReader;
@@ -30,7 +30,7 @@ public class HighScores {
     @FXML
     public void initialize() throws IOException {
         VBoxScores.getChildren().clear();
-        lblHScoreTitle.setFont(Font.font("Impact", 30));
+        lblHScoreTitle.setFont(Font.font("Impact", 35));
         load();
         sortScores(scoreList);
         makeLabels();
@@ -54,7 +54,8 @@ public class HighScores {
     }
 
     /**
-     * Sorts the scores that are currently in the ArrayList by using a stream
+     * Sorts the scores from top to bottom that are currently in the ArrayList by
+     * using a stream
      * 
      * @return an ArrayList of sorted scores
      */
@@ -68,9 +69,11 @@ public class HighScores {
         return arraylist;
     }
 
+    /**
+     * Makes labels for each line in the scoreList
+     */
     public void makeLabels() {
         for (ScoreEntry score : sortScores(scoreList)) {
-            // set the label value to each line value
             Label lblScore = new Label();
             String pName = score.getPlayerName();
             int pScore = score.getPlayerScore();
@@ -79,12 +82,9 @@ public class HighScores {
         }
     }
 
-    public int getDifficulty() {
-        return (int) slDifficulty.getValue();
-    }
-
     /*
-     * The save method takes in the scoreList and saves it into a text file
+     * The save method takes in the scoreList as a parameter and saves it into a
+     * text file
      *
      * @param scoreList
      */
@@ -109,7 +109,6 @@ public class HighScores {
      * @return
      */
     public void load() {
-        // throw new RuntimeException("Method not implemented");
 
         try {
             FileReader reader = new FileReader("../Civ209/src/sampleScores.txt");

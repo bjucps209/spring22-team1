@@ -397,7 +397,9 @@ public class Game {
 
     }
 
-    // returns the weather type if the entity is in the weather, null otherwise
+    /** returns the weather type if the troop is under the weather, null otherwise
+     * 
+    */
     public WeatherType checkInWeather(Coordinate e) {
         for (Entity entity : getEntityList()) {
             if (entity instanceof Weather) {
@@ -425,7 +427,8 @@ public class Game {
         else if (wType != null && wType.equals(WeatherType.Flood)) {
             getDeleteEntityList().add(troop);
         }
-        // if the weather type is blizzard, slow the troop that passes through down by 0.75
+        // if the weather type is blizzard, slow the troop that passes through down by
+        // 0.75
         else if (wType != null && wType.equals(WeatherType.Blizzard)) {
             // permanently
             troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed - .75
@@ -433,7 +436,7 @@ public class Game {
         }
 
     }
-
+    // custom nextInt() method because Mr. Moffitt's computer had a fit :(
     public int nextInt(int lowerBound, int upperBound) {
         return (int) ((Math.random() * (upperBound - lowerBound)) + lowerBound);
     }
@@ -565,9 +568,13 @@ public class Game {
         }
     }
 
-     /**
+    public void instantMakeWeather() {
+        onMakeWeather.onMakeWeather();
+    }
+
+    /**
      * @param proj to render
-     * adds the projectile to the game and fires it
+     *             adds the projectile to the game and fires it
      */
     public void renderProjectile(Projectile proj) {
         getEntityList().add(proj);
@@ -575,7 +582,7 @@ public class Game {
     }
 
     /**
-     * fire's a projectile for every city in the game 
+     * fire's a projectile for every city in the game
      */
     public Projectile fireProjectile() {
         for (Entity ent : entityList) {
@@ -585,10 +592,6 @@ public class Game {
             }
         }
         return null;
-    }
-
-    public void instantMakeWeather() {
-        // TODO Izzo can you make this so it just adds another weather instance?
     }
 
     public void stopTimer() {

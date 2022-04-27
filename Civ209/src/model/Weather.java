@@ -13,7 +13,15 @@ import java.util.Random;
 public class Weather extends MobileEntity {
     private WeatherType type;
     Random rand = new Random();
-
+    /**
+     * Makes some weather using a randomly generated location, speed, heading, and type
+     * @param location
+     * @param turnCount
+     * @param speed
+     * @param heading
+     * @param destination
+     * @param type
+     */
     public Weather(Coordinate location, int turnCount, double speed, double heading,
             Coordinate destination, WeatherType type) {
         super(location, turnCount, speed, heading, destination);
@@ -21,18 +29,12 @@ public class Weather extends MobileEntity {
     }
 
     /**
-     * checks for if completed requirements for type and checks to see if troop in
+     * checks for completed requirements for weather type and checks to see if troop in
      * range
      */
     @Override
     public void update() {
-        /**
-         * check if troops in range of circle radius, if so, kill a random number
-         * 
-         */
         super.update();
-        // if troops in range of circle,
-        // kill random number of troops in list.
 
     }
 

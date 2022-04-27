@@ -1,37 +1,52 @@
-//-----------------------------------------------------------
+//---------------------------------------------------------------
 //File:   MainWindow.java
-//Desc:   File holds logic for main window.
-//-----------------------------------------------------------
+//Desc:   This file holds the logic for main window (home screen).
+//---------------------------------------------------------------
 
 import java.io.IOException;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import model.Constants;
 
 public class MainWindow {
-    public static final Image cityImage = new Image(
+    Image cityImg = new Image(
             "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/BSicon_Castle.svg/32px-BSicon_Castle.svg.png");
-
+    Image cityImg2 = new Image(
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/BSicon_Castle.svg/32px-BSicon_Castle.svg.png");
+    ImageView imgView = new ImageView(cityImg);
+    ImageView imgView2 = new ImageView(cityImg2);
+    @FXML
+    Label lblLeftImg;
+    @FXML
+    Label lblRightImg;
     @FXML
     Label lblGameTitle;
     @FXML
     VBox VBoxMain;
 
     @FXML
-    // Initialize the main screen
+    // Initialize the main screen (plus the easter egg level if title is clicked)
+
     public void initialize() throws IOException {
         lblGameTitle.setFont(Font.font("Impact", 40)); // https://www.codegrepper.com/code-examples/java/how+to+change+font+in+javafx
+        // Add in the castle images
+        imgView.setFitHeight(40);
+        imgView2.setFitHeight(40);
+        imgView.setPreserveRatio(true);
+        imgView2.setPreserveRatio(true);
+        lblLeftImg.setGraphic(imgView2);
+        lblRightImg.setGraphic(imgView);
         lblGameTitle.setOnMouseClicked(e -> {
             Constants.switchImages();
-            if (VBoxMain.getChildren().size() < 5)
+            if (VBoxMain.getChildren().size() < 7)
                 VBoxMain.getChildren().add(new Label("Easter Egg Activated."));
         });
     }
@@ -52,6 +67,7 @@ public class MainWindow {
     }
 
     @FXML
+    // Load the HighScores screen
     public void onScoresClicked(ActionEvent event) {
         try {
             var loader = new FXMLLoader(getClass().getResource("HighScores.fxml"));
@@ -67,6 +83,7 @@ public class MainWindow {
     }
 
     @FXML
+    // Load the About Screen
     public void onAboutClicked(ActionEvent event) {
         try {
             var loader = new FXMLLoader(getClass().getResource("AboutScreen.fxml"));
@@ -82,6 +99,7 @@ public class MainWindow {
     }
 
     @FXML
+    // Load the Help Screen
     public void onHelpClicked(ActionEvent event) {
         try {
             var loader = new FXMLLoader(getClass().getResource("HelpScreen.fxml"));

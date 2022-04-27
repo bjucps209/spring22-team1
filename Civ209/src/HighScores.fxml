@@ -2,11 +2,10 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<!-- change the fx controller to fix recursion-->
 <VBox fx:controller="HighScores" xmlns:fx="http://javafx.com/fxml" stylesheets="@HighScores.css" spacing="20" prefHeight="500" prefWidth="500">
     <Label fx:id = "lblHScoreTitle" text = "High Scores"/>
     <HBox spacing = "30">
-        <Label text = "USER NAME"></Label>
+        <Label styleClass = "heading" text = "USER NAME"></Label>
         <Label text = "SCORE"></Label>
     </HBox>
     <VBox fx:id = "VBoxScores" spacing = "20">
