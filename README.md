@@ -16,6 +16,7 @@ You win when you control all of the cities on the map. You lose if all of your c
 * Serialization: 
   The save function creates a save file at the given filename. It saves the current score, state of the game, and all of the cities and troops on the map, along with their destinations, speeds, headings, population counts, and type, as relevant. When the load function is called, it loads all of the game in the exact state that it was saved in. Cities are at their populations, and troops are not only where they were when the game was saved, but heading in the same direction at the same speed, and are actively moving when the game is loaded. Code passes all unit tests.
   Save Function now saves Weather Entities.
+  Save Function now saves Projectile Entities.
 * Level Builder: 
   The program allows the user to place the enemy, neutral, and player cities wherever wanted on the map, and decide on the playing season. The user can also choose a type of city (strong and fast) to use. The user can save the level, close the window, and load the level later, or they can save the level and continue to change it, decide they want to go back to what they saved, and load the level from the same window. 
   As of Beta, levels built in Level Builder are automatically sent to the main game files, where they can be launched in the levels menu via the "Play Built Game" button.
@@ -52,12 +53,6 @@ You win when you control all of the cities on the map. You lose if all of your c
  * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/2.+Summer+1+(presto).mp3
  * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/3.+Autumn+1+(allegro).mp3
  * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/4.+Winter+1+(allegro+non+molto).mp3
-
-### Sound Effects
- * Snow Storm: https://assets.mixkit.co/sfx/download/mixkit-winter-wind-loop-1175.wav
- * Flood: https://assets.mixkit.co/sfx/download/mixkit-forest-and-waterfall-1229.wav
- * Storm: https://assets.mixkit.co/sfx/download/mixkit-cinematic-thunder-hit-1280.wav
- * Castle Taken: https://www.fesliyanstudios.com/play-mp3/6202
 
 ### Extra images
  * Blizzard icon: https://upload.wikimedia.org/wikipedia/commons/d/db/Weather-Snow.png
