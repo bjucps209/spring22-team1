@@ -3,10 +3,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:id="VBoxMain" fx:controller="MainWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="@MainWindow.css" spacing="20" prefHeight="500" prefWidth="500">
+<VBox fx:id="VBoxMain" fx:controller="MainWindow" xmlns:fx="http://javafx.com/fxml" stylesheets="@MainWindow.css" spacing="20" prefHeight="600" prefWidth="600">
 
-    <HBox>
+    <HBox spacing = "20">
+        <Label fx:id="lblLeftImg"></Label>
         <Label fx:id="lblGameTitle" text="Civilization 209"></Label>
+        <Label fx:id="lblRightImg"></Label>
     </HBox>
 
     <HBox spacing="20">
@@ -19,7 +21,6 @@
     </HBox>
 
     <HBox spacing="20">
-        <!-- <Button onAction="#onPlayClicked" text="Play" /> -->
         <Button onAction="#onLevelsClicked" text="Select Level"></Button>
     </HBox>
 

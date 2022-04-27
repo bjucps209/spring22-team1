@@ -30,6 +30,7 @@ public class Levels {
     @FXML
     Button btnBuilt;
 
+    // initializes the level screen
     public void initialize() {
         lblLevelTitle.setFont(Font.font("Impact", 30));
 

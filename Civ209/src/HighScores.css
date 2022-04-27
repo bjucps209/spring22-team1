@@ -27,5 +27,8 @@ HBox {
     -fx-alignment: center;
 }
 #VBoxAbout {
-    -fx-font-size: 9;
+    -fx-font-size: 10;
+}
+.heading {
+    -fx-font-family: 'Impact', 'Helvetica', Arial;
 }

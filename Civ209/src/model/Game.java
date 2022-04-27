@@ -397,7 +397,9 @@ public class Game {
 
     }
 
-    // returns the weather type if the entity is in the weather, null otherwise
+    /** returns the weather type if the troop is under the weather, null otherwise
+     * 
+    */
     public WeatherType checkInWeather(Coordinate e) {
         for (Entity entity : getEntityList()) {
             if (entity instanceof Weather) {
@@ -433,7 +435,7 @@ public class Game {
         }
 
     }
-
+    // custom nextInt() method because Mr. Moffitt's computer had a fit :(
     public int nextInt(int lowerBound, int upperBound) {
         return (int) ((Math.random() * (upperBound - lowerBound)) + lowerBound);
     }
@@ -588,7 +590,6 @@ public class Game {
     }
 
     public void instantMakeWeather() {
-        // TODO Izzo can you make this so it just adds another weather instance?
     }
 
     public void stopTimer() {
