@@ -33,18 +33,17 @@ import javax.swing.JOptionPane;
 
 public class GameWindow implements ComputerObserver, GameOverObserver, FireProjectiles {
 
+    // Reference to model.
     private Game game;
+
+    // List of all troops selected.
     private ArrayList<EntityImage> selectedTroops = new ArrayList<EntityImage>();
+
+    // Coordinate that holds the upper left corner of the selection box.
     private Coordinate upperLeft = new Coordinate();
+
+    // Coordinate that holds the lower right corner of the selection box.
     private Coordinate lowerRight = new Coordinate();
-    private VBox dragBox = new VBox();
-    private Delta dragDelta = new Delta();
-    private boolean inCity = false;
-    Random rand = new Random();
-    AudioClip music;
-    HighScores h = new HighScores();
-    Levels level = new Levels();
-    private boolean isCampaign = false;
 
     /**
      * Coordinates used in dragging image.
@@ -54,50 +53,79 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         public double y;
     }
 
+    // Variable to hold the drag of the dragging image.
+    private Delta dragDelta = new Delta();
+
+    // True if in city, false if not.
+    private boolean inCity = false;
+
+    // Instance of Random class for random decisions.
+    Random rand = new Random();
+
+    // Music instance.
+    AudioClip music;
+
+    // Highscores instance.
+    HighScores h = new HighScores();
+
+    // Instance of Levels for passing purposes.
+    Levels level = new Levels();
+
+    // True if this level is in the campaign, false if not.
+    private boolean isCampaign = false;
+
+    // Main game pane.
     @FXML
     Pane pane;
 
+    // Main Vbox
     @FXML
     VBox vbox;
 
+    // HBox with all of the controls for the game.
     @FXML
     HBox controls;
 
+    // Label that is updated with the score.
     @FXML
     Label scoreLabel = new Label();
 
+    // Label that holds the current value of the slider
     @FXML
     Label lblSize;
 
+    // Slider to determine what percentage of troops to send.
     @FXML
     Slider slider;
 
+    // Play button
     @FXML
     ImageView play = new ImageView(Constants.pauseButton);
 
-    @FXML
-    Button btnEasy;
-
-    @FXML
-    Button btnMedium;
-
-    @FXML
-    Button btnHard;
-
+    // HBox to hold display
     @FXML
     HBox displayBox;
 
+    // HBox to hold the cheat controls
     @FXML
     HBox cheatControls;
 
+    // Drag VBox
     @FXML
-    public void initialize(String lvlname) {
+    private VBox dragBox = new VBox();
+
+    @FXML
+    /**
+     * initializes the game screen
+     */
+    public void initialize(String lvlname, Difficulty difficulty) {
         game = new Game();
         game.setGameOverObserver(this);
         game.setEntityManager(this::removeEntity);
         game.setOnMakeWeather(this::onMakeWeather);
         game.setOnFireProjectiles(this::onFireProjectiles);
         game.getComputer().setObs(this);
+        game.getComputer().setDifficulty(difficulty);
         game.setOnMakeWeather(this::onMakeWeather);
         game.initialize(Difficulty.Easy, lvlname);
 
@@ -165,7 +193,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         scoreLabel.setTextAlignment(TextAlignment.CENTER);
 
         scoreLabel.textProperty().bind(SimpleStringProperty.stringExpression(game.scoreProperty()));
-        btnEasy.setDisable(true);
         play.setOnMousePressed(e -> {
             if (play.getUserData() == "play") {
                 play.setImage(Constants.pauseButtonPressed);
@@ -270,13 +297,18 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     public void onFireProjectiles(Projectile proj) {
         EntityImage firedprojectile = new EntityImage(this, pane, proj);
         var keyFrame = new KeyFrame(Duration.millis(500), e -> {
-            // removeEntity(proj);
             pane.getChildren().remove(firedprojectile.getProjectileLine());
         });
         var timer = new Timeline(keyFrame);
         timer.play();
     }
 
+    /**
+     * Deselects the entity
+     * 
+     * @param city to deselect
+     * @param node to dehighlight
+     */
     public void deSelect() {
         for (Node oldNodes : pane.getChildren()) {
             if (oldNodes.getStyleClass().contains("selected")) {
@@ -287,6 +319,12 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         game.deSelect();
     }
 
+    /**
+     * Selects the entity
+     * 
+     * @param city to select
+     * @param node to highlight
+     */
     public void onSelected(Circle node, MouseEvent e, City city) {
         // do a left click, check to see if it's a player city.
         if (e.getButton() == MouseButton.PRIMARY && node.getStroke() == Paint.valueOf("blue")) {
@@ -296,6 +334,12 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         }
     }
 
+    /**
+     * Sends the troops from the city to the destination
+     * 
+     * @param selectedCity
+     * @param destination
+     */
     public void sendTroopsFromCity(City selectedCity, Coordinate destination) {
         game.sendTroopsFromCity(selectedCity, destination, slider.getValue()).stream().forEach(t -> {
             EntityImage circle = new EntityImage(this, pane, t);
@@ -304,12 +348,21 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         });
     }
 
+    /**
+     * Sends the troops from the ground to the destination
+     * 
+     * @param troops      to send
+     * @param destination
+     */
     public void sendTroopsFromGround(ArrayList<Troop> troops, Coordinate destination) {
         game.sendTroopsFromGround(troops, destination, DestinationType.City).stream()
                 .forEach(t -> t.setTroopDelete(this::onTroopDelete));
         ;
     }
 
+    /**
+     * Displays moving troops
+     */
     public void deployTroops(MouseEvent e) {
         Coordinate destination = new Coordinate(e.getX(), e.getY());
         boolean pointInCircle = game.checkInCity(destination);
@@ -335,6 +388,11 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         }
     }
 
+    /**
+     * deletes the troop
+     * 
+     * @param troops to delete
+     */
     public void onTroopDelete(Troop troop) {
         for (Node node : pane.getChildren()) {
             if (node instanceof EntityImage && ((EntityImage) node).getEntity() == troop) {
@@ -344,6 +402,11 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         }
     }
 
+    /**
+     * displays the troops
+     * 
+     * @param troops to render
+     */
     public void renderTroops(ArrayList<Troop> troops) {
         for (Troop troop : troops) {
             EntityImage circle = new EntityImage(this, pane, troop);
@@ -352,6 +415,9 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         }
     }
 
+    /**
+     * Pauses and plays the game
+     */
     public void onPlayClicked() {
         if (play.getUserData() == "paused") {
             play.setUserData("play");
@@ -366,10 +432,13 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
 
     /**
      * When the game is over, this is called to get the player name
+     * 
+     * @param msg
+     * @param score
      */
     public void recognizeGameOver(String msg, int score) {
 
-        Stage stage = (Stage) btnEasy.getScene().getWindow();
+        Stage stage = (Stage) pane.getScene().getWindow();
         stage.setFullScreen(false);
         h.load();
         
@@ -407,7 +476,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         if (isCampaign) {
             level.onGameClose(this);
             level.openNextLevel(level.getCampaignLevel());
-            Stage XStage = (Stage) btnEasy.getScene().getWindow();
+            Stage XStage = (Stage) pane.getScene().getWindow();
             XStage.close();
         }
     }
@@ -422,16 +491,27 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         pane.getChildren().add(weather);
     }
 
+    /**
+     * Saves the game to Levels/savedGame.dat
+     */
     @FXML
     public void onSaveClicked(ActionEvent e) throws IOException {
         game.save("Levels/savedGame.dat");
     }
 
+    /**
+     * Loads the game from Levels/savedGame.dat
+     */
     @FXML
     public void onLoadClicked(ActionEvent e) throws IOException {
         game.load("Levels/savedGame.dat");
     }
 
+    /**
+     * removes the given entity
+     * 
+     * @param entity to remove
+     */
     public void removeEntity(Entity entity) {
         for (Node node : pane.getChildren()) {
             if (node instanceof EntityImage) {
@@ -446,30 +526,34 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         }
     }
 
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
+    /**
+     * ends the game
+     */
     @FXML
     public void onInstantGameOverClicked(ActionEvent e) {
         Button btn = (Button) e.getSource();
         game.instantGameOver((btn.getText().equals("Instant Win")) ? true : false);
     }
 
+    /**
+     * makes weather
+     */
     @FXML
     public void onMakeWeatherClicked(ActionEvent e) {
         game.instantMakeWeather();
     }
 
+    /**
+     * makes more troops
+     */
     @FXML
     public void onMoreTroopsClicked(ActionEvent e) {
         game.instantAddTroops();
     }
 
+    /**
+     * shows the cheat options
+     */
     @FXML
     public void onCheatClicked(ActionEvent e) {
         System.out.println("You cheater :(");
@@ -498,34 +582,25 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
 
     }
 
-    @FXML
-    public void onEasyClicked(ActionEvent e) {
-        game.getComputer().setDifficulty(Difficulty.Easy);
-        btnEasy.setDisable(true);
-        btnMedium.setDisable(false);
-        btnHard.setDisable(false);
-
-    }
-
-    @FXML
-    public void onMediumClicked(ActionEvent e) {
-        game.getComputer().setDifficulty(Difficulty.Medium);
-        btnEasy.setDisable(false);
-        btnMedium.setDisable(true);
-        btnHard.setDisable(false);
-    }
-
-    @FXML
-    public void onHardClicked(ActionEvent e) {
-        game.getComputer().setDifficulty(Difficulty.Hard);
-        btnEasy.setDisable(false);
-        btnMedium.setDisable(false);
-        btnHard.setDisable(true);
-    }
-
+    /**
+     * displays the season
+     * 
+     * @param url of the season image
+     */
     @FXML
     public void showSeason(String url) {
         pane.setStyle("-fx-background-image:url(" + url
                 + "); -fx-background-repeat: no-repeat; -fx-background-blend-mode: darken; -fx-background-size: cover; -fx-background-position: center;");
+    }
+
+    /*************************************************************************/
+    // Getters and setters
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 }

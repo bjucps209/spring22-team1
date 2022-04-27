@@ -96,7 +96,7 @@ public class LevelData {
                             : nation == 'E' ? Nationality.Enemy : Nationality.Neutral;
                     rd.readBoolean();
                     char cityT = rd.readChar();
-                    CityType cityType = cityT == 'S' ? CityType.Standard
+                    CityType cityType = cityT == 's' ? CityType.Standard
                             : cityT == 'F' ? CityType.Fast : CityType.Strong;
                     City city = new City(location, 0, popProperty, getnationality, false,
                             cityType, null);

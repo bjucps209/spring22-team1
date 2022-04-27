@@ -14,20 +14,23 @@ import java.util.stream.Collectors;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class HighScores {
 
+    // Holds the title of the high scores.
     @FXML
     Label lblHScoreTitle;
+
+    // Holds the VBox that contains the scores.
     @FXML
     VBox VBoxScores;
-    @FXML
-    Slider slDifficulty;
 
     @FXML
+    /**
+     * initializes the game screen
+     */
     public void initialize() throws IOException {
         VBoxScores.getChildren().clear();
         lblHScoreTitle.setFont(Font.font("Impact", 45));
@@ -39,19 +42,6 @@ public class HighScores {
 
     // An Arraylist holding all of the ScoreEntries.
     ArrayList<ScoreEntry> scoreList = new ArrayList<ScoreEntry>();
-
-    public ArrayList<ScoreEntry> getScoreList() {
-        return scoreList;
-
-    }
-
-    public void setScoreList(ArrayList<ScoreEntry> scoreList) {
-        this.scoreList = scoreList;
-    }
-
-    public void addScoreList(ScoreEntry score) {
-        scoreList.add(score);
-    }
 
     /**
      * Sorts the scores from top to bottom that are currently in the ArrayList by
@@ -134,6 +124,24 @@ public class HighScores {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * adds a score to the score list
+     */
+    public void addScoreList(ScoreEntry score) {
+        scoreList.add(score);
+    }
+
+    /***********************************************************/
+    // Getters and setters
+    public ArrayList<ScoreEntry> getScoreList() {
+        return scoreList;
+
+    }
+
+    public void setScoreList(ArrayList<ScoreEntry> scoreList) {
+        this.scoreList = scoreList;
     }
 
 }

@@ -24,6 +24,9 @@ public class EntityImage extends ImageView implements CityObserver {
     private Line projectileLine;
     private Circle c = new Circle();
 
+    /**
+     * creates an image of the given entity
+     */
     public EntityImage(GameWindow parent, Pane pane, Entity entity) {
         this.entity = entity;
         this.parent = parent;

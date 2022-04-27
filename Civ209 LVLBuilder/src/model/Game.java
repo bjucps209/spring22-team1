@@ -184,7 +184,7 @@ public class Game {
             entity.update();
             if (entity instanceof City) {
                 City city = (City) entity;
-                Projectile proj = city.fireProjectile(this);
+                Projectile proj = city.fireProjectile();
                 projectiles.add(proj);
                 // System.out.println("everything is fine");
             }
@@ -570,7 +570,7 @@ public class Game {
         for (Entity ent : entityList) {
             if (ent instanceof City) {
                 City city = (City) ent;
-                return city.fireProjectile(this);
+                return city.fireProjectile();
             }
         }
         return null;

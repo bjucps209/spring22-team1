@@ -1,3 +1,2 @@
-squid,300
-Izzo,234
-Jellyfish,320
+Eric,702
+Caleb,540

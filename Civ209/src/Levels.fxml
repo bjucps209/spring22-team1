@@ -12,7 +12,11 @@
         <Button styleClass = "greyButton" onAction="#onFallClicked" text="Fall"></Button>
         <Button styleClass = "greyButton" onAction="#onWinterClicked" text="Winter"></Button>
     </HBox>
-    <Button onAction="#onLoadClicked" text="Load Saved Game" styleClass = "greyButton" />
-    <Button fx:id="btnBuilt" onAction="#onPlayClicked" text="Play Built Game" styleClass = "greyButton" />
-
+    <Button onAction="#onLoadClicked" text="Load Saved Game" />
+    <Button fx:id="btnBuilt" onAction="#onPlayClicked" text="Play Built Game" />
+    <HBox>
+        <Button fx:id="btnEasy" onAction="#onEasyClicked" text="Easy" styleClass = "greyButton" />
+        <Button fx:id="btnMedium" onAction="#onMediumClicked" text="Medium" styleClass = "greyButton" />
+        <Button fx:id="btnHard" onAction="#onHardClicked" text="Hard" styleClass = "greyButton" />
+    </HBox>
 </VBox>

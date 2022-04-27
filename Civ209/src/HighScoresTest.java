@@ -11,6 +11,9 @@ import java.util.ArrayList;
 
 public class HighScoresTest {
 
+    /**
+     * Tests the adding of scores.
+     */
     @Test
     public void test_Add_Score() {
         HighScores hScores = new HighScores();
@@ -24,6 +27,9 @@ public class HighScoresTest {
 
     }
 
+    /**
+     * Tests the sorting of scores.
+     */
     @Test
     public void test_Sort_Score() {
         HighScores hScores = new HighScores();
@@ -39,6 +45,10 @@ public class HighScoresTest {
 
     }
 
+    /**
+     * Tests saving and loading scores.
+     * @throws IOException
+     */
     @Test
     public void test_save_and_load() throws IOException {
         HighScores game1 = new HighScores();

@@ -6,11 +6,6 @@
 
 <VBox fx:id="vbox" alignment="CENTER" spacing="10" stylesheets="@GameWindow.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="GameWindow">
     <HBox spacing="10">
-        <HBox fx:id="displayBox" alignment="top_left" spacing="10" stylesheets="@MainWindow.css"></HBox>
-        <Button styleClass = "greyButton" text="Enable Cheat Mode" alignment="center" stylesheets="@MainWindow.css" onAction="#onCheatClicked" />
-        <HBox fx:id="cheatControls"></HBox>
-    </HBox>
-    <HBox spacing="10">
         <VBox spacing="10"></VBox>
         <Pane fx:id="pane" prefHeight="525" prefWidth="1025" style="-fx-background-color: lightgray" />
         <HBox spacing="10" styleClass="propview"></HBox>
@@ -21,16 +16,15 @@
             <Button styleClass = "greyButton" text="Save" onAction="#onSaveClicked" />
             <!-- <Button text="Load" onAction="#onLoadClicked" /> -->
             <VBox>
+                <Label text="Percentage of Troops to Send" />
                 <Slider fx:id="slider" min="1" max="100" majorTickUnit="1.0" minorTickCount="0" snapToTicks="true" value="50" />
                 <Label fx:id="lblSize" text="${slider.value}" />
-                <Label text="Difficulty Level"></Label>
-                <HBox>
-                    <Button styleClass = "greyButton" fx:id="btnEasy" onAction="#onEasyClicked" text="Easy" />
-                    <Button styleClass = "greyButton" fx:id="btnMedium" onAction="#onMediumClicked" text="Medium" />
-                    <Button styleClass = "greyButton" fx:id="btnHard" onAction="#onHardClicked" text="Hard" />
-                </HBox>
-
             </VBox>
+        </HBox>
+        <HBox spacing="10">
+            <HBox fx:id="displayBox" alignment="top_left" spacing="10" stylesheets="@MainWindow.css"></HBox>
+            <Button styleClass = "greyButton" text="Enable Cheat Mode" alignment="center" stylesheets="@MainWindow.css" onAction="#onCheatClicked" />
+            <HBox fx:id="cheatControls"></HBox>
         </HBox>
 
 

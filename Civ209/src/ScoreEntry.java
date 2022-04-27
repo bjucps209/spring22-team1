@@ -7,6 +7,22 @@ public class ScoreEntry {
     private String playerName; // the player's name
     private int playerScore; // the player's score
 
+    /**
+     * Creates a score entry using the playerName and the playerScore that were
+     * passed in
+     * 
+     * @param playerName
+     * @param playerScore
+     */
+    public ScoreEntry(String playerName, int playerScore) {
+
+        this.playerName = playerName;
+        this.playerScore = playerScore;
+    }
+
+    /*************************************************************************/
+    // Getters and setters
+
     public int getPlayerScore() {
 
         return playerScore;
@@ -24,19 +40,6 @@ public class ScoreEntry {
 
     public void setPlayerScore(int playerScore) {
 
-        this.playerScore = playerScore;
-    }
-
-    /**
-     * Creates a score entry using the playerName and the playerScore that were
-     * passed in
-     * 
-     * @param playerName
-     * @param playerScore
-     */
-    public ScoreEntry(String playerName, int playerScore) {
-
-        this.playerName = playerName;
         this.playerScore = playerScore;
     }
 }
