@@ -256,12 +256,25 @@ public class MainWindow {
         List<City> entityList = level.getCities();
         for (City entity: entityList) {
             City city = (City) entity; 
+            
+            if (city.getType() == CityType.Strong) {
+                strongcitybuttonclicked = true; 
+                fastcitybuttonclicked = false; 
+            }
+
+            if (city.getType() == CityType.Fast) {
+                fastcitybuttonclicked = true; 
+                strongcitybuttonclicked = false; 
+            }
+
             if (city.getNationality() == Nationality.Enemy) {
                 showCity(city, "red");   
             }
+
             if (city.getNationality() == Nationality.Player) {
                 showCity(city, "blue"); 
             }
+
             if (city.getNationality() == Nationality.Neutral) {
                 showCity(city, "grey"); 
             }
