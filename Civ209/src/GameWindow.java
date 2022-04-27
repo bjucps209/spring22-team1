@@ -136,7 +136,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
                         getClass().getResource(Constants.summerMusic).toString());
             } catch (NullPointerException e) {
                 System.out.println(
-                        "Music isn't working because you're not running the program from the Civ209 folder :(");
+                        "Music isn't working because the necessary files aren't in the right folders.");
             }
         }
         if (game.getSeason() == SeasonType.Fall) {
@@ -146,7 +146,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
                         getClass().getResource(Constants.fallMusic).toString());
             } catch (NullPointerException e) {
                 System.out.println(
-                        "Music isn't working because you're not running the program from the Civ209 folder :(");
+                        "Music isn't working because the necessary files aren't in the right folders.");
             }
 
         }
@@ -157,7 +157,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
                         getClass().getResource(Constants.winterMusic).toString());
             } catch (NullPointerException e) {
                 System.out.println(
-                        "Music isn't working because you're not running the program from the Civ209 folder :(");
+                        "Music isn't working because the necessary files aren't in the right folders.");
             }
 
         }
@@ -167,7 +167,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
                 music = new AudioClip(getClass().getResource(Constants.springMusic).toExternalForm());
             } catch (NullPointerException e) {
                 System.out.println(
-                        "Music isn't working because you're not running the program from the Civ209 folder :(");
+                        "Music isn't working because the necessary files aren't in the right folders.");
             }
         }
         music.play();
