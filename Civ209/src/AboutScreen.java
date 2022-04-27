@@ -12,10 +12,10 @@ public class AboutScreen {
     @FXML Label lblAboutTitle;
 
     /**
-     * initializes the about season
+     * initializes the about screen
      */
     public void initialize(){
-        lblCoders.setFont(Font.font("Times New Roman", 20));
-        lblAboutTitle.setFont(Font.font("Impact", 30));
+        lblCoders.setFont(Font.font("Times New Roman", 25));
+        lblAboutTitle.setFont(Font.font("Impact", 40));
     }
 }

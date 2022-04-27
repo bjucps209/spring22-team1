@@ -351,7 +351,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     /**
      * Sends the troops from the ground to the destination
      * 
-     * @param troops      to send
+     * @param troops to send
      * @param destination
      */
     public void sendTroopsFromGround(ArrayList<Troop> troops, Coordinate destination) {
@@ -431,7 +431,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     }
 
     /**
-     * When the game is over, this is called to get the player name
+     * When the game is over, this is called to get the player name using a JOptionPane
      * 
      * @param msg
      * @param score
@@ -464,7 +464,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         if (name == "Johnika") {
             name = "That's a bad name.";
         }
-
+        // store the name and score in the scoreList
         h.addScoreList(new ScoreEntry(name, score));
         h.sortScores(h.getScoreList());
         h.save(h.getScoreList());

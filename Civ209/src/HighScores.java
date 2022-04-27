@@ -65,12 +65,12 @@ public class HighScores {
     public void makeLabels() {
         for (ScoreEntry score : sortScores(scoreList)) {
             Label lblScore = new Label();
-            String pName = score.getPlayerName();
-            int pScore = score.getPlayerScore();
-            int nameLength = pName.length();
-            int scoreLength = String.valueOf(pScore).length();
-            String spaces = "";
-            int spaceNum = 25 - (nameLength + scoreLength);
+            String pName = score.getPlayerName(); // the player name
+            int pScore = score.getPlayerScore(); // the player score
+            int nameLength = pName.length(); // player name length
+            int scoreLength = String.valueOf(pScore).length(); // player score length
+            String spaces = ""; // empty string
+            int spaceNum = 25 - (nameLength + scoreLength); // calculation to figure out how many spaces are needed
             for (int i = 0; i < spaceNum; i ++) {
                 spaces += " ";
             }
@@ -112,7 +112,7 @@ public class HighScores {
             FileReader reader = new FileReader("../Civ209/src/sampleScores.txt");
             BufferedReader bufferedReader = new BufferedReader(reader);
 
-            String line;
+            String line; // A line from the file
 
             while ((line = bufferedReader.readLine()) != null) {
                 String[] nameScore = line.split(",");

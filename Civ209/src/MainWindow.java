@@ -60,7 +60,7 @@ public class MainWindow {
 
     @FXML
     /**
-     * Open up the Levels screen
+     * Load the Levels screen
      */
     public void onLevelsClicked(ActionEvent event) {
         try {

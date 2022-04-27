@@ -36,9 +36,7 @@ public class Weather extends MobileEntity {
     }
 
     /**
-     * checks for completed requirements for weather type and checks to see if troop
-     * in
-     * range
+     * checks for completed requirements for weather type and checks to see if troop is in range
      */
     @Override
     public void update() {

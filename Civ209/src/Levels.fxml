@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox fx:controller="Levels" xmlns:fx="http://javafx.com/fxml" stylesheets="@HighScores.css" spacing="20" prefHeight="500" prefWidth="500">
+<VBox fx:controller="Levels" xmlns:fx="http://javafx.com/fxml" stylesheets="@HighScores.css" spacing="20" prefHeight="700" prefWidth="700">
     <Label fx:id="lblLevelTitle" text="Select A Level" />
     <Button styleClass = "greyButton" onAction="#onCampaignClicked" text="Journey through the Four Seasons"></Button>
     <Label styleClass = "heading" text="Season Levels"></Label>
@@ -12,8 +12,8 @@
         <Button styleClass = "greyButton" onAction="#onFallClicked" text="Fall"></Button>
         <Button styleClass = "greyButton" onAction="#onWinterClicked" text="Winter"></Button>
     </HBox>
-    <Button onAction="#onLoadClicked" text="Load Saved Game" />
-    <Button fx:id="btnBuilt" onAction="#onPlayClicked" text="Play Built Game" />
+    <Button onAction="#onLoadClicked" text="Load Saved Game" styleClass = "greyButton" />
+    <Button fx:id="btnBuilt" onAction="#onPlayClicked" text="Play Built Game" styleClass = "greyButton" />
     <HBox>
         <Button fx:id="btnEasy" onAction="#onEasyClicked" text="Easy" styleClass = "greyButton" />
         <Button fx:id="btnMedium" onAction="#onMediumClicked" text="Medium" styleClass = "greyButton" />

@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox fx:controller="HelpScreen" xmlns:fx="http://javafx.com/fxml" stylesheets="@HighScores.css" spacing="10" prefHeight="500" prefWidth="700">
+<VBox fx:controller="HelpScreen" xmlns:fx="http://javafx.com/fxml" stylesheets="@HighScores.css" spacing="10" prefHeight="700" prefWidth="900">
     <Label fx:id = "lblHelpTitle" text = "Help"/>
     <HBox spacing = "30">
         <Label styleClass = "heading" text = "How To Play"></Label>

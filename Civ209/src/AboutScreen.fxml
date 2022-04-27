@@ -16,11 +16,11 @@
     </HBox>
     <VBox fx:id = "VBoxAbout">
         <VBox>
-            <Label styleClass = "heading" text="ASSETS USED: Castle icons"></Label>
+            <Label styleClass = "heading2" text="ASSETS USED: Castle icons"></Label>
             <Label text="Standard: https://commons.wikimedia.org/wiki/File:BSicon_Castle.svg"></Label>
             <Label text="Fast: https://www.pinclipart.com/downpngs/iomhRJ_silhouette-clipart-castle-black-and-white-castle-clipart/"></Label>
             <Label text="Strong: https://www.pngfind.com/download/xJJxwo_castle-vector-castle-vector-png-transparent-png/"></Label>
-            <Label styleClass = "heading" text="Seasonal backgrounds:"></Label> 
+            <Label styleClass = "heading2" text="Seasonal backgrounds:"></Label> 
             <Label text = "Summer background: https://unsplash.com/photos/loAfOVk1eNc"></Label>
             <Label text="Autumn: https://www.needpix.com/photo/download/1495531/abstract-autumn-backdrop-background-blur-blurred-bokeh-bright-color"></Label>
             <Label text="Winter: https://besthqwallpapers.com/textures/snow-background-snow-texture-background-with-snow-winter-background-snowflakes-118035"></Label>
@@ -28,17 +28,17 @@
         </VBox>
 
         <VBox>
-            <Label styleClass = "heading" text="BACKGROUND MUSIC - Vivaldi's Four Seasons"></Label>
+            <Label styleClass = "heading2" text="BACKGROUND MUSIC - Vivaldi's Four Seasons"></Label>
             <Label text="Spring: https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/1.+Spring+1(allegro).mp3"></Label>
             <Label text="Summer: https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/2.+Summer+1+(presto).mp3"></Label>
             <Label text="Autumn: https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/3.+Autumn+1+(allegro).mp3"></Label>
             <Label text="Winter: https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/4.+Winter+1+(allegro+non+molto).mp3"></Label>
-            <Label styleClass = "heading" text="SOUND EFFECTS: "></Label>
+            <Label styleClass = "heading2" text="SOUND EFFECTS: "></Label>
             <Label text= "Blizzard: https://assets.mixkit.co/sfx/download/mixkit-winter-wind-loop-1175.wav"></Label>
             <Label text="Flood: https://assets.mixkit.co/sfx/download/mixkit-forest-and-waterfall-1229.wav"></Label>
             <Label text="Lightning: https://assets.mixkit.co/sfx/download/mixkit-cinematic-thunder-hit-1280.wav"></Label>
             <Label text="Castle Taken: https://www.fesliyanstudios.com/play-mp3/6202 "></Label>
-            <Label styleClass = "heading" text="EXTRA IMAGES: "></Label> 
+            <Label styleClass = "heading2" text="EXTRA IMAGES: "></Label> 
             <Label text= "Blizzard: https://commons.wikimedia.org/wiki/File:Snowstorm.svg"></Label>
             <Label text="Flood: https://commons.wikimedia.org/wiki/File:Light_Rain_Cloud_by_Sara.png"></Label>
             <Label text="Lightning: https://commons.wikimedia.org/wiki/File:Icons8_flat_flash_on.svg"></Label>
