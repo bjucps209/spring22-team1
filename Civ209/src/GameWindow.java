@@ -76,28 +76,20 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     ImageView play = new ImageView(Constants.pauseButton);
 
     @FXML
-    Button btnEasy;
-
-    @FXML
-    Button btnMedium;
-
-    @FXML
-    Button btnHard;
-
-    @FXML
     HBox displayBox;
 
     @FXML
     HBox cheatControls;
 
     @FXML
-    public void initialize(String lvlname) {
+    public void initialize(String lvlname, Difficulty difficulty) {
         game = new Game();
         game.setGameOverObserver(this);
         game.setEntityManager(this::removeEntity);
         game.setOnMakeWeather(this::onMakeWeather);
         game.setOnFireProjectiles(this::onFireProjectiles);
         game.getComputer().setObs(this);
+        game.getComputer().setDifficulty(difficulty);
         game.setOnMakeWeather(this::onMakeWeather);
         game.initialize(Difficulty.Easy, lvlname);
 
@@ -165,7 +157,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         scoreLabel.setTextAlignment(TextAlignment.CENTER);
 
         scoreLabel.textProperty().bind(SimpleStringProperty.stringExpression(game.scoreProperty()));
-        btnEasy.setDisable(true);
         play.setOnMousePressed(e -> {
             if (play.getUserData() == "play") {
                 play.setImage(Constants.pauseButtonPressed);
@@ -369,7 +360,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
      */
     public void recognizeGameOver(String msg, int score) {
 
-        Stage stage = (Stage) btnEasy.getScene().getWindow();
+        Stage stage = (Stage) pane.getScene().getWindow();
         stage.setFullScreen(false);
         h.load();
         // https://stackoverflow.com/questions/20132239/getting-text-from-a-dialog-box
@@ -406,7 +397,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         if (isCampaign) {
             level.onGameClose(this);
             level.openNextLevel(level.getCampaignLevel());
-            Stage XStage = (Stage) btnEasy.getScene().getWindow();
+            Stage XStage = (Stage) pane.getScene().getWindow();
             XStage.close();
         }
     }
@@ -495,31 +486,6 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
             cheatControls.getChildren().clear();
         }
 
-    }
-
-    @FXML
-    public void onEasyClicked(ActionEvent e) {
-        game.getComputer().setDifficulty(Difficulty.Easy);
-        btnEasy.setDisable(true);
-        btnMedium.setDisable(false);
-        btnHard.setDisable(false);
-
-    }
-
-    @FXML
-    public void onMediumClicked(ActionEvent e) {
-        game.getComputer().setDifficulty(Difficulty.Medium);
-        btnEasy.setDisable(false);
-        btnMedium.setDisable(true);
-        btnHard.setDisable(false);
-    }
-
-    @FXML
-    public void onHardClicked(ActionEvent e) {
-        game.getComputer().setDifficulty(Difficulty.Hard);
-        btnEasy.setDisable(false);
-        btnMedium.setDisable(false);
-        btnHard.setDisable(true);
     }
 
     @FXML

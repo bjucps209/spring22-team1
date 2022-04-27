@@ -24,11 +24,7 @@
                 <Slider fx:id="slider" min="1" max="100" majorTickUnit="1.0" minorTickCount="0" snapToTicks="true" value="50" />
                 <Label fx:id="lblSize" text="${slider.value}" />
                 <Label text="Difficulty Level"></Label>
-                <HBox>
-                    <Button fx:id="btnEasy" onAction="#onEasyClicked" text="Easy" />
-                    <Button fx:id="btnMedium" onAction="#onMediumClicked" text="Medium" />
-                    <Button fx:id="btnHard" onAction="#onHardClicked" text="Hard" />
-                </HBox>
+
 
             </VBox>
         </HBox>
