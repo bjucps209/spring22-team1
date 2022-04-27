@@ -33,8 +33,10 @@ public class MainWindow {
     VBox VBoxMain;
 
     @FXML
-    // Initialize the main screen (plus the easter egg level if title is clicked)
-
+    
+    /**
+     * Initialize the main screen (plus the easter egg level if title is clicked)
+     */
     public void initialize() throws IOException {
         lblGameTitle.setFont(Font.font("Impact", 40)); // https://www.codegrepper.com/code-examples/java/how+to+change+font+in+javafx
         // Add in the castle images
@@ -52,7 +54,9 @@ public class MainWindow {
     }
 
     @FXML
-    // Open up the Levels screen
+    /**
+     *  Open up the Levels screen
+     */
     public void onLevelsClicked(ActionEvent event) {
         try {
             var loader = new FXMLLoader(getClass().getResource("Levels.fxml"));
@@ -67,7 +71,9 @@ public class MainWindow {
     }
 
     @FXML
-    // Load the HighScores screen
+    /**
+     *  Load the HighScores screen
+     */
     public void onScoresClicked(ActionEvent event) {
         try {
             var loader = new FXMLLoader(getClass().getResource("HighScores.fxml"));
@@ -83,7 +89,9 @@ public class MainWindow {
     }
 
     @FXML
-    // Load the About Screen
+     /**
+     *  Load the About Screen
+     */
     public void onAboutClicked(ActionEvent event) {
         try {
             var loader = new FXMLLoader(getClass().getResource("AboutScreen.fxml"));
@@ -99,7 +107,9 @@ public class MainWindow {
     }
 
     @FXML
-    // Load the Help Screen
+    /**
+     *  Load the Help Screen
+     */
     public void onHelpClicked(ActionEvent event) {
         try {
             var loader = new FXMLLoader(getClass().getResource("HelpScreen.fxml"));

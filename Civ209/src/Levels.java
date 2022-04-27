@@ -42,7 +42,9 @@ public class Levels {
     @FXML
     Button btnHard;
 
-    // initializes the level screen
+    /**
+     *  initializes the level screen 
+     */
     public void initialize() {
         lblLevelTitle.setFont(Font.font("Impact", 30));
         btnEasy.setDisable(true);
@@ -55,6 +57,9 @@ public class Levels {
 
     }
 
+    /**
+     *  loads the game and opens game window
+     */
     @FXML
     public void onLoadClicked(ActionEvent event) {
         try {
@@ -74,11 +79,11 @@ public class Levels {
         }
     }
 
+    /**
+     *  loads the game made from level builder and opens game windoq
+     */
     @FXML
     public void onPlayClicked(ActionEvent event) {
-        // setName(userName.getText().toString()); fix to get the player name to write
-        // to the file
-
         try {
             var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
             Scene scene;
@@ -104,8 +109,6 @@ public class Levels {
      */
     @FXML
     public void onCampaignClicked(ActionEvent event) {
-        // setName(userName.getText().toString()); fix to get the player name to write
-        // to the file
         openNextLevel(1);
     }
 
@@ -137,15 +140,11 @@ public class Levels {
         }
     }
 
-    public int getCampaignLevel() {
-        return campaignlevel;
-    }
-
     @FXML
+     /**
+     * Opens the spring level
+     */
     public void onSpringClicked(ActionEvent event) {
-        // setName(userName.getText().toString()); fix to get the player name to write
-        // to the file
-
         try {
             var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
             Scene scene;
@@ -162,7 +161,6 @@ public class Levels {
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -193,10 +191,10 @@ public class Levels {
     }
 
     @FXML
+    /**
+     * Opens the fall level
+     */
     public void onFallClicked(ActionEvent event) {
-        // setName(userName.getText().toString()); fix to get the player name to write
-        // to the file
-
         try {
             var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
             Scene scene;
@@ -213,16 +211,15 @@ public class Levels {
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
     @FXML
+    /**
+     * Opens the winter level
+     */
     public void onWinterClicked(ActionEvent event) {
-        // setName(userName.getText().toString()); fix to get the player name to write
-        // to the file
-
         try {
             var loader = new FXMLLoader(getClass().getResource("GameWindow.fxml"));
             Scene scene;
@@ -239,11 +236,13 @@ public class Levels {
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
+    /**
+     * clears the game window
+     */
     public void onGameClose(GameWindow gameWindow) {
         gameWindow.getGame().stopTimer();
         gameWindow.getGame().getEntityList().clear();
@@ -254,6 +253,9 @@ public class Levels {
         }
     }
 
+    /**
+     * sets difficulty to easy
+     */
     @FXML
     public void onEasyClicked(ActionEvent e) {
         difficulty = Difficulty.Easy;
@@ -262,6 +264,9 @@ public class Levels {
         btnHard.setDisable(false);
     }
 
+    /**
+     * sets difficulty to medium
+     */
     @FXML
     public void onMediumClicked(ActionEvent e) {
         difficulty = Difficulty.Medium;
@@ -270,11 +275,20 @@ public class Levels {
         btnHard.setDisable(false);
     }
 
+    /**
+     * sets difficulty to hard 
+     */
     @FXML
     public void onHardClicked(ActionEvent e) {
         difficulty = Difficulty.Hard;
         btnEasy.setDisable(false);
         btnMedium.setDisable(false);
         btnHard.setDisable(true);
+    }
+
+    /*************************************************************************/
+    // Getters and setters
+    public int getCampaignLevel() {
+        return campaignlevel;
     }
 }

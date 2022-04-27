@@ -11,6 +11,9 @@ public class AboutScreen {
     @FXML Label lblCoders;
     @FXML Label lblAboutTitle;
 
+    /**
+     * initializes the about season
+     */
     public void initialize(){
         lblCoders.setFont(Font.font("Times New Roman", 20));
         lblAboutTitle.setFont(Font.font("Impact", 30));

@@ -82,6 +82,9 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     HBox cheatControls;
 
     @FXML
+    /**
+     *  initializes the game screen 
+     */
     public void initialize(String lvlname, Difficulty difficulty) {
         game = new Game();
         game.setGameOverObserver(this);
@@ -261,13 +264,17 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     public void onFireProjectiles(Projectile proj) {
         EntityImage firedprojectile = new EntityImage(this, pane, proj);
         var keyFrame = new KeyFrame(Duration.millis(500), e -> {
-            // removeEntity(proj);
             pane.getChildren().remove(firedprojectile.getProjectileLine());
         });
         var timer = new Timeline(keyFrame);
         timer.play();
     }
 
+    /**
+     * Deselects the entity
+     * @param city to deselect
+     * @param node to dehighlight
+     */
     public void deSelect() {
         for (Node oldNodes : pane.getChildren()) {
             if (oldNodes.getStyleClass().contains("selected")) {
@@ -278,6 +285,11 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         game.deSelect();
     }
 
+     /**
+     * Selects the entity
+     * @param city to select
+     * @param node to highlight
+     */
     public void onSelected(Circle node, MouseEvent e, City city) {
         // do a left click, check to see if it's a player city.
         if (e.getButton() == MouseButton.PRIMARY && node.getStroke() == Paint.valueOf("blue")) {
@@ -287,6 +299,11 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         }
     }
 
+     /**
+     * Sends the troops from the city to the destination 
+     * @param selectedCity
+     * @param destination
+     */
     public void sendTroopsFromCity(City selectedCity, Coordinate destination) {
         game.sendTroopsFromCity(selectedCity, destination, slider.getValue()).stream().forEach(t -> {
             EntityImage circle = new EntityImage(this, pane, t);
@@ -295,12 +312,20 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         });
     }
 
+     /**
+     * Sends the troops from the ground to the destination 
+     * @param troops to send
+     * @param destination
+     */
     public void sendTroopsFromGround(ArrayList<Troop> troops, Coordinate destination) {
         game.sendTroopsFromGround(troops, destination, DestinationType.City).stream()
                 .forEach(t -> t.setTroopDelete(this::onTroopDelete));
         ;
     }
 
+    /**
+     * Displays moving troops
+     */
     public void deployTroops(MouseEvent e) {
         Coordinate destination = new Coordinate(e.getX(), e.getY());
         boolean pointInCircle = game.checkInCity(destination);
@@ -326,6 +351,10 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         }
     }
 
+    /**
+     * deletes the troop
+     * @param troops to delete
+     */
     public void onTroopDelete(Troop troop) {
         for (Node node : pane.getChildren()) {
             if (node instanceof EntityImage && ((EntityImage) node).getEntity() == troop) {
@@ -335,6 +364,10 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         }
     }
 
+    /**
+     * displays the troops 
+     * @param troops to render
+     */
     public void renderTroops(ArrayList<Troop> troops) {
         for (Troop troop : troops) {
             EntityImage circle = new EntityImage(this, pane, troop);
@@ -343,6 +376,9 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         }
     }
 
+    /**
+     * Pauses and plays the game
+     */
     public void onPlayClicked() {
         if (play.getUserData() == "paused") {
             play.setUserData("play");
@@ -357,6 +393,8 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
 
     /**
      * When the game is over, this is called to get the player name
+     * @param msg
+     * @param score
      */
     public void recognizeGameOver(String msg, int score) {
 
@@ -412,16 +450,26 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         pane.getChildren().add(weather);
     }
 
+    /**
+     * Saves the game to Levels/savedGame.dat
+     */
     @FXML
     public void onSaveClicked(ActionEvent e) throws IOException {
         game.save("Levels/savedGame.dat");
     }
 
+     /**
+     * Loads the game from Levels/savedGame.dat
+     */
     @FXML
     public void onLoadClicked(ActionEvent e) throws IOException {
         game.load("Levels/savedGame.dat");
     }
 
+    /**
+     * removes the given entity 
+     * @param entity to remove 
+     */
     public void removeEntity(Entity entity) {
         for (Node node : pane.getChildren()) {
             if (node instanceof EntityImage) {
@@ -436,30 +484,34 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         }
     }
 
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
+    /**
+     * ends the game
+     */
     @FXML
     public void onInstantGameOverClicked(ActionEvent e) {
         Button btn = (Button) e.getSource();
         game.instantGameOver((btn.getText().equals("Instant Win")) ? true : false);
     }
 
+    /**
+     * makes weather
+     */
     @FXML
     public void onMakeWeatherClicked(ActionEvent e) {
         game.instantMakeWeather();
     }
 
+    /**
+     * makes more troops
+     */
     @FXML
     public void onMoreTroopsClicked(ActionEvent e) {
         game.instantAddTroops();
     }
 
+    /**
+     * shows the cheat options 
+     */
     @FXML
     public void onCheatClicked(ActionEvent e) {
         System.out.println("You cheater :(");
@@ -488,9 +540,24 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
 
     }
 
+    /**
+     * displays the season
+     * @param url of the season image 
+     */
     @FXML
     public void showSeason(String url) {
         pane.setStyle("-fx-background-image:url(" + url
                 + "); -fx-background-repeat: no-repeat; -fx-background-blend-mode: darken; -fx-background-size: cover; -fx-background-position: center;");
+    }
+
+    /*************************************************************************/
+    // Getters and setters
+    
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 }

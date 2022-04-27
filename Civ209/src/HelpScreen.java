@@ -11,6 +11,9 @@ public class HelpScreen {
     @FXML
     Label lblHelpTitle;
 
+    /**
+     *  initializes the health screen 
+     */
     public void initialize() {
         lblHelpTitle.setFont(Font.font("Impact", 30));
     }

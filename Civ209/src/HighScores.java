@@ -28,6 +28,9 @@ public class HighScores {
     Slider slDifficulty;
 
     @FXML
+    /**
+     *  initializes the game screen 
+     */
     public void initialize() throws IOException {
         VBoxScores.getChildren().clear();
         lblHScoreTitle.setFont(Font.font("Impact", 35));
@@ -39,19 +42,6 @@ public class HighScores {
 
     // An Arraylist holding all of the ScoreEntries.
     ArrayList<ScoreEntry> scoreList = new ArrayList<ScoreEntry>();
-
-    public ArrayList<ScoreEntry> getScoreList() {
-        return scoreList;
-
-    }
-
-    public void setScoreList(ArrayList<ScoreEntry> scoreList) {
-        this.scoreList = scoreList;
-    }
-
-    public void addScoreList(ScoreEntry score) {
-        scoreList.add(score);
-    }
 
     /**
      * Sorts the scores from top to bottom that are currently in the ArrayList by
@@ -127,5 +117,22 @@ public class HighScores {
             e.printStackTrace();
         }
     }
+
+    public ArrayList<ScoreEntry> getScoreList() {
+        return scoreList;
+
+    }
+
+    public void setScoreList(ArrayList<ScoreEntry> scoreList) {
+        this.scoreList = scoreList;
+    }
+
+    /**
+     *  adds a score to the score list
+     */
+    public void addScoreList(ScoreEntry score) {
+        scoreList.add(score);
+    }
+
 
 }
