@@ -33,7 +33,7 @@ public class HighScores {
      */
     public void initialize() throws IOException {
         VBoxScores.getChildren().clear();
-        lblHScoreTitle.setFont(Font.font("Impact", 35));
+        lblHScoreTitle.setFont(Font.font("Impact", 45));
         load();
         sortScores(scoreList);
         makeLabels();
@@ -67,7 +67,15 @@ public class HighScores {
             Label lblScore = new Label();
             String pName = score.getPlayerName();
             int pScore = score.getPlayerScore();
-            lblScore.setText(pName + "                     " + pScore);
+            int nameLength = pName.length();
+            int scoreLength = String.valueOf(pScore).length();
+            String spaces = "";
+            int spaceNum = 25 - (nameLength + scoreLength);
+            for (int i = 0; i < spaceNum; i ++) {
+                spaces += " ";
+            }
+            lblScore.setText(pName + spaces + pScore);
+            lblScore.setFont(Font.font("Georgia", 30));
             VBoxScores.getChildren().add(lblScore);
         }
     }

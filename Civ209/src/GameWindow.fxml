@@ -5,7 +5,6 @@
 <?import javafx.scene.layout.*?>
 
 <VBox fx:id="vbox" alignment="CENTER" spacing="10" stylesheets="@GameWindow.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.2-internal" fx:controller="GameWindow">
-
     <HBox spacing="10">
         <VBox spacing="10"></VBox>
         <Pane fx:id="pane" prefHeight="525" prefWidth="1025" style="-fx-background-color: lightgray" />
@@ -14,7 +13,7 @@
     <HBox fx:id="controls" spacing="30">
 
         <HBox spacing="30">
-            <Button text="Save" onAction="#onSaveClicked" />
+            <Button styleClass = "greyButton" text="Save" onAction="#onSaveClicked" />
             <!-- <Button text="Load" onAction="#onLoadClicked" /> -->
             <VBox>
                 <Label text="Percentage of Troops to Send" />
@@ -24,7 +23,7 @@
         </HBox>
         <HBox spacing="10">
             <HBox fx:id="displayBox" alignment="top_left" spacing="10" stylesheets="@MainWindow.css"></HBox>
-            <Button text="Enable Cheat Mode" alignment="center" stylesheets="@MainWindow.css" onAction="#onCheatClicked" />
+            <Button styleClass = "greyButton" text="Enable Cheat Mode" alignment="center" stylesheets="@MainWindow.css" onAction="#onCheatClicked" />
             <HBox fx:id="cheatControls"></HBox>
         </HBox>
 

@@ -441,6 +441,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         Stage stage = (Stage) pane.getScene().getWindow();
         stage.setFullScreen(false);
         h.load();
+        
         // https://stackoverflow.com/questions/20132239/getting-text-from-a-dialog-box
         String name = JOptionPane.showInputDialog("GAME OVER - Score: " + score, "Enter your name");
 

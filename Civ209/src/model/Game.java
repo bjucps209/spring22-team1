@@ -486,6 +486,7 @@ public class Game {
         int randNum = nextInt(0, 50); // Generates a random number between 0 and 49
         Coordinate location = troop.getLocation();
         WeatherType wType = checkInWeather(location);
+        
         // if the weather type is lightning, it wipes out a random troop
         if ((wType != null) && randNum == 5 && wType.equals(WeatherType.LightningStorm)) {
             getDeleteEntityList().add(troop);
@@ -496,7 +497,7 @@ public class Game {
         }
         // if the weather type is blizzard, slow the troop that passes through down by
         // 0.75
-        else if (wType != null && wType.equals(WeatherType.Blizzard)) {
+        else if (wType != null && wType.equals(WeatherType.Blizzard) && troop.getSpeed() != 0) {
             // permanently
             troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed - .75
                     : Constants.standardTroopSpeed - .75);

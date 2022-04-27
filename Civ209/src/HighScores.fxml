@@ -2,13 +2,13 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<VBox fx:controller="HighScores" xmlns:fx="http://javafx.com/fxml" stylesheets="@HighScores.css" spacing="20" prefHeight="500" prefWidth="500">
+<VBox fx:controller="HighScores" xmlns:fx="http://javafx.com/fxml" stylesheets="@HighScores.css" spacing="20" prefHeight="700" prefWidth="600">
     <Label fx:id = "lblHScoreTitle" text = "High Scores"/>
-    <HBox spacing = "30">
+    <HBox spacing = "70">
         <Label styleClass = "heading" text = "USER NAME"></Label>
-        <Label text = "SCORE"></Label>
+        <Label styleClass = "heading" text = "SCORE"></Label>
     </HBox>
-    <VBox fx:id = "VBoxScores" spacing = "20">
+    <VBox styleClass = "scores" fx:id = "VBoxScores" spacing = "30">
     </VBox>
 
 </VBox>

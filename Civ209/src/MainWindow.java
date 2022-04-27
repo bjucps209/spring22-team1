@@ -44,7 +44,7 @@ public class MainWindow {
      */
     public void initialize() throws IOException {
         lblGameTitle.setFont(Font.font("Impact", 40)); // https://www.codegrepper.com/code-examples/java/how+to+change+font+in+javafx
-        // Add in the castle images
+        // Add in the castle images - https://www.tutorialspoint.com/how-to-add-an-image-as-label-using-javafx
         imgView.setFitHeight(40);
         imgView2.setFitHeight(40);
         imgView.setPreserveRatio(true);
