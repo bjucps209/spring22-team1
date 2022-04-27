@@ -3,6 +3,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.*;
 
 import model.City;
+import model.CityType;
 import model.Level;
 import model.Nationality;
 import model.SeasonType;
@@ -22,6 +23,7 @@ public class LevelDataTests {
         city1.setId(1);
         city1.getLocation().setX(32);
         city1.getLocation().setY(20);
+        city1.setType(CityType.Strong);
         City city2 = l.create(Nationality.Player);
         city2.setId(2);
         city2.getLocation().setX(15);
@@ -42,6 +44,7 @@ public class LevelDataTests {
         assertEquals(1, loadedcity1.getId());
         assertEquals(32, loadedcity1.getLocation().getX(), 0);
         assertEquals(20, loadedcity1.getLocation().getY(), 0);
+        assertEquals(CityType.Strong, loadedcity1.getType()); 
         assertEquals(Nationality.Enemy, loadedcity1.getNationality());
         assertEquals(SeasonType.Winter, loadeddata.getSeason()); 
         City loadedcity2 = (City) loadeddata.getCities().get(1); 
