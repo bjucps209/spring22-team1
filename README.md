@@ -26,7 +26,7 @@ You win when you control all of the cities on the map. You lose if all of your c
   The program begins with the main menu screen. Clicking the high scores button displays the list of stored player names and high scores, sorted from highest to lowest. The basic main menu setup allows the user to click to select a level which takes them to the levels window with options to play a campaign level, load a saved game, or pick a season level. When the game ends, a dialog box pops up for the user to enter their name. It is then written to the high score file.
 
 
-### [Recording](https://youtu.be/7MihSWZzuec)
+### [Recording](https://www.youtube.com/watch?v=qFtaXuC6fbY)
 
 ### Expenses
 | Name | Username | Ownership Area | Hours Invested | Hours Remaining | Link to Journal | 
