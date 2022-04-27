@@ -1,1 +1,2 @@
-squid,300
+Eric,702
+Caleb,540

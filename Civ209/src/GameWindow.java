@@ -33,18 +33,17 @@ import javax.swing.JOptionPane;
 
 public class GameWindow implements ComputerObserver, GameOverObserver, FireProjectiles {
 
+    // Reference to model.
     private Game game;
+
+    // List of all troops selected.
     private ArrayList<EntityImage> selectedTroops = new ArrayList<EntityImage>();
+
+    // Coordinate that holds the upper left corner of the selection box.
     private Coordinate upperLeft = new Coordinate();
+
+    // Coordinate that holds the lower right corner of the selection box.
     private Coordinate lowerRight = new Coordinate();
-    private VBox dragBox = new VBox();
-    private Delta dragDelta = new Delta();
-    private boolean inCity = false;
-    Random rand = new Random();
-    AudioClip music;
-    HighScores h = new HighScores();
-    Levels level = new Levels();
-    private boolean isCampaign = false;
 
     /**
      * Coordinates used in dragging image.
@@ -54,36 +53,70 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         public double y;
     }
 
+    // Variable to hold the drag of the dragging image.
+    private Delta dragDelta = new Delta();
+
+    // True if in city, false if not.
+    private boolean inCity = false;
+
+    // Instance of Random class for random decisions.
+    Random rand = new Random();
+
+    // Music instance.
+    AudioClip music;
+
+    // Highscores instance.
+    HighScores h = new HighScores();
+
+    // Instance of Levels for passing purposes.
+    Levels level = new Levels();
+
+    // True if this level is in the campaign, false if not.
+    private boolean isCampaign = false;
+
+    // Main game pane.
     @FXML
     Pane pane;
 
+    // Main Vbox
     @FXML
     VBox vbox;
 
+    // HBox with all of the controls for the game.
     @FXML
     HBox controls;
 
+    // Label that is updated with the score.
     @FXML
     Label scoreLabel = new Label();
 
+    // Label that holds the current value of the slider
     @FXML
     Label lblSize;
 
+    // Slider to determine what percentage of troops to send.
     @FXML
     Slider slider;
 
+    // Play button
     @FXML
     ImageView play = new ImageView(Constants.pauseButton);
 
+    // HBox to hold display
     @FXML
     HBox displayBox;
 
+    // HBox to hold the cheat controls
     @FXML
     HBox cheatControls;
 
+    // Drag VBox
+    @FXML
+    private VBox dragBox = new VBox();
+
     @FXML
     /**
-     *  initializes the game screen 
+     * initializes the game screen
      */
     public void initialize(String lvlname, Difficulty difficulty) {
         game = new Game();
@@ -272,6 +305,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
 
     /**
      * Deselects the entity
+     * 
      * @param city to deselect
      * @param node to dehighlight
      */
@@ -285,8 +319,9 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         game.deSelect();
     }
 
-     /**
+    /**
      * Selects the entity
+     * 
      * @param city to select
      * @param node to highlight
      */
@@ -299,8 +334,9 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         }
     }
 
-     /**
-     * Sends the troops from the city to the destination 
+    /**
+     * Sends the troops from the city to the destination
+     * 
      * @param selectedCity
      * @param destination
      */
@@ -312,9 +348,10 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         });
     }
 
-     /**
-     * Sends the troops from the ground to the destination 
-     * @param troops to send
+    /**
+     * Sends the troops from the ground to the destination
+     * 
+     * @param troops      to send
      * @param destination
      */
     public void sendTroopsFromGround(ArrayList<Troop> troops, Coordinate destination) {
@@ -353,6 +390,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
 
     /**
      * deletes the troop
+     * 
      * @param troops to delete
      */
     public void onTroopDelete(Troop troop) {
@@ -365,7 +403,8 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     }
 
     /**
-     * displays the troops 
+     * displays the troops
+     * 
      * @param troops to render
      */
     public void renderTroops(ArrayList<Troop> troops) {
@@ -393,6 +432,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
 
     /**
      * When the game is over, this is called to get the player name
+     * 
      * @param msg
      * @param score
      */
@@ -458,7 +498,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         game.save("Levels/savedGame.dat");
     }
 
-     /**
+    /**
      * Loads the game from Levels/savedGame.dat
      */
     @FXML
@@ -467,8 +507,9 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     }
 
     /**
-     * removes the given entity 
-     * @param entity to remove 
+     * removes the given entity
+     * 
+     * @param entity to remove
      */
     public void removeEntity(Entity entity) {
         for (Node node : pane.getChildren()) {
@@ -510,7 +551,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
     }
 
     /**
-     * shows the cheat options 
+     * shows the cheat options
      */
     @FXML
     public void onCheatClicked(ActionEvent e) {
@@ -542,7 +583,8 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
 
     /**
      * displays the season
-     * @param url of the season image 
+     * 
+     * @param url of the season image
      */
     @FXML
     public void showSeason(String url) {
@@ -552,7 +594,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
 
     /*************************************************************************/
     // Getters and setters
-    
+
     public Game getGame() {
         return game;
     }

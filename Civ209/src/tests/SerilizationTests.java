@@ -20,6 +20,12 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class SerilizationTests {
 
+        /**
+         * Serialization tests saving all types and then loading them in.
+         * Runs with TESTsavedGame.dat
+         * 
+         * @throws IOException
+         */
         @Test
         public void test_save_then_load() throws IOException {
                 Game game = new Game();
@@ -69,6 +75,13 @@ public class SerilizationTests {
                 assertEquals(270, beam.getHeading(), 0);
         }
 
+        /**
+         * Tests the save of multiple cities to ensure that Nationality and CityType is
+         * loaded in correctly.
+         * Runs with TEST2savedGame.dat
+         * 
+         * @throws IOException
+         */
         @Test
         public void test_multipleCity() throws IOException {
 
