@@ -23,7 +23,7 @@ You win when you control all of the cities on the map. You lose if all of your c
   The program allows the user to place the enemy, neutral, and player cities wherever wanted on the map, and decide on the playing season. The user can also choose a type of city (strong and fast) to use. The user can save the level, close the window, and load the level later, or they can save the level and continue to change it, decide they want to go back to what they saved, and load the level from the same window. 
   As of Beta, levels built in Level Builder are automatically sent to the main game files, where they can be launched in the levels menu via the "Play Built Game" button.
 * Auxilary Screens:
-  The program begins with the main menu screen. Clicking the high scores button displays the list of stored player names and high scores, sorted from highest to lowest. The basic main menu setup allows the user to click to select a level which takes them to the levels window with options to play a campaign level, load a saved game, or pick a season level. When the game ends, a dialog box pops up for the user to enter their name. It is then written to the high score file.
+  The program begins with the main menu screen. Clicking the high scores button displays the list of stored player names and high scores, sorted from highest to lowest. The basic main menu setup has a levels button which takes them to the levels window with options to play a campaign level, load a saved game, or pick a season level. There is also an option for determining the game difficulty. When the game ends, a dialog box pops up for the user to enter their name. It is then written to the high score file along with the score.
 
 
 ### [Recording](https://www.youtube.com/watch?v=qFtaXuC6fbY)
@@ -31,7 +31,7 @@ You win when you control all of the cities on the map. You lose if all of your c
 ### Expenses
 | Name | Username | Ownership Area | Hours Invested | Hours Remaining | Link to Journal | 
 | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- |
-| Isabelle Overton | iover106 | High Scores Design | 35 hours 30 minutes | 14 hours 30 minutes | [Isabelle's Journal](https://github.com/bjucps209/spring22-team1/wiki/OvertonJournal) |
+| Isabelle Overton | iover106 | Auxiliary Screens | 37 hours 55 minutes | 12 hours 5 minutes | [Isabelle's Journal](https://github.com/bjucps209/spring22-team1/wiki/OvertonJournal) |
 | Rhys Fuller | RFuller25 | Serialization | 38 hours 35 minutes | 11 hours 25 minutes | [Rhys's Journal](https://github.com/bjucps209/spring22-team1/wiki/Fuller-Journal) |
 | Emily Bronkema | embronk | Level Builder | 34 hours 10 minutes | 15 hours 50 minutes | [Emily's Journal](https://github.com/bjucps209/spring22-team1/wiki/Bronkema-Journal) | 
 | Ryan Moffitt | Sintfoap | Basic Game Play | 46 hours | 4 hours | [Ryan's Journal](https://github.com/bjucps209/spring22-team1/wiki/MoffittJournal) | 
@@ -55,7 +55,6 @@ You win when you control all of the cities on the map. You lose if all of your c
  * Summer: https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/2.+Summer+1+(presto).mp3
  * Autumn: https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/3.+Autumn+1+(allegro).mp3
  * Winter: https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/4.+Winter+1+(allegro+non+molto).mp3
- * Organ: https://www.facebook.com/watch/?v=267519517759544
 
 ### Extra images
  * Blizzard icon: https://upload.wikimedia.org/wikipedia/commons/d/db/Weather-Snow.png
