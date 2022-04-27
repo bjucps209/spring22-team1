@@ -15,10 +15,20 @@ import java.io.*;
 import java.util.*;
 
 public class Game {
+
+    // Timer that calls update method.
     private Timeline timer;
+
+    // List of current entities in game.
     private ArrayList<Entity> entityList = new ArrayList<>();
+
+    // Level where game was loaded from.
     private String fileName;
+
+    // Speed at which game updates.
     private double gameSpeed;
+
+    // 
     private IntegerProperty scoreProperty = new SimpleIntegerProperty();
     private Computer computer = new Computer();
     private int numPlayerCitiesLeft;

@@ -29,6 +29,8 @@ public class Entity {
          */
     }
 
+    /******************************************************/
+    // Getters and setters
     public Coordinate getLocation() {
         return location;
     }
