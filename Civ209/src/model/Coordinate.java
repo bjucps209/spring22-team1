@@ -13,29 +13,55 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public class Coordinate {
+
+    // X value of coordinate
     private DoubleProperty xProperty = new SimpleDoubleProperty();
+
+    // Y value of coordinate
     private DoubleProperty yProperty = new SimpleDoubleProperty();
 
+    /**
+     * Default constructor sets coordinates to 0.
+     */
     public Coordinate() {
         setY(0);
         setX(0);
     }
 
+    /**
+     * Takes in integer X and Y parameters.
+     */
     public Coordinate(int x, int y) {
         setY(y);
         setX(x);
     }
 
+    /**
+     * Takes in double X and Y parameters.
+     */
     public Coordinate(double x, double y) {
         setY(y);
         setX(x);
     }
 
+    /**
+     * Takes in a coordinate to make a copy of.
+     * 
+     * @param coord - Coordinate to set equivalent to.
+     */
     public Coordinate(Coordinate coord) {
         setX(coord.getX());
         setY(coord.getY());
     }
 
+    /**
+     * Method coordinates the new coordinate based on distance traveled at a certain
+     * angle.
+     * 
+     * @param heading  - degree of direction
+     * @param distance - how far to send
+     * @return
+     */
     public Coordinate figureNewCoordinate(double heading, double distance) {
 
         if (distance < 0) {
@@ -60,6 +86,29 @@ public class Coordinate {
 
     }
 
+    /**
+     * rounds up to number of places passed in
+     * 
+     * @param value  the value to round
+     * @param places the number of digits to round to
+     * @return the amended value
+     */
+    // taken from https://www.baeldung.com/java-round-decimal-number
+    private static double round(double value, int places) {
+        if (places < 0)
+            throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(Double.toString(value));
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
+
+    /**
+     * Logic to determine whether another coordinate is near this coordinate.
+     * 
+     * @param comp - Coordinate to compare to
+     * @return - True if near, False if not
+     */
     public boolean isNearThis(Coordinate comp) {
         double xDiff = getX() - comp.getX();
         double yDiff = getY() - comp.getY();
@@ -68,10 +117,15 @@ public class Coordinate {
                         || (yDiff >= -50 && yDiff <= (Constants.cityRadius * -1)));
     }
 
+    /**
+     * To string method
+     */
     public String toString() {
         return "COORDINATE: X is " + getX() + ", and Y is " + getY() + ".";
     }
 
+    /***************************************************************/
+    // Getters and setters
     /**
      * returns true if this and c are equal
      * 
@@ -117,23 +171,6 @@ public class Coordinate {
 
     public DoubleProperty yProperty() {
         return yProperty;
-    }
-
-    /**
-     * rounds up to number of places passed in
-     * 
-     * @param value  the value to round
-     * @param places the number of digits to round to
-     * @return the amended value
-     */
-    // taken from https://www.baeldung.com/java-round-decimal-number
-    private static double round(double value, int places) {
-        if (places < 0)
-            throw new IllegalArgumentException();
-
-        BigDecimal bd = new BigDecimal(Double.toString(value));
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
     }
 
 }
