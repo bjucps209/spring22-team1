@@ -15,13 +15,23 @@ public class Projectile extends MobileEntity {
     private int damage;
     private Coordinate destination;
     private int turnCount;
-    private Coordinate location; 
+    private Coordinate location;
     private Game game;
 
+    /**
+     * Base constructor for Projectiles.
+     * 
+     * @param location
+     * @param turnCount
+     * @param speed
+     * @param heading
+     * @param destination
+     * @param damage
+     */
     public Projectile(Coordinate location, int turnCount, double speed, double heading,
             Coordinate destination, int damage) {
         super(location, turnCount, speed, heading, destination);
-        this.location = location; 
+        this.location = location;
         this.damage = damage;
         this.destination = destination;
         this.turnCount = turnCount;
@@ -43,6 +53,13 @@ public class Projectile extends MobileEntity {
         wr.writeInt(damage);
     }
 
+    /**
+     * Method to load in the projectile that was saved.
+     * 
+     * @param rd - DataInputStream to read from.
+     * @return - Returns built Projectile
+     * @throws IOException
+     */
     public static Entity load(DataInputStream rd) throws IOException {
         Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
         int turnCount = rd.readInt();
@@ -63,7 +80,8 @@ public class Projectile extends MobileEntity {
 
     /**
      * Sends a projectile to a troop if damage is more than 0
-     * @param city that we want to send the projectile from 
+     * 
+     * @param city that we want to send the projectile from
      * @returns the sent Projectile so that it can be rendered
      */
     public Projectile fireProjectile(City city) {
@@ -85,6 +103,9 @@ public class Projectile extends MobileEntity {
         update();
         return this;
     }
+
+    /*********************************************************/
+    // Getters and Seconds
 
     public int getDamage() {
         return damage;
@@ -114,5 +135,4 @@ public class Projectile extends MobileEntity {
         this.location = location;
     }
 
-    
 }

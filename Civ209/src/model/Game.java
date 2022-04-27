@@ -28,21 +28,50 @@ public class Game {
     // Speed at which game updates.
     private double gameSpeed;
 
-    // 
+    // Game score
     private IntegerProperty scoreProperty = new SimpleIntegerProperty();
+
+    // Computer that makes enemy decisions.
     private Computer computer = new Computer();
+
+    // Number of player cities left.
     private int numPlayerCitiesLeft;
+
+    // Current season of game.
     private SeasonType season;
+
+    // List of entities to be deleted from game.
     private ArrayList<Entity> deleteEntityList = new ArrayList<>();
+
+    // Current difficulty level.
     private Difficulty difficulty;
+
+    // Keeps track of times update has been called.
     private int turncount = 0;
+
+    // Random object for random decisions.
     Random rand = new Random();
+
+    // MakeWeather observer.
     private MakeWeather onMakeWeather;
+
+    // onFireProjectile Observer.
     private FireProjectiles onFireProjectile;
+
+    // List of currently selected troops.
     private ArrayList<Troop> selectedTroops = new ArrayList<>();
+
+    // Currently selected city.
     private City selectedCity;
+
+    // Entity manager observer.
     private EntityManager entityManager;
+
+    // Game over Observer.
     private GameOverObserver gameOver;
+
+    // Flag to determine if game is over. True if game is over, false if game is not
+    // over.
     private boolean endGame = false;
 
     /**
@@ -162,6 +191,12 @@ public class Game {
         }
     }
 
+    /**
+     * Main update function of game. Checks to see if game is over, then asks
+     * computer to move, runs through every entity and updates it, decrements score,
+     * deletes entities that are in delete list, updates all entities, calls fire
+     * projectile on cities, and calls weather.
+     */
     public void update() {
         turncount++;
         if (turncount >= 10 && !endGame) {
@@ -199,10 +234,6 @@ public class Game {
         if (turncount % 50 == 0) {
             onMakeWeather.onMakeWeather();
         }
-        // different calls to see if the weather is different types?
-        // getEntityList().stream().filter(e -> e instanceof Weather).filter(e ->
-        // WeatherType == WeatherType.LightningStorm).forEach(e -);
-
         // Check to see if troops need to be destroyed by weather
         getEntityList().stream().filter(e -> e instanceof Troop)
                 .filter(e -> (checkInWeather(((Troop) e).getLocation()) != null))
@@ -212,6 +243,9 @@ public class Game {
 
     }
 
+    /**
+     * Deselects city in selectedCity or troops in selectedTroops.
+     */
     public void deSelect() {
         if (selectedCity != null) {
             selectedCity.setSelected(false);
@@ -223,6 +257,9 @@ public class Game {
         selectedTroops.clear();
     }
 
+    /**
+     * Method to send troops from a city to a city.
+     */
     public ArrayList<Troop> sendTroopsFromCity(City selectedCity, Coordinate destination, double percentage) {
         ArrayList<Troop> troops = selectedCity.sendTroops(percentage, destination,
                 selectedCity.getType(),
@@ -233,6 +270,9 @@ public class Game {
         return troops;
     }
 
+    /**
+     * Method to move troops from the ground to another point on the map.
+     */
     public ArrayList<Troop> sendTroopsFromGround(ArrayList<Troop> troops, Coordinate destination,
             DestinationType destType) {
         for (Troop troop : troops) {
@@ -245,6 +285,16 @@ public class Game {
         return troops;
     }
 
+    /**
+     * Method to send troops from city, if a city is currently selected.
+     * 
+     * @param pointInCircle - Whether or not the destination is a city or not.
+     * @param cityCenter    - If destination is a city, this is the coordinates of
+     *                      the city, otherwise null.
+     * @param destination   - Destination of troops
+     * @param percentage    - how many troops from the city to send.
+     * @return - Returns ArrayList of troops sent for view purposes.
+     */
     public ArrayList<Troop> deployTroops(boolean pointInCircle, Coordinate cityCenter, Coordinate destination,
             double percentage) {
         if (getSelectedCity() != null) {
@@ -407,9 +457,10 @@ public class Game {
 
     }
 
-    /** returns the weather type if the troop is under the weather, null otherwise
+    /**
+     * returns the weather type if the troop is under the weather, null otherwise
      * 
-    */
+     */
     public WeatherType checkInWeather(Coordinate e) {
         for (Entity entity : getEntityList()) {
             if (entity instanceof Weather) {
@@ -425,6 +476,12 @@ public class Game {
         return null;
     }
 
+    /**
+     * Takes in troop that is in weather, does weather action (possibly destroys,
+     * slows, or definetely destroys) to the troop.
+     * 
+     * @param troop - troop to do weather action on.
+     */
     public void deleteTroopWeather(Troop troop) {
         int randNum = nextInt(0, 50); // Generates a random number between 0 and 49
         Coordinate location = troop.getLocation();
@@ -446,15 +503,18 @@ public class Game {
         }
 
     }
+
     // custom nextInt() method because Mr. Moffitt's computer had a fit :(
     public int nextInt(int lowerBound, int upperBound) {
         return (int) ((Math.random() * (upperBound - lowerBound)) + lowerBound);
     }
 
-    public void setUpComputer(ComputerObserver window) {
-        computer.setObs(window);
-    }
-
+    /**
+     * Returns the city in the given coordinates.
+     * 
+     * @param coordinate
+     * @return
+     */
     public City getCityHit(Coordinate coordinate) {
         City city = null;
         for (Entity entity : getEntityList()) {
@@ -471,6 +531,12 @@ public class Game {
         return city;
     }
 
+    /**
+     * Returns true if coordinate is in a city.
+     * 
+     * @param e
+     * @return
+     */
     public boolean checkInCity(Coordinate e) {
         boolean pointInCircle = false;
         for (Entity entity : getEntityList()) {
@@ -486,6 +552,13 @@ public class Game {
         return pointInCircle;
     }
 
+    /**
+     * If the given coordinate is in a city, returns the location of the given city.
+     * 
+     * @param e
+     * @param returnCity
+     * @return
+     */
     public Coordinate checkInCity(Coordinate e, boolean returnCity) {
         for (Entity entity : getEntityList()) {
             if (entity instanceof City) {
@@ -499,6 +572,12 @@ public class Game {
         return null;
     }
 
+    /**
+     * Moves troops to field. Contains logic to ensure troops don't overlap.
+     * 
+     * @param troops
+     * @param destination
+     */
     public void moveTroopToField(ArrayList<Troop> troops, Coordinate destination) {
         int numTroops = troops.size();
         int ring = 0;
@@ -533,6 +612,10 @@ public class Game {
         }
     }
 
+    /**
+     * 
+     * @param troop
+     */
     public void deleteTroop(Troop troop) {
         // Switched from Location to destination. Because I #can
         Coordinate location = troop.getDestination();
@@ -546,6 +629,9 @@ public class Game {
         getDeleteEntityList().add(troop);
     }
 
+    /**
+     * Method starts the game timer, initializes it if not already initalized.
+     */
     public void startTimer() {
         if (timer == null) {
             timer = new Timeline(new KeyFrame(Duration.millis(Constants.tickSpeed), e -> update()));
@@ -556,6 +642,9 @@ public class Game {
         }
     }
 
+    /**
+     * Instantly ends the game. If true, the player wins, if false, the enemy wins.
+     */
     public void instantGameOver(boolean playerWin) {
         for (Entity ent : entityList) {
             if (ent instanceof City) {
@@ -567,6 +656,9 @@ public class Game {
         }
     }
 
+    /**
+     * Instantly adds 30 troops to all player cities.
+     */
     public void instantAddTroops() {
         for (Entity ent : entityList) {
             if (ent instanceof City) {
@@ -578,6 +670,9 @@ public class Game {
         }
     }
 
+    /**
+     * Instantly makes weather.
+     */
     public void instantMakeWeather() {
         onMakeWeather.onMakeWeather();
     }
@@ -602,6 +697,13 @@ public class Game {
             }
         }
         return null;
+    }
+
+    /*******************************************************************/
+    // Getters and setters
+
+    public void setUpComputer(ComputerObserver window) {
+        computer.setObs(window);
     }
 
     public void stopTimer() {

@@ -38,6 +38,21 @@ public class Troop extends MobileEntity {
     // Keeps track of if troop has been killed or not.
     private boolean dead = false;
 
+    /**
+     * Basic constructor
+     * 
+     * @param location
+     * @param turnCount
+     * @param speed
+     * @param heading
+     * @param destination
+     * @param health
+     * @param nationality
+     * @param selected
+     * @param destinationType
+     * @param troopType
+     * @param game
+     */
     public Troop(Coordinate location, int turnCount, double speed, double heading, Coordinate destination, int health,
             Nationality nationality, boolean selected, DestinationType destinationType, CityType troopType, Game game) {
         super(location, turnCount, speed, heading, destination);
@@ -70,7 +85,7 @@ public class Troop extends MobileEntity {
     }
 
     /**
-     * Method loads the game
+     * Method reads in the data for the troop and returns the troop object built.
      * 
      * @param rd
      * @param game
@@ -246,7 +261,7 @@ public class Troop extends MobileEntity {
         this.dead = dead;
     }
 
-    //String method for debugging purposes.
+    // String method for debugging purposes.
     public String __str__() {
         return "" + getSpeed() + " " + getHeading() + " " + getDestination();
     }
