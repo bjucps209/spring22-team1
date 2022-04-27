@@ -1,1 +1,3 @@
 squid,300
+Izzo,234
+Jellyfish,320

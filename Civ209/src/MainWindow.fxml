@@ -12,16 +12,16 @@
     </HBox>
 
     <HBox spacing="20">
-        <Button onAction="#onHelpClicked" text="Help"></Button>
-        <Button onAction="#onAboutClicked" text="About"></Button>
+        <Button styleClass = "greyButton" onAction="#onHelpClicked" text="Help"></Button>
+        <Button styleClass = "greyButton" onAction="#onAboutClicked" text="About"></Button>
     </HBox>
 
     <HBox>
-        <Button onAction="#onScoresClicked" text="High Scores" />
+        <Button styleClass = "greyButton" onAction="#onScoresClicked" text="High Scores" />
     </HBox>
 
     <HBox spacing="20">
-        <Button onAction="#onLevelsClicked" text="Select Level"></Button>
+        <Button styleClass = "greyButton" onAction="#onLevelsClicked" text="Select Level"></Button>
     </HBox>
 
 </VBox>
