@@ -14,22 +14,22 @@ import java.util.stream.Collectors;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class HighScores {
 
+    // Holds the title of the high scores.
     @FXML
     Label lblHScoreTitle;
+
+    // Holds the VBox that contains the scores.
     @FXML
     VBox VBoxScores;
-    @FXML
-    Slider slDifficulty;
 
     @FXML
     /**
-     *  initializes the game screen 
+     * initializes the game screen
      */
     public void initialize() throws IOException {
         VBoxScores.getChildren().clear();
@@ -118,6 +118,15 @@ public class HighScores {
         }
     }
 
+    /**
+     * adds a score to the score list
+     */
+    public void addScoreList(ScoreEntry score) {
+        scoreList.add(score);
+    }
+
+    /***********************************************************/
+    // Getters and setters
     public ArrayList<ScoreEntry> getScoreList() {
         return scoreList;
 
@@ -126,13 +135,5 @@ public class HighScores {
     public void setScoreList(ArrayList<ScoreEntry> scoreList) {
         this.scoreList = scoreList;
     }
-
-    /**
-     *  adds a score to the score list
-     */
-    public void addScoreList(ScoreEntry score) {
-        scoreList.add(score);
-    }
-
 
 }

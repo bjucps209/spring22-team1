@@ -23,27 +23,37 @@ import java.nio.file.Paths;
 
 public class Levels {
 
+    // Stage instance for launching next level
     private Stage stage = null;
+
+    // Keeping track of current campaign level.
     static int campaignlevel = 1;
+
+    // Currently selected difficulty level.
     private Difficulty difficulty = Difficulty.Easy;
 
+    // Label for the title of the level screen.
     @FXML
     Label lblLevelTitle;
 
+    // Button to launch the built level from the level builder.
     @FXML
     Button btnBuilt;
-    
+
+    // Button to set difficulty to easy.
     @FXML
     Button btnEasy;
 
+    // Button to set difficulty to medium.
     @FXML
     Button btnMedium;
 
+    // Button to set difficulty to hard.
     @FXML
     Button btnHard;
 
     /**
-     *  initializes the level screen 
+     * initializes the level screen
      */
     public void initialize() {
         lblLevelTitle.setFont(Font.font("Impact", 30));
@@ -58,7 +68,7 @@ public class Levels {
     }
 
     /**
-     *  loads the game and opens game window
+     * loads the game and opens game window
      */
     @FXML
     public void onLoadClicked(ActionEvent event) {
@@ -72,7 +82,7 @@ public class Levels {
             stage.setFullScreen(true);
             stage.setResizable(false);
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/savedGame.dat",difficulty);
+            gameWindow.initialize("../Civ209/Levels/savedGame.dat", difficulty);
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
         } catch (IOException e) {
             e.printStackTrace();
@@ -80,7 +90,7 @@ public class Levels {
     }
 
     /**
-     *  loads the game made from level builder and opens game windoq
+     * loads the game made from level builder and opens game windoq
      */
     @FXML
     public void onPlayClicked(ActionEvent event) {
@@ -96,7 +106,7 @@ public class Levels {
             stage.setFullScreen(true);
 
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/Level1.dat",difficulty);
+            gameWindow.initialize("../Civ209/Levels/Level1.dat", difficulty);
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
@@ -129,7 +139,7 @@ public class Levels {
                 stage.setFullScreen(true);
 
                 GameWindow gameWindow = loader.getController();
-                gameWindow.initialize("../Civ209/Levels/CampaignLevel" + level + ".dat",difficulty);
+                gameWindow.initialize("../Civ209/Levels/CampaignLevel" + level + ".dat", difficulty);
                 ++campaignlevel;
                 gameWindow.getGame().setScore(600);
                 stage.setOnCloseRequest(e -> onGameClose(gameWindow));
@@ -141,7 +151,7 @@ public class Levels {
     }
 
     @FXML
-     /**
+    /**
      * Opens the spring level
      */
     public void onSpringClicked(ActionEvent event) {
@@ -157,7 +167,7 @@ public class Levels {
             stage.setFullScreen(true);
 
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/Spring.dat",difficulty);
+            gameWindow.initialize("../Civ209/Levels/Spring.dat", difficulty);
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
@@ -166,6 +176,9 @@ public class Levels {
     }
 
     @FXML
+    /**
+     * Opens the summer level
+     */
     public void onSummerClicked(ActionEvent event) {
         // setName(userName.getText().toString()); fix to get the player name to write
         // to the file
@@ -182,7 +195,7 @@ public class Levels {
             stage.setFullScreen(true);
 
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/Summer.dat",difficulty); // replace with link to summer level
+            gameWindow.initialize("../Civ209/Levels/Summer.dat", difficulty); // replace with link to summer level
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
@@ -207,7 +220,7 @@ public class Levels {
             stage.setFullScreen(true);
 
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/Fall.dat",difficulty); // replace with link to fall level
+            gameWindow.initialize("../Civ209/Levels/Fall.dat", difficulty); // replace with link to fall level
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
@@ -232,7 +245,7 @@ public class Levels {
             stage.setFullScreen(true);
 
             GameWindow gameWindow = loader.getController();
-            gameWindow.initialize("../Civ209/Levels/Winter.dat",difficulty); // replace with link to winter level
+            gameWindow.initialize("../Civ209/Levels/Winter.dat", difficulty); // replace with link to winter level
             stage.setOnCloseRequest(e -> onGameClose(gameWindow));
 
         } catch (IOException e) {
@@ -276,7 +289,7 @@ public class Levels {
     }
 
     /**
-     * sets difficulty to hard 
+     * sets difficulty to hard
      */
     @FXML
     public void onHardClicked(ActionEvent e) {
