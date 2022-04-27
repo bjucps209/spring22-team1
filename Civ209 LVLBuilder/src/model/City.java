@@ -6,13 +6,10 @@
 
 package model;
 
-import java.util.Random;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
@@ -20,43 +17,69 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.util.Duration;
 
 public class City extends Entity {
+
+    // Holds population count of city.
     private IntegerProperty populationProperty = new SimpleIntegerProperty();
-    private double incrementRate;
+
+    // Nationality indicator of city. Can be either Player, Enemy, or Neutral. Can
+    // be changed by receiveTroops().
     private Nationality nationality;
 
+    // Indicates whether city is selected.
     private boolean selected = false;
-    private double fireRate;
+
+    // Type of city, can either be Standard, Strong, or Fast. Cannot change during
+    // game.
     private CityType type;
+
+    // Unique ID of City
     private int id;
-    private int x;
-    private int y;
-   private CityObserver obs;
+
+    // CityObserver to notify EntityImage of changes in nationality.
+    private CityObserver obs;
+
+    // Keeps track of how many times update has been called.
     private int turnCount = 0;
+
+    // Holds reference to game, for projectile purposes.
     private Game game;
+
+    // Location of city.
     private Coordinate location;
 
+    // Keeps track of IDs used by City class.
     private static int nextId;
 
+    /**
+     * Constructor for city.
+     * 
+     * @param location
+     * @param turnCount
+     * @param population
+     * @param nationality
+     * @param selected
+     * @param type
+     * @param game
+     */    
     public City(Coordinate location, int turnCount, IntegerProperty population,
             Nationality nationality,
             boolean selected, CityType type, Game game) {
         super(location, turnCount);
+        this.location = location;
         this.populationProperty = population;
-        this.incrementRate = incrementRate;
         this.nationality = nationality;
         this.selected = selected;
-        this.fireRate = fireRate;
         this.type = type;
         this.id = ++nextId;
-        var rand = new Random();
-        if (location.getX() == 0 && location.getY() == 0) {
-            location.setX(rand.nextInt(750));
-            location.setY(rand.nextInt(450));
-        }
-        // this.x = rand.nextInt(750);
-        // this.y = rand.nextInt(450);
+        this.game = game; 
+
     }
 
+     /**
+     * packages the object and writes it in file according to serialization pattern
+     * 
+     * @throws IOException
+     */
     @Override
     public void serialize(DataOutputStream wr) throws IOException {
         // Goes through and writes all of the information necessary for a constructor.
@@ -70,7 +93,14 @@ public class City extends Entity {
         wr.writeChar((type == CityType.Fast) ? 'F' : type == CityType.Strong ? 'S' : 's');
     }
 
-    //TODO - RHYS - Make sure you haven't broken Bronkema's beautiful code
+ /**
+     * Loads game from DataInputStream given. Returns loaded City.
+     * 
+     * @param rd
+     * @param game
+     * @return - City built by DataInputStream.
+     * @throws IOException
+     */
     public static Entity load(DataInputStream rd, Game game) throws IOException {
         Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
         int turnCount = rd.readInt();
@@ -84,10 +114,10 @@ public class City extends Entity {
         CityType cityType = cityT == 'S' ? CityType.Strong
                 : cityT == 'F' ? CityType.Fast : CityType.Standard;
         return new City(location, turnCount, popProperty, nationality, selected,
-                cityType, null);
+                cityType, game);
     }
 
-  /**
+    /**
      * updates the population and image. fires projectile on appropriate ticks.
      */
     @Override
@@ -142,6 +172,12 @@ public class City extends Entity {
         return new ArrayList<Troop>();
     }
 
+  /**
+     * Calculates heading from current location to the destination.
+     * 
+     * @param destination
+     * @return
+     */
     public double figureHeading(Coordinate destination) {
         if (destination.getX() - getLocation().getX() != 0) {
             if (destination.getX() - getLocation().getX() < 0) {
@@ -160,9 +196,11 @@ public class City extends Entity {
     /**
      * fires a projectile from city at closest enemy if enemy in range and city
      * population not 0
+     *
+     * @param game parent game
+     * @return projectile to render
      */
-    public Projectile fireProjectile(Game game) {
-        this.setGame(game);
+    public Projectile fireProjectile() {
         Projectile projectile = null;
         if (getPopulation() != 0) {
             ArrayList<Troop> troops = new ArrayList<>();
@@ -172,15 +210,14 @@ public class City extends Entity {
                 }
             });
             for (Troop troop : troops) {
-                if (troop.getNationality() != nationality && location.isNearThis(troop.getLocation())) {
-                    if (turnCount%10 == 0) {
-                        Troop targettroop = troop; 
+                if (troop.getNationality() != nationality && getLocation().isNearThis(troop.getLocation())) {
+                    if (turnCount % 15 == 0) {
+                        Troop targettroop = troop;
                         projectile = new Projectile(this.location, turnCount, 2, 0,
-                            targettroop.getLocation(), 2);
+                                targettroop.getLocation(), 2);
                         projectile.setGame(game);
-                        projectile.fireProjectile(this); 
-                    }
-                    else {
+                        projectile.fireProjectile(this);
+                    } else {
                         return null; 
                     }
                 }
@@ -190,6 +227,12 @@ public class City extends Entity {
         return null;
     }
 
+    /**
+     * Recieves a troop incrementing or decrementing the city.
+     * 
+     * @param amount
+     * @param attackingType
+     */
     public void recieveTroops(int amount, Nationality attackingType) {
 
         if (nationality == attackingType) {
@@ -205,6 +248,8 @@ public class City extends Entity {
         }
     }
 
+    /*************************************************************************/
+    // Getters and setters
 
     public int getPopulation() {
         return populationProperty.get();
@@ -216,14 +261,6 @@ public class City extends Entity {
 
     public IntegerProperty populationProperty() {
         return populationProperty;
-    }
-
-    public double getIncrementRate() {
-        return incrementRate;
-    }
-
-    public void setIncrementRate(double incrementRate) {
-        this.incrementRate = incrementRate;
     }
 
     public int getId() {
@@ -242,41 +279,12 @@ public class City extends Entity {
         this.nationality = nationality;
     }
 
-    // public int getX() {
-    //     return x;
-    // }
-
-    // public void setX(int x) {
-    //     this.x = x;
-    // }
-
-    // public int getY() {
-    //     return y;
-    // }
-
-    // public void setY(int y) {
-    //     this.y = y;
-    // }
-
-    public Object[] getInformation() {
-        Object[] items = { id, x, y, nationality };
-        return items;
-    }
-
     public boolean isSelected() {
         return selected;
     }
 
     public void setSelected(boolean selected) {
         this.selected = selected;
-    }
-
-    public double getFireRate() {
-        return fireRate;
-    }
-
-    public void setFireRate(double fireRate) {
-        this.fireRate = fireRate;
     }
 
     public CityType getType() {
