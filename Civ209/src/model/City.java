@@ -71,6 +71,7 @@ public class City extends Entity {
         this.selected = selected;
         this.type = type;
         this.id = ++nextId;
+        
     }
 
     /**
