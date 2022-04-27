@@ -17,23 +17,55 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.util.Duration;
 
 public class City extends Entity {
+
+    // Holds population count of city.
     private IntegerProperty populationProperty = new SimpleIntegerProperty();
+
+    // Nationality indicator of city. Can be either Player, Enemy, or Neutral. Can
+    // be changed by receiveTroops().
     private Nationality nationality;
+
+    // Indicates whether city is selected.
     private boolean selected = false;
+
+    // Type of city, can either be Standard, Strong, or Fast. Cannot change during
+    // game.
     private CityType type;
+
+    // Unique ID of City
     private int id;
+
+    // CityObserver to notify EntityImage of changes in nationality.
     private CityObserver obs;
+
+    // Keeps track of how many times update has been called.
     private int turnCount = 0;
+
+    // Holds reference to game, for projectile purposes.
     private Game game;
+
+    // Location of city.
     private Coordinate location;
 
+    // Keeps track of IDs used by City class.
     private static int nextId;
 
+    /**
+     * Constructor for city.
+     * 
+     * @param location
+     * @param turnCount
+     * @param population
+     * @param nationality
+     * @param selected
+     * @param type
+     * @param game
+     */
     public City(Coordinate location, int turnCount, IntegerProperty population,
             Nationality nationality,
             boolean selected, CityType type, Game game) {
         super(location, turnCount);
-        this.location = location; 
+        this.location = location;
         this.populationProperty = population;
         this.nationality = nationality;
         this.selected = selected;
@@ -59,6 +91,14 @@ public class City extends Entity {
         wr.writeChar((type == CityType.Fast) ? 'F' : type == CityType.Strong ? 'S' : 's');
     }
 
+    /**
+     * Loads game from DataInputStream given. Returns loaded City.
+     * 
+     * @param rd
+     * @param game
+     * @return - City built by DataInputStream.
+     * @throws IOException
+     */
     public static Entity load(DataInputStream rd, Game game) throws IOException {
         Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
         int turnCount = rd.readInt();
@@ -130,6 +170,12 @@ public class City extends Entity {
         return new ArrayList<Troop>();
     }
 
+    /**
+     * Calculates heading from current location to the destination.
+     * 
+     * @param destination
+     * @return
+     */
     public double figureHeading(Coordinate destination) {
         if (destination.getX() - getLocation().getX() != 0) {
             if (destination.getX() - getLocation().getX() < 0) {
@@ -148,7 +194,8 @@ public class City extends Entity {
     /**
      * fires a projectile from city at closest enemy if enemy in range and city
      * population not 0
-     * @param game parent game 
+     * 
+     * @param game parent game
      * @return projectile to render
      */
     public Projectile fireProjectile(Game game) {
@@ -179,6 +226,12 @@ public class City extends Entity {
         return null;
     }
 
+    /**
+     * Recieves a troop incrementing or decrementing the city.
+     * 
+     * @param amount
+     * @param attackingType
+     */
     public void recieveTroops(int amount, Nationality attackingType) {
 
         if (nationality == attackingType) {

@@ -61,8 +61,15 @@ public class Constants {
         public static Image cityImage = new Image(
                         "/NormalImages/Castle.png");
 
-        // Method switches the images to enable "Easter Egg"
+        // AudioClip references
+        public static String summerMusic = "/Assets/summer1.mp3";
+        public static String fallMusic = "/Assets/autumn1.mp3";
+        public static String winterMusic = "/Assets/winter1.mp3";
+        public static String springMusic = "/Assets/spring1.mp3";
+
+        // Method switches constants to reflect "Easter Egg" method.
         public static void switchImages() {
+                // Switch images
                 blizzardImage = new Image("/Images/Blizzard.png");
                 lightningImage = new Image("/Images/Lightning.png");
                 floodImage = new Image("/Images/Flood.png");
@@ -75,7 +82,15 @@ public class Constants {
                 enemyFast = new Image("/Images/EnemyFast.png");
                 enemyStrong = new Image("/Images/EnemyStrong.png");
                 enemyImage = new Image("/Images/EnemyNormal.png");
-                troopRadius = 8;
+
+                // Switch Music
+                // springMusic = "/Assets/schauborgan.mp3";
+                // summerMusic = "/Assets/schauborgan.mp3";
+                // fallMusic = "/Assets/schauborgan.mp3";
+                // winterMusic = "/Assets/schauborgan.mp3";
+
+                // Update troop radius so you can see everyone's beautiful faces.
+                troopRadius = 10;
         }
 
 }

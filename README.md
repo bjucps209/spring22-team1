@@ -12,10 +12,11 @@ You win when you control all of the cities on the map. You lose if all of your c
 
 ### Work Completed 
 * Game Functionality:
-  The game initializes the list of entities supplied by the load function and starts the game loop. The game handles clicks by the user on cities, for selecting troops, and moving troops. There is a slider that allows the user to specify the percent of population to move out of a city at a given time. The game handles a drag box which allows the user to select troops and group them together for group movement or attacks. Cities send troops in a staggered timeline, and when sent to coordinates on the screen troops spread out in a circle formation so they don't all clump together. When troop are sent to enemy cities they decrement population on arrival. When enemy cities hit -1 troops they switch over to player troops. There are three different types of cities corresponding to three different types of troops, being standard, strong, and fast. The standard troops have standard health and speed, the strong troops have standard speed but two health, and the fast troops have double speed and standard health. When units colide with one another they both die, except in the case of strong troops, which take two hits to kill. Every 50 ticks a random kind of weather will spawn traveling in a set path across the screen. The weather will kill any troops in it's path, and will despawn upon reaching the other side. The enemy cities fight back, in easy, medium, and hard mode difficulties, which are dynamic and able to be switched mid-game.
+  The game initializes the list of entities supplied by the load function and starts the game loop. The game handles clicks by the user on cities, for selecting troops, and moving troops. There is a slider that allows the user to specify the percent of population to move out of a city at a given time. The game handles a drag box which allows the user to select troops and group them together for group movement or attacks. Cities send troops in a staggered timeline, and when sent to coordinates on the screen troops spread out in a circle formation so they don't all clump together. When troop are sent to enemy cities they decrement population on arrival. When enemy cities hit -1 troops they switch over to player troops. There are three different types of cities corresponding to three different types of troops, being standard, strong, and fast. The standard troops have standard health and speed, the strong troops have standard speed but two health, and the fast troops have double speed and standard health. When units colide with one another they both die, except in the case of strong troops, which take two hits to kill. Every 50 ticks a random kind of weather will spawn traveling in a set path across the screen. The rainstorm will kill any troops in it's path, the blizzard will slow troops it comes across, and the lightning has a chance of killing troops it floats over. All will despawn upon reaching the other side. The enemy cities fight back, in easy, medium, and hard mode difficulties, which are dynamic and able to be switched mid-game. Cities will shoot projectiles at oncoming enemies, killing them. Easter egg is activated upon clicking the title. The cheat mode allows the user to instantly win, lose, increment population, and spawn weather.
 * Serialization: 
   The save function creates a save file at the given filename. It saves the current score, state of the game, and all of the cities and troops on the map, along with their destinations, speeds, headings, population counts, and type, as relevant. When the load function is called, it loads all of the game in the exact state that it was saved in. Cities are at their populations, and troops are not only where they were when the game was saved, but heading in the same direction at the same speed, and are actively moving when the game is loaded. Code passes all unit tests.
   Save Function now saves Weather Entities.
+  Save Function now saves Projectile Entities.
 * Level Builder: 
   The program allows the user to place the enemy, neutral, and player cities wherever wanted on the map, and decide on the playing season. The user can also choose a type of city (strong and fast) to use. The user can save the level, close the window, and load the level later, or they can save the level and continue to change it, decide they want to go back to what they saved, and load the level from the same window. 
   As of Beta, levels built in Level Builder are automatically sent to the main game files, where they can be launched in the levels menu via the "Play Built Game" button.
@@ -31,7 +32,7 @@ You win when you control all of the cities on the map. You lose if all of your c
 | Isabelle Overton | iover106 | High Scores Design | 28 hours 50 minutes | 21 hours 10 minutes | [Isabelle's Journal](https://github.com/bjucps209/spring22-team1/wiki/OvertonJournal) |
 | Rhys Fuller | RFuller25 | Serialization | 27 hours 44 minutes | 22 hours 16 minutes | [Rhys's Journal](https://github.com/bjucps209/spring22-team1/wiki/Fuller-Journal) |
 | Emily Bronkema | embronk | Level Builder | 24 hours 52 minutes | 25 hours 8 minutes | [Emily's Journal](https://github.com/bjucps209/spring22-team1/wiki/Bronkema-Journal) | 
-| Ryan Moffitt | Sintfoap | Basic Game Play | 43 hours | 7 hours | [Ryan's Journal](https://github.com/bjucps209/spring22-team1/wiki/MoffittJournal) | 
+| Ryan Moffitt | Sintfoap | Basic Game Play | 46 hours | 4 hours | [Ryan's Journal](https://github.com/bjucps209/spring22-team1/wiki/MoffittJournal) | 
 
 
 ## Assets used:
@@ -52,12 +53,6 @@ You win when you control all of the cities on the map. You lose if all of your c
  * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/2.+Summer+1+(presto).mp3
  * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/3.+Autumn+1+(allegro).mp3
  * https://archive.org/details/ETitleA.Vivaldi-TheFourSeasons/4.+Winter+1+(allegro+non+molto).mp3
-
-### Sound Effects
- * Snow Storm: https://assets.mixkit.co/sfx/download/mixkit-winter-wind-loop-1175.wav
- * Flood: https://assets.mixkit.co/sfx/download/mixkit-forest-and-waterfall-1229.wav
- * Storm: https://assets.mixkit.co/sfx/download/mixkit-cinematic-thunder-hit-1280.wav
- * Castle Taken: https://www.fesliyanstudios.com/play-mp3/6202
 
 ### Extra images
  * Blizzard icon: https://upload.wikimedia.org/wikipedia/commons/d/db/Weather-Snow.png

@@ -105,7 +105,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
             showSeason("/images/summer.png");
             try {
                 music = new AudioClip(
-                        getClass().getResource("/Assets/summer1.mp3").toString());
+                        getClass().getResource(Constants.summerMusic).toString());
             } catch (NullPointerException e) {
                 System.out.println(
                         "Music isn't working because you're not running the program from the Civ209 folder :(");
@@ -115,7 +115,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
             showSeason("/images/fall.png");
             try {
                 music = new AudioClip(
-                        getClass().getResource("/Assets/autumn1.mp3").toString());
+                        getClass().getResource(Constants.fallMusic).toString());
             } catch (NullPointerException e) {
                 System.out.println(
                         "Music isn't working because you're not running the program from the Civ209 folder :(");
@@ -126,7 +126,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
             showSeason("/images/winter.png");
             try {
                 music = new AudioClip(
-                        getClass().getResource("/Assets/winter1.mp3").toString());
+                        getClass().getResource(Constants.winterMusic).toString());
             } catch (NullPointerException e) {
                 System.out.println(
                         "Music isn't working because you're not running the program from the Civ209 folder :(");
@@ -136,7 +136,7 @@ public class GameWindow implements ComputerObserver, GameOverObserver, FireProje
         if (game.getSeason() == SeasonType.Spring) {
             showSeason("/images/spring.png");
             try {
-                music = new AudioClip(getClass().getResource("/Assets/spring1.mp3").toExternalForm());
+                music = new AudioClip(getClass().getResource(Constants.springMusic).toExternalForm());
             } catch (NullPointerException e) {
                 System.out.println(
                         "Music isn't working because you're not running the program from the Civ209 folder :(");

@@ -90,6 +90,11 @@ public class Computer {
                 break;
 
             case Medium:
+                /**
+                 * In medium the computer sends out troops to the ground, randomly directs those
+                 * troops to attack cities, and then makes better coordinated attacks every 100
+                 * turns.
+                 */
                 try {
                     if (turnCount % 100 == 0) {
                         for (City city : computerCities) {
@@ -115,24 +120,24 @@ public class Computer {
                 break;
 
             case Hard:
+                /**
+                 * In hard the computer has the most efficient attack strategy: once the enemy
+                 * cities reach full troops, send all troops from that city to attack one player
+                 * or neutral city, whichever is the best to attack. It also sends out decoy
+                 * troops at this point.
+                 */
                 try {
 
                     if (computerCities.get(0).getPopulation() >= Constants.cityPopulationLimit) {
-                        for (City city : computerCities) {
-                            int tries = 3;
-                            for (City enemy : otherCities) {
-                                if (tries < 1)
-                                    break;
-                                ArrayList<Troop> troops = game.sendTroopsFromCity(city, enemy.getLocation(), 1);
-                                game.getEntityList().addAll(troops);
-                                obs.renderTroops(troops);
 
-                            }
+                        for (City city : computerCities) {
                             ArrayList<Troop> troops = game.sendTroopsFromCity(city, cityToAttack.getLocation(), 100);
                             game.getEntityList().addAll(troops);
                             obs.renderTroops(troops);
+
                         }
                     }
+
                 } catch (IndexOutOfBoundsException e) {
                 }
 
