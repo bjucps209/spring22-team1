@@ -1,4 +1,4 @@
-![Main Screen](http://rhysfuller.com/MainScreen.PNG)
+![Main Screen](rhysfuller.com/MainScreen.PNG)
 # spring22-team1
 CPS 209 Spring Team 1 Project
 
