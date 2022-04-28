@@ -71,7 +71,7 @@ public class City extends Entity {
         this.selected = selected;
         this.type = type;
         this.id = ++nextId;
-
+        
     }
 
     /**
@@ -156,12 +156,9 @@ public class City extends Entity {
 
             Thread t = new Thread(() -> {
                 Timeline timer = new Timeline(new KeyFrame(Duration.millis(300), e -> {
-                    if (troops.size() < 1) {
-                        Troop troop = troops.get(0);
-                        troops.remove(troop);
-                        troop.setSpeed(
-                                (type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed);
-                    }
+                    Troop troop = troops.get(0);
+                    troops.remove(troop);
+                    troop.setSpeed((type == CityType.Fast) ? Constants.fastTroopSpeed : Constants.standardTroopSpeed);
                 }));
                 timer.setCycleCount(troops.size());
                 timer.play();
