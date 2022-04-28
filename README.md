@@ -36,7 +36,7 @@ You win when you control all of the cities on the map. You lose if all of your c
 | Name | Username | Ownership Area | Hours Invested | Hours Remaining | Link to Journal | 
 | ----------- | ----------- | ----------- | ----------- | ----------- | ----------- |
 | Isabelle Overton | iover106 | Auxiliary Screens | 38 hours 55 minutes | 11 hours 5 minutes | [Isabelle's Journal](https://github.com/bjucps209/spring22-team1/wiki/OvertonJournal) |
-| Rhys Fuller | RFuller25 | Serialization | 38 hours 35 minutes | 11 hours 25 minutes | [Rhys's Journal](https://github.com/bjucps209/spring22-team1/wiki/Fuller-Journal) |
+| Rhys Fuller | RFuller25 | Serialization | 42 hours and 11  | 7 hours 49 minutes | [Rhys's Journal](https://github.com/bjucps209/spring22-team1/wiki/Fuller-Journal) |
 | Emily Bronkema | embronk | Level Builder | 34 hours 40 minutes | 15 hours 20 minutes | [Emily's Journal](https://github.com/bjucps209/spring22-team1/wiki/Bronkema-Journal) | 
 | Ryan Moffitt | Sintfoap | Basic Game Play | 50 hours | 0 hours | [Ryan's Journal](https://github.com/bjucps209/spring22-team1/wiki/MoffittJournal) | 
 
