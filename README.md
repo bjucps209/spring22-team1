@@ -1,4 +1,4 @@
-![MainScreen](https://user-images.githubusercontent.com/89529399/165664592-711c6273-9c43-44bb-9b18-64dc64784181.PNG)
+<center>![MainScreen](https://user-images.githubusercontent.com/89529399/165664592-711c6273-9c43-44bb-9b18-64dc64784181.PNG)</center>
 
 # spring22-team1
 CPS 209 Spring Team 1 Project
