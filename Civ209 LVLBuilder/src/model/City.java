@@ -60,7 +60,7 @@ public class City extends Entity {
      * @param selected
      * @param type
      * @param game
-     */    
+     */
     public City(Coordinate location, int turnCount, IntegerProperty population,
             Nationality nationality,
             boolean selected, CityType type, Game game) {
@@ -71,11 +71,10 @@ public class City extends Entity {
         this.selected = selected;
         this.type = type;
         this.id = ++nextId;
-        this.game = game; 
-
+        
     }
 
-     /**
+    /**
      * packages the object and writes it in file according to serialization pattern
      * 
      * @throws IOException
@@ -93,7 +92,7 @@ public class City extends Entity {
         wr.writeChar((type == CityType.Fast) ? 'F' : type == CityType.Strong ? 'S' : 's');
     }
 
- /**
+    /**
      * Loads game from DataInputStream given. Returns loaded City.
      * 
      * @param rd
@@ -151,7 +150,7 @@ public class City extends Entity {
                         0, heading,
                         destination,
                         (type == CityType.Strong) ? Constants.strongTroopHealth : Constants.standardTroopHealth,
-                        nationality, false, destinationType, type);
+                        nationality, false, destinationType, type, game);
                 troops.add(troop);
             }
 
@@ -172,7 +171,7 @@ public class City extends Entity {
         return new ArrayList<Troop>();
     }
 
-  /**
+    /**
      * Calculates heading from current location to the destination.
      * 
      * @param destination
@@ -196,11 +195,12 @@ public class City extends Entity {
     /**
      * fires a projectile from city at closest enemy if enemy in range and city
      * population not 0
-     *
+     * 
      * @param game parent game
      * @return projectile to render
      */
-    public Projectile fireProjectile() {
+    public Projectile fireProjectile(Game game) {
+        this.setGame(game);
         Projectile projectile = null;
         if (getPopulation() != 0) {
             ArrayList<Troop> troops = new ArrayList<>();
@@ -218,7 +218,7 @@ public class City extends Entity {
                         projectile.setGame(game);
                         projectile.fireProjectile(this);
                     } else {
-                        return null; 
+                        return null;
                     }
                 }
             }
@@ -294,7 +294,7 @@ public class City extends Entity {
     public void setType(CityType type) {
         this.type = type;
     }
-    
+
     public void setObs(CityObserver obs) {
         this.obs = obs;
     }

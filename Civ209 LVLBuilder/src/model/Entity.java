@@ -1,7 +1,8 @@
 //-----------------------------------------------------------
 //File:   Entity.java
-//Desc:   This program architects a standard entity
+//Desc:   This program architects a standered entity
 //-----------------------------------------------------------
+
 package model;
 
 import java.io.DataOutputStream;
@@ -15,11 +16,10 @@ public class Entity {
      * updates image of object. worked by all objects that inherit from entity
      */
     public void update() {
-
     }
 
     /**
-    * packages an object and writes it in file according to serialization pattern
+     * packages an object and writes it in file according to serialization pattern
      * 
      * @param wr data writer used to write object to binary file
      */
@@ -29,6 +29,8 @@ public class Entity {
          */
     }
 
+    /******************************************************/
+    // Getters and setters
     public Coordinate getLocation() {
         return location;
     }

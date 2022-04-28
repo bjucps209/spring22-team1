@@ -1,7 +1,8 @@
 //-----------------------------------------------------------
-//File:   Projetile.java
+//File:   Projectile.java
 //Desc:   This program creates projectile objects meant to kill troops
 //-----------------------------------------------------------
+
 package model;
 
 import java.io.DataInputStream;
@@ -12,17 +13,26 @@ import java.util.List;
 
 public class Projectile extends MobileEntity {
     private int damage;
-    private Coordinate location;
     private Coordinate destination;
     private int turnCount;
-    // private onTroopDeleteInterface troopDelete;
+    private Coordinate location;
     private Game game;
 
+    /**
+     * Base constructor for Projectiles.
+     * 
+     * @param location
+     * @param turnCount
+     * @param speed
+     * @param heading
+     * @param destination
+     * @param damage
+     */
     public Projectile(Coordinate location, int turnCount, double speed, double heading,
             Coordinate destination, int damage) {
         super(location, turnCount, speed, heading, destination);
-        this.damage = damage;
         this.location = location;
+        this.damage = damage;
         this.destination = destination;
         this.turnCount = turnCount;
     }
@@ -43,6 +53,13 @@ public class Projectile extends MobileEntity {
         wr.writeInt(damage);
     }
 
+    /**
+     * Method to load in the projectile that was saved.
+     * 
+     * @param rd - DataInputStream to read from.
+     * @return - Returns built Projectile
+     * @throws IOException
+     */
     public static Entity load(DataInputStream rd) throws IOException {
         Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
         int turnCount = rd.readInt();
@@ -54,22 +71,19 @@ public class Projectile extends MobileEntity {
     }
 
     /**
-     * checks for if hit target and then updates the position and image
+     * updates the projectiles
      */
     @Override
     public void update() {
-        // if (turncount%15 == 0) {
         super.update();
-        // }
-        // ++fireProjectile;
-        // sends the projectile to the destination
-        /**
-         * check collision detection()
-         */
-        // if hit, delete enemy troop and projectile
-        // update damage
     }
 
+    /**
+     * Sends a projectile to a troop if damage is more than 0
+     * 
+     * @param city that we want to send the projectile from
+     * @returns the sent Projectile so that it can be rendered
+     */
     public Projectile fireProjectile(City city) {
         setHeading(city.figureHeading(destination));
         ArrayList<Troop> troops = new ArrayList<>();
@@ -90,37 +104,8 @@ public class Projectile extends MobileEntity {
         return this;
     }
 
-    public boolean fireable() {
-        if (turnCount % 10 == 0) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * checks if hit enemy
-     */
-    // public void collisionDetection() {
-    // ArrayList<Troop> troops = new ArrayList<>();
-    // game.getEntityList().stream().forEach(t -> {
-    // if (t instanceof Troop) {
-    // troops.add((Troop) t);
-    // }
-    // });
-    // for (Troop troop: troops) {
-    // double distToTroop = Math.sqrt(Math.pow(troop.getLocation().getY() -
-    // getLocation().getY(), 2) + Math.pow(troop.getLocation().getX() -
-    // getLocation().getX(), 2));
-    // if (distToTroop < Constants.troopRadius * 2) {
-    // game.getDeleteEntityList().addAll(List.of(troop, this));
-    // }
-    // }
-    // if (this.getLocation().getX() == this.getDestination().getX() &&
-    // this.getLocation().getY() == this.getDestination().getY()){
-    // return true;
-    // }
-    // return false;
-    // }
+    /*********************************************************/
+    // Getters and Seconds
 
     public int getDamage() {
         return damage;
@@ -128,14 +113,6 @@ public class Projectile extends MobileEntity {
 
     public void setDamage(int damage) {
         this.damage = damage;
-    }
-
-    public Coordinate getLocation() {
-        return location;
-    }
-
-    public void setLocation(Coordinate location) {
-        this.location = location;
     }
 
     public Coordinate getDestination() {
@@ -148,6 +125,14 @@ public class Projectile extends MobileEntity {
 
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public Coordinate getLocation() {
+        return location;
+    }
+
+    public void setLocation(Coordinate location) {
+        this.location = location;
     }
 
 }

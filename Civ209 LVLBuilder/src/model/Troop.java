@@ -2,6 +2,7 @@
 //File:   Troop.java
 //Desc:   This program creates troop type objects and handles movement
 //-----------------------------------------------------------
+
 package model;
 
 import java.io.DataInputStream;
@@ -11,26 +12,87 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Troop extends MobileEntity {
+
+    // Health of the troop, counts against city population.
     private int health;
+
+    // Nationality of troop, Player or Enemy
     private Nationality nationality;
+
+    // true if selected, for serialization purposes.
     private boolean selected;
+
+    // Event handler to remove troop from entity list when appropriate
     private TroopDelete troopDelete;
+
+    // Either City or Coordinate, for movement calculation purposes.
     private DestinationType destinationType;
+
+    // Type of troop, Standard, Strong, or Fast.
     private CityType troopType;
+
+    // Holds reference to the game it is played on for deletion purposes and
+    // optimization purposes.
     private Game game;
+
+    // Keeps track of if troop has been killed or not.
     private boolean dead = false;
 
+    /**
+     * Basic constructor
+     * 
+     * @param location
+     * @param turnCount
+     * @param speed
+     * @param heading
+     * @param destination
+     * @param health
+     * @param nationality
+     * @param selected
+     * @param destinationType
+     * @param troopType
+     * @param game
+     */
     public Troop(Coordinate location, int turnCount, double speed, double heading, Coordinate destination, int health,
-            Nationality nationality, boolean selected, DestinationType destinationType, CityType troopType) {
+            Nationality nationality, boolean selected, DestinationType destinationType, CityType troopType, Game game) {
         super(location, turnCount, speed, heading, destination);
         this.health = health;
         this.nationality = nationality;
         this.selected = selected;
         this.destinationType = destinationType;
         this.troopType = troopType;
+        this.game = game;
     }
 
-    public static Entity load(DataInputStream rd) throws IOException {
+    /**
+     * packages the object and writes it in file according to serialization pattern
+     */
+    @Override
+    public void serialize(DataOutputStream wr) throws IOException {
+        wr.writeUTF("Troop");
+        wr.writeDouble(this.getLocation().getX());
+        wr.writeDouble(this.getLocation().getY());
+        wr.writeInt(this.getTurnCount());
+        wr.writeDouble(this.getSpeed());
+        wr.writeDouble(this.getHeading());
+        wr.writeInt(health);
+        wr.writeChar((nationality == Nationality.Player) ? 'P' : nationality == Nationality.Enemy ? 'E' : 'N');
+        wr.writeBoolean(selected);
+        wr.writeChar((destinationType == DestinationType.City ? 'i' : 'o'));
+        wr.writeChar((troopType == CityType.Fast) ? 'F' : troopType == CityType.Strong ? 'S' : 's');
+        wr.writeDouble(this.getDestination().getX());
+        wr.writeDouble(this.getDestination().getY());
+    }
+
+    /**
+     * Method reads in the data for the troop and returns the troop object built.
+     * 
+     * @param rd
+     * @param game
+     * @return
+     * @throws IOException
+     */
+    public static Entity load(DataInputStream rd, Game game) throws IOException {
 
         Coordinate location = new Coordinate(rd.readDouble(), rd.readDouble());
         int turnCount = rd.readInt();
@@ -45,12 +107,12 @@ public class Troop extends MobileEntity {
         DestinationType destinationType = dChar == 'i' ? DestinationType.City
                 : DestinationType.Coordinate;
         char tChar = rd.readChar();
-        CityType troopType = tChar == 'S' ? CityType.Standard
+        CityType troopType = tChar == 's' ? CityType.Standard
                 : tChar == 'F' ? CityType.Fast : CityType.Strong;
         Coordinate destination = new Coordinate(rd.readDouble(), rd.readDouble());
 
         return new Troop(location, turnCount, speed, heading, destination, health, nationality, selected,
-                destinationType, troopType);
+                destinationType, troopType, game);
     }
 
     /**
@@ -121,25 +183,12 @@ public class Troop extends MobileEntity {
     }
 
     /**
-     * packages the object and writes it in file according to serialization pattern
+     * Figures what degree the heading should be to get to the desired coordinate
+     * from current location.
+     * 
+     * @param destination
+     * @return - heading in degrees (0-359)
      */
-    @Override
-    public void serialize(DataOutputStream wr) throws IOException {
-        wr.writeUTF("Troop");
-        wr.writeDouble(this.getLocation().getX());
-        wr.writeDouble(this.getLocation().getY());
-        wr.writeInt(this.getTurnCount());
-        wr.writeDouble(this.getSpeed());
-        wr.writeDouble(this.getHeading());
-        wr.writeInt(health);
-        wr.writeChar((nationality == Nationality.Player) ? 'P' : nationality == Nationality.Enemy ? 'E' : 'N');
-        wr.writeBoolean(selected);
-        wr.writeChar((destinationType == DestinationType.City ? 'i' : 'o'));
-        wr.writeChar((troopType == CityType.Fast) ? 'F' : troopType == CityType.Strong ? 'S' : 's');
-        wr.writeDouble(this.getDestination().getX());
-        wr.writeDouble(this.getDestination().getY());
-    }
-
     public double figureHeading(Coordinate destination) {
         if (destination.getX() - getLocation().getX() != 0) {
             if (destination.getX() - getLocation().getX() < 0) {
@@ -154,6 +203,8 @@ public class Troop extends MobileEntity {
         }
     }
 
+    /*************************************************************************/
+    // Getters and setters
     public boolean isSelected() {
         return selected;
     }
@@ -202,10 +253,6 @@ public class Troop extends MobileEntity {
         this.troopType = troopType;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
     public boolean isDead() {
         return dead;
     }
@@ -214,6 +261,7 @@ public class Troop extends MobileEntity {
         this.dead = dead;
     }
 
+    // String method for debugging purposes.
     public String __str__() {
         return "" + getSpeed() + " " + getHeading() + " " + getDestination();
     }

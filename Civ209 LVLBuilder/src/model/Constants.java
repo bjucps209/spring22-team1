@@ -1,4 +1,3 @@
-
 //-----------------------------------------------------------
 //File:   Constants.java
 //Desc:   File holds all of the constant variables for the
@@ -46,8 +45,6 @@ public class Constants {
                         "https://upload.wikimedia.org/wikipedia/commons/f/f1/Bitcoin_lightning_logo.png");
         public static Image floodImage = new Image(
                         "https://upload.wikimedia.org/wikipedia/commons/8/82/Light_Rain_Cloud_by_Sara.png");
-        public static Image cityImage = new Image(
-                        "/NormalImages/Castle.png");
 
         public static final Image playButton = new Image("/NormalImages/play-button(pressed).png");
         public static final Image playButtonPressed = new Image("/NormalImages/play-button.png");
@@ -60,10 +57,19 @@ public class Constants {
         public static Image enemyFast = new Image("/NormalImages/enemyFast.png");
         public static Image playerFast = new Image("/NormalImages/playerFast.png");
         public static Image fastCity = new Image("/images/fastcastle.png");
-        public static Image strongCity = new Image("/NormalImages/Castle.png");
+        public static Image strongCity = new Image("/images/strongcastle.png");
+        public static Image cityImage = new Image(
+                        "/NormalImages/Castle.png");
 
-        // Method switches the images to enable "Easter Egg"
+        // AudioClip references
+        public static String summerMusic = "/Assets/summer1.mp3";
+        public static String fallMusic = "/Assets/autumn1.mp3";
+        public static String winterMusic = "/Assets/winter1.mp3";
+        public static String springMusic = "/Assets/spring1.mp3";
+
+        // Method switches constants to reflect "Easter Egg" method.
         public static void switchImages() {
+                // Switch images
                 blizzardImage = new Image("/Images/Blizzard.png");
                 lightningImage = new Image("/Images/Lightning.png");
                 floodImage = new Image("/Images/Flood.png");
@@ -76,7 +82,9 @@ public class Constants {
                 enemyFast = new Image("/Images/EnemyFast.png");
                 enemyStrong = new Image("/Images/EnemyStrong.png");
                 enemyImage = new Image("/Images/EnemyNormal.png");
-                troopRadius = 8;
+
+                // Update troop radius so you can see everyone's beautiful faces.
+                troopRadius = 10;
         }
 
 }

@@ -2,38 +2,76 @@
 //File:   Game.java
 //Desc:   This program instantiates an image and handles game state.
 //-----------------------------------------------------------
+
 package model;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.util.Duration;
 
 import java.io.*;
 import java.util.*;
 
 public class Game {
+
+    // Timer that calls update method.
     private Timeline timer;
+
+    // List of current entities in game.
     private ArrayList<Entity> entityList = new ArrayList<>();
+
+    // Level where game was loaded from.
     private String fileName;
+
+    // Speed at which game updates.
     private double gameSpeed;
+
+    // Game score
     private IntegerProperty scoreProperty = new SimpleIntegerProperty();
+
+    // Computer that makes enemy decisions.
     private Computer computer = new Computer();
+
+    // Number of player cities left.
     private int numPlayerCitiesLeft;
+
+    // Current season of game.
     private SeasonType season;
+
+    // List of entities to be deleted from game.
     private ArrayList<Entity> deleteEntityList = new ArrayList<>();
+
+    // Current difficulty level.
     private Difficulty difficulty;
+
+    // Keeps track of times update has been called.
     private int turncount = 0;
+
+    // Random object for random decisions.
     Random rand = new Random();
+
+    // MakeWeather observer.
     private MakeWeather onMakeWeather;
+
+    // onFireProjectile Observer.
     private FireProjectiles onFireProjectile;
+
+    // List of currently selected troops.
     private ArrayList<Troop> selectedTroops = new ArrayList<>();
+
+    // Currently selected city.
     private City selectedCity;
+
+    // Entity manager observer.
     private EntityManager entityManager;
+
+    // Game over Observer.
     private GameOverObserver gameOver;
+
+    // Flag to determine if game is over. True if game is over, false if game is not
+    // over.
     private boolean endGame = false;
 
     /**
@@ -48,7 +86,7 @@ public class Game {
             load(lvlName);
         } catch (IOException e) {
             try {
-                load("Civ209/Levels/DemoLevel.dat");
+                load("../Civ209/Levels/DemoLevel.dat");
             } catch (IOException xe) {
                 System.out.println("fatalError! " + xe);
                 System.exit(1);
@@ -100,7 +138,6 @@ public class Game {
                 .count() == 0) {
             stopTimer();
 
-            // Your move, Mr. Moffitt
             gameOver.recognizeGameOver("Enemy conquest", scoreProperty.get());
         } else {
             if (getEntityList().stream()
@@ -140,9 +177,9 @@ public class Game {
                     String entityType = rd.readUTF();
 
                     if (entityType.equals("City"))
-                        entity = City.load(rd, null);
+                        entity = City.load(rd, this);
                     else if (entityType.equals("Troop"))
-                        entity = Troop.load(rd);
+                        entity = Troop.load(rd, this);
                     else if (entityType.equals("Projectile"))
                         entity = Projectile.load(rd);
                     else
@@ -154,14 +191,20 @@ public class Game {
         }
     }
 
+    /**
+     * Main update function of game. Checks to see if game is over, then asks
+     * computer to move, runs through every entity and updates it, decrements score,
+     * deletes entities that are in delete list, updates all entities, calls fire
+     * projectile on cities, and calls weather.
+     */
     public void update() {
+        turncount++;
         if (turncount >= 10 && !endGame) {
             gameEnd();
         }
         if (endGame)
             return;
         computer.executeAction(this);
-        turncount++;
         if (turncount % 5 == 0)
             setScore(getScore() - 1);
         deleteEntityList.stream().forEach(e -> {
@@ -171,22 +214,15 @@ public class Game {
         for (Entity entity : deleteEntityList) {
             entityList.remove(entity);
         }
-
         deleteEntityList.clear();
         ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
-        // troops.stream().forEach(e -> e.setGame(this));
-        // moveTroopToField(troops, destination);
-        // getEntityList().addAll(troops);
-        // return troops;
-        // TODO work on Projectile
         // Ik it looks bad, but I promise it's the way it is for a reason
         for (Entity entity : entityList) {
             entity.update();
             if (entity instanceof City) {
                 City city = (City) entity;
-                Projectile proj = city.fireProjectile();
+                Projectile proj = city.fireProjectile(this);
                 projectiles.add(proj);
-                // System.out.println("everything is fine");
             }
         }
 
@@ -200,12 +236,16 @@ public class Game {
         }
         // Check to see if troops need to be destroyed by weather
         getEntityList().stream().filter(e -> e instanceof Troop)
-                .filter(e -> checkInWeather(((Troop) e).getLocation())).forEach(e -> deleteTroopWeather((Troop) e));
+                .filter(e -> (checkInWeather(((Troop) e).getLocation()) != null))
+                .forEach(e -> deleteTroopWeather((Troop) e));
         // check if the weather is in bounds of the pane
         getEntityList().stream().filter(e -> e instanceof Weather).forEach(e -> checkInBounds((Weather) e));
 
     }
 
+    /**
+     * Deselects city in selectedCity or troops in selectedTroops.
+     */
     public void deSelect() {
         if (selectedCity != null) {
             selectedCity.setSelected(false);
@@ -217,17 +257,22 @@ public class Game {
         selectedTroops.clear();
     }
 
+    /**
+     * Method to send troops from a city to a city.
+     */
     public ArrayList<Troop> sendTroopsFromCity(City selectedCity, Coordinate destination, double percentage) {
         ArrayList<Troop> troops = selectedCity.sendTroops(percentage, destination,
                 selectedCity.getType(),
                 DestinationType.City);
         troops.stream().forEach(e -> {
             e.setDestination(destination);
-            e.setGame(this);
         });
         return troops;
     }
 
+    /**
+     * Method to move troops from the ground to another point on the map.
+     */
     public ArrayList<Troop> sendTroopsFromGround(ArrayList<Troop> troops, Coordinate destination,
             DestinationType destType) {
         for (Troop troop : troops) {
@@ -240,6 +285,16 @@ public class Game {
         return troops;
     }
 
+    /**
+     * Method to send troops from city, if a city is currently selected.
+     * 
+     * @param pointInCircle - Whether or not the destination is a city or not.
+     * @param cityCenter    - If destination is a city, this is the coordinates of
+     *                      the city, otherwise null.
+     * @param destination   - Destination of troops
+     * @param percentage    - how many troops from the city to send.
+     * @return - Returns ArrayList of troops sent for view purposes.
+     */
     public ArrayList<Troop> deployTroops(boolean pointInCircle, Coordinate cityCenter, Coordinate destination,
             double percentage) {
         if (getSelectedCity() != null) {
@@ -248,7 +303,6 @@ public class Game {
                     ArrayList<Troop> troops = getSelectedCity().sendTroops(percentage, destination,
                             getSelectedCity().getType(),
                             DestinationType.City);
-                    troops.stream().forEach(e -> e.setGame(this));
                     getEntityList().addAll(troops);
                     return troops;
                 } else {
@@ -258,7 +312,6 @@ public class Game {
                 ArrayList<Troop> troops = getSelectedCity().sendTroops(percentage, destination,
                         getSelectedCity().getType(),
                         DestinationType.Coordinate);
-                troops.stream().forEach(e -> e.setGame(this));
                 moveTroopToField(troops, destination);
                 getEntityList().addAll(troops);
                 return troops;
@@ -304,8 +357,6 @@ public class Game {
             wr.writeInt(getScore());
             wr.writeChar(this.season == SeasonType.Winter ? 'W'
                     : this.season == SeasonType.Fall ? 'F' : this.season == SeasonType.Summer ? 'S' : 's');
-            // this.difficulty = diff == 'E' ? Difficulty.Easy : diff == 'M' ?
-            // Difficulty.Medium : Difficulty.Hard;
             wr.writeChar(this.difficulty == Difficulty.Easy ? 'E' : this.difficulty == Difficulty.Medium ? 'M' : 'H');
             wr.writeInt(numPlayerCitiesLeft);
             wr.writeDouble(gameSpeed);
@@ -349,7 +400,7 @@ public class Game {
                 coordX = nextInt((Constants.windowWidth) / 2, Constants.windowWidth - 39);
             }
 
-        } else if (screenSide == 1) { // left
+        } else if (screenSide == 1) { // left side of screen
             int check = rand.nextInt(2);
             coordX = 39;
             if (check == 0) {
@@ -361,7 +412,7 @@ public class Game {
                 coordY = nextInt(39, (Constants.windowHeight) / 2);
             }
 
-        } else if (screenSide == 2) { // top
+        } else if (screenSide == 2) { // top side of screen
             heading = nextInt(45, 135);
             coordY = 39;
 
@@ -371,7 +422,7 @@ public class Game {
                 coordX = nextInt((Constants.windowWidth) / 2, (Constants.windowWidth - 39));
             }
 
-        } else { // right
+        } else { // right side of screen
 
             int check = rand.nextInt(2);
             coordX = Constants.windowWidth - 39;
@@ -397,6 +448,7 @@ public class Game {
      * weather
      */
     public void checkInBounds(Weather w) {
+
         if (w.getLocation().getX() > Constants.windowWidth - 39 || w.getLocation().getX() < 39
                 || w.getLocation().getY() > Constants.windowHeight - 39 ||
                 w.getLocation().getY() < 39) {
@@ -405,39 +457,65 @@ public class Game {
 
     }
 
-    // returns true if the entity is in the weather, false otherwise
-    public boolean checkInWeather(Coordinate e) {
-        boolean pointInCircle = false;
+    /**
+     * returns the weather type if the troop is under the weather, null otherwise
+     * 
+     */
+    public WeatherType checkInWeather(Coordinate e) {
         for (Entity entity : getEntityList()) {
             if (entity instanceof Weather) {
                 Weather weatherEntity = (Weather) entity;
                 if (Math.sqrt(Math.pow(weatherEntity.getLocation().getX() - e.getX(), 2) + Math
                         .pow(weatherEntity.getLocation().getY() - e.getY(), 2)) <= Constants.weatherRadius
                                 + Constants.troopRadius) {
-                    pointInCircle = true;
-                    break;
+                    WeatherType wType = weatherEntity.getType();
+                    return wType;
                 }
             }
         }
-        return pointInCircle;
+        return null;
     }
 
-    // delete the troop if it is inside the weather
+    /**
+     * Takes in troop that is in weather, does weather action (possibly destroys,
+     * slows, or definetely destroys) to the troop.
+     * 
+     * @param troop - troop to do weather action on.
+     */
     public void deleteTroopWeather(Troop troop) {
+        int randNum = nextInt(0, 50); // Generates a random number between 0 and 49
         Coordinate location = troop.getLocation();
-        if (checkInWeather(location)) {
+        WeatherType wType = checkInWeather(location);
+        
+        // if the weather type is lightning, it wipes out a random troop
+        if ((wType != null) && randNum == 5 && wType.equals(WeatherType.LightningStorm)) {
             getDeleteEntityList().add(troop);
         }
+        // if the weather type is equal to flood, wipe out all troops
+        else if (wType != null && wType.equals(WeatherType.Flood)) {
+            getDeleteEntityList().add(troop);
+        }
+        // if the weather type is blizzard, slow the troop that passes through down by
+        // 0.75
+        else if (wType != null && wType.equals(WeatherType.Blizzard) && troop.getSpeed() != 0) {
+            // permanently
+            troop.setSpeed(troop.getTroopType() == CityType.Fast ? Constants.fastTroopSpeed - .75
+                    : Constants.standardTroopSpeed - .75);
+        }
+
     }
 
+    // custom nextInt() method because Mr. Moffitt's computer had a fit :(
     public int nextInt(int lowerBound, int upperBound) {
         return (int) ((Math.random() * (upperBound - lowerBound)) + lowerBound);
     }
 
-    public void setUpComputer(ComputerObserver window) {
-        computer.setObs(window);
-    }
-
+    /**
+     * Returns the city in the given coordinates.
+     * 
+     * @param coordinate
+     * @return
+     */
     public City getCityHit(Coordinate coordinate) {
         City city = null;
         for (Entity entity : getEntityList()) {
@@ -454,6 +532,12 @@ public class Game {
         return city;
     }
 
+    /**
+     * Returns true if coordinate is in a city.
+     * 
+     * @param e
+     * @return
+     */
     public boolean checkInCity(Coordinate e) {
         boolean pointInCircle = false;
         for (Entity entity : getEntityList()) {
@@ -469,6 +553,13 @@ public class Game {
         return pointInCircle;
     }
 
+    /**
+     * If the given coordinate is in a city, returns the location of the given city.
+     * 
+     * @param e
+     * @param returnCity
+     * @return
+     */
     public Coordinate checkInCity(Coordinate e, boolean returnCity) {
         for (Entity entity : getEntityList()) {
             if (entity instanceof City) {
@@ -482,6 +573,12 @@ public class Game {
         return null;
     }
 
+    /**
+     * Moves troops to field. Contains logic to ensure troops don't overlap.
+     * 
+     * @param troops
+     * @param destination
+     */
     public void moveTroopToField(ArrayList<Troop> troops, Coordinate destination) {
         int numTroops = troops.size();
         int ring = 0;
@@ -516,6 +613,10 @@ public class Game {
         }
     }
 
+    /**
+     * 
+     * @param troop
+     */
     public void deleteTroop(Troop troop) {
         // Switched from Location to destination. Because I #can
         Coordinate location = troop.getDestination();
@@ -529,6 +630,9 @@ public class Game {
         getDeleteEntityList().add(troop);
     }
 
+    /**
+     * Method starts the game timer, initializes it if not already initalized.
+     */
     public void startTimer() {
         if (timer == null) {
             timer = new Timeline(new KeyFrame(Duration.millis(Constants.tickSpeed), e -> update()));
@@ -539,6 +643,9 @@ public class Game {
         }
     }
 
+    /**
+     * Instantly ends the game. If true, the player wins, if false, the enemy wins.
+     */
     public void instantGameOver(boolean playerWin) {
         for (Entity ent : entityList) {
             if (ent instanceof City) {
@@ -550,34 +657,54 @@ public class Game {
         }
     }
 
+    /**
+     * Instantly adds 30 troops to all player cities.
+     */
     public void instantAddTroops() {
         for (Entity ent : entityList) {
             if (ent instanceof City) {
                 City city = (City) ent;
-                if (city.getNationality() == Nationality.Player) {
+                if (city.getNationality() == (Nationality.Player)) {
                     city.setPopulation(city.getPopulation() + Constants.cityPopulationLimit);
                 }
             }
         }
     }
 
+    /**
+     * Instantly makes weather.
+     */
+    public void instantMakeWeather() {
+        onMakeWeather.onMakeWeather();
+    }
+
+    /**
+     * @param proj to render
+     *             adds the projectile to the game and fires it
+     */
     public void renderProjectile(Projectile proj) {
         getEntityList().add(proj);
         onFireProjectile.onFireProjectiles(proj);
     }
 
+    /**
+     * fire's a projectile for every city in the game
+     */
     public Projectile fireProjectile() {
         for (Entity ent : entityList) {
             if (ent instanceof City) {
                 City city = (City) ent;
-                return city.fireProjectile();
+                return city.fireProjectile(this);
             }
         }
         return null;
     }
 
-    public void instantMakeWeather() {
-        onMakeWeather.onMakeWeather();
+    /*******************************************************************/
+    // Getters and setters
+
+    public void setUpComputer(ComputerObserver window) {
+        computer.setObs(window);
     }
 
     public void stopTimer() {
