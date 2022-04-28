@@ -9,10 +9,10 @@
         <Label fx:id="lblCoders" text="CODERS"></Label>
     </HBox>
     <HBox fx:id="VBoxScores" spacing="20">
-        <Label text="EMILY BRONKEMA"></Label>
-        <Label text="RHYS FULLER"></Label>
-        <Label text="RYAN MOFFITT"></Label>
-        <Label text="ISABELLE OVERTON"></Label>
+        <Label styleClass = "coders" text="EMILY BRONKEMA"></Label>
+        <Label styleClass = "coders" text="RHYS FULLER"></Label>
+        <Label styleClass = "coders" text="RYAN MOFFITT"></Label>
+        <Label styleClass = "coders" text="ISABELLE OVERTON"></Label>
     </HBox>
     <VBox fx:id = "VBoxAbout">
         <VBox>
@@ -37,7 +37,6 @@
             <Label text= "Blizzard: https://assets.mixkit.co/sfx/download/mixkit-winter-wind-loop-1175.wav"></Label>
             <Label text="Flood: https://assets.mixkit.co/sfx/download/mixkit-forest-and-waterfall-1229.wav"></Label>
             <Label text="Lightning: https://assets.mixkit.co/sfx/download/mixkit-cinematic-thunder-hit-1280.wav"></Label>
-            <Label text="Castle Taken: https://www.fesliyanstudios.com/play-mp3/6202 "></Label>
             <Label styleClass = "heading2" text="EXTRA IMAGES: "></Label> 
             <Label text= "Blizzard: https://commons.wikimedia.org/wiki/File:Snowstorm.svg"></Label>
             <Label text="Flood: https://commons.wikimedia.org/wiki/File:Light_Rain_Cloud_by_Sara.png"></Label>

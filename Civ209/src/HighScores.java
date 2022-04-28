@@ -70,12 +70,12 @@ public class HighScores {
             int nameLength = pName.length(); // player name length
             int scoreLength = String.valueOf(pScore).length(); // player score length
             String spaces = ""; // empty string
-            int spaceNum = 25 - (nameLength + scoreLength); // calculation to figure out how many spaces are needed
-            for (int i = 0; i < spaceNum; i ++) {
+            int spaceNum = 30 - (nameLength + scoreLength); // calculation to figure out how many spaces are needed
+            for (int i = 0; i < spaceNum; i++) {
                 spaces += " ";
             }
             lblScore.setText(pName + spaces + pScore);
-            lblScore.setFont(Font.font("Georgia", 30));
+            lblScore.setFont(Font.font("Georgia", 27));
             VBoxScores.getChildren().add(lblScore);
         }
     }
@@ -102,7 +102,7 @@ public class HighScores {
     }
 
     /**
-     * Return the scoreList and load it in to display on the screen
+     * Reads the scoreList file and adds each line in the file to the score list
      * 
      * @return
      */
