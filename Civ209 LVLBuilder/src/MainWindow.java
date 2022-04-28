@@ -24,32 +24,51 @@ import model.SeasonType;
 
 public class MainWindow {
 
+    // Pane that everything is held on
     @FXML
     Pane pane;
+
+    // Displays currently selected city's ID
     @FXML
     Label lblId;
+
+    // Displays currently selected city's location
     @FXML
     Label lblLoc;
+
+    // Displays currently selected city's type
     @FXML
     Label lblType;
-    @FXML
-    Button btnAnimate;
+
+    // Shows the currently selected season
     @FXML
     Label seasons;
+
+    // Loads saved file
     @FXML
     Button loadbtn;
-    City currentCity;
+    
+    // Current image in use
     @FXML
     ImageView currentImage;
+
+    // Current circle in use
     @FXML
     Circle currentCircle;
+
+    // Main VBox
     @FXML
     VBox vbox;
+
+    // Button to make next built castle fast type
     @FXML
     Button btnFastCastle;
+
+    // Button to make next built castle strong type
     @FXML
     Button btnStrongCastle;
 
+    City currentCity; // Currently selected city
     int id = 0; // the id of the city
     Level level = new Level(); // instance of level
     LevelData leveldata = new LevelData(level); // instance of LevelData
