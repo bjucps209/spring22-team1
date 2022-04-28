@@ -5,7 +5,7 @@
 # spring22-team1
 CPS 209 Spring Team 1 Project
 
-## Beta
+## Final Release
 
 ### Instructions 
   When the game begins, you will see three types of cities. The enemy cities (red) and will try to attack you but the neutral cities (grey) will not attack you. Using your cities (blue), you will send troops to attack and subsequently capture the other cities. The population of all of the cities will rise over time until they hit the max population limit of 30.
