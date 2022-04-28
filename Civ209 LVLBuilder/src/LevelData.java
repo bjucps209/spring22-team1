@@ -22,6 +22,7 @@ import model.SeasonType;
 
 public class LevelData {
 
+    // Contains instance of the level that the LevelData instance refers to.
     Level level;
 
     public Level getLevel() {
