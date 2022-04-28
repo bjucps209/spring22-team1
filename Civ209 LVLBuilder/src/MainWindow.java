@@ -14,13 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-import model.City;
-import model.CityType;
-import model.Constants;
-import model.Entity;
-import model.Level;
-import model.Nationality;
-import model.SeasonType;
+import model.*;
 
 public class MainWindow {
 
