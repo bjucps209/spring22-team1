@@ -1,3 +1,8 @@
+//--------------------------------------------------------------------------------
+//File:   LevelData.java
+//Desc:   File contains logic for writing all of the level information to the file.
+//--------------------------------------------------------------------------------
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
@@ -5,7 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import model.City;
@@ -32,6 +36,11 @@ public class LevelData {
         this.level = level;
     }
 
+    /**
+     * Writes to the file and saves all the information
+     * 
+     * @throws IOException
+     */
     public void save() throws IOException {
 
         List<City> entityList = level.getCities();
@@ -61,6 +70,12 @@ public class LevelData {
         }
     }
 
+    /**
+     * Loads the file by reading the file contents and returning it
+     * 
+     * @return
+     * @throws IOException
+     */
     public Level load() throws IOException {
         this.level = new Level();
         try (DataInputStream rd = new DataInputStream(new FileInputStream("../Civ209/Levels/Level1.dat"))) {

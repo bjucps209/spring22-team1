@@ -1,6 +1,6 @@
 //-----------------------------------------------------------
 //File:   Entity.java
-//Desc:   This program architects a standered entity
+//Desc:   This program architects a standard entity
 //-----------------------------------------------------------
 package model;
 

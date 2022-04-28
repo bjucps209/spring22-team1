@@ -1,6 +1,6 @@
 //-----------------------------------------------------------
 //File:   Computer.java
-//Desc:   This program creates standered computer object
+//Desc:   This program creates standard computer object
 //-----------------------------------------------------------
 package model;
 

@@ -22,7 +22,6 @@ public class HighScoresTest {
         hScores.addScoreList(score);
         assertEquals(1, hScores.getScoreList().size());
         hScores.addScoreList(score2);
-
         assertEquals(2, hScores.getScoreList().size());
 
     }

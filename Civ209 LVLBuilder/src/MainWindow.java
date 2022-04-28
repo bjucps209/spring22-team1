@@ -22,173 +22,182 @@ import model.Level;
 import model.Nationality;
 import model.SeasonType;
 
-
 public class MainWindow {
 
-    @FXML Pane pane; 
-    @FXML Label lblId; 
-    @FXML Label lblLoc; 
-    @FXML Label lblType;
-    @FXML Button btnAnimate; 
-    @FXML Label seasons; 
-    @FXML Button loadbtn; 
-    City currentCity; 
-    @FXML ImageView currentImage;  
-    @FXML Circle currentCircle; 
-    @FXML VBox vbox;
-    @FXML Button btnFastCastle;
-    @FXML Button btnStrongCastle;
+    @FXML
+    Pane pane;
+    @FXML
+    Label lblId;
+    @FXML
+    Label lblLoc;
+    @FXML
+    Label lblType;
+    @FXML
+    Button btnAnimate;
+    @FXML
+    Label seasons;
+    @FXML
+    Button loadbtn;
+    City currentCity;
+    @FXML
+    ImageView currentImage;
+    @FXML
+    Circle currentCircle;
+    @FXML
+    VBox vbox;
+    @FXML
+    Button btnFastCastle;
+    @FXML
+    Button btnStrongCastle;
 
-    int id = 0; 
-    Level level = new Level();
-    LevelData leveldata = new LevelData(level); 
-    Boolean strongcitybuttonclicked = false; 
-    Boolean fastcitybuttonclicked = false; 
-
+    int id = 0; // the id of the city
+    Level level = new Level(); // instance of level
+    LevelData leveldata = new LevelData(level); // instance of LevelData
+    Boolean strongcitybuttonclicked = false; // if the strong city button is clicked
+    Boolean fastcitybuttonclicked = false; // if the fast city button is clicked
 
     public void initialize() {
-        Image strongcastle = new Image("/images/strongcastle.png"); 
-        ImageView castle1= new ImageView(strongcastle);
+        Image strongcastle = new Image("/images/strongcastle.png");
+        ImageView castle1 = new ImageView(strongcastle);
         castle1.setFitHeight(60);
         castle1.setFitWidth(60);
         castle1.setPreserveRatio(true);
         btnStrongCastle.setGraphic(castle1);
-        Image fastcastle  = new Image("/images/fastcastle.png"); 
-        ImageView castle2= new ImageView(fastcastle);
+        Image fastcastle = new Image("/images/fastcastle.png");
+        ImageView castle2 = new ImageView(fastcastle);
         castle2.setFitHeight(60);
         castle2.setFitWidth(60);
         castle2.setPreserveRatio(true);
         btnFastCastle.setGraphic(castle2);
 
     }
+
     /**
-    * creates a player city and displays the city image using its coordinates
-    */
+     * creates a player city and displays the city image using its coordinates
+     */
     @FXML
     void onPlayerCastleClicked(ActionEvent e) {
-        City city = level.create(Nationality.Player);  
-        //City city = (City) level.getCities().get(id);
-        id++; 
-        showCity(city, "blue"); 
+        City city = level.create(Nationality.Player);
+        // City city = (City) level.getCities().get(id);
+        id++;
+        showCity(city, "blue");
     }
 
-    
     /**
-    * creates a enemy city and displays the city image using its coordinates
-    */
+     * creates a enemy city and displays the city image using its coordinates
+     */
     @FXML
     void onEnemyCastleClicked(ActionEvent e) {
-        City city = level.create(Nationality.Enemy);  
-        //City city = (City) level.getCities().get(id);
-        id++; 
-        showCity(city, "red"); 
+        City city = level.create(Nationality.Enemy);
+        // City city = (City) level.getCities().get(id);
+        id++;
+        showCity(city, "red");
     }
 
-     /**
-    * creates a neutral city and displays the city image using its coordinates
-    */
+    /**
+     * creates a neutral city and displays the city image using its coordinates
+     */
     @FXML
     void onNeutralCastleClicked(ActionEvent e) {
-        City city = level.create(Nationality.Neutral);  
-        //City city = (City) level.getCities().get(id);
-        id++; 
-        showCity(city, "grey"); 
+        City city = level.create(Nationality.Neutral);
+        // City city = (City) level.getCities().get(id);
+        id++;
+        showCity(city, "grey");
 
     }
-    
+
     /**
      * displays the image of a city using the city and styleclass
-      * @param city, styleclass - the city to show and the styleclass
-     */ 
-    void showCity(City city , String color) {
-        this.currentCity = city; 
-        ImageView image = new ImageView(); 
+     * 
+     * @param city, styleclass - the city to show and the styleclass
+     */
+    void showCity(City city, String color) {
+        this.currentCity = city;
+        ImageView image = new ImageView();
         if (strongcitybuttonclicked) {
             image = new ImageView("/images/strongcastle.png");
-            currentCity.setType(CityType.Strong); 
-        } 
-        else if (fastcitybuttonclicked) {
+            currentCity.setType(CityType.Strong);
+        } else if (fastcitybuttonclicked) {
             image = new ImageView("/images/fastcastle.png");
-            currentCity.setType(CityType.Fast); 
-        }
-        else {
+            currentCity.setType(CityType.Fast);
+        } else {
             image = new ImageView("/images/castle.png");
-            currentCity.setType(CityType.Standard);  //setImage(Constants.cityImage);
+            currentCity.setType(CityType.Standard); // setImage(Constants.cityImage);
         }
         image.setFitWidth(20);
         image.setFitHeight(20);
-        Circle cityCircle = new Circle(10 , 10, 35, Paint.valueOf("transparent")); // currentCity.getX() + 10, currentCity.getY() + 10
-        cityCircle.setStroke(Paint.valueOf(color)); 
-        image.layoutXProperty().bindBidirectional(cityCircle.layoutXProperty()); 
-        image.layoutYProperty().bindBidirectional(cityCircle.layoutYProperty()); 
+        Circle cityCircle = new Circle(10, 10, 35, Paint.valueOf("transparent")); // currentCity.getX() + 10,
+                                                                                  // currentCity.getY() + 10
+        cityCircle.setStroke(Paint.valueOf(color));
+        image.layoutXProperty().bindBidirectional(cityCircle.layoutXProperty());
+        image.layoutYProperty().bindBidirectional(cityCircle.layoutYProperty());
         image.setLayoutX(currentCity.getLocation().getX());
         image.setLayoutY(currentCity.getLocation().getY());
-        image.setId(Integer.toString(currentCity.getId())); 
-        final ImageView finalimage =  image; 
-        cityCircle.setId(Integer.toString(city.getId())); 
-        cityCircle.setOnMouseClicked((e) -> onCityClicked(e, finalimage)); 
+        image.setId(Integer.toString(currentCity.getId()));
+        final ImageView finalimage = image;
+        cityCircle.setId(Integer.toString(city.getId()));
+        cityCircle.setOnMouseClicked((e) -> onCityClicked(e, finalimage));
 
-
-        pane.getChildren().addAll(image, cityCircle);  
-        currentImage = image; 
-        currentCircle = cityCircle; 
+        pane.getChildren().addAll(image, cityCircle);
+        currentImage = image;
+        currentCircle = cityCircle;
         btnFastCastle.setDisable(false);
         btnStrongCastle.setDisable(false);
-        strongcitybuttonclicked = false; 
-        fastcitybuttonclicked = false;  
+        strongcitybuttonclicked = false;
+        fastcitybuttonclicked = false;
         makeDraggable(cityCircle);
-        display(); 
-        
+        display();
+
     }
 
     /**
-    * makes the selected image draggable 
-    */
+     * makes the selected image draggable
+     */
     @FXML
     void onCityClicked(MouseEvent e, ImageView image) {
-        currentImage = image; 
-        Circle circle = (Circle) e.getSource(); //circle;
-        currentCircle = circle; 
-        this.currentCity = level.find(Integer.parseInt(circle.getId())); 
+        currentImage = image;
+        Circle circle = (Circle) e.getSource(); // circle;
+        currentCircle = circle;
+        this.currentCity = level.find(Integer.parseInt(circle.getId()));
         display();
-        
+
     }
 
-
-   // From https://stackoverflow.com/questions/17312734/how-to-make-a-draggable-node-in-javafx-2-0/46696687,
+    // From
+    // https://stackoverflow.com/questions/17312734/how-to-make-a-draggable-node-in-javafx-2-0/46696687,
     // with modifications by S. Schaub
     public void makeDraggable(Node node) {
         final Delta dragDelta = new Delta();
 
         node.setOnMouseEntered(me -> node.getScene().setCursor(Cursor.HAND));
-        node.setOnMouseExited(me -> node.getScene().setCursor(Cursor.DEFAULT) );
+        node.setOnMouseExited(me -> node.getScene().setCursor(Cursor.DEFAULT));
         node.setOnMousePressed(me -> {
-            currentCity = level.find(Integer.parseInt(node.getId())); 
+            currentCity = level.find(Integer.parseInt(node.getId()));
             dragDelta.x = me.getX();
             dragDelta.y = me.getY();
             node.getScene().setCursor(Cursor.MOVE);
         });
         node.setOnMouseDragged(me -> {
-            double x = node.getLayoutX() + me.getX()- dragDelta.x;
-            double y = node.getLayoutY() + me.getY()- dragDelta.y;
-            if ( x > 26 && x < 980 && y > 25 && y < 480) {
-                currentCity = level.find(Integer.parseInt(node.getId())); 
-                node.setLayoutX(node.getLayoutX() + me.getX()- dragDelta.x);
+            double x = node.getLayoutX() + me.getX() - dragDelta.x;
+            double y = node.getLayoutY() + me.getY() - dragDelta.y;
+            if (x > 26 && x < 980 && y > 25 && y < 480) {
+                currentCity = level.find(Integer.parseInt(node.getId()));
+                node.setLayoutX(node.getLayoutX() + me.getX() - dragDelta.x);
                 node.setLayoutY(node.getLayoutY() + me.getY() - dragDelta.y);
                 cityMoved((int) node.getLayoutX(), (int) node.getLayoutY());
-                display(); 
+                display();
             }
         });
-        node.setOnMouseReleased(me -> { 
+        node.setOnMouseReleased(me -> {
             node.getScene().setCursor(Cursor.HAND);
 
-            currentCity = level.find(Integer.parseInt(node.getId())); 
-            currentCity.getLocation().setX((int) node.getLayoutX()); 
+            currentCity = level.find(Integer.parseInt(node.getId()));
+            currentCity.getLocation().setX((int) node.getLayoutX());
             currentCity.getLocation().setY((int) node.getLayoutY());
-            cityMoved((int) node.getLayoutX(), (int) node.getLayoutY()); 
-            display(); 
+            cityMoved((int) node.getLayoutX(), (int) node.getLayoutY());
+            display();
 
-         } );
+        });
     }
 
     private class Delta {
@@ -197,22 +206,27 @@ public class MainWindow {
     }
 
     /**
-    * deletes a city and resets the labels
-    */
-    @FXML 
+     * Deletes a city and resets the labels
+     */
+    @FXML
     void onDeleteClicked(ActionEvent e) {
-        level.delete(currentCity); 
+        level.delete(currentCity);
         this.id -= 1;
-        lblId.setText(""); 
+        lblId.setText("");
         lblLoc.setText("");
         lblType.setText("");
         pane.getChildren().remove(currentCircle);
         currentImage.setImage(null);
     }
 
+    /**
+     * Determine the background of the level through the button clicked
+     * 
+     * @param e
+     */
     @FXML
     void onSeasonClicked(ActionEvent e) {
-        Button season = (Button) e.getSource(); 
+        Button season = (Button) e.getSource();
         if (season.getText().equals("Summer")) {
             showSeason("/images/summer.png");
             level.setSeason(SeasonType.Summer);
@@ -236,55 +250,67 @@ public class MainWindow {
         }
     }
 
-    boolean load = false; 
+    boolean load = false;
 
-    @FXML 
+    /**
+     * Saves the current level
+     * 
+     * @param e
+     */
+    @FXML
     void onSaveClicked(ActionEvent e) {
         try {
-        leveldata.save();
-        load = false; 
-        loadbtn.setDisable(false); 
-        } catch (IOException error) {}
+            leveldata.save();
+            load = false;
+            loadbtn.setDisable(false);
+        } catch (IOException error) {
+        }
     }
 
+    /**
+     * Loads the saved level in
+     * 
+     * @param e
+     */
     @FXML
     void onLoadClicked(ActionEvent e) {
-        pane.getChildren().clear(); 
+        pane.getChildren().clear();
         try {
             this.level = leveldata.load();
-            } catch (IOException error) {}
+        } catch (IOException error) {
+        }
         List<City> entityList = level.getCities();
-        for (City entity: entityList) {
-            City city = (City) entity; 
-            
+        for (City entity : entityList) {
+            City city = (City) entity;
+
             if (city.getType() == CityType.Strong) {
-                strongcitybuttonclicked = true; 
-                fastcitybuttonclicked = false; 
+                strongcitybuttonclicked = true;
+                fastcitybuttonclicked = false;
             }
 
             if (city.getType() == CityType.Fast) {
-                fastcitybuttonclicked = true; 
-                strongcitybuttonclicked = false; 
+                fastcitybuttonclicked = true;
+                strongcitybuttonclicked = false;
             }
 
             if (city.getNationality() == Nationality.Enemy) {
-                showCity(city, "red");   
+                showCity(city, "red");
             }
 
             if (city.getNationality() == Nationality.Player) {
-                showCity(city, "blue"); 
+                showCity(city, "blue");
             }
 
             if (city.getNationality() == Nationality.Neutral) {
-                showCity(city, "grey"); 
+                showCity(city, "grey");
             }
         }
         if (level.getSeason() != null) {
-            SeasonType season = level.getSeason(); 
+            SeasonType season = level.getSeason();
             if (season == SeasonType.Summer) {
                 showSeason("/images/summer.png");
                 seasons.setText("Summer");
-    
+
             }
             if (season == SeasonType.Fall) {
                 showSeason("/images/fall.png");
@@ -300,54 +326,66 @@ public class MainWindow {
             }
         }
 
-        loadbtn.setDisable(true); 
-        load = true; 
+        loadbtn.setDisable(true);
+        load = true;
     }
-
-    @FXML 
-    public void onFastCastleClicked(ActionEvent e) {
-        fastcitybuttonclicked = true; 
-        btnFastCastle.setDisable(true);
-        btnStrongCastle.setDisable(true);
-    }
-
-    @FXML
-    public void onStrongCastleClicked(ActionEvent e) {
-        strongcitybuttonclicked = true; 
-        btnFastCastle.setDisable(true);
-        btnStrongCastle.setDisable(true);
-    }
-
-    @FXML
-    public void showSeason(String url) {
-        pane.setStyle("-fx-background-image:url(" + url + "); -fx-background-repeat: no-repeat; -fx-background-blend-mode: darken; -fx-background-size: cover; -fx-background-position: center;");
-    }
-
-
-    public void cityMoved( int x,int  y) {
-        lblLoc.setText("(" + x + ","+ y + ")");
-        currentCity.getLocation().setX(x);
-        currentCity.getLocation().setY(y); 
-    }
-
 
     /**
-    * updates all of the labels 
-    */
+     * Event handler that disables the castle type buttons when fast castle button
+     * is clicked
+     */
+    @FXML
+    public void onFastCastleClicked(ActionEvent e) {
+        fastcitybuttonclicked = true;
+        btnFastCastle.setDisable(true);
+        btnStrongCastle.setDisable(true);
+    }
+
+    /**
+     * Event handler that disables the castle type buttons when strong castle button
+     * is clicked
+     * 
+     * @param e
+     */
+    @FXML
+    public void onStrongCastleClicked(ActionEvent e) {
+        strongcitybuttonclicked = true;
+        btnFastCastle.setDisable(true);
+        btnStrongCastle.setDisable(true);
+    }
+
+    /**
+     * Shows the image background of the season in the pane.
+     * 
+     * @param url
+     */
+    @FXML
+    public void showSeason(String url) {
+        pane.setStyle("-fx-background-image:url(" + url
+                + "); -fx-background-repeat: no-repeat; -fx-background-blend-mode: darken; -fx-background-size: cover; -fx-background-position: center;");
+    }
+
+    /**
+     * Sets the current location of the city using x and y
+     * 
+     * @param x
+     * @param y
+     */
+    public void cityMoved(int x, int y) {
+        lblLoc.setText("(" + x + "," + y + ")");
+        currentCity.getLocation().setX(x);
+        currentCity.getLocation().setY(y);
+    }
+
+    /**
+     * updates all of the labels
+     */
     public void display() {
         if (currentCity != null) {
-            cityMoved((int)currentCity.getLocation().getX(), (int)currentCity.getLocation().getY());
+            cityMoved((int) currentCity.getLocation().getX(), (int) currentCity.getLocation().getY());
             lblType.setText("" + currentCity.getNationality());
             lblId.setText("" + currentCity.getId());
         }
     }
 
-    // @FXML
-    // void onEntityClicked(Circle cityCircle, MouseEvent e, City city) {
-    //     currentImage = (ImageView) e.getSource(); //image;
-    //     this.currentCity = level.find(Integer.parseInt(currentImage.getId())); 
-    //     display();
-        
-    // }
 }
-

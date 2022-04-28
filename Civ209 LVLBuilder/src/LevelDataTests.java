@@ -1,20 +1,23 @@
+//-----------------------------------------------------------
+//File:   LevelDataTests.java
+//Desc:   Contains logic to test the level data load and save methods
+//-----------------------------------------------------------
+
 import static org.junit.Assert.assertEquals;
-
 import org.junit.*;
-
 import model.City;
 import model.CityType;
 import model.Level;
 import model.Nationality;
 import model.SeasonType;
-
 import java.io.IOException;
 import java.util.*;
-
 import javax.swing.text.html.parser.Entity;
 
+/**
+ * Tests saving and loading a level and checking if the locations are correct
+ */
 public class LevelDataTests {
-
     @Test
     public void testSaveandLoad() {
         Level l = new Level();
